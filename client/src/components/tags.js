@@ -1,10 +1,10 @@
 import React from "react"
-import tag_colors from '../format/TagColors.js';
+import TagColors from '../format/TagColors.js';
 const DrinkTags = ({tags}) => {
 
 
     const getColor = (tag) => {
-        return tag_colors.gin;
+        return TagColors.gin;
     }
 
     return (
