@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react"
 import unknown from "../../images/glassware/unknown.svg";
 import coupe from "../../images/glassware/coupe.svg";
 import collins from "../../images/glassware/collins.svg";
+import rocks from "../../images/glassware/rocks.svg";
 const GlassImg = ({glassType}) => {
 
     const [glassImg, setGlassImg] = useState(unknown);
@@ -14,6 +15,9 @@ const GlassImg = ({glassType}) => {
                     break;
                 case 'collins':
                     setGlassImg(collins);
+                    break;
+                case 'rocks':
+                    setGlassImg(rocks);
                     break;
                 default:
                     break;
