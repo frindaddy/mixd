@@ -27,4 +27,4 @@ yarn-error.log*
 
 #packages
 package-lock.json
-package.json
+/client/package-lock.json
