@@ -1,6 +1,7 @@
 import React from "react"
 import coupe from "../../images/glassware/coupe.png";
 import DrinkTags, {filterTags} from "../DrinkTags";
+import GlassImg from "./GlassImg";
 const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink}) => {
 
     const setDrinkPage = () => {
@@ -11,7 +12,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink}) => {
     return (
         <div class="drink" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>
             <div class="column">
-                <img src={coupe} alt={drink.glass}/>
+                <GlassImg glassType={drink.glass}/>
             </div>
             <div class="column">
                 <p class="list-title">{drink.name}</p>
