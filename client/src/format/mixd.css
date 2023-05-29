@@ -1,9 +1,13 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500");
 header {
     max-width: 100%;
     padding-top: 12%;
     padding-bottom: 12%;
     background-size: cover;
+}
+
+nav {
+    margin-bottom: 10px;
 }
 
 nav > div {
@@ -30,7 +34,9 @@ nav > div {
 }
 
 .back {
-    margin-bottom: 10px;
+    font-size: 30px;
+    padding-top: 12px;
+    margin-right: 10px;
 }
 
 .back > a {

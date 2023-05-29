@@ -19,13 +19,12 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
     return (
         <div className='DrinkInfo'>
             <nav>
-                <div>
+                <div className="flex-container">
+                    <div className="back" onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/></div>
                     <div className="nav-logo">mixd.</div>
                 </div>
             </nav>
-            <div className="back">
-                <p onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/> back to menu</p>
-            </div>
+
             <div className="row">
                 <div className="drink-column">
                     <div className="image">

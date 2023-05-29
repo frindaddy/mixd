@@ -7,7 +7,7 @@ const app = express();
 
 const port = process.env.PORT || 5000;
 
-mongoose.connect('mongodb://127.0.0.1:27017/app_name', { useNewUrlParser: true })
+mongoose.connect('mongodb://tsides.win:27017/app_name', { useNewUrlParser: true })
     .then(() => console.log(`Database connected successfully`))
     .catch((err) => console.log(err));
 
