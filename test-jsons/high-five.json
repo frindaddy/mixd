@@ -1,0 +1,45 @@
+{
+    "name": "High-Five",
+    "tags": {
+        "spirit": ["Gin", "Aperol"],
+        "glass": "Coupe",
+        "type": ["Light"],
+        "taste": ["Citrus"],
+        "mix": "Shaken",
+        "color": "Orange",
+        "season": ["Spring", "Summer"],
+        "temp": "Cold"
+    },
+    "abv": 19.0,
+    "ingredients": [
+        {
+            "amount": 1.5,
+            "unit": "oz",
+            "ingredient": "Monkey 47 Gin"
+        },
+        {
+            "amount": 1,
+            "unit": "oz",
+            "ingredient": "Grapefruit Juice"
+        },
+        {
+            "amount": 0.5,
+            "unit": "oz",
+            "ingredient": "Aperol"
+        },
+        {
+            "amount": 0.5,
+            "unit": "oz",
+            "ingredient": "Lime Juice"
+        },
+        {
+            "amount": 0.5,
+            "unit": "oz",
+            "ingredient": "Simple Syrup"
+        }
+    ],
+    "garnish": "a high-five",
+    "description": "Adapted from owner and bartender Alex Day at Death & Co. in Manhattan's East Village, the High-Five is a remarkably light, citrus focused gin cocktail. This cocktail combines the fruity notes of Monkey 47, the bitter citrus of grapefuit and Aperol, and the brightness of lime into an irresistable dirnk perfect for sipping on warm summer nights. Shake over ice, double strain into a coupe, and garnish with a crisp high-five.",
+    "footnotes": "For a heavier drink, substitute Monkey 47 with Hendrick's, 1-to-1",
+    "image": ""
+}

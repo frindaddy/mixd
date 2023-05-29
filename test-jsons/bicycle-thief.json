@@ -1,0 +1,49 @@
+{
+    "name": "Bicycle Thief",
+    "tags": {
+        "spirit": ["Gin", "Campari"],
+        "glass": "Collins",
+        "type": ["Spirit Forward"],
+        "taste": ["Bitter", "Citrus"],
+        "mix": "Shaken",
+        "color": "Red",
+        "season": ["Spring", "Summer", "Fall"],
+        "temp": "Cold"
+    },
+    "abv": 16.0,
+    "ingredients": [
+        {
+            "amount": 1,
+            "unit": "oz",
+            "ingredient": "Gin"
+        },
+        {
+            "amount": 1,
+            "unit": "oz",
+            "ingredient": "Campari"
+        },
+        {
+            "amount": 1.5,
+            "unit": "oz",
+            "ingredient": "Grapefruit Juice"
+        },
+        {
+            "amount": 0.5,
+            "unit": "oz",
+            "ingredient": "Lemon Juice"
+        },
+        {
+            "amount": 0.5,
+            "unit": "oz",
+            "ingredient": "Simple Syrup"
+        },
+        {
+            "amount": "",
+            "unit": "Top With",
+            "ingredient": "Soda"
+        }
+    ],
+    "garnish": "a grapefuit slice",
+    "description": "From Zachary Glenaw-Rubin and Abraham Hawkins at Dutch Kills in Long Island City, the Bicycle Thief is a bittersweet gin cocktail. Best served as an apéritif, this drink exhibits the bitterness of Campari and grapefruit, finishing with a hint of sweet citrus. Shake and double strain into a collins glass, top with soda, and garnish with a slice of grapefruit.",
+    "footnotes": ""
+}
