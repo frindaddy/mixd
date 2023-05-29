@@ -1,4 +1,6 @@
 const express = require('express');
+const fs = require("fs");
+require('dotenv').config();
 const router = express.Router();
 const Drinks = require('../models/drinks');
 
@@ -18,6 +20,17 @@ router.get('/list', (req, res, next) => {
     Drinks.find({}, 'name tags glass').sort({name:1})
         .then((data) => res.json(data))
         .catch(next);
+});
+
+router.get('/image', (req, res, next) => {
+    let directoryPath = process.env.IMAGE_DIR;
+    if (req.query.file && fs.existsSync(directoryPath+req.query.file)){
+        res.sendFile(directoryPath+req.query.file);
+    } else if (req.query.backup && fs.existsSync(directoryPath+req.query.backup)) {
+        res.sendFile(directoryPath+req.query.backup);
+    } else {
+        res.json({error: 'Unable to find file'})
+    }
 });
 
 router.post('/add_drink', (req, res, next) => {

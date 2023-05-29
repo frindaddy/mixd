@@ -1,6 +1,5 @@
 import React from "react"
 import DrinkTags, {filterTags} from "../DrinkTags";
-import GlassImg from "./GlassImg";
 const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink}) => {
 
     const setDrinkPage = () => {
@@ -11,7 +10,8 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink}) => {
     return (
         <div class="drink" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>
             <div class="column">
-                <GlassImg glassType={drink.glass}/>
+                {drink.glass && <img src={'./api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}
+                {!drink.glass && <img src={'./api/image?file=glassware/unknown.svg'} alt={'No glass listed'}/>}
             </div>
             <div class="column">
                 <p class="list-title">{drink.name}</p>
