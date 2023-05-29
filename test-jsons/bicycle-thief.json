@@ -12,7 +12,7 @@
 		{"value":"Spring", "category": "season"},
 		{"value":"Summer", "category": "season"},
 		{"value":"Fall", "category": "season"},
-		{"value":"Cold", "category": "temp"},
+		{"value":"Cold", "category": "temp"}
 	],
     "abv": 16.0,
     "ingredients": [
