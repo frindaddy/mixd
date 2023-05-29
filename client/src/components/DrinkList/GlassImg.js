@@ -15,6 +15,8 @@ const GlassImg = ({glassType}) => {
                 case 'collins':
                     setGlassImg(collins);
                     break;
+                default:
+                    break;
             }
         }
     }, [glassType]);
