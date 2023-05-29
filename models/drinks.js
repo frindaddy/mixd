@@ -7,6 +7,7 @@ const DrinkSchema = new Schema({
     abv: Number,
     ingredients: [{amount: Number, unit: String, ingredient: String}],
     garnish: String,
+    glass: String,
     description: String,
     footnotes: String,
     image: String,
