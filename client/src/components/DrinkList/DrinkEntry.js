@@ -1,5 +1,5 @@
 import React from "react"
-import coupe from "../../images/coupe.png";
+import coupe from "../../images/glassware/coupe.png";
 import DrinkTags, {filterTags} from "../DrinkTags";
 const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink}) => {
 
