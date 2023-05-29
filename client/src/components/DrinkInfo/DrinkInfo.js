@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import drinkImg from "../../images/high-five.webp";
 import {FaChevronLeft} from "react-icons/fa";
-import DrinkTags from "../tags";
+import DrinkTags from "../DrinkTags";
 const DrinkInfo = ({drinkID, setCurrentPage}) => {
 
     const [drink, setDrink] = useState({name:"No Drink"});
