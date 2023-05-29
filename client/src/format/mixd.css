@@ -168,17 +168,19 @@ h1 {
 }
 
 ul {
+    margin-left: 5px;
     padding-top: 2%;
     padding-bottom: 2%;
-    list-style: none;
     padding-left: 0;
+    list-style: none;
     font-size: 22px;
     font-weight: 300;
 }
 
 .desc {
-    font-size: 18px;
     margin-right: 10%;
+    margin-left: 5px;
+    font-size: 18px;
     font-weight: 300;
 }
 
