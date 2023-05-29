@@ -6,6 +6,16 @@ import DrinkTags from "../DrinkTags";
 const DrinkInfo = ({drinkID, setCurrentPage}) => {
 
     const [drink, setDrink] = useState({name:"No Drink"});
+    const [tags, setTags] = useState();
+
+    const filterTags = () => {
+        if(drink.tags){
+            let fileredTags = drink.tags.filter((tag) =>{
+                return tag.category === 'style' || tag.category === 'taste';
+            });
+            setTags(fileredTags);
+        }
+    }
 
     useEffect(() => {
         axios.get('api/drink/'+drinkID)
@@ -14,6 +24,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                     setDrink(res.data[0]);
                 }
             }).catch((err) => console.log(err));
+        filterTags();
     });
 
     return (
@@ -28,13 +39,13 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
             <div className="row">
                 <div className="drink-column">
                     <div className="image">
-                        <img src={drinkImg} alt="Orange coctail on a wooden board" />
+                        <img src={drinkImg} alt={drink.name} />
                     </div>
                 </div>
                 <div className="drink-column">
                     <div className="text">
                         <h1>{drink.name}</h1>
-                        {drink.tags && <DrinkTags tags={drink.tags}/>}
+                        {tags && <DrinkTags tags={tags}/>}
                         {drink.abv && <p>{drink.abv}% ABV</p>}
                         <ul>
                             { drink.ingredients && drink.ingredients.map((ingredient) => {
