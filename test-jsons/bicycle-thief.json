@@ -1,15 +1,19 @@
 {
     "name": "Bicycle Thief",
-    "tags": {
-        "spirit": ["Gin", "Campari"],
-        "glass": "Collins",
-        "style": ["Spirit Forward"],
-        "taste": ["Bitter", "Citrus"],
-        "mix": "Shaken",
-        "color": "Red",
-        "season": ["Spring", "Summer", "Fall"],
-        "temp": "Cold"
-    },
+	"tags": [
+		{"value":"Gin", "category": "spirit"},
+		{"value":"Campari", "category": "spirit"},
+		{"value":"Collins", "category": "glass"},
+		{"value":"Spirit Forward", "category": "style"},
+		{"value":"Bitter", "category": "taste"},
+		{"value":"Citrus", "category": "taste"},
+		{"value":"Shaken", "category": "mix"},
+		{"value":"Red", "category": "color"},
+		{"value":"Spring", "category": "season"},
+		{"value":"Summer", "category": "season"},
+		{"value":"Fall", "category": "season"},
+		{"value":"Cold", "category": "temp"},
+	],
     "abv": 16.0,
     "ingredients": [
         {

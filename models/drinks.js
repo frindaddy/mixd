@@ -3,17 +3,7 @@ const Schema = mongoose.Schema;
 
 const DrinkSchema = new Schema({
     name: String,
-    tags: {
-        spirit: [String],
-        glass: String,
-        style: [String],
-        taste: [String],
-        mix: String,
-        color: String,
-        season: [String],
-        temp: String,
-        misc: [String]
-    },
+    tags: [{value: String, category: String}],
     abv: Number,
     ingredients: [{amount: Number, unit: String, ingredient: String}],
     garnish: String,
