@@ -1,5 +1,6 @@
 import React from "react"
 import coupe from "../../images/coupe.png";
+import DrinkTags from "../tags";
 const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink}) => {
 
     const setDrinkPage = () => {
@@ -14,12 +15,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink}) => {
             </div>
             <div class="column">
                 <p class="title">{drink.name}</p>
-                <div class="flex-container">
-                    <div class="tag gin">Gin</div>
-                    <div class="tag aperol">Aperol</div>
-                    <div class="tag light">Light</div>
-                    <div class="tag citrus">Citrus</div>
-                </div>
+                {drink.tags && <DrinkTags tags={drink.tags}/>}
             </div>
         </div>
     )

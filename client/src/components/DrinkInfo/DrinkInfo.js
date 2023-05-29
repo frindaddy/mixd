@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import drinkImg from "../../images/high-five.webp";
 import {FaChevronLeft} from "react-icons/fa";
+import DrinkTags from "../tags";
 const DrinkInfo = ({drinkID, setCurrentPage}) => {
 
     const [drink, setDrink] = useState({name:"No Drink"});
@@ -34,12 +35,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                 <div className="drink-column">
                     <div className="text">
                         <h1>{drink.name}</h1>
-                        <div className="flex-container">
-                            <div className="tag gin">Gin</div>
-                            <div className="tag aperol">Aperol</div>
-                            <div className="tag light">Light</div>
-                            <div className="tag citrus">Citrus</div>
-                        </div>
+                        {drink.tags && <DrinkTags tags={drink.tags}/>}
                         {drink.abv && <p>{drink.abv}% ABV</p>}
                         <ul>
                             { drink.ingredients && drink.ingredients.map((ingredient) => {
