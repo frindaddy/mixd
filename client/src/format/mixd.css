@@ -80,6 +80,8 @@ input[type = text] {
 .entry-column {
     float: left;
     margin-right: 5%;
+    display: flex;
+    align-items: center;
 }
 
 .info-column {
