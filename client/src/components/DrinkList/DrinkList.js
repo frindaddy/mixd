@@ -4,17 +4,14 @@ import DrinkEntry from "./DrinkEntry";
 const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
 
     const [drinkList, setDrinkList] = useState([{name:"No Drink"}]);
-    const getDrinkList = () => {
+
+    useEffect(() => {
         axios.get('api/list')
             .then((res) => {
                 if (res.data) {
                     setDrinkList(res.data);
                 }
             }).catch((err) => console.log(err));
-    };
-
-    useEffect(() => {
-        getDrinkList();
     }, []);
 
     return (

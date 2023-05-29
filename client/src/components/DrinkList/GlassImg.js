@@ -16,7 +16,7 @@ const GlassImg = ({glassType}) => {
                     break;
             }
         }
-    }, []);
+    }, [glassType]);
 
     return (
         <img src={glassImg} alt={glassType+' glass'}/>

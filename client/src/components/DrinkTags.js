@@ -2,7 +2,7 @@ import React from "react";
 import TagColors from '../format/TagColors.js';
 
 const DrinkTags = ({tags}) => {
-    
+
     const getColor = (tag) => {
         if (tag.category === 'spirit' && TagColors[tag.value.toLowerCase()]){
             return TagColors[tag.value.toLowerCase()];
