@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import coupe from "../../images/glassware/coupe.png";
+import coupe from "../../images/glassware/new-coupe.svg";
 import collins from "../../images/glassware/collins.png";
 const GlassImg = ({glassType}) => {
 
