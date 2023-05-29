@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import drinkImg from "../../images/high-five.webp";
 import {FaChevronLeft} from "react-icons/fa";
 import DrinkTags, {filterTags} from "../DrinkTags";
 const DrinkInfo = ({drinkID, setCurrentPage}) => {
@@ -14,13 +13,13 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                     setDrink(res.data[0]);
                 }
             }).catch((err) => console.log(err));
-    }, []);
+    }, [drinkID]);
 
     return (
         <div className='DrinkInfo'>
             <nav>
                 <div className="flex-container">
-                    <a href="" className="back" onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/></a>
+                    <a href="/" className="back" onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/></a>
                     <div className="nav-logo">mixd.</div>
                 </div>
             </nav>
@@ -28,7 +27,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
             <div className="row">
                 <div className="drink-column">
                     <div className="image">
-                        <img src={drinkImg} alt={drink.name} />
+                        <img src='./api/image?file=high-five.webp' alt={drink.name} />
                     </div>
                 </div>
                 <div className="drink-column">
