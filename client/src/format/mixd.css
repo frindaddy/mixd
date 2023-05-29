@@ -125,6 +125,15 @@ input[type = text] {
     .info-column {
         width: 100%
     }
+
+    .entry-title {
+        font-family: Roboto;
+        font-weight: 300;
+        font-size: 30px;
+        margin-top: 0px;
+        margin-bottom: 2px;
+        max-width: 1100px;
+    }
 }
 
 .image{
