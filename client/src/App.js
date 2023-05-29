@@ -9,10 +9,6 @@ function App() {
     const [currentPage, setCurrentPage] = useState("drinkList");
     const [currentDrink, setCurrentDrink] = useState("");
 
-    useEffect(() => {
-        document.title = 'Mixd.';
-    }, []);
-
     return (
     <div className="App">
         {currentPage == "drinkList" && <DrinkList setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}/>}
