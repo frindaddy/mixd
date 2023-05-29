@@ -2,20 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import drinkImg from "../../images/high-five.webp";
 import {FaChevronLeft} from "react-icons/fa";
-import DrinkTags from "../DrinkTags";
+import DrinkTags, {filterTags} from "../DrinkTags";
 const DrinkInfo = ({drinkID, setCurrentPage}) => {
 
     const [drink, setDrink] = useState({name:"No Drink"});
-    const [tags, setTags] = useState();
-
-    const filterTags = () => {
-        if(drink.tags){
-            let fileredTags = drink.tags.filter((tag) =>{
-                return tag.category === 'style' || tag.category === 'taste';
-            });
-            setTags(fileredTags);
-        }
-    }
 
     useEffect(() => {
         axios.get('api/drink/'+drinkID)
@@ -24,7 +14,6 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                     setDrink(res.data[0]);
                 }
             }).catch((err) => console.log(err));
-        filterTags();
     });
 
     return (
@@ -45,7 +34,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                 <div className="drink-column">
                     <div className="text">
                         <h1>{drink.name}</h1>
-                        {tags && <DrinkTags tags={tags}/>}
+                        {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste'])}/>}
                         {drink.abv && <p>{drink.abv}% ABV</p>}
                         <ul>
                             { drink.ingredients && drink.ingredients.map((ingredient) => {
