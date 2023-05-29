@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from "react"
+import unknown from "../../images/glassware/unknown.svg";
 import coupe from "../../images/glassware/coupe.svg";
 import collins from "../../images/glassware/collins.svg";
 const GlassImg = ({glassType}) => {
 
-    const [glassImg, setGlassImg] = useState(coupe);
+    const [glassImg, setGlassImg] = useState(unknown);
 
     useEffect(() => {
         if(glassType){
