@@ -1,0 +1,176 @@
+header {
+    max-width: 100%;
+    padding-top: 12%;
+    padding-bottom: 12%;
+    background-size: cover;
+}
+
+nav > div {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nav-logo {
+    color: white;
+    font-family: Roboto;
+    font-size: 40px;
+    font-weight: 300;
+    text-align: left;
+}
+
+.logo {
+    color: #1D1E1F;
+    font-family: Roboto;
+    font-size: 150px;
+    font-weight: 400;
+    text-align: center;
+    -webkit-text-stroke: 2px white;
+}
+
+.back {
+    margin-bottom: 10px;
+}
+
+.back > a {
+    color: white;
+    text-decoration: none;
+}
+
+body {
+    color: white;
+    background-color: #1D1E1F;
+    font-family: Roboto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2%;
+}
+
+.search {
+    text-align: center;
+}
+
+input[type = text] {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 50%;
+    height: 20px;
+    border-color: white;
+    border-radius: 50px;
+    color: white;
+    padding-left: 10px;
+}
+
+.drink {
+    position: relative;
+    border-top: 1px solid darkgray;
+    border-bottom: 1px solid darkgray;
+}
+
+.column {
+    float: left;
+}
+
+.drink-column {
+    float: left;
+    width: 50%;
+}
+
+.drink:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.drink > .column > img {
+    width: 100px;
+    height: 100px;
+}
+
+.title {
+    font-family: Roboto;
+    font-weight: 300;
+    font-size: 35px;
+    margin-top: 15px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+@media screen and (max-width: 600px) {
+    .column{
+        width: 100%
+    }
+}
+
+.image{
+    text-align: right;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    width: auto;
+    object-fit: cover;
+}
+
+.text{
+    padding-left: 1%;
+    text-align: left;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.tag {
+    margin-left: 4px;
+    margin-right: 4px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius: 20px;
+    font-size: 15px
+}
+
+h1 {
+    font-family: Roboto;
+    font-weight: 100;
+    font-size: 60px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+ul {
+    padding-top: 3%;
+    padding-bottom: 3%;
+    list-style: none;
+    padding-left: 0;
+    font-size: 22px;
+    font-weight: 300;
+}
+
+.desc {
+    font-size: 18px;
+    margin-right: 10%;
+    font-weight: 300;
+}
+
+.footnote {
+    font-style: italic;
+    color: darkgray;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+footer {
+    padding-top: 2%;
+    text-align: center;
+    color: darkgray;
+    font-size: 11px;
+}
