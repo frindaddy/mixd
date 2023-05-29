@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import drinkImg from "../../images/high-five.webp";
+import {FaChevronLeft} from "react-icons/fa";
 const DrinkInfo = ({drinkID, setCurrentPage}) => {
 
     const [drink, setDrink] = useState({name:"No Drink"});
@@ -22,7 +23,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                 </div>
             </nav>
             <div className="back">
-                <p onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}>← back to menu</p>
+                <p onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/> back to menu</p>
             </div>
             <div className="row">
                 <div className="drink-column">
