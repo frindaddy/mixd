@@ -14,7 +14,7 @@ const DrinkTags = ({tags}) => {
     }
 
     return (
-        <div className="flex-container">
+        <div className="tag-container">
             {
                 tags.map((tag)=>{
                     return <div className="tag" style={{backgroundColor: getColor(tag)}}>{tag.value}</div>

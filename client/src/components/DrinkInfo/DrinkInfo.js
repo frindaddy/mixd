@@ -18,7 +18,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
     return (
         <div className='DrinkInfo'>
             <nav>
-                <div className="flex-container">
+                <div className="nav-container">
                     <a href="/" className="back" onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/></a>
                     <div className="nav-logo">mixd.</div>
                 </div>

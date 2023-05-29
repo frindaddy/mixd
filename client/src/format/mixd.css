@@ -16,6 +16,10 @@ nav > div {
     margin-right: auto;
 }
 
+.nav-container {
+    display: flex;
+}
+
 .nav-logo {
     color: white;
     font-family: Roboto;
@@ -156,7 +160,7 @@ img {
     text-align: left;
 }
 
-.flex-container {
+.tag-container {
     display: flex;
     flex-wrap: wrap;
 }
