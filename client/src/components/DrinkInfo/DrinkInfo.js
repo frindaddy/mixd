@@ -31,7 +31,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                         <img src={drinkImg} alt="Orange coctail on a wooden board" />
                     </div>
                 </div>
-                <div className="column">
+                <div className="drink-column">
                     <div className="text">
                         <h1>{drink.name}</h1>
                         <div className="flex-container">
