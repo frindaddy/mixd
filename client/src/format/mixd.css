@@ -74,6 +74,7 @@ input[type = text] {
     border-top: 1px solid darkgray;
     border-bottom: 1px solid darkgray;
     display: flex;
+    margin-right: 8px;
 }
 
 .entry-column {
