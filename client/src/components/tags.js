@@ -4,7 +4,13 @@ const DrinkTags = ({tags}) => {
 
 
     const getColor = (tag) => {
-        return TagColors.gin;
+        if (tag.category === 'spirit' && TagColors[tag.value.toLowerCase()]){
+            return TagColors[tag.value.toLowerCase()];
+        }
+        if (TagColors[tag.category]){
+            return TagColors[tag.category];
+        }
+        return TagColors.misc;
     }
 
     return (
