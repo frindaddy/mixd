@@ -6,7 +6,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
     const [drinkList, setDrinkList] = useState([{name:"No Drink"}]);
 
     useEffect(() => {
-        axios.get('api/list')
+        axios.get('./api/list')
             .then((res) => {
                 if (res.data) {
                     setDrinkList(res.data);
