@@ -15,6 +15,7 @@
 		{"value":"Cold", "category": "temp"}
 	],
     "abv": 16.0,
+    "glass": "Collins",
     "ingredients": [
         {
             "amount": 1,
