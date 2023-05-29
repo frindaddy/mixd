@@ -1,13 +1,26 @@
 import './format/tags.css';
 import './format/mixd.css';
 import DrinkList from "./components/DrinkList/DrinkList";
-import React, { useState } from "react";
+import React, { useState,  useEffect } from "react";
 import DrinkInfo from "./components/DrinkInfo/DrinkInfo";
 
 
 function App() {
     const [currentPage, setCurrentPage] = useState("drinkList");
     const [currentDrink, setCurrentDrink] = useState("");
+
+    useEffect(() =>{
+        window.addEventListener('hashchange', (hash)=>{
+            switch(window.location.hash){
+                case "#drink":
+                    setCurrentPage('drinkInfo');
+                    break;
+                default:
+                    setCurrentPage('drinkList');
+                    break;
+            }
+        });
+    }, []);
 
     return (
     <div className="App">

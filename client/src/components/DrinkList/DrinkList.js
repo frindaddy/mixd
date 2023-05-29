@@ -15,7 +15,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
 
     useEffect(() => {
         getDrinkList();
-    });
+    }, []);
 
     return (
         <div className='DrinkList'>
@@ -28,7 +28,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
                 <input type="text" placeholder="Search.." />
             </div>
             {drinkList.map((drink) => {
-                return <DrinkEntry drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} />
+                return <a href={"#drink"}><DrinkEntry drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}/></a>
             })}
         </div>
 
