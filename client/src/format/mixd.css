@@ -182,6 +182,8 @@ ul {
     margin-left: 5px;
     font-size: 18px;
     font-weight: 300;
+    text-align: justify;
+    text-justify: auto;
 }
 
 .footnote {
