@@ -1,15 +1,17 @@
 {
     "name": "High-Five",
-    "tags": {
-        "spirit": ["Gin", "Aperol"],
-        "glass": "Coupe",
-        "style": ["Light"],
-        "taste": ["Citrus"],
-        "mix": "Shaken",
-        "color": "Orange",
-        "season": ["Spring", "Summer"],
-        "temp": "Cold"
-    },
+    "tags": [
+        {"value": "Gin", "category": "spirit"},
+        {"value": "Aperol", "category": "spirit"},
+        {"value": "Coupe", "category": "glass"},
+        {"value": "Light", "category": "style"},
+        {"value": "Citrus", "category": "taste"},
+        {"value": "Shaken", "category": "mix"},
+        {"value": "Orange", "category": "color"},
+        {"value": "Spring", "category": "season"},
+        {"value": "Summer", "category": "season"},
+        {"value": "Cold", "category": "temp"}
+    ],
     "abv": 19.0,
     "ingredients": [
         {
