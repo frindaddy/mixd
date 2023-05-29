@@ -1,8 +1,4 @@
 const TagColors = {
-<<<<<<< Updated upstream
-    gin: "#cb177f",
-    misc: "#4b0404"
-=======
     gin: "#1d2a87",
     vodka: "#e12729",
     rum: "#b29652",
@@ -19,8 +15,7 @@ const TagColors = {
     color: "#c63d17",
     season: "#180128",
     temp: "#934752",
-    misc: "#5b3cda",
->>>>>>> Stashed changes
+    misc: "#5b3cda"
 };
 
 export default TagColors;
