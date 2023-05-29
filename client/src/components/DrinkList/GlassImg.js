@@ -6,13 +6,15 @@ const GlassImg = ({glassType}) => {
     const [glassImg, setGlassImg] = useState(coupe);
 
     useEffect(() => {
-        switch (glassType){
-            case 'coupe':
-                setGlassImg(coupe);
-                break;
-            case 'collins':
-                setGlassImg(collins);
-                break;
+        if(glassType){
+            switch (glassType.toLowerCase()){
+                case 'coupe':
+                    setGlassImg(coupe);
+                    break;
+                case 'collins':
+                    setGlassImg(collins);
+                    break;
+            }
         }
     });
 

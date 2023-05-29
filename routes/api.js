@@ -15,7 +15,7 @@ router.get('/drink/:id', (req, res, next) => {
 });
 
 router.get('/list', (req, res, next) => {
-    Drinks.find({}, 'name tags').sort({name:1})
+    Drinks.find({}, 'name tags glass').sort({name:1})
         .then((data) => res.json(data))
         .catch(next);
 });
