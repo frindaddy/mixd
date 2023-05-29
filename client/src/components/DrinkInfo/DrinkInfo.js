@@ -25,12 +25,12 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
             </nav>
 
             <div className="row">
-                <div className="drink-column">
+                <div className="info-column">
                     <div className="image">
                         <img src='./api/image?file=high-five.webp' alt={drink.name} />
                     </div>
                 </div>
-                <div className="drink-column">
+                <div className="info-column">
                     <div className="text">
                         <div className="info-title">{drink.name}</div>
                         {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste'])}/>}
