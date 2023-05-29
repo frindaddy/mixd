@@ -14,7 +14,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink}) => {
                 {!drink.glass && <img src={'./api/image?file=glassware/unknown.svg'} alt={'No glass listed'}/>}
             </div>
             <div className="entry-column">
-                    <p className="list-title">{drink.name}</p>
+                    <p className="entry-title">{drink.name}</p>
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['spirit', 'style', 'taste'])}/>}
             </div>
         </div>
