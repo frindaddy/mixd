@@ -6,7 +6,7 @@ const DrinkSchema = new Schema({
     tags: {
         spirit: [String],
         glass: String,
-        type: [String],
+        style: [String],
         taste: [String],
         mix: String,
         color: String,
