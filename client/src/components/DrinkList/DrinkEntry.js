@@ -15,7 +15,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink}) => {
                 <GlassImg glassType={drink.glass}/>
             </div>
             <div class="column">
-                <p class="title">{drink.name}</p>
+                <p class="list-title">{drink.name}</p>
                 {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['spirit', 'style', 'taste'])}/>}
             </div>
         </div>

@@ -95,7 +95,7 @@ input[type = text] {
     height: 100px;
 }
 
-.title {
+.list-title {
     font-family: Roboto;
     font-weight: 300;
     font-size: 35px;
@@ -159,7 +159,7 @@ img {
     font-style: italic;
 }
 
-h1 {
+.info-title {
     font-family: Roboto;
     font-weight: 100;
     font-size: 60px;
