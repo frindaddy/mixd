@@ -35,7 +35,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                     <div className="text">
                         <h1>{drink.name}</h1>
                         {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste'])}/>}
-                        {drink.abv && <p>{drink.abv}% ABV</p>}
+                        {drink.abv && <p className="abv">{drink.abv}% ABV</p>}
                         <ul>
                             { drink.ingredients && drink.ingredients.map((ingredient) => {
                                 if(ingredient.amount > 0){
@@ -44,7 +44,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                                     return <li>{ingredient.unit} {ingredient.ingredient}</li>
                                 }
                             })}
-                            {drink.garnish && <li>Garnish: {drink.garnish}</li>}
+                            {drink.garnish && <li>Garnish with {drink.garnish}</li>}
                         </ul>
                         {drink.description && <p className="desc">{drink.description}</p>}
                         {drink.footnotes && <p className="footnote">{drink.footnotes}</p>}

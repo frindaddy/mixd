@@ -140,8 +140,9 @@ img {
 }
 
 .tag {
-    margin-left: 4px;
-    margin-right: 4px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 10px;
     padding-top: 2px;
     padding-bottom: 2px;
     padding-right: 10px;
@@ -149,6 +150,13 @@ img {
     border-radius: 20px;
     font-size: 15px;
     white-space: nowrap;
+}
+
+.abv {
+    margin-top: 5px;
+    margin-left: 5px;
+    font-size: 15px;
+    font-style: italic;
 }
 
 h1 {
@@ -160,8 +168,8 @@ h1 {
 }
 
 ul {
-    padding-top: 3%;
-    padding-bottom: 3%;
+    padding-top: 2%;
+    padding-bottom: 2%;
     list-style: none;
     padding-left: 0;
     font-size: 22px;
