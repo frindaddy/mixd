@@ -12,7 +12,7 @@ const imageStorage = multer.diskStorage(
             cb(null, process.env.IMAGE_DIR+'user_drinks');
         },
         filename: function ( req, file, cb ) {
-            cb(null, req.body.drinkID+'.jpg');
+            cb(null, req.body.image_UUID+'.jpg');
         }
     }
 );
@@ -55,7 +55,7 @@ router.get('/image', (req, res, next) => {
 
 const compressResponse = async(req) =>{
     let uploadFile = req.file.destination+'/'+req.file.filename;
-    let compressedFile = req.file.destination+'/'+req.body.drinkID+'-compressed.jpg';
+    let compressedFile = req.file.destination+'/'+req.body.image_UUID+'-compressed.jpg';
     await sharp(uploadFile)
         .resize({ width: 600, height:840, fit:"cover" })
         .jpeg({ quality: 80, mozjpeg: true, force: true })
