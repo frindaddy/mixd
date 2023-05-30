@@ -2,7 +2,6 @@
     "name": "High-Five",
     "tags": [
         {"value": "Gin", "category": "spirit"},
-        {"value": "Aperol", "category": "spirit"},
         {"value": "Coupe", "category": "glass"},
         {"value": "Light", "category": "style"},
         {"value": "Citrus", "category": "taste"},
