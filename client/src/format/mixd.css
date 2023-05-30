@@ -154,6 +154,10 @@ input[type = text] {
         width: 100%
     }
 
+    .info-column > .image {
+        margin-top: 50px;
+    }
+
     .entry-title {
         font-family: Roboto;
         font-weight: 300;
