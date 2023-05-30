@@ -36,7 +36,7 @@ const CreateDrink = ({setCurrentPage}) => {
         }
     }
 
-    const handleChange = (event) => {
+    const handleFormChange = (event) => {
         setInputs(values => ({...values, [event.target.name]: event.target.value}))
     }
 
@@ -63,9 +63,10 @@ const CreateDrink = ({setCurrentPage}) => {
                 <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
                 <p>Drink Preview</p>
                 <input type="file" onChange={onImageSelected}/>
-                <input type="text" name="name" value={inputs.name || ""} onChange={handleChange} />
-                <input type="text" name="abv" value={inputs.abv || ""} onChange={handleChange} />
-                <select name="glass" onChange={onImageSelected}>
+                <input type="text" name="name" value={inputs.name || ""} onChange={handleFormChange} />
+                <input type="text" name="abv" value={inputs.abv || ""} onChange={handleFormChange} />
+                <select name="glass" onChange={handleFormChange}>
+                    <option value='glass0'>No Glass</option>
                     <option value='glass1'>Glass 1</option>
                     <option value='glass2'>Glass 2</option>
                 </select>
