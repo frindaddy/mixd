@@ -2,11 +2,16 @@ import React, { useState } from "react"
 import {FaChevronLeft} from "react-icons/fa";
 import axios from "axios";
 const CreateDrink = ({setCurrentPage}) => {
-    const [imageUUID, setImageUUID] = useState("null");
-    const [imagePreview, setImagePreview] = useState(null);
+    const noImageURL = './api/image?file=glassware/unknown.svg';
+    const [imagePreviewURL, setImagePreviewURL] = useState(noImageURL);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [inputs, setInputs] = useState({});
     const onImageSelected = (e) => {
-        setImagePreview(URL.createObjectURL(e.target.files[0]));
+        if(e.target.files[0]){
+            setImagePreviewURL(URL.createObjectURL(e.target.files[0]));
+        } else {
+            setImagePreviewURL(noImageURL);
+        }
         setSelectedImage(e.target.files[0]);
     }
     const uploadImage = async () => {
@@ -19,20 +24,28 @@ const CreateDrink = ({setCurrentPage}) => {
                 }
             }
         );
-        console.log(data);
         if (data.imageUUID) {
-            setImageUUID(data.imageUUID);
+            return data.imageUUID;
+            //setImageUUID(data.imageUUID);
+            //setInputs(values => ({...values, "image": data.imageUUID}))
         } else {
-            //e.target.value = null;
             console.error(data.error);
-            //<img style={{width:400}} src={"./api/image?file=user_drinks/"+imageUUID+".jpg&backup=glassware/unknown.svg"} alt='Drink Preview'/>
+            return null;
         }
     }
 
-    const createDrink = () => {
-        uploadImage().then(r => {
-           console.log('Drink Added!')
-        });
+    const handleChange = (event) => {
+        setInputs(values => ({...values, [event.target.name]: event.target.value}))
+    }
+
+    const createDrink = async () => {
+        const imageUUID = await uploadImage();
+        if (imageUUID) {
+            alert("POST DATA:\n"+JSON.stringify({...inputs, image:imageUUID}));
+        } else {
+            alert('Please add an image!');
+        }
+
     }
 
     return (
@@ -45,9 +58,16 @@ const CreateDrink = ({setCurrentPage}) => {
             </nav>
 
             <div>
-                {imagePreview && <img style={{width:300}} src={imagePreview} alt='preview'/>}
+                <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
                 <p>Drink Preview</p>
                 <input type="file" onChange={onImageSelected}/>
+                <input
+                    type="text"
+                    name="name"
+                    value={inputs.name || ""}
+                    onChange={handleChange}
+                />
+
                 <button onClick={createDrink}>Add New Drink</button>
             </div>
         </div>
