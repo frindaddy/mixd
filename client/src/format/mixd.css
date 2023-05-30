@@ -1,4 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500");
+html:before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 999px;
+    top: -999px;
+    background-color: #1D1E1F;
+  }
+
+  html {
+    background-color: #1D1E1F;
+  }
+
 header {
     max-width: 100%;
     padding-top: 1%;
@@ -59,7 +72,6 @@ a {
 
 body {
     color: white;
-    background-color: #1D1E1F;
     font-family: Roboto;
     max-width: 1200px;
     margin-left: auto;
@@ -143,6 +155,7 @@ input[type = text] {
         background-color: #1D1E1F;
         position: fixed;
         top: 0px;
+        left: 0px;
     }
     
     .info-column {
