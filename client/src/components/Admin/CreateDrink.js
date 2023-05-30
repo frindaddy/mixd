@@ -7,12 +7,14 @@ const CreateDrink = ({setCurrentPage}) => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [inputs, setInputs] = useState({});
     const onImageSelected = (e) => {
-        if(e.target.files[0]){
+        if(e.target.files){
             setImagePreviewURL(URL.createObjectURL(e.target.files[0]));
+            setSelectedImage(e.target.files[0]);
         } else {
             setImagePreviewURL(noImageURL);
+            setSelectedImage(null);
         }
-        setSelectedImage(e.target.files[0]);
+
     }
     const uploadImage = async () => {
         const {data} = await axios.post('./api/image', {
@@ -61,12 +63,12 @@ const CreateDrink = ({setCurrentPage}) => {
                 <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
                 <p>Drink Preview</p>
                 <input type="file" onChange={onImageSelected}/>
-                <input
-                    type="text"
-                    name="name"
-                    value={inputs.name || ""}
-                    onChange={handleChange}
-                />
+                <input type="text" name="name" value={inputs.name || ""} onChange={handleChange} />
+                <input type="text" name="abv" value={inputs.abv || ""} onChange={handleChange} />
+                <select name="glass" onChange={onImageSelected}>
+                    <option value='glass1'>Glass 1</option>
+                    <option value='glass2'>Glass 2</option>
+                </select>
 
                 <button onClick={createDrink}>Add New Drink</button>
             </div>
