@@ -1,45 +1,28 @@
 const express = require('express');
 const multer  = require('multer');
+const sharp = require("sharp");
 const fs = require("fs");
 require('dotenv').config();
 const router = express.Router();
 const Drinks = require('../models/drinks');
 
-const storage = multer.diskStorage(
+const imageStorage = multer.diskStorage(
     {
         destination: function ( req, file, cb ) {
-            switch (req.body.loc) {
-                case 'user_drinks':
-                    cb(null, process.env.IMAGE_DIR+'user_drinks');
-                    break;
-                default:
-                    cb(null, process.env.IMAGE_DIR);
-                    break;
-            }
+            cb(null, process.env.IMAGE_DIR+'user_drinks');
         },
         filename: function ( req, file, cb ) {
-            switch (req.body.loc) {
-                case 'user_drinks':
-                    cb(null, req.body.drinkID+'.jpg');
-                    break;
-                default:
-                    cb(null, file.originalname);
-                    break;
-            }
-
+            cb(null, req.body.drinkID+'.jpg');
         }
     }
 );
 
-const upload = multer( { storage: storage,
+const uploadImage = multer( { storage: imageStorage,
     fileFilter: function ( req, file, cb ) {
-        if (req.body.loc) {
-            cb(null, file.mimetype==='image/jpeg');
-        } else {
-            cb(null, false);
-        }
-
-    } } );
+        cb(null, file.mimetype==='image/jpeg' );
+    },
+    limits: { fileSize: 4000000, files: 1 }
+}).single('drinkImage');
 
 router.get('/drink/:id', (req, res, next) => {
     if(req.params.id){
@@ -70,22 +53,37 @@ router.get('/image', (req, res, next) => {
     }
 });
 
-router.post('/image', upload.single('drinkImage'), function (req, res, next) {
-    // req.file is the `avatar` file
-    // req.body will hold the text fields, if there were any
-    if (!req.file) {
-        console.log("No file received");
+const compressResponse = async(req) =>{
+    let uploadFile = req.file.destination+'/'+req.file.filename;
+    let compressedFile = req.file.destination+'/'+req.body.drinkID+'-compressed.jpg';
+    await sharp(uploadFile)
+        .resize({ width: 600, height:840, fit:"cover" })
+        .jpeg({ quality: 80, mozjpeg: true, force: true })
+        .toFile(compressedFile)
+    await fs.unlink(uploadFile, ()=>{});
+    await fs.rename(compressedFile, uploadFile, ()=>{});
+}
+
+router.post('/image', uploadImage, async (req, res, next) => {
+    /*uploadImage(req, res, (err) => {
+        if (err) { //Error receiving the image
+            return res.send({
+                success: false,
+                error: err
+            });
+        }
+    });*/
+    if (!req.file) { // No file was uploaded
         return res.send({
             success: false
         });
-
-    } else {
-        console.log('file received');
+    } else { // File received successfully
+        await compressResponse(req);
         return res.send({
             success: true
         })
     }
-})
+});
 
 router.post('/add_drink', (req, res, next) => {
     if (req.body.name) {
