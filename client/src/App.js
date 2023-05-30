@@ -16,6 +16,9 @@ function App() {
                 case "#drink":
                     setCurrentPage('drinkInfo');
                     break;
+                case "#create":
+                    setCurrentPage('createDrink');
+                    break;
                 default:
                     setCurrentPage('drinkList');
                     break;
