@@ -1,6 +1,7 @@
 const express = require('express');
 const multer  = require('multer');
 const sharp = require("sharp");
+const { v4: uuid } = require('uuid');
 const fs = require("fs");
 require('dotenv').config();
 const router = express.Router();
@@ -9,10 +10,10 @@ const Drinks = require('../models/drinks');
 const imageStorage = multer.diskStorage(
     {
         destination: function ( req, file, cb ) {
-            cb(null, process.env.IMAGE_DIR+'user_drinks');
+            cb(null, process.env.IMAGE_DIR+'upload');
         },
         filename: function ( req, file, cb ) {
-            cb(null, req.body.imageUUID+'.jpg');
+            cb(null, file.originalname+ '-' + Date.now()+'.jpg');
         }
     }
 );
@@ -53,36 +54,29 @@ router.get('/image', (req, res, next) => {
     }
 });
 
-const compressResponse = async(req) =>{
+const compressDrinkImg = async(req, imageUUID) =>{
     let uploadFile = req.file.destination+'/'+req.file.filename;
-    let compressedFile = req.file.destination+'/'+req.body.imageUUID+'-compressed.jpg';
+    let compressedFile = process.env.IMAGE_DIR+'user_drinks/'+imageUUID+'.jpg';
     await sharp(uploadFile)
         .resize({ width: 600, height:840, fit:"cover" })
         .jpeg({ quality: 80, mozjpeg: true, force: true })
         .toFile(compressedFile)
     await fs.unlink(uploadFile, ()=>{});
-    await fs.rename(compressedFile, uploadFile, ()=>{});
 }
 
-router.post('/image', uploadImage, async (req, res, next) => {
-    /*uploadImage(req, res, (err) => {
-        if (err) { //Error receiving the image
-            return res.send({
-                success: false,
-                error: err
-            });
+router.post('/image', async (req, res, next) => {
+    uploadImage(req, res, (err) => {
+        if (err) {
+            return res.send({ error: err });
         }
-    });*/
-    if (!req.file) { // No file was uploaded
-        return res.send({
-            success: false
-        });
-    } else { // File received successfully
-        await compressResponse(req);
-        return res.send({
-            success: true
-        })
-    }
+        if (!req.file) {
+            return res.send({ error: 'No file was received.' });
+        } else {
+            let imageUUID = uuid();
+            compressDrinkImg(req, imageUUID);
+            return res.send({ imageUUID: imageUUID });
+        }
+    });
 });
 
 router.post('/add_drink', (req, res, next) => {
