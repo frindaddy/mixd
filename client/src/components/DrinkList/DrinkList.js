@@ -15,12 +15,14 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
     }, []);
 
     return (
+        <>
         <div className='DrinkList'>
             <header>
                 <div>
                     <div className="logo">mixd.</div>
                 </div>
             </header>
+
             <div className="search">
                 <input type="text" placeholder="Search.." />
             </div>
@@ -28,7 +30,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
                 return <a href={"#drink"}><DrinkEntry drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}/></a>
             })}
         </div>
-
+        </>
     )
 }
 
