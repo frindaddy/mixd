@@ -27,7 +27,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
             <div className="info-row">
                 <div className="info-column">
                     <div className="image">
-                        <img src='./api/image?file=high-five.webp' alt={drink.name} />
+                        <img src={'./api/image?file='+drinkID+'.jpg&backup=no_img.svg'} alt={drink.name} />
                     </div>
                 </div>
                 <div className="info-column">
