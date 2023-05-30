@@ -24,8 +24,8 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
                 </div>
             </header>
 
-            <div className="search">
-                <input type="text" placeholder="Search.." />
+            <div className="search-container">
+                <input className="search-bar" type="text" placeholder="Search..." />
             </div>
             {drinkList.map((drink) => {
                 return <a href={"#drink"}><DrinkEntry drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}/></a>
