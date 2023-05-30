@@ -1,8 +1,45 @@
 const express = require('express');
+const multer  = require('multer');
 const fs = require("fs");
 require('dotenv').config();
 const router = express.Router();
 const Drinks = require('../models/drinks');
+
+const storage = multer.diskStorage(
+    {
+        destination: function ( req, file, cb ) {
+            switch (req.body.loc) {
+                case 'user_drinks':
+                    cb(null, process.env.IMAGE_DIR+'user_drinks');
+                    break;
+                default:
+                    cb(null, process.env.IMAGE_DIR);
+                    break;
+            }
+        },
+        filename: function ( req, file, cb ) {
+            switch (req.body.loc) {
+                case 'user_drinks':
+                    cb(null, req.body.drinkID+'.jpg');
+                    break;
+                default:
+                    cb(null, file.originalname);
+                    break;
+            }
+
+        }
+    }
+);
+
+const upload = multer( { storage: storage,
+    fileFilter: function ( req, file, cb ) {
+        if (req.body.loc) {
+            cb(null, file.mimetype==='image/jpeg');
+        } else {
+            cb(null, false);
+        }
+
+    } } );
 
 router.get('/drink/:id', (req, res, next) => {
     if(req.params.id){
@@ -32,6 +69,23 @@ router.get('/image', (req, res, next) => {
         res.json({error: 'Unable to find file'})
     }
 });
+
+router.post('/image', upload.single('drinkImage'), function (req, res, next) {
+    // req.file is the `avatar` file
+    // req.body will hold the text fields, if there were any
+    if (!req.file) {
+        console.log("No file received");
+        return res.send({
+            success: false
+        });
+
+    } else {
+        console.log('file received');
+        return res.send({
+            success: true
+        })
+    }
+})
 
 router.post('/add_drink', (req, res, next) => {
     if (req.body.name) {
