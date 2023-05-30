@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import {FaChevronLeft} from "react-icons/fa";
 import axios from "axios";
+import GlassTypes from "./GlassTypes";
 const CreateDrink = ({setCurrentPage}) => {
     const noImageURL = './api/image?file=glassware/unknown.svg';
     const [imagePreviewURL, setImagePreviewURL] = useState(noImageURL);
@@ -67,10 +68,13 @@ const CreateDrink = ({setCurrentPage}) => {
                 <input type="text" name="abv" value={inputs.abv || ""} onChange={handleFormChange} />
                 <select name="glass" onChange={handleFormChange}>
                     <option value='glass0'>No Glass</option>
-                    <option value='glass1'>Glass 1</option>
-                    <option value='glass2'>Glass 2</option>
+                    {GlassTypes.map((glass)=> {
+                        return <option value={glass.name}>{glass.displayName}</option>
+                    })}
                 </select>
-
+                <input type="text" name="garnish" value={inputs.garnish || ""} onChange={handleFormChange} />
+                <textarea name="description" value={inputs.description || ""} onChange={handleFormChange} />
+                <textarea name="footnotes" value={inputs.footnotes || ""} onChange={handleFormChange} />
                 <button onClick={createDrink}>Add New Drink</button>
             </div>
         </div>
