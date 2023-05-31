@@ -9,6 +9,7 @@ const CreateDrink = ({setCurrentPage}) => {
     const [imagePreviewURL, setImagePreviewURL] = useState(noImageURL);
     const [selectedImage, setSelectedImage] = useState(null);
     const [inputs, setInputs] = useState({});
+    const [imageUUID, setImageUUID] = useState(null);
     const onImageSelected = (e) => {
         if(e.target.files){
             setImagePreviewURL(URL.createObjectURL(e.target.files[0]));
@@ -44,9 +45,13 @@ const CreateDrink = ({setCurrentPage}) => {
     }
 
     const createDrink = async () => {
-        const imageUUID = await uploadImage();
-        if (imageUUID) {
-            alert("POST DATA:\n"+JSON.stringify({...inputs, image:imageUUID}));
+        let uuid = imageUUID;
+        if (!imageUUID){
+            uuid = await uploadImage();
+            setImageUUID(uuid);
+        }
+        if (uuid) {
+            alert("POST DATA:\n"+JSON.stringify({...inputs, image:uuid}));
         } else {
             alert('Please add an image!');
         }
