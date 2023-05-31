@@ -64,17 +64,17 @@ const CreateDrink = ({setCurrentPage}) => {
                 <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
                 <p>Drink Preview</p>
                 <input type="file" onChange={onImageSelected}/>
-                <input type="text" name="name" value={inputs.name || ""} onChange={handleFormChange} />
-                <input type="text" name="abv" value={inputs.abv || ""} onChange={handleFormChange} />
+                <input type="text" name="name" value={inputs.name || ""} placeholder='Drink Name' onChange={handleFormChange} />
+                <input type="text" name="abv" value={inputs.abv || ""} placeholder='ABV' onChange={handleFormChange} />
                 <select name="glass" onChange={handleFormChange}>
-                    <option value='glass0'>No Glass</option>
+                    <option value='no_glass'>No Glass</option>
                     {GlassTypes.map((glass)=> {
                         return <option value={glass.name}>{glass.displayName}</option>
                     })}
                 </select>
-                <input type="text" name="garnish" value={inputs.garnish || ""} onChange={handleFormChange} />
-                <textarea name="description" value={inputs.description || ""} onChange={handleFormChange} />
-                <textarea name="footnotes" value={inputs.footnotes || ""} onChange={handleFormChange} />
+                <input type="text" name="garnish" value={inputs.garnish || ""} placeholder='Garnish' onChange={handleFormChange} />
+                <textarea name="description" value={inputs.description || ""} placeholder='Description' onChange={handleFormChange} />
+                <textarea name="footnotes" value={inputs.footnotes || ""} placeholder='Extra notes' onChange={handleFormChange} />
                 <button onClick={createDrink}>Add New Drink</button>
             </div>
         </div>

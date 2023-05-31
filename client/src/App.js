@@ -10,7 +10,7 @@ function App() {
     const [currentPage, setCurrentPage] = useState("drinkList");
     const [currentDrink, setCurrentDrink] = useState("");
 
-    useEffect(() =>{
+    useEffect(() => {
         window.addEventListener('hashchange', (hash)=>{
             switch(window.location.hash){
                 case "#drink":
