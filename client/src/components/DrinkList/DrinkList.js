@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import DrinkEntry from "./DrinkEntry";
 import {FaPlus} from "react-icons/fa";
+import AddDrinkEntry from "../Admin/AddDrinkEntry";
 const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
 
     const [drinkList, setDrinkList] = useState([{name:"No Drink"}]);
@@ -27,10 +28,10 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
             <div className="search-container">
                 <input className="search-bar" type="text" placeholder="Search..." />
             </div>
+            <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>
             {drinkList.map((drink) => {
                 return <a href={"#drink"}><DrinkEntry drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}/></a>
             })}
-            <a href="#create" className="back" onClick={()=>{setCurrentPage('createDrink')}} style={{cursor: "pointer"}}><FaPlus/></a>
         </div>
         </>
     )
