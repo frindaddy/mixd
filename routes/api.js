@@ -108,6 +108,7 @@ router.delete('/drink/:id', (req, res, next) => {
     Drinks.findOneAndDelete({ _id: req.params.id })
         .then((data) => res.json(data))
         .catch(next);
+    //TODO: remove image
 });
 
 module.exports = router;
