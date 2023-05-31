@@ -33,8 +33,6 @@ const CreateDrink = ({setCurrentPage}) => {
         );
         if (data.imageUUID) {
             return data.imageUUID;
-            //setImageUUID(data.imageUUID);
-            //setInputs(values => ({...values, "image": data.imageUUID}))
         } else {
             console.error(data.error);
             return null;
@@ -92,16 +90,18 @@ const CreateDrink = ({setCurrentPage}) => {
             uuid = await uploadImage();
             setImageUUID(uuid);
         }
+        let drink = {};
         if (uuid) {
-            let drink = parseDrink({...inputs, image:uuid});
-            let error = validateDrink(drink);
-            if (error) {
-                setErrorMsg(error);
-            } else {
-                await postDrink(drink);
-            }
+            drink = parseDrink({...inputs, image:uuid});
+        } else {
+            drink = parseDrink(inputs);
         }
-
+        let error = validateDrink(drink);
+        if (error) {
+            setErrorMsg(error);
+        } else {
+            await postDrink(drink);
+        }
     }
 
     return (
