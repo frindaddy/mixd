@@ -100,8 +100,6 @@ const CreateDrink = ({setCurrentPage}) => {
             } else {
                 await postDrink(drink);
             }
-        } else {
-            alert('Please add an image!');
         }
 
     }
