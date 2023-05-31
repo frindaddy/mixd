@@ -40,6 +40,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList}) => {
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['spirit', 'style', 'taste'])}/>}
                 </div>
             </div>
+            
         </div>
     )
 }
