@@ -3,7 +3,7 @@ import {FaMinus} from "react-icons/fa";
 
 const categories = ['Spirit', 'Style','Taste', 'Mix', 'Color', 'Season', 'Temp', 'Misc'];
 
-const TagEntry = ({index, tags, setTags, updateTags}) => {
+const TagEntry = ({index, tags, setTags}) => {
     const [tag, setTag] = useState({});
 
     function handleFormChange(e) {
@@ -23,7 +23,7 @@ const TagEntry = ({index, tags, setTags, updateTags}) => {
                 })}
             </select>
             <input type='text' placeholder='Tag (ex: Gin)' onChange={handleFormChange} value={tag.value||""} name='value'/>
-            {(index === tags.length - 1) && <FaMinus onClick={() =>{setTags(tags.slice(0, index))}}/>}
+            {(index === tags.length - 1) && <FaMinus onClick={() =>{setTags(tags.slice(0, -1))}}/>}
         </div>
     )
 }
