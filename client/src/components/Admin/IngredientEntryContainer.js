@@ -7,7 +7,6 @@ const IngredientEntryContainer = ({setInputs}) => {
 
     useEffect(()=> {
         setInputs(values => ({...values, ingredients: ingredients}));
-        console.log(ingredients);
     }, [ingredients, setInputs]);
 
     return (
