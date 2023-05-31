@@ -23,14 +23,20 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList}) => {
 
     return (
         <div class="drink-entry">
-            <a href={"#drink"}><div class="glass-container" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>
-                {drink.glass && <img src={'./api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}
-                {!drink.glass && <img src={'./api/image?file=glassware/unknown.svg'} alt={'No glass listed'}/>}
-            </div></a>
+
+            <a style={{display: "flex"}} href={"#drink"}>
+                <div class="glass-container" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>
+                    {drink.glass && <img src={'./api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}
+                    {!drink.glass && <img src={'./api/image?file=glassware/unknown.svg'} alt={'No glass listed'}/>}
+                </div>
+            </a>
+
             <div className="entry-column">
+                <div className="remove-drink">
+                    <FaTrash onClick={()=>{removeDrink()}} style={{cursor: "pointer"}}/>
+                </div>
                 <div>
                     <a href={"#drink"}><p className="entry-title" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>{drink.name}</p></a>
-                    <FaTrash onClick={()=>{removeDrink()}} style={{cursor: "pointer"}}/>
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['spirit', 'style', 'taste'])}/>}
                 </div>
             </div>
