@@ -3,6 +3,7 @@ import {FaAlignCenter, FaChevronLeft} from "react-icons/fa";
 import axios from "axios";
 import GlassTypes from "./GlassTypes";
 import TagEntryContainer from "./TagEntryContainer";
+import IngredientEntryContainer from "./IngredientEntryContainer";
 const CreateDrink = ({setCurrentPage}) => {
     const noImageURL = './api/image?file=glassware/unknown.svg';
     const [imagePreviewURL, setImagePreviewURL] = useState(noImageURL);
@@ -85,6 +86,7 @@ const CreateDrink = ({setCurrentPage}) => {
                         })}
                     </select>
                 </div>
+                <IngredientEntryContainer setInputs={setInputs}/>
                 <div className="create-drink-row">
                     <p>Garnish:</p>
                     <input type="text" name="garnish" placeholder="a maraschino cherry" value={inputs.garnish || ""} onChange={handleFormChange} />
