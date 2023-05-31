@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import {FaAlignCenter, FaChevronLeft} from "react-icons/fa";
+import {FaChevronLeft} from "react-icons/fa";
 import axios from "axios";
 import GlassTypes from "./GlassTypes";
 import TagEntryContainer from "./TagEntryContainer";
@@ -10,6 +10,7 @@ const CreateDrink = ({setCurrentPage}) => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [inputs, setInputs] = useState({});
     const [imageUUID, setImageUUID] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
     const onImageSelected = (e) => {
         if(e.target.files){
             setImagePreviewURL(URL.createObjectURL(e.target.files[0]));
@@ -44,6 +45,47 @@ const CreateDrink = ({setCurrentPage}) => {
         setInputs(values => ({...values, [event.target.name]: event.target.value}))
     }
 
+    const parseDrink = (drink) => {
+        let tags = [];
+        let ingredients = [];
+        drink.tags.map((tag) => {
+            if(tag.category && tag.value){
+                tags = [...tags, tag];
+            }
+        });
+        drink.ingredients.map((ingredient) => {
+            if(ingredient.unit && ingredient.ingredient){
+                if (typeof ingredient.amount === "string"){
+                    ingredient.amount = parseFloat(ingredient.amount.replace(",", "."));
+                }
+                ingredients = [...ingredients, ingredient];
+            }
+        });
+        drink.tags = tags;
+        drink.ingredients = ingredients;
+        drink.abv = parseFloat((drink.abv||"").replace(",", "."));
+        return drink;
+    }
+
+    const validateDrink = (drink) => {
+        if (!drink.name) { return 'Drink name is required!' }
+        if (drink.tags.length < 1) { return 'Drink tags are required!' }
+    }
+
+    async function postDrink(drink) {
+        const response = await axios.post('./api/add_drink', drink, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+        if(response.status !== 200) {
+            setErrorMsg('Failed to add drink. Internal server error '+response.status);
+        } else {
+            setCurrentPage('drinkList');
+        }
+    }
+
     const createDrink = async () => {
         let uuid = imageUUID;
         if (!imageUUID){
@@ -51,7 +93,13 @@ const CreateDrink = ({setCurrentPage}) => {
             setImageUUID(uuid);
         }
         if (uuid) {
-            alert("POST DATA:\n"+JSON.stringify({...inputs, image:uuid}));
+            let drink = parseDrink({...inputs, image:uuid});
+            let error = validateDrink(drink);
+            if (error) {
+                setErrorMsg(error);
+            } else {
+                await postDrink(drink);
+            }
         } else {
             alert('Please add an image!');
         }
@@ -68,6 +116,7 @@ const CreateDrink = ({setCurrentPage}) => {
             </nav>
 
             <div style={{flexDirection: "column", width: "100%"}}>
+                {errorMsg && <p>{"ERROR: "+errorMsg}</p>}
                 <div className="create-drink-image">
                     <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
                     <p>Drink Preview</p>

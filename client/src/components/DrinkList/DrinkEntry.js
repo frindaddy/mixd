@@ -1,21 +1,36 @@
 import React from "react"
 import DrinkTags, {filterTags} from "../DrinkTags";
-const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink}) => {
+import {FaTrash} from "react-icons/fa";
+import axios from "axios";
+
+const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList}) => {
 
     const setDrinkPage = () => {
         setCurrentPage("drinkInfo");
         setCurrentDrink(drink._id);
     };
 
+    const removeDrink = () => {
+        axios.delete('api/drink/'+drink._id)
+            .then((res) => {
+                if (res.data) {
+                    getDrinkList();
+                } else {
+                    alert('FAILED TO REMOVE DRINK!');
+                }
+            }).catch((err) => console.log(err));
+    }
+
     return (
-        <div class="drink-entry" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>
-            <div class="glass-container">
+        <div class="drink-entry">
+            <a href={"#drink"}><div class="glass-container" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>
                 {drink.glass && <img src={'./api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}
                 {!drink.glass && <img src={'./api/image?file=glassware/unknown.svg'} alt={'No glass listed'}/>}
-            </div>
+            </div></a>
             <div className="entry-column">
                 <div>
-                    <p className="entry-title">{drink.name}</p>
+                    <a href={"#drink"}><p className="entry-title" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>{drink.name}</p></a>
+                    <FaTrash onClick={()=>{removeDrink()}} style={{cursor: "pointer"}}/>
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['spirit', 'style', 'taste'])}/>}
                 </div>
             </div>

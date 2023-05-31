@@ -6,13 +6,17 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
 
     const [drinkList, setDrinkList] = useState([{name:"No Drink"}]);
 
-    useEffect(() => {
+    const getDrinkList = () => {
         axios.get('./api/list')
             .then((res) => {
                 if (res.data) {
                     setDrinkList(res.data);
                 }
             }).catch((err) => console.log(err));
+    }
+
+    useEffect(() => {
+        getDrinkList();
     }, []);
 
     return (
@@ -29,7 +33,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
             </div>
             <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>
             {drinkList.map((drink) => {
-                return <a href={"#drink"}><DrinkEntry drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}/></a>
+                return <DrinkEntry drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList}/>
             })}
         </div>
         </>
