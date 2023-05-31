@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import {FaAlignCenter, FaChevronLeft} from "react-icons/fa";
 import axios from "axios";
 import GlassTypes from "./GlassTypes";
+import TagEntryContainer from "./TagEntryContainer";
 const CreateDrink = ({setCurrentPage}) => {
     const noImageURL = './api/image?file=glassware/unknown.svg';
     const [imagePreviewURL, setImagePreviewURL] = useState(noImageURL);
@@ -68,8 +69,9 @@ const CreateDrink = ({setCurrentPage}) => {
                 </div>
                 <div className="create-drink-row">
                     <p>Name:</p>
-                    <input type="text" name="name" placeholder="Name" value={inputs.name || ""} onChange={handleFormChange} />
+                    <input type="text" name="name" placeholder="Manhattan" value={inputs.name || ""} onChange={handleFormChange} />
                 </div>
+                <TagEntryContainer />
                 <div className="create-drink-row">
                     <p>ABV: </p>
                     <input type="text" name="abv" placeholder="0.0" value={inputs.abv || ""} onChange={handleFormChange} />
@@ -85,7 +87,7 @@ const CreateDrink = ({setCurrentPage}) => {
                 </div>
                 <div className="create-drink-row">
                     <p>Garnish:</p>
-                    <input type="text" name="garnish" placeholder="a grapefruit slice" value={inputs.garnish || ""} onChange={handleFormChange} />
+                    <input type="text" name="garnish" placeholder="a maraschino cherry" value={inputs.garnish || ""} onChange={handleFormChange} />
                 </div>
                 <div className="create-drink-row">
                     <p>Description:</p>
