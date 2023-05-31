@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import {FaChevronLeft} from "react-icons/fa";
+import {FaAlignCenter, FaChevronLeft} from "react-icons/fa";
 import axios from "axios";
 import GlassTypes from "./GlassTypes";
 const CreateDrink = ({setCurrentPage}) => {
@@ -60,22 +60,44 @@ const CreateDrink = ({setCurrentPage}) => {
                 </div>
             </nav>
 
-            <div>
-                <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
-                <p>Drink Preview</p>
-                <input type="file" onChange={onImageSelected}/>
-                <input type="text" name="name" value={inputs.name || ""} onChange={handleFormChange} />
-                <input type="text" name="abv" value={inputs.abv || ""} onChange={handleFormChange} />
-                <select name="glass" onChange={handleFormChange}>
-                    <option value='glass0'>No Glass</option>
-                    {GlassTypes.map((glass)=> {
-                        return <option value={glass.name}>{glass.displayName}</option>
-                    })}
-                </select>
-                <input type="text" name="garnish" value={inputs.garnish || ""} onChange={handleFormChange} />
-                <textarea name="description" value={inputs.description || ""} onChange={handleFormChange} />
-                <textarea name="footnotes" value={inputs.footnotes || ""} onChange={handleFormChange} />
-                <button onClick={createDrink}>Add New Drink</button>
+            <div style={{flexDirection: "column", width: "100%"}}>
+                <div className="create-drink-image">
+                    <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
+                    <p>Drink Preview</p>
+                    <input type="file" onChange={onImageSelected}/>
+                </div>
+                <div className="create-drink-row">
+                    <p>Name:</p>
+                    <input type="text" name="name" placeholder="Name" value={inputs.name || ""} onChange={handleFormChange} />
+                </div>
+                <div className="create-drink-row">
+                    <p>ABV: </p>
+                    <input type="text" name="abv" placeholder="0.0" value={inputs.abv || ""} onChange={handleFormChange} />
+                </div>
+                <div className="create-drink-row">
+                    <p>Glass:</p>
+                    <select name="glass" onChange={handleFormChange}>
+                        <option value='glass0'>No Glass</option>
+                        {GlassTypes.map((glass)=> {
+                            return <option value={glass.name}>{glass.displayName}</option>
+                        })}
+                    </select>
+                </div>
+                <div className="create-drink-row">
+                    <p>Garnish:</p>
+                    <input type="text" name="garnish" placeholder="a grapefruit slice" value={inputs.garnish || ""} onChange={handleFormChange} />
+                </div>
+                <div className="create-drink-row">
+                    <p>Description:</p>
+                    <textarea name="description" value={inputs.description || ""} onChange={handleFormChange} />
+                </div>
+                <div className="create-drink-row">
+                    <p>Footnotes:</p>
+                    <textarea name="footnotes" value={inputs.footnotes || ""} onChange={handleFormChange} />
+                </div>
+                <div className="create-drink-row">
+                    <button onClick={createDrink}>Add New Drink</button>
+                </div>
             </div>
         </div>
     )
