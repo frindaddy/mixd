@@ -7,7 +7,6 @@ const TagEntryContainer = ({setInputs}) => {
 
     useEffect(()=> {
         setInputs(values => ({...values, tags: tags}));
-        console.log(tags);
     }, [tags, setInputs]);
 
     return (
