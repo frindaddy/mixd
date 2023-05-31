@@ -19,6 +19,14 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
         getDrinkList();
     }, []);
 
+    /*
+    This is the search bar for v1.1
+    
+    <div className="search-container">
+        <input className="search-bar" type="text" placeholder="Search..." />
+    </div>
+    */
+
     return (
         <>
         <div className='DrinkList'>
@@ -28,9 +36,6 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
                 </div>
             </header>
 
-            <div className="search-container">
-                <input className="search-bar" type="text" placeholder="Search..." />
-            </div>
             <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>
             {drinkList.map((drink) => {
                 return <DrinkEntry drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList}/>
