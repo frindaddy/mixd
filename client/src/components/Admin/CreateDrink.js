@@ -71,7 +71,7 @@ const CreateDrink = ({setCurrentPage}) => {
                     <p>Name:</p>
                     <input type="text" name="name" placeholder="Manhattan" value={inputs.name || ""} onChange={handleFormChange} />
                 </div>
-                <TagEntryContainer />
+                <TagEntryContainer setInputs={setInputs}/>
                 <div className="create-drink-row">
                     <p>ABV: </p>
                     <input type="text" name="abv" placeholder="0.0" value={inputs.abv || ""} onChange={handleFormChange} />
@@ -79,7 +79,7 @@ const CreateDrink = ({setCurrentPage}) => {
                 <div className="create-drink-row">
                     <p>Glass:</p>
                     <select name="glass" onChange={handleFormChange}>
-                        <option value='glass0'>No Glass</option>
+                        <option value='no_drink' disabled={true} selected={true}>No Glass</option>
                         {GlassTypes.map((glass)=> {
                             return <option value={glass.name}>{glass.displayName}</option>
                         })}

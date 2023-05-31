@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import DrinkEntry from "./DrinkEntry";
-import {FaPlus} from "react-icons/fa";
 import AddDrinkEntry from "../Admin/AddDrinkEntry";
 const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
 
