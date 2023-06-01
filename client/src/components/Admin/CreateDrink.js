@@ -182,7 +182,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                     <textarea name="footnotes" value={inputs.footnotes || ""} onChange={handleFormChange} />
                 </div>
                 <div className="create-drink-row">
-                    <button onClick={drinkID === null ? createDrink(false):updateDrink}>{drinkID === null ? 'Add New Drink':'Update Drink'}</button>
+                    <button onClick={()=>{drinkID === null ? createDrink(false):updateDrink()}}>{drinkID === null ? 'Add New Drink':'Update Drink'}</button>
                 </div>
             </div>
         </div>

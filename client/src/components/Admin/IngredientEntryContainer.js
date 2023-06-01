@@ -18,7 +18,7 @@ const IngredientEntryContainer = ({inputs, setInputs}) => {
 
     return (
         <div>
-            {ingredients.map((tag, index) => {
+            {ingredients.map((ingredient, index) => {
                 return <IngredientEntry index={index} ingredients={ingredients} setIngredients={updateAllIngredients}/>
             })}
             <FaPlus onClick={() => {setIngredients([...ingredients, {}])}}/>
