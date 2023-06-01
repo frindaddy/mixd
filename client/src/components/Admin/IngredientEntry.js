@@ -1,10 +1,14 @@
-import React, { useState } from "react"
+import React, {useEffect, useState} from "react"
 import {FaMinus} from "react-icons/fa";
-
-const categories = ['Spirit', 'Style','Taste', 'Mix', 'Color', 'Season', 'Temp', 'Misc'];
 
 const IngredientEntry = ({index, ingredients, setIngredients}) => {
     const [ingredient, setIngredient] = useState({});
+
+    useEffect(() => {
+        if(ingredients[index].unit && ingredients[index].ingredient){
+            setIngredient({amount: ingredients[index].amount, unit: ingredients[index].unit, ingredient: ingredients[index].ingredient})
+        }
+    }, [index, ingredients]);
 
     function handleFormChange(e) {
         let new_ingredient = {...ingredient, [e.target.name]:e.target.value};

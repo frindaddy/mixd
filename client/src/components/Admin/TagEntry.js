@@ -10,7 +10,7 @@ const TagEntry = ({index, tags, setTags}) => {
         if(tags[index].category && tags[index].value){
             setTag({category: tags[index].category, value: tags[index].value})
         }
-    });
+    }, [index, tags]);
 
     function handleFormChange(e) {
         let new_tag = {...tag, [e.target.name]:e.target.value};

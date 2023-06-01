@@ -1,9 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {FaPlus} from "react-icons/fa";
 import IngredientEntry from "./IngredientEntry";
-const IngredientEntryContainer = ({setInputs}) => {
+const IngredientEntryContainer = ({inputs, setInputs}) => {
 
     const [ingredients, setIngredients] = useState([{}]);
+
+    useEffect(() => {
+        if(inputs.ingredients){
+            setIngredients(inputs.ingredients);
+        }
+    }, [inputs]);
 
     const updateAllIngredients = (new_ingr) => {
         setIngredients(new_ingr);

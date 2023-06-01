@@ -158,7 +158,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                         })}
                     </select>
                 </div>
-                <IngredientEntryContainer setInputs={setInputs}/>
+                <IngredientEntryContainer inputs={inputs}  setInputs={setInputs}/>
                 <div className="create-drink-row">
                     <p>Garnish:</p>
                     <input type="text" name="garnish" placeholder="a maraschino cherry" value={inputs.garnish || ""} onChange={handleFormChange} />

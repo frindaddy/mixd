@@ -9,7 +9,7 @@ const TagEntryContainer = ({inputs, setInputs}) => {
         if(inputs.tags){
             setTags(inputs.tags);
         }
-    });
+    }, [inputs]);
 
     const updateAllTags = (new_tags) => {
         setTags(new_tags);
