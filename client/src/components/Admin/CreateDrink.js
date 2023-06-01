@@ -98,14 +98,24 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
             setCurrentPage('drinkList');
         }
     }
-
-    const updateDrink = async () => {
-
+    async function deleteDrink(sameImage, drinkID) {
+        axios.delete('api/drink/'+drinkID+(sameImage ? '?saveImg=true':''))
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data[0]);
+                }
+            }).catch((err) => console.log(err));
     }
 
-    const createDrink = async () => {
+    const updateDrink = async () => {
+        let sameImage = !selectedImage;
+        await deleteDrink(sameImage, drinkID);
+        await createDrink(sameImage);
+    }
+
+    const createDrink = async (sameImage) => {
         let uuid = imageUUID;
-        if (!imageUUID){
+        if (!imageUUID && !sameImage){
             uuid = await uploadImage();
             setImageUUID(uuid);
         }
@@ -172,7 +182,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                     <textarea name="footnotes" value={inputs.footnotes || ""} onChange={handleFormChange} />
                 </div>
                 <div className="create-drink-row">
-                    <button onClick={drinkID === null ? createDrink:updateDrink}>{drinkID === null ? 'Add New Drink':'Update Drink'}</button>
+                    <button onClick={drinkID === null ? createDrink(false):updateDrink}>{drinkID === null ? 'Add New Drink':'Update Drink'}</button>
                 </div>
             </div>
         </div>
