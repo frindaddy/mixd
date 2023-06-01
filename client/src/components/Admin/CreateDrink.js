@@ -146,7 +146,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
             </nav>
 
             <div style={{flexDirection: "column", width: "100%"}}>
-                <h1>{drinkID === null ? 'Add New Drink':'Update Existing Drink'}</h1>
+                <h1 className="create-drink-row">{drinkID === null ? 'Add New Drink':'Update Existing Drink'}</h1>
                 {errorMsg && <p>{"ERROR: "+errorMsg}</p>}
                 <div className="create-drink-image">
                     <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
