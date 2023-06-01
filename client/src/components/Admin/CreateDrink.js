@@ -151,9 +151,9 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                 <div className="create-drink-row">
                     <p>Glass:</p>
                     <select name="glass" onChange={handleFormChange}>
-                        <option value='no_drink' disabled={true} selected={true}>No Glass</option>
+                        <option value='no_drink' disabled={true} selected={!inputs.glass}>No Glass</option>
                         {GlassTypes.map((glass)=> {
-                            return <option value={glass.name}>{glass.displayName}</option>
+                            return <option value={glass.name} selected={inputs.glass===glass.name}>{glass.displayName}</option>
                         })}
                     </select>
                 </div>
