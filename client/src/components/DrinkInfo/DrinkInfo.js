@@ -31,7 +31,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                     </div>
                 </div>
                 <div className="info-column">
-                    <div className="text">
+                    <div className="info-text">
                         <div className="info-title">{drink.name}</div>
                         {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste'])}/>}
                         {drink.abv && <p className="abv">{drink.abv}% ABV</p>}
