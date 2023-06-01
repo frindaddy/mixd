@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import DrinkEntry from "./DrinkEntry";
 import AddDrinkEntry from "../Admin/AddDrinkEntry";
+import DotColor from "../DotColor";
 const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
 
     const [drinkList, setDrinkList] = useState([{name:"No Drink"}]);
@@ -33,7 +34,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
         <div className='DrinkList'>
             <header>
                 <div>
-                    <div className="logo" onClick={()=>{setAdminMode(!adminMode)}}>mixd.</div>
+                    <div className="logo" onClick={()=>{setAdminMode(!adminMode)}}>mixd<DotColor /></div>
                 </div>
             </header>
 
