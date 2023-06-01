@@ -1,12 +1,17 @@
 import React from "react"
 import DrinkTags, {filterTags} from "../DrinkTags";
-import {FaTrash} from "react-icons/fa";
+import {FaTrash, FaWrench} from "react-icons/fa";
 import axios from "axios";
 
 const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList}) => {
 
     const setDrinkPage = () => {
         setCurrentPage("drinkInfo");
+        setCurrentDrink(drink._id);
+    };
+
+    const setUpdateDrinkPage = () => {
+        setCurrentPage("updateDrink");
         setCurrentDrink(drink._id);
     };
 
@@ -33,6 +38,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList}) => {
 
             <div className="entry-column">
                 <div className="remove-drink">
+                    <FaWrench onClick={()=>{setUpdateDrinkPage()}} style={{cursor: "pointer", paddingRight:'8px'}}/>
                     <FaTrash onClick={()=>{removeDrink()}} style={{cursor: "pointer"}}/>
                 </div>
                 <div>
