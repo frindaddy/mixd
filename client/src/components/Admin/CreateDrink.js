@@ -158,7 +158,10 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                     <p>Name:</p>
                     <input type="text" name="name" placeholder="Manhattan" value={inputs.name || ""} onChange={handleFormChange} />
                 </div>
-                <TagEntryContainer inputs={inputs} setInputs={setInputs}/>
+                <p style={{display: "flex", justifyContent: "center", marginBottom: "-15px"}}>Tags:</p>
+                <div className="create-drink-row">
+                    <TagEntryContainer inputs={inputs} setInputs={setInputs}/>
+                </div>
                 <div className="create-drink-row">
                     <p>ABV: </p>
                     <input type="text" name="abv" placeholder="0.0" value={inputs.abv || ""} onChange={handleFormChange} />
@@ -172,7 +175,10 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                         })}
                     </select>
                 </div>
-                <IngredientEntryContainer inputs={inputs}  setInputs={setInputs}/>
+                <p style={{display: "flex", justifyContent: "center", marginBottom: "-15px"}}>ingredients:</p>
+                <div className="create-drink-row">
+                    <IngredientEntryContainer inputs={inputs}  setInputs={setInputs}/>
+                </div>
                 <div className="create-drink-row">
                     <p>Garnish:</p>
                     <input type="text" name="garnish" placeholder="a maraschino cherry" value={inputs.garnish || ""} onChange={handleFormChange} />

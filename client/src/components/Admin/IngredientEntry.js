@@ -20,9 +20,9 @@ const IngredientEntry = ({index, ingredients, setIngredients}) => {
 
     return (
         <div>
-            <input type='text' placeholder='1' onChange={handleFormChange} value={ingredient.amount||""} name='amount'/>
-            <input type='text' placeholder='oz' onChange={handleFormChange} value={ingredient.unit||""} name='unit'/>
-            <input type='text' placeholder='Gin' onChange={handleFormChange} value={ingredient.ingredient||""} name='ingredient'/>
+            <input type='text' placeholder='2' size='10' onChange={handleFormChange} value={ingredient.amount||""} name='amount'/>
+            <input type='text' placeholder='oz' size='10' onChange={handleFormChange} value={ingredient.unit||""} name='unit'/>
+            <input type='text' placeholder='Rye' size='10' onChange={handleFormChange} value={ingredient.ingredient||""} name='ingredient'/>
             {(index === ingredients.length - 1) && <FaMinus onClick={() =>{setIngredients(ingredients.slice(0, -1))}}/>}
         </div>
     )
