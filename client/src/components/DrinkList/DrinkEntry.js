@@ -3,7 +3,7 @@ import DrinkTags, {filterTags} from "../DrinkTags";
 import {FaTrash, FaWrench} from "react-icons/fa";
 import axios from "axios";
 
-const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList}) => {
+const DrinkEntry = ({admin, drink, setCurrentPage, setCurrentDrink, getDrinkList}) => {
 
     const setDrinkPage = () => {
         setCurrentPage("drinkInfo");
@@ -37,10 +37,10 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList}) => {
             </a>
 
             <div className="entry-column">
-                <div className="remove-drink">
+                {admin && <div className="remove-drink">
                     <FaWrench onClick={()=>{setUpdateDrinkPage()}} style={{cursor: "pointer", paddingRight:'8px'}}/>
                     <FaTrash onClick={()=>{removeDrink()}} style={{cursor: "pointer"}}/>
-                </div>
+                </div>}
                 <div>
                     <a href={"#drink"}><p className="entry-title" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>{drink.name}</p></a>
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['spirit', 'style', 'taste'])}/>}

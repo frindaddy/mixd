@@ -5,6 +5,7 @@ import AddDrinkEntry from "../Admin/AddDrinkEntry";
 const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
 
     const [drinkList, setDrinkList] = useState([{name:"No Drink"}]);
+    const [adminMode, setAdminMode] = useState(false);
 
     const getDrinkList = () => {
         axios.get('./api/list')
@@ -32,13 +33,13 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
         <div className='DrinkList'>
             <header>
                 <div>
-                    <div className="logo">mixd.</div>
+                    <div className="logo" onClick={()=>{setAdminMode(!adminMode)}}>mixd.</div>
                 </div>
             </header>
 
-            <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>
+            {adminMode && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
             {drinkList.map((drink) => {
-                return <DrinkEntry drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList}/>
+                return <DrinkEntry admin={adminMode} drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList}/>
             })}
         </div>
         </>
