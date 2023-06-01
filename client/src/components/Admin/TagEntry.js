@@ -1,10 +1,16 @@
-import React, { useState } from "react"
+import React, {useEffect, useState} from "react"
 import {FaMinus} from "react-icons/fa";
 
 const categories = ['Spirit', 'Style','Taste', 'Mix', 'Color', 'Season', 'Temp', 'Misc'];
 
 const TagEntry = ({index, tags, setTags}) => {
     const [tag, setTag] = useState({});
+
+    useEffect(() => {
+        if(tags[index].category && tags[index].value){
+            setTag({category: tags[index].category, value: tags[index].value})
+        }
+    });
 
     function handleFormChange(e) {
         let new_tag = {...tag, [e.target.name]:e.target.value};
@@ -17,9 +23,9 @@ const TagEntry = ({index, tags, setTags}) => {
     return (
         <div>
             <select name="category" onChange={handleFormChange}>
-                <option value='no_cat' disabled={true} selected={true}>Category</option>
+                <option value='no_cat' disabled={true} selected={!tag.category}>Category</option>
                 {categories.map((cat)=>{
-                    return <option value={cat.toLowerCase()}>{cat}</option>
+                    return <option selected={cat.toLowerCase()===tag.category} value={cat.toLowerCase()}>{cat}</option>
                 })}
             </select>
             <input type='text' placeholder='Tag (ex: Gin)' onChange={handleFormChange} value={tag.value||""} name='value'/>

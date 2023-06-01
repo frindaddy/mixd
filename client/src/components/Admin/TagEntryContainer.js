@@ -1,9 +1,15 @@
 import React, {useEffect, useState} from "react";
 import TagEntry from "./TagEntry";
 import {FaPlus} from "react-icons/fa";
-const TagEntryContainer = ({setInputs}) => {
+const TagEntryContainer = ({inputs, setInputs}) => {
 
     const [tags, setTags] = useState([{}]);
+
+    useEffect(() => {
+        if(inputs.tags){
+            setTags(inputs.tags);
+        }
+    });
 
     const updateAllTags = (new_tags) => {
         setTags(new_tags);

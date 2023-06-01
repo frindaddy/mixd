@@ -144,7 +144,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                     <p>Name:</p>
                     <input type="text" name="name" placeholder="Manhattan" value={inputs.name || ""} onChange={handleFormChange} />
                 </div>
-                <TagEntryContainer setInputs={setInputs}/>
+                <TagEntryContainer inputs={inputs} setInputs={setInputs}/>
                 <div className="create-drink-row">
                     <p>ABV: </p>
                     <input type="text" name="abv" placeholder="0.0" value={inputs.abv || ""} onChange={handleFormChange} />
