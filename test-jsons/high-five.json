@@ -12,7 +12,7 @@
         {"value": "Cold", "category": "temp"}
     ],
     "abv": 19.0,
-    "glass": "Coupe",
+    "glass": "coupe",
     "ingredients": [
         {
             "amount": 1.5,
