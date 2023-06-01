@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes/api');
+const {resolve} = require("path");
 require('dotenv').config();
 
 const app = express();
@@ -18,6 +19,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+
+app.use(express.static(resolve(__dirname, '../client/build')));
 
 app.use('/api', routes);
 
