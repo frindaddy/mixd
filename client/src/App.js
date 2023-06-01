@@ -19,6 +19,9 @@ function App() {
                 case "#create":
                     setCurrentPage('createDrink');
                     break;
+                case "#update":
+                    setCurrentPage('updateDrink');
+                    break;
                 default:
                     setCurrentPage('drinkList');
                     break;
@@ -28,9 +31,11 @@ function App() {
 
     return (
     <div className="App">
+        <p>{currentPage}</p>
         {currentPage === "drinkList" && <DrinkList setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}/>}
         {currentPage === "drinkInfo" && <DrinkInfo drinkID={currentDrink} setCurrentPage={setCurrentPage}/>}
-        {currentPage === "createDrink" && <CreateDrink setCurrentPage={setCurrentPage}/>}
+        {currentPage === "createDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={null}/>}
+        {currentPage === "updateDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={currentDrink}/>}
         <footer>
             <p>©2023 by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
                 Powered by our pure genius.</p>

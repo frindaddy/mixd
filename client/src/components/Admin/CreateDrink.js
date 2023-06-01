@@ -1,16 +1,30 @@
-import React, { useState } from "react"
+import React, {useEffect, useState} from "react"
 import {FaChevronLeft} from "react-icons/fa";
 import axios from "axios";
 import GlassTypes from "./GlassTypes";
 import TagEntryContainer from "./TagEntryContainer";
 import IngredientEntryContainer from "./IngredientEntryContainer";
-const CreateDrink = ({setCurrentPage}) => {
+const CreateDrink = ({setCurrentPage, drinkID}) => {
     const noImageURL = './api/image?file=glassware/unknown.svg';
     const [imagePreviewURL, setImagePreviewURL] = useState(noImageURL);
     const [selectedImage, setSelectedImage] = useState(null);
     const [inputs, setInputs] = useState({});
     const [imageUUID, setImageUUID] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
+    //const [drink, setDrink] = useState({name:"High-Five"});
+
+    useEffect(() => {
+        if (drinkID){
+            axios.get('api/drink/'+drinkID)
+                .then((res) => {
+                    if (res.data) {
+                        setInputs(res.data[0]);
+                    }
+                }).catch((err) => console.log(err));
+        }
+
+    }, [drinkID]);
+
     const onImageSelected = (e) => {
         if(e.target.files){
             setImagePreviewURL(URL.createObjectURL(e.target.files[0]));
@@ -84,6 +98,10 @@ const CreateDrink = ({setCurrentPage}) => {
         }
     }
 
+    const updateDrink = async () => {
+
+    }
+
     const createDrink = async () => {
         let uuid = imageUUID;
         if (!imageUUID){
@@ -114,6 +132,7 @@ const CreateDrink = ({setCurrentPage}) => {
             </nav>
 
             <div style={{flexDirection: "column", width: "100%"}}>
+                <h1>{drinkID === null ? 'Add New Drink':'Update Existing Drink'}</h1>
                 {errorMsg && <p>{"ERROR: "+errorMsg}</p>}
                 <div className="create-drink-image">
                     <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
@@ -152,7 +171,7 @@ const CreateDrink = ({setCurrentPage}) => {
                     <textarea name="footnotes" value={inputs.footnotes || ""} onChange={handleFormChange} />
                 </div>
                 <div className="create-drink-row">
-                    <button onClick={createDrink}>Add New Drink</button>
+                    <button onClick={drinkID === null ? createDrink:updateDrink}>{drinkID === null ? 'Add New Drink':'Update Drink'}</button>
                 </div>
             </div>
         </div>
