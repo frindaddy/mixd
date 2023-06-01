@@ -10,15 +10,12 @@ const IngredientEntryContainer = ({setInputs}) => {
     }, [ingredients, setInputs]);
 
     return (
-        <>
-        <p style={{display: "flex", justifyContent: "center", margin: "0px"}}>Ingredients:</p>
-        <div style={{display: "flex", justifyContent: "center", marginTop: "5px"}}>
+        <div>
             {ingredients.map((tag, index) => {
                 return <IngredientEntry index={index} ingredients={ingredients} setIngredients={setIngredients}/>
             })}
             <FaPlus onClick={() => {setIngredients([...ingredients, {}])}}/>
         </div>
-        </>
     )
 }
 

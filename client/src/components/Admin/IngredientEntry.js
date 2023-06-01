@@ -19,7 +19,7 @@ const IngredientEntry = ({index, ingredients, setIngredients}) => {
             <input type='text' placeholder='1' onChange={handleFormChange} value={ingredient.amount||""} name='amount'/>
             <input type='text' placeholder='oz' onChange={handleFormChange} value={ingredient.unit||""} name='unit'/>
             <input type='text' placeholder='Gin' onChange={handleFormChange} value={ingredient.ingredient||""} name='ingredient'/>
-            {(index === ingredients.length - 1) && <FaMinus style={{marginLeft: "10px", marginRight: "10px", marginTop: "0px"}} onClick={() =>{setIngredients(ingredients.slice(0, -1))}}/>}
+            {(index === ingredients.length - 1) && <FaMinus onClick={() =>{setIngredients(ingredients.slice(0, -1))}}/>}
         </div>
     )
 }

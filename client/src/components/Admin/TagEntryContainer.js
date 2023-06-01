@@ -10,15 +10,12 @@ const TagEntryContainer = ({setInputs}) => {
     }, [tags, setInputs]);
 
     return (
-        <>
-        <p style={{display: "flex", justifyContent: "center", margin: "0px"}}>Tags:</p>
-        <div style={{display: "flex", justifyContent: "center", marginTop: "5px"}}>
+        <div>
             {tags.map((tag, index) => {
                 return <TagEntry index={index} tags={tags} setTags={setTags}/>
             })}
             <FaPlus onClick={() => {setTags([...tags, {}])}}/>
         </div>
-        </>
     )
 }
 
