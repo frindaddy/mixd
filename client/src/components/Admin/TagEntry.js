@@ -28,8 +28,9 @@ const TagEntry = ({index, tags, setTags}) => {
                     return <option selected={cat.toLowerCase()===tag.category} value={cat.toLowerCase()}>{cat}</option>
                 })}
             </select>
-            <input type='text' placeholder='Tag (ex: Gin)' onChange={handleFormChange} value={tag.value||""} name='value'/>
-            {(index === tags.length - 1) && <FaMinus onClick={() =>{setTags(tags.slice(0, -1))}}/>}
+            <input type='text' placeholder='Tag (ex: Rye)' onChange={handleFormChange} value={tag.value||""} name='value'/>
+            {(index === tags.length - 1) && <FaMinus style={{marginLeft: "5px"}}
+                onClick={() =>{setTags(tags.slice(0, -1))}}/>}
         </div>
     )
 }

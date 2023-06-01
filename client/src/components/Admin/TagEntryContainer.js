@@ -21,7 +21,9 @@ const TagEntryContainer = ({inputs, setInputs}) => {
             {tags.map((tag, index) => {
                 return <TagEntry index={index} tags={tags} setTags={updateAllTags}/>
             })}
-            <FaPlus onClick={() => {setTags([...tags, {}])}}/>
+            <div style={{display: "flex", justifyContent: "center", marginTop: "5px"}}>
+                <FaPlus onClick={() => {setTags([...tags, {}])}}/>
+            </div>
         </div>
     )
 }
