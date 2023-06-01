@@ -79,7 +79,10 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
 
         drink.tags = tags;
         drink.ingredients = ingredients;
-        drink.abv = parseFloat((drink.abv||"").replace(",", "."));
+        if (typeof drink.abv === "string"){
+            drink.abv = parseFloat((drink.abv||"").replace(",", "."));
+        }
+        
         return drink;
     }
 
