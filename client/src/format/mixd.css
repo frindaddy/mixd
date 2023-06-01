@@ -285,6 +285,10 @@ footer {
     margin-bottom: 20px;
 }
 
+.create-drink-image > input {
+    margin-left: 166px;
+}
+
 .add-new-drink > div > p {
     display: flex;
     justify-content: center;
