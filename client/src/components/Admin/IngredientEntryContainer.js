@@ -5,14 +5,15 @@ const IngredientEntryContainer = ({setInputs}) => {
 
     const [ingredients, setIngredients] = useState([{}]);
 
-    useEffect(()=> {
-        setInputs(values => ({...values, ingredients: ingredients}));
-    }, [ingredients, setInputs]);
+    const updateAllIngredients = (new_ingr) => {
+        setIngredients(new_ingr);
+        setInputs(values => ({...values, ingredients: new_ingr}));
+    }
 
     return (
         <div>
             {ingredients.map((tag, index) => {
-                return <IngredientEntry index={index} ingredients={ingredients} setIngredients={setIngredients}/>
+                return <IngredientEntry index={index} ingredients={ingredients} setIngredients={updateAllIngredients}/>
             })}
             <FaPlus onClick={() => {setIngredients([...ingredients, {}])}}/>
         </div>

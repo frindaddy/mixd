@@ -5,14 +5,15 @@ const TagEntryContainer = ({setInputs}) => {
 
     const [tags, setTags] = useState([{}]);
 
-    useEffect(()=> {
-        setInputs(values => ({...values, tags: tags}));
-    }, [tags, setInputs]);
+    const updateAllTags = (new_tags) => {
+        setTags(new_tags);
+        setInputs(values => ({...values, tags: new_tags}));
+    }
 
     return (
         <div>
             {tags.map((tag, index) => {
-                return <TagEntry index={index} tags={tags} setTags={setTags}/>
+                return <TagEntry index={index} tags={tags} setTags={updateAllTags}/>
             })}
             <FaPlus onClick={() => {setTags([...tags, {}])}}/>
         </div>
