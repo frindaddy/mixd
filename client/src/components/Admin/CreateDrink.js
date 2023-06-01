@@ -175,7 +175,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                         })}
                     </select>
                 </div>
-                <p style={{display: "flex", justifyContent: "center", marginBottom: "-15px"}}>ingredients:</p>
+                <p style={{display: "flex", justifyContent: "center", marginBottom: "-15px"}}>Ingredients:</p>
                 <div className="create-drink-row">
                     <IngredientEntryContainer inputs={inputs}  setInputs={setInputs}/>
                 </div>
