@@ -27,7 +27,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
     }, [drinkID]);
 
     const onImageSelected = (e) => {
-        if(e.target.files){
+        if(e.target.files && e.target.files[0]){
             setImagePreviewURL(URL.createObjectURL(e.target.files[0]));
             setSelectedImage(e.target.files[0]);
         } else {
