@@ -61,19 +61,24 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
     const parseDrink = (drink) => {
         let tags = [];
         let ingredients = [];
-        drink.tags.map((tag) => {
-            if(tag.category && tag.value){
-                tags = [...tags, tag];
-            }
-        });
-        drink.ingredients.map((ingredient) => {
-            if(ingredient.unit && ingredient.ingredient){
-                if (typeof ingredient.amount === "string"){
-                    ingredient.amount = parseFloat(ingredient.amount.replace(",", "."));
+        if (drink.tags) {
+            drink.tags.map((tag) => {
+                if(tag.category && tag.value){
+                    tags = [...tags, tag];
                 }
-                ingredients = [...ingredients, ingredient];
-            }
-        });
+            });
+        }
+        if (drink.ingredients) {
+            drink.ingredients.map((ingredient) => {
+                if(ingredient.unit && ingredient.ingredient){
+                    if (typeof ingredient.amount === "string"){
+                        ingredient.amount = parseFloat(ingredient.amount.replace(",", "."));
+                    }
+                    ingredients = [...ingredients, ingredient];
+                }
+            });
+        }
+
         drink.tags = tags;
         drink.ingredients = ingredients;
         drink.abv = parseFloat((drink.abv||"").replace(",", "."));
