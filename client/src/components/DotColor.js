@@ -11,9 +11,8 @@ const DotColor = () => {
     }, [color]);
 
     return (
-        <p style={{color: color}}>.</p>
+        <div style={{WebkitTextStrokeColor: color, marginLeft: "-5px"}}>.</div>
     )
-
 }
 
 export default DotColor;
