@@ -11,7 +11,6 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
     const [inputs, setInputs] = useState({});
     const [imageUUID, setImageUUID] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
-    //const [drink, setDrink] = useState({name:"High-Five"});
 
     useEffect(() => {
         if (drinkID){
@@ -23,7 +22,6 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                     }
                 }).catch((err) => console.log(err));
         }
-
     }, [drinkID]);
 
     const onImageSelected = (e) => {
@@ -114,7 +112,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
 
     const updateDrink = async () => {
         let sameImage = !selectedImage;
-        await deleteDrink(sameImage, drinkID);
+        await deleteDrink(sameImage && imagePreviewURL !== noImageURL, drinkID);
         await createDrink(sameImage);
     }
 
@@ -152,6 +150,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                 {errorMsg && <p>{"ERROR: "+errorMsg}</p>}
                 <div className="create-drink-image">
                     <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
+                    {(drinkID !== null) && <p style={{cursor: "pointer"}} onClick={()=>{setImagePreviewURL(noImageURL)}}>Remove Image</p>}
                     <p>Drink Preview</p>
                     <input type="file" onChange={onImageSelected}/>
                 </div>
