@@ -165,6 +165,13 @@ body {
         margin-bottom: 2px;
         max-width: 1100px;
     }
+
+    .create-drink-title {
+        display: flex;
+        margin-top: 60px;
+        margin-bottom: 5px;
+        justify-content: center;
+    }
 }
 
 .image{
@@ -259,6 +266,12 @@ footer {
     justify-content: center;
 }
 
+.create-drink-title {
+    display: flex;
+    margin-bottom: 5px;
+    justify-content: center;
+}
+
 .create-drink-row > p {
     margin-top: 0;
     margin-bottom: 0;
@@ -269,5 +282,12 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 80px;
+    margin-bottom: 40px;
+}
+
+.add-new-drink > div > p {
+    display: flex;
+    justify-content: center;
+    margin-bottom: -15px;
+    margin-top: -5px;
 }

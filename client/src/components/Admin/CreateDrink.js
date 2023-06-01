@@ -137,7 +137,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
     }
 
     return (
-        <div className='DrinkInfo'>
+        <div className='add-new-drink'>
             <nav>
                 <div className="nav-container">
                     <a href="/" className="back" onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/></a>
@@ -146,28 +146,28 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
             </nav>
 
             <div style={{flexDirection: "column", width: "100%"}}>
-                <h1 className="create-drink-row">{drinkID === null ? 'Add New Drink':'Update Existing Drink'}</h1>
+                <h1 className="create-drink-title">{drinkID === null ? 'Add New Drink':'Update Existing Drink'}</h1>
                 {errorMsg && <p>{"ERROR: "+errorMsg}</p>}
                 <div className="create-drink-image">
                     <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
                     {(drinkID !== null) && <p style={{cursor: "pointer"}} onClick={()=>{setImagePreviewURL(noImageURL)}}>Remove Image</p>}
                     <p>Drink Preview</p>
-                    <input type="file" onChange={onImageSelected}/>
+                    <input type="file" style={{marginLeft: "23%"}} onChange={onImageSelected}/>
                 </div>
+                <p>Name:</p>
                 <div className="create-drink-row">
-                    <p>Name:</p>
                     <input type="text" name="name" placeholder="Manhattan" value={inputs.name || ""} onChange={handleFormChange} />
                 </div>
-                <p style={{display: "flex", justifyContent: "center", marginBottom: "-15px"}}>Tags:</p>
+                <p>Tags:</p>
                 <div className="create-drink-row">
                     <TagEntryContainer inputs={inputs} setInputs={setInputs}/>
                 </div>
+                <p>ABV:</p>
                 <div className="create-drink-row">
-                    <p>ABV: </p>
                     <input type="text" name="abv" placeholder="0.0" value={inputs.abv || ""} onChange={handleFormChange} />
                 </div>
+                <p>Glass:</p>
                 <div className="create-drink-row">
-                    <p>Glass:</p>
                     <select name="glass" onChange={handleFormChange}>
                         <option value='no_drink' disabled={true} selected={!inputs.glass}>No Glass</option>
                         {GlassTypes.map((glass)=> {
@@ -175,21 +175,21 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                         })}
                     </select>
                 </div>
-                <p style={{display: "flex", justifyContent: "center", marginBottom: "-15px"}}>Ingredients:</p>
+                <p>Ingredients:</p>
                 <div className="create-drink-row">
                     <IngredientEntryContainer inputs={inputs}  setInputs={setInputs}/>
                 </div>
+                <p>Garnish:</p>
                 <div className="create-drink-row">
-                    <p>Garnish:</p>
                     <input type="text" name="garnish" placeholder="a maraschino cherry" value={inputs.garnish || ""} onChange={handleFormChange} />
                 </div>
+                <p>Description:</p>
                 <div className="create-drink-row">
-                    <p>Description:</p>
-                    <textarea name="description" value={inputs.description || ""} onChange={handleFormChange} />
+                    <textarea name="description" rows="6" cols="45" value={inputs.description || ""} onChange={handleFormChange} />
                 </div>
+                <p>Footnotes:</p>
                 <div className="create-drink-row">
-                    <p>Footnotes:</p>
-                    <textarea name="footnotes" value={inputs.footnotes || ""} onChange={handleFormChange} />
+                    <textarea name="footnotes" rows="3" cols="45" value={inputs.footnotes || ""} onChange={handleFormChange} />
                 </div>
                 <div className="create-drink-row">
                     <button onClick={()=>{drinkID === null ? createDrink(false):updateDrink()}}>{drinkID === null ? 'Add New Drink':'Update Drink'}</button>
