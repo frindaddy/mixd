@@ -155,7 +155,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                     <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
                     {(drinkID !== null) && <p style={{cursor: "pointer"}} onClick={()=>{setImagePreviewURL(noImageURL)}}>Remove Image</p>}
                     <p>Drink Preview</p>
-                    <input type="file" style={{}} onChange={onImageSelected}/>
+                    <input type="file" onChange={onImageSelected}/>
                 </div>
                 <p>Name:</p>
                 <div className="create-drink-row">
