@@ -31,7 +31,6 @@ function App() {
 
     return (
     <div className="App">
-        <p>{currentPage}</p>
         {currentPage === "drinkList" && <DrinkList setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}/>}
         {currentPage === "drinkInfo" && <DrinkInfo drinkID={currentDrink} setCurrentPage={setCurrentPage}/>}
         {currentPage === "createDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={null}/>}
