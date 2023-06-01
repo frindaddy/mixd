@@ -106,9 +106,14 @@ router.post('/update_drink/:id', (req, res, next) => {
 
 router.delete('/drink/:id', (req, res, next) => {
     Drinks.findOneAndDelete({ _id: req.params.id })
-        .then((data) => res.json(data))
+        .then((data) => {
+            let drinkImage = process.env.IMAGE_DIR+'user_drinks/'+data.image+'.jpg'
+            if (!req.query.saveImg && fs.existsSync(drinkImage)){
+               fs.unlink(drinkImage, (e)=>{e && console.error(e)});
+            }
+            return res.json(data);
+        })
         .catch(next);
-    //TODO: remove image
 });
 
 module.exports = router;
