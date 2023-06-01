@@ -17,6 +17,16 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
             }).catch((err) => console.log(err));
     }
 
+    const toggleAdminMode = () => {
+        if (adminMode) {
+            setAdminMode(false);
+        } else {
+            const adminPassword = prompt('Enter Admin Password');
+            setAdminMode(adminPassword === 'ADMIN');
+        }
+
+    }
+
     useEffect(() => {
         getDrinkList();
     }, []);
@@ -34,7 +44,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
         <div className='DrinkList'>
             <header>
                 <div>
-                    <div className="logo" onClick={()=>{setAdminMode(!adminMode)}}>mixd<DotColor /></div>
+                    <div className="logo" onClick={toggleAdminMode}>mixd<DotColor /></div>
                 </div>
             </header>
 
