@@ -24,7 +24,6 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
             const adminPassword = prompt('Enter Admin Password');
             setAdminMode(adminPassword === 'ADMIN');
         }
-
     }
 
     useEffect(() => {
