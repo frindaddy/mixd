@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes/api');
 const {resolve} = require("path");
+const path = require("path");
 require('dotenv').config();
 
 const app = express();
@@ -20,7 +21,10 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-app.use(express.static(resolve(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, './client/build')));
+app.get('/', (req,res) => {
+    res.sendFile(path.join(__dirname, './client/build/index.html'));
+});
 
 app.use('/api', routes);
 
