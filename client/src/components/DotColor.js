@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 
 const DotColor = () => {
 
-    const pickColor = () => {
-        var i = Math.floor(Math.random() * 5);
-        var colors = ["#7856a1", "#5096ab", "#d6a038", "#6f8548", "#d66d2a"];
-        return colors[i];
-    };
+    const [color, setColor] = useState('#FFFFFF');
+
+    useEffect(() => {
+        let i = Math.floor(Math.random() * 5);
+        let colors = ["#7856a1", "#5096ab", "#d6a038", "#6f8548", "#d66d2a"];
+        setColor(colors[i]);
+    }, [color]);
 
     return (
-        <p style={{color: {pickColor}}}>.</p>
+        <p style={{color: color}}>.</p>
     )
 
 }
