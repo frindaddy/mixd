@@ -19,6 +19,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                 .then((res) => {
                     if (res.data) {
                         setInputs(res.data[0]);
+                        setImagePreviewURL('./api/image?file=user_drinks/'+res.data[0].image+'.jpg&backup=glassware/unknown.svg');
                     }
                 }).catch((err) => console.log(err));
         }
