@@ -171,6 +171,8 @@ body {
         margin-top: 60px;
         margin-bottom: 5px;
         justify-content: center;
+        font-family: Roboto;
+        font-weight: 300;
     }
 }
 
@@ -285,9 +287,18 @@ footer {
     margin-bottom: 20px;
 }
 
+.create-drink-image > input {
+    margin-left: 166px;
+}
+
 .add-new-drink > div > p {
     display: flex;
     justify-content: center;
     margin-bottom: -15px;
     margin-top: -5px;
+}
+
+.create-drink-title {
+    font-family: Roboto;
+    font-weight: 300;
 }
