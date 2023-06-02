@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const DotColor = () => {
+const DotColor = ({toggleAdminMode}) => {
 
     const [color, setColor] = useState('#FFFFFF');
 
@@ -11,7 +11,7 @@ const DotColor = () => {
     }, [color]);
 
     return (
-        <div style={{WebkitTextStrokeColor: color, marginLeft: "-5px"}}>.</div>
+        <div onClick={toggleAdminMode} style={{WebkitTextStrokeColor: color, marginLeft: "-5px"}}>.</div>
     )
 }
 

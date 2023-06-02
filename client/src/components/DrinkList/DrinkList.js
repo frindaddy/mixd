@@ -43,7 +43,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
         <div className='DrinkList'>
             <header>
                 <div>
-                    <div className="logo" onClick={toggleAdminMode}>mixd<DotColor /></div>
+                    <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>
                 </div>
             </header>
 
