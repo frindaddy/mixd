@@ -5,6 +5,7 @@ const GlassTypes = [
     {name: 'flute', displayName: 'Champagne Flute'},
     {name: 'margarita', displayName: 'Margarita'},
     {name: 'martini', displayName: 'Martini'},
+    {name: 'nickandnora', displayName: 'Nick & Nora'},
     {name: 'pilsner', displayName: 'Pilsner'},
     {name: 'pitcher', displayName: 'Pitcher'},
     {name: 'rocks', displayName: 'Rocks'},
