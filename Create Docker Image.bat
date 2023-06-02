@@ -1,2 +1,2 @@
-docker build . -t sidezbros/mixd
+docker build . -t frindaddy/mixd
 PAUSE
