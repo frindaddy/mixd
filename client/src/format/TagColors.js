@@ -5,7 +5,7 @@ const TagColors = {
     tequila: "#6f8548",
     mezcal: "#6f8548",
     whiskey: "#d66d2a",
-    boubon: "#d66d2a",
+    bourbon: "#d66d2a",
     rye: "#d66d2a",
     aperol: "#ff3c00f3",
     champagne: "#c18d51",
