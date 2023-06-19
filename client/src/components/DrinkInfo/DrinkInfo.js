@@ -5,12 +5,17 @@ import DrinkTags, {filterTags} from "../DrinkTags";
 const DrinkInfo = ({drinkID, setCurrentPage}) => {
 
     const [drink, setDrink] = useState({name:"No Drink"});
+    const [drinkLoaded, setDrinkLoaded] = useState(false);
+    const [drinkFailed, setDrinkFailed] = useState(false);
 
     useEffect(() => {
         axios.get('api/drink/'+drinkID)
             .then((res) => {
                 if (res.data) {
                     setDrink(res.data[0]);
+                    setDrinkLoaded(true);
+                } else {
+                    setDrinkFailed(true);
                 }
             }).catch((err) => console.log(err));
     }, [drinkID]);
@@ -24,7 +29,8 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                 </div>
             </nav>
 
-            <div className="info-row">
+            {drinkFailed && <p style={{textAlign: "center"}}>Error: Failed to Get Drink Information</p>}
+            {drinkLoaded && <div className="info-row">
                 <div className="info-column">
                     <div className="image">
                         <img src={'./api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
@@ -49,7 +55,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                         {drink.footnotes && <p className="footnote">{drink.footnotes}</p>}
                     </div>
                 </div>
-            </div>
+            </div> }
         </div>
     )
 }
