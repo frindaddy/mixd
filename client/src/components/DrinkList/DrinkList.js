@@ -5,7 +5,7 @@ import AddDrinkEntry from "../Admin/AddDrinkEntry";
 import DotColor from "../DotColor";
 const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
 
-    const [drinkList, setDrinkList] = useState([{name:"No Drink"}]);
+    const [drinkList, setDrinkList] = useState([{name:"Loading Drinks..."}]);
     const [adminMode, setAdminMode] = useState(false);
 
     const getDrinkList = () => {
