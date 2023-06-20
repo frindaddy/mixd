@@ -8,6 +8,24 @@ const router = express.Router();
 const Drinks = require('../models/drinks');
 const packVars = require('../package.json');
 
+const ADMIN_PASS = process.env.ADMIN_PASS || 'ADMIN';
+
+const adminKey = uuid();
+
+const verifyRequest = (req, res, next) => {
+    if (req.headers.authorization) {
+        let bearerToken = req.headers.authorization.split(' ')[1];
+        if(bearerToken === adminKey){
+            req.token = bearerToken;
+            next();
+        } else {
+            res.sendStatus(403);
+        }
+    } else {
+        res.sendStatus(403);
+    }
+}
+
 const imageStorage = multer.diskStorage(
     {
         destination: function ( req, file, cb ) {
@@ -32,6 +50,14 @@ router.get('/app-info', (req, res, next) => {
         version: packVars.version,
         description: packVars.description
     });
+});
+
+router.post('/admin_login', (req, res, next) => {
+    if (req.body.password === ADMIN_PASS) {
+        res.json({adminKey: adminKey});
+    } else {
+        res.json({error: 'Incorrect Password'});
+    }
 });
 
 router.get('/drink/:id', (req, res, next) => {
@@ -73,7 +99,7 @@ const compressDrinkImg = async(req, imageUUID) =>{
     await fs.unlink(uploadFile, ()=>{});
 }
 
-router.post('/image', async (req, res, next) => {
+router.post('/image', verifyRequest, async (req, res, next) => {
     uploadImage(req, res, (err) => {
         if (err) {
             return res.send({ error: err });
@@ -88,7 +114,7 @@ router.post('/image', async (req, res, next) => {
     });
 });
 
-router.post('/add_drink', (req, res, next) => {
+router.post('/add_drink', verifyRequest, (req, res, next) => {
     if (req.body.name) {
         Drinks.create(req.body)
             .then((data) => res.json(data))
@@ -100,7 +126,7 @@ router.post('/add_drink', (req, res, next) => {
     }
 });
 
-router.post('/update_drink/:id', (req, res, next) => {
+router.post('/update_drink/:id', verifyRequest, (req, res, next) => {
     if (req.params.id && req.body) {
         console.log(req.body);
         Drinks.updateOne({_id: req.params.id}, req.body)
@@ -113,7 +139,7 @@ router.post('/update_drink/:id', (req, res, next) => {
     }
 });
 
-router.delete('/drink/:id', (req, res, next) => {
+router.delete('/drink/:id', verifyRequest, (req, res, next) => {
     Drinks.findOneAndDelete({ _id: req.params.id })
         .then((data) => {
             let drinkImage = process.env.IMAGE_DIR+'user_drinks/'+data.image+'.jpg'

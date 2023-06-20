@@ -3,10 +3,9 @@ import axios from 'axios';
 import DrinkEntry from "./DrinkEntry";
 import AddDrinkEntry from "../Admin/AddDrinkEntry";
 import DotColor from "../DotColor";
-const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
+const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => {
 
     const [drinkList, setDrinkList] = useState([{name:"Loading Drinks..."}]);
-    const [adminMode, setAdminMode] = useState(false);
 
     const getDrinkList = () => {
         axios.get('./api/list')
@@ -17,12 +16,16 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
             }).catch((err) => console.log(err));
     }
 
-    const toggleAdminMode = () => {
-        if (adminMode) {
-            setAdminMode(false);
+    const toggleAdminMode = async () => {
+        if (adminKey) {
+            setAdminKey(null);
         } else {
             const adminPassword = prompt('Enter Admin Password');
-            setAdminMode(adminPassword === 'ADMIN');
+            const {data} = await axios.post('./api/admin_login',
+                {password: adminPassword},
+                {headers: {'Content-Type': 'application/json'}}
+            );
+            setAdminKey(data.adminKey);
         }
     }
 
@@ -46,10 +49,9 @@ const DrinkList = ({setCurrentPage, setCurrentDrink}) => {
                     <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>
                 </div>
             </header>
-
-            {adminMode && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
+            {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
             {drinkList.map((drink) => {
-                return <DrinkEntry admin={adminMode} drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList}/>
+                return <DrinkEntry admin={adminKey} drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
             })}
         </div>
         </>

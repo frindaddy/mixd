@@ -3,7 +3,7 @@ import DrinkTags, {filterTags} from "../DrinkTags";
 import {FaTrash, FaWrench} from "react-icons/fa";
 import axios from "axios";
 
-const DrinkEntry = ({admin, drink, setCurrentPage, setCurrentDrink, getDrinkList}) => {
+const DrinkEntry = ({admin, drink, setCurrentPage, setCurrentDrink, getDrinkList, adminKey}) => {
 
     const setDrinkPage = () => {
         setCurrentPage("drinkInfo");
@@ -16,7 +16,7 @@ const DrinkEntry = ({admin, drink, setCurrentPage, setCurrentDrink, getDrinkList
     };
 
     const removeDrink = () => {
-        axios.delete('api/drink/'+drink._id)
+        axios.delete('api/drink/'+drink._id, {headers:{Authorization: `Bearer ${adminKey}`}})
             .then((res) => {
                 if (res.data) {
                     getDrinkList();

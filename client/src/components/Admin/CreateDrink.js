@@ -4,7 +4,7 @@ import axios from "axios";
 import GlassTypes from "./GlassTypes";
 import TagEntryContainer from "./TagEntryContainer";
 import IngredientEntryContainer from "./IngredientEntryContainer";
-const CreateDrink = ({setCurrentPage, drinkID}) => {
+const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
     const noImageURL = './api/image?file=glassware/unknown.svg';
     const [imagePreviewURL, setImagePreviewURL] = useState(noImageURL);
     const [selectedImage, setSelectedImage] = useState(null);
@@ -40,6 +40,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
                 drinkImage: selectedImage
             }, {
                 headers: {
+                    Authorization: `Bearer ${adminKey}`,
                     'Content-Type': 'multipart/form-data'
                 }
             }
@@ -94,6 +95,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
     async function postDrink(drink) {
         const response = await axios.post('./api/add_drink', drink, {
                 headers: {
+                    Authorization: `Bearer ${adminKey}`,
                     'Content-Type': 'application/json'
                 }
             }
@@ -105,7 +107,7 @@ const CreateDrink = ({setCurrentPage, drinkID}) => {
         }
     }
     async function deleteDrink(sameImage, drinkID) {
-        axios.delete('api/drink/'+drinkID+(sameImage ? '?saveImg=true':''))
+        axios.delete('api/drink/'+drinkID+(sameImage ? '?saveImg=true':''), {headers:{Authorization: `Bearer ${adminKey}`}})
             .then((res) => {
                 if (res.data) {
                     console.log(res.data[0]);

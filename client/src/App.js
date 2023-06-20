@@ -11,6 +11,7 @@ function App() {
     const [appInfo, setAppInfo] = useState({});
     const [currentPage, setCurrentPage] = useState("drinkList");
     const [currentDrink, setCurrentDrink] = useState("");
+    const [adminKey, setAdminKey] = useState();
 
     useEffect(() => {
         window.addEventListener('hashchange', (hash)=>{
@@ -40,10 +41,10 @@ function App() {
 
     return (
     <div className="App">
-        {currentPage === "drinkList" && <DrinkList setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}/>}
+        {currentPage === "drinkList" && <DrinkList setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} adminKey={adminKey} setAdminKey={setAdminKey}/>}
         {currentPage === "drinkInfo" && <DrinkInfo drinkID={currentDrink} setCurrentPage={setCurrentPage}/>}
-        {currentPage === "createDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={null}/>}
-        {currentPage === "updateDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={currentDrink}/>}
+        {currentPage === "createDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={null} adminKey={adminKey}/>}
+        {currentPage === "updateDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={currentDrink} adminKey={adminKey}/>}
         <footer>
             <p>©2023 by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
                 Powered by our pure genius. v{appInfo.version}</p>
