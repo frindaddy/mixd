@@ -22,7 +22,7 @@ const verifyRequest = (req, res, next) => {
             res.sendStatus(403);
         }
     } else {
-        res.sendStatus(403);
+        res.sendStatus(401);
     }
 }
 
@@ -66,9 +66,7 @@ router.get('/drink/:id', (req, res, next) => {
             .then((data) => res.json(data))
             .catch(next);
     } else {
-        res.json({
-            error: 'No drink id provided',
-        });
+        res.sendStatus(400);
     }
 });
 
@@ -85,7 +83,7 @@ router.get('/image', (req, res, next) => {
     } else if (req.query.backup && fs.existsSync(directoryPath+req.query.backup)) {
         res.sendFile(directoryPath+req.query.backup);
     } else {
-        res.json({error: 'Unable to find file'})
+        res.sendStatus(404);
     }
 });
 
@@ -102,10 +100,11 @@ const compressDrinkImg = async(req, imageUUID) =>{
 router.post('/image', verifyRequest, async (req, res, next) => {
     uploadImage(req, res, (err) => {
         if (err) {
-            return res.send({ error: err });
+            console.error(err);
+            return res.sendStatus(500);
         }
         if (!req.file) {
-            return res.send({ error: 'No file was received.' });
+            return res.sendStatus(400);
         } else {
             let imageUUID = uuid();
             compressDrinkImg(req, imageUUID);
@@ -120,9 +119,7 @@ router.post('/add_drink', verifyRequest, (req, res, next) => {
             .then((data) => res.json(data))
             .catch(next);
     } else {
-        res.json({
-            error: 'The input field is empty',
-        });
+        res.sendStatus(400);
     }
 });
 
@@ -133,9 +130,7 @@ router.post('/update_drink/:id', verifyRequest, (req, res, next) => {
             .then((data) => res.json(data))
             .catch(next);
     } else {
-        res.json({
-            error: 'Invalid Request',
-        });
+        res.sendStatus(400);
     }
 });
 
