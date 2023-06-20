@@ -6,6 +6,7 @@ const fs = require("fs");
 require('dotenv').config();
 const router = express.Router();
 const Drinks = require('../models/drinks');
+const packVars = require('../package.json');
 
 const imageStorage = multer.diskStorage(
     {
@@ -24,6 +25,14 @@ const uploadImage = multer( { storage: imageStorage,
     },
     limits: { fileSize: 4000000, files: 1 }
 }).single('drinkImage');
+
+router.get('/app-info', (req, res, next) => {
+    res.json({
+        name: packVars.name,
+        version: packVars.version,
+        description: packVars.description
+    });
+});
 
 router.get('/drink/:id', (req, res, next) => {
     if(req.params.id){
