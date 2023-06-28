@@ -47,7 +47,8 @@ function App() {
         {currentPage === "updateDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={currentDrink} adminKey={adminKey}/>}
         <footer>
             <p>©2023 by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
-                Powered by our pure genius. v{appInfo.version}</p>
+                Powered by our pure genius.<br/>
+                v{appInfo.version}</p>
         </footer>
     </div>
     );
