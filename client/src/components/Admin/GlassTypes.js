@@ -11,6 +11,7 @@ const GlassTypes = [
     {name: 'rocks', displayName: 'Rocks'},
     {name: 'shot', displayName: 'Shot'},
     {name: 'wine', displayName: 'Wine'},
+    {name: 'tiki', displayName: 'Tiki'}
 ];
 
 export default GlassTypes;
