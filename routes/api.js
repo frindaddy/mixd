@@ -91,6 +91,7 @@ const compressDrinkImg = async(req, imageUUID) =>{
     let uploadFile = req.file.destination+'/'+req.file.filename;
     let compressedFile = process.env.IMAGE_DIR+'user_drinks/'+imageUUID+'.jpg';
     await sharp(uploadFile)
+        .rotate()
         .resize({ width: 600, height:840, fit:"cover" })
         .jpeg({ quality: 80, mozjpeg: true, force: true })
         .toFile(compressedFile)
