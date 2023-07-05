@@ -123,7 +123,7 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
 
     const createDrink = async (sameImage) => {
         let uuid = imageUUID;
-        if (!imageUUID && !sameImage){
+        if (!imageUUID && !sameImage && imagePreviewURL !== noImageURL){
             uuid = await uploadImage();
             setImageUUID(uuid);
         }
