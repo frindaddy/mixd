@@ -40,7 +40,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                     <div className="info-text">
                         <div className="info-title">{drink.name}</div>
                         {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste'])}/>}
-                        {drink.abv && <p className="abv">{drink.abv}% ABV</p>}
+                        {drink.abv != null && <p className="abv">{drink.abv}% ABV</p>}
                         <ul>
                             { drink.ingredients && drink.ingredients.map((ingredient) => {
                                 if(ingredient.amount > 0){
