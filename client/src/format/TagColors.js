@@ -11,6 +11,7 @@ const TagColors = {
     champagne: "#c18d51",
     bitters: "#8e522f",
     spirit: "#be54c4",
+    mocktail: "#13447d",
     style: "#696db8",
     taste: "#d61616ec",
     mix: "#687387",
