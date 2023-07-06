@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500");
-  html {
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@100;200;300;400;500");
+
+html {
     background-color: #1D1E1F;
   }
 
@@ -92,6 +94,7 @@ body {
     margin-bottom: 2%;
     font-size: 18px;
     font-weight: 300;
+    line-height: 23px;
     text-align: justify;
     text-justify: auto;
 }
@@ -298,7 +301,7 @@ nav > div {
 
     .description {
         margin-right: 10px;
-        font-size: 16px;
+        font-size: 18px;
     }
 
     .entry-title {
@@ -312,8 +315,8 @@ nav > div {
 
     .footnote {
         margin-right: 10px;
-        margin-top: 25px;
-        font-size: 14px;
+        margin-top: 15px;
+        font-size: 16px;
     }
 
     .ingredients {
