@@ -124,6 +124,7 @@ router.post('/add_drink', verifyRequest, (req, res, next) => {
     }
 });
 
+/** Unused and depreciated
 router.post('/update_drink/:id', verifyRequest, (req, res, next) => {
     if (req.params.id && req.body) {
         console.log(req.body);
@@ -133,7 +134,7 @@ router.post('/update_drink/:id', verifyRequest, (req, res, next) => {
     } else {
         res.sendStatus(400);
     }
-});
+});**/
 
 router.delete('/drink/:id', verifyRequest, (req, res, next) => {
     Drinks.findOneAndDelete({ _id: req.params.id })
