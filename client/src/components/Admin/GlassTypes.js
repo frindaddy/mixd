@@ -16,3 +16,11 @@ const GlassTypes = [
 ];
 
 export default GlassTypes;
+export function getDisplayName(name){
+    let glass = GlassTypes.filter((type) => type.name === name)[0];
+    if (glass) {
+        return glass.displayName;
+    } else {
+        return null;
+    }
+}

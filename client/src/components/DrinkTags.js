@@ -1,7 +1,9 @@
 import React from "react";
 import TagColors from '../format/TagColors.js';
+import { getDisplayName } from "./Admin/GlassTypes";
 
-const DrinkTags = ({tags}) => {
+const DrinkTags = ({tags, glass}) => {
+
 
     const getColor = (tag) => {
         if (tag.category === 'spirit' && TagColors[tag.value.toLowerCase()]){
@@ -20,6 +22,7 @@ const DrinkTags = ({tags}) => {
                     return <div className="tag" style={{backgroundColor: getColor(tag)}}>{tag.value}</div>
                 })
             }
+            {glass && <div className="tag" style={{backgroundColor: getColor({category: 'glass'})}}>{glass}</div>}
         </div>
     )
 }

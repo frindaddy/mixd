@@ -12,6 +12,7 @@ const TagColors = {
     bitters: "#8e522f",
     spirit: "#be54c4",
     mocktail: "#13447d",
+    glass: "#15c8e3",
     style: "#696db8",
     taste: "#d61616ec",
     mix: "#687387",
