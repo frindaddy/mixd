@@ -3,10 +3,11 @@ import axios from 'axios';
 import DrinkEntry from "./DrinkEntry";
 import AddDrinkEntry from "../Admin/AddDrinkEntry";
 import DotColor from "../DotColor";
+import DrinkArray from "./DrinkArray";
 const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => {
 
     const [drinkList, setDrinkList] = useState([{name:"Loading Drinks..."}]);
-    const [filterText, setFilterText] = useState("");
+    const [searchText, setSearchText] = useState("");
 
     const getDrinkList = () => {
         axios.get('./api/list')
@@ -42,15 +43,11 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
                     <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>
                 </div>
                 <div className="search-container">
-                    <input className="search-bar" type="text" placeholder="Search..." value={filterText} onChange={(e) => {setFilterText(e.target.value)}}/>
+                    <input className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                 </div>
             </header>
             {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
-            {drinkList.map((drink) => {
-                if (drink.name.toLowerCase().includes(filterText.toLowerCase())){
-                    return <DrinkEntry admin={adminKey} drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
-                }
-            })}
+            <DrinkArray filter={{text: searchText}} drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
         </div>
         </>
     )
