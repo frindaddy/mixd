@@ -89,6 +89,7 @@ body {
 .description {
     margin-right: 10%;
     margin-left: 5px;
+    margin-bottom: 2%;
     font-size: 18px;
     font-weight: 300;
     text-align: justify;
@@ -119,7 +120,7 @@ footer {
 }
 
 .footnote {
-    margin-top: 5%;
+    margin-top: 0px;
     font-style: italic;
     color: darkgray;
     font-size: 15px;
@@ -176,10 +177,23 @@ img {
     margin-top: 0;
 }
 
+.ingredients {
+    margin-right: 10%;
+    margin-left: 5px;
+    margin-top: 5%;
+    margin-bottom: 3%;
+    padding-left: 0;
+    list-style: none;
+    font-size: 22px;
+    font-weight: 300;
+}
+
 .instructions {
     margin-right: 10%;
     margin-left: 5px;
-    font-size: 18px;
+    margin-top: 0px;
+    margin-bottom: 3%;
+    font-size: 22px;
     font-weight: 300;
     text-align: justify;
     text-justify: auto;
@@ -266,16 +280,6 @@ nav > div {
     flex-wrap: wrap;
 }
 
-ul {
-    margin-left: 5px;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    padding-left: 0;
-    list-style: none;
-    font-size: 22px;
-    font-weight: 300;
-}
-
 .volume {
     margin-top: 5px;
     font-size: 15px;
@@ -292,6 +296,11 @@ ul {
         font-weight: 300;
     }
 
+    .description {
+        margin-right: 10px;
+        font-size: 16px;
+    }
+
     .entry-title {
         font-family: Roboto;
         font-weight: 300;
@@ -300,9 +309,26 @@ ul {
         margin-bottom: 2px;
         max-width: 1100px;
     }
+
+    .footnote {
+        margin-right: 10px;
+        margin-top: 25px;
+        font-size: 14px;
+    }
+
+    .ingredients {
+        margin-bottom: 25px;
+        font-size: 22px;
+    }
+
+    .instructions {
+        margin-right: 10px;
+        margin-bottom: 25px;
+        font-size: 22px;
+    }
     
     .info-column {
-        width: 100%
+        width: 100%;
     }
 
     .info-column > .image {

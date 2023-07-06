@@ -45,7 +45,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                             {drink.abv != null && <div className="abv">{drink.abv}% ABV</div>}
                             {drink.volume != null && <div className="volume"> / {drink.volume}</div>}
                         </div>
-                        <ul>
+                        <ul className="ingredients">
                             { drink.ingredients && drink.ingredients.map((ingredient) => {
                                 if(ingredient.amount > 0){
                                     return <li>{ingredient.amount} {ingredient.unit} {ingredient.ingredient}</li>
