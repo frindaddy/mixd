@@ -6,6 +6,7 @@ import DotColor from "../DotColor";
 const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => {
 
     const [drinkList, setDrinkList] = useState([{name:"Loading Drinks..."}]);
+    const [filterText, setFilterText] = useState("");
 
     const getDrinkList = () => {
         axios.get('./api/list')
@@ -33,14 +34,6 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
         getDrinkList();
     }, []);
 
-    /*
-    This is the search bar for v1.1
-    
-    <div className="search-container">
-        <input className="search-bar" type="text" placeholder="Search..." />
-    </div>
-    */
-
     return (
         <>
         <div className='DrinkList'>
@@ -48,10 +41,15 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
                 <div>
                     <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>
                 </div>
+                <div className="search-container">
+                    <input className="search-bar" type="text" placeholder="Search..." value={filterText} onChange={(e) => {setFilterText(e.target.value)}}/>
+                </div>
             </header>
             {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
             {drinkList.map((drink) => {
-                return <DrinkEntry admin={adminKey} drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
+                if (drink.name.toLowerCase().includes(filterText.toLowerCase())){
+                    return <DrinkEntry admin={adminKey} drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
+                }
             })}
         </div>
         </>
