@@ -238,6 +238,15 @@ ul {
     font-weight: 300;
 }
 
+.instructions {
+    margin-right: 10%;
+    margin-left: 5px;
+    font-size: 18px;
+    font-weight: 300;
+    text-align: justify;
+    text-justify: auto;
+}
+
 .desc {
     margin-right: 10%;
     margin-left: 5px;

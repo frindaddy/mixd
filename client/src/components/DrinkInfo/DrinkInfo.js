@@ -51,6 +51,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                             })}
                             {drink.garnish && <li>Garnish with {drink.garnish}</li>}
                         </ul>
+                        {drink.instructions && <p className="instructions">{drink.instructions}</p>}
                         {drink.description && <p className="desc">{drink.description}</p>}
                         {drink.footnotes && <p className="footnote">{drink.footnotes}</p>}
                     </div>
