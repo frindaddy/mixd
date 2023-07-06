@@ -116,7 +116,7 @@ router.post('/image', verifyRequest, async (req, res, next) => {
 
 router.post('/add_drink', verifyRequest, (req, res, next) => {
     if (req.body.name) {
-        Drinks.create({uuid: uuid(), ...req.body})
+        Drinks.create({...req.body, uuid: uuid()})
             .then((data) => res.json(data))
             .catch(next);
     } else {
