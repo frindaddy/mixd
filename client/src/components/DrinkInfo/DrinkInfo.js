@@ -52,7 +52,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                                     return <li>{ingredient.unit} {ingredient.ingredient}</li>
                                 }
                             })}
-                            {drink.garnish && <li>Garnish with {drink.garnish}</li>}
+                            {drink.garnish && <li>Garnished with {drink.garnish}</li>}
                         </ul>
                         {drink.instructions && <p className="instructions">{drink.instructions}</p>}
                         {drink.description && <p className="desc">{drink.description}</p>}
