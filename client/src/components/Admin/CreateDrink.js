@@ -167,10 +167,6 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                 <div className="create-drink-row">
                     <TagEntryContainer inputs={inputs} setInputs={setInputs}/>
                 </div>
-                <p>ABV:</p>
-                <div className="create-drink-row">
-                    <input type="text" name="abv" placeholder="0.0" value={inputs.abv || ""} onChange={handleFormChange} />
-                </div>
                 <p>Glass:</p>
                 <div className="create-drink-row">
                     <select name="glass" onChange={handleFormChange}>
@@ -187,6 +183,14 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                 <p>Garnish:</p>
                 <div className="create-drink-row">
                     <input type="text" name="garnish" placeholder="a maraschino cherry" value={inputs.garnish || ""} onChange={handleFormChange} />
+                </div>
+                <p>ABV:</p>
+                <div className="create-drink-row">
+                    <input type="text" name="abv" placeholder="0.0" value={inputs.abv || ""} onChange={handleFormChange} />
+                </div>
+                <p>Total Drink Volume:</p>
+                <div className="create-drink-row">
+                    <input type="text" name="volume" placeholder="4 oz" value={inputs.volume || ""} onChange={handleFormChange} />
                 </div>
                 <p>Instructions:</p>
                 <div className="create-drink-row">
