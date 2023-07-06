@@ -3,3 +3,6 @@ filter by tag
 sort by ABV
 glass as tag
 style drink instructions
+CRAZY react animations
+    logo to navbar slide
+    filter/tag dropdown animation
