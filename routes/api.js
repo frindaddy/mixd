@@ -60,9 +60,9 @@ router.post('/admin_login', (req, res, next) => {
     }
 });
 
-router.get('/drink/:id', (req, res, next) => {
-    if(req.params.id){
-        Drinks.find({_id:req.params.id}, '')
+router.get('/drink/:uuid', (req, res, next) => {
+    if(req.params.uuid){
+        Drinks.find({uuid:req.params.uuid}, '')
             .then((data) => res.json(data))
             .catch(next);
     } else {
@@ -71,7 +71,7 @@ router.get('/drink/:id', (req, res, next) => {
 });
 
 router.get('/list', (req, res, next) => {
-    Drinks.find({}, 'name tags glass').sort({name:1})
+    Drinks.find({}, 'uuid name tags glass').sort({name:1})
         .then((data) => res.json(data))
         .catch(next);
 });
@@ -116,7 +116,7 @@ router.post('/image', verifyRequest, async (req, res, next) => {
 
 router.post('/add_drink', verifyRequest, (req, res, next) => {
     if (req.body.name) {
-        Drinks.create(req.body)
+        Drinks.create({uuid: uuid(), ...req.body})
             .then((data) => res.json(data))
             .catch(next);
     } else {
@@ -136,16 +136,18 @@ router.post('/update_drink/:id', verifyRequest, (req, res, next) => {
     }
 });**/
 
-router.delete('/drink/:id', verifyRequest, (req, res, next) => {
-    Drinks.findOneAndDelete({ _id: req.params.id })
-        .then((data) => {
-            let drinkImage = process.env.IMAGE_DIR+'user_drinks/'+data.image+'.jpg'
-            if (!req.query.saveImg && fs.existsSync(drinkImage)){
-               fs.unlink(drinkImage, (e)=>{e && console.error(e)});
-            }
-            return res.json(data);
-        })
-        .catch(next);
+router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
+    if(req.params.uuid){
+        Drinks.findOneAndDelete({ uuid: req.params.uuid })
+            .then((data) => {
+                let drinkImage = process.env.IMAGE_DIR+'user_drinks/'+data.image+'.jpg'
+                if (!req.query.saveImg && fs.existsSync(drinkImage)){
+                    fs.unlink(drinkImage, (e)=>{e && console.error(e)});
+                }
+                return res.json(data);
+            })
+            .catch(next);
+    }
 });
 
 module.exports = router;

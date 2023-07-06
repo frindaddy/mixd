@@ -7,16 +7,16 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
 
     const setDrinkPage = () => {
         setCurrentPage("drinkInfo");
-        setCurrentDrink(drink._id);
+        setCurrentDrink(drink.uuid);
     };
 
     const setUpdateDrinkPage = () => {
         setCurrentPage("updateDrink");
-        setCurrentDrink(drink._id);
+        setCurrentDrink(drink.uuid);
     };
 
     const removeDrink = () => {
-        axios.delete('api/drink/'+drink._id, {headers:{Authorization: `Bearer ${adminKey}`}})
+        axios.delete('api/drink/'+drink.uuid, {headers:{Authorization: `Bearer ${adminKey}`}})
             .then((res) => {
                 if (res.data) {
                     getDrinkList();

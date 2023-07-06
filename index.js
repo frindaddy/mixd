@@ -1,16 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes/api');
-const {resolve} = require("path");
 const path = require("path");
+const { validateDatabase } = require('./routes/validate');
 require('dotenv').config();
 
 const app = express();
 
 const port = process.env.PORT || 5000;
+const VERBOSE_DB_VALIDATION = false;
 
+//TODO: The timing on the promises can be out of order.
 mongoose.connect('mongodb://'+process.env.DB_USER+':'+process.env.DB_PASS+'@'+process.env.DB_HOST+':'+process.env.DB_PORT, { useNewUrlParser: true, dbName:"mixd"})
-    .then(() => console.log(`Database connected successfully`))
+    .then(()=>{console.log(`Database connected successfully.`)})
+    .then(validateDatabase(VERBOSE_DB_VALIDATION))
     .catch((err) => console.log(err));
 
 app.use((req, res, next) => {
