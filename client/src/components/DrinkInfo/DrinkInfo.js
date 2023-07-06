@@ -42,7 +42,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                         {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste'])}/>}
                         <div style={{display: "flex"}}>
                             {drink.abv != null && <div className="abv">{drink.abv}% ABV</div>}
-                            {<div className="volume">{drink.volume}5oz</div>}
+                            {drink.volume != null && <div className="volume"> / {drink.volume}</div>}
                         </div>
                         <ul>
                             { drink.ingredients && drink.ingredients.map((ingredient) => {
