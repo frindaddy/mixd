@@ -4,6 +4,7 @@ import DrinkEntry from "./DrinkEntry";
 import AddDrinkEntry from "../Admin/AddDrinkEntry";
 import DotColor from "../DotColor";
 import DrinkArray from "./DrinkArray";
+import FilterPanel from "./FilterPanel";
 const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => {
 
     const [drinkList, setDrinkList] = useState([{name:"Loading Drinks..."}]);
@@ -46,6 +47,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
                     <input className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                 </div>
             </header>
+            <FilterPanel />
             {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
             <DrinkArray filter={{text: searchText}} drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
         </div>
