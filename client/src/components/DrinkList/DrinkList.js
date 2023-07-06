@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import DrinkEntry from "./DrinkEntry";
 import AddDrinkEntry from "../Admin/AddDrinkEntry";
 import DotColor from "../DotColor";
 import DrinkArray from "./DrinkArray";
