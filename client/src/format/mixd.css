@@ -115,6 +115,10 @@ body {
     max-width: 1100px;
 }
 
+.filter-erase {
+    display: inline-block;
+}
+
 .filter-panel {
     animation: slideDown 500ms linear 0s 1 alternate;
     transform-origin: top center;
