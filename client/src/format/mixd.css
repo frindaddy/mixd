@@ -294,6 +294,7 @@ nav > div {
     transform-origin: top center;
     overflow: hidden;
 }
+
 @keyframes slideDown{
     from {
         max-height: 0;
@@ -301,6 +302,29 @@ nav > div {
     to {
         max-height: 1000px;
     }
+}
+
+.filter-panel-child {
+}
+
+.filter-column {
+    float: left;
+    border-right: 0px solid white;
+    border-left: 0px solid white;
+    padding: 0 10px 0 10px;
+    height: 250px;
+    max-width: 150px;
+}
+
+.filter-column > ul{
+    list-style-type: none;
+    padding-left: 0px;
+}
+.filter-column > ul > li{
+    padding: 3px 0 3px 0;
+}
+.filter-erase {
+    display: inline-block;
 }
 
 @media screen and (max-width: 600px) {
