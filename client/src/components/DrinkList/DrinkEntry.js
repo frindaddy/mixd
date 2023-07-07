@@ -3,7 +3,7 @@ import DrinkTags, {filterTags} from "../DrinkTags";
 import {FaTrash, FaWrench} from "react-icons/fa";
 import axios from "axios";
 
-const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, adminKey, tagCount}) => {
+const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, adminKey}) => {
 
     const setDrinkPage = () => {
         setCurrentPage("drinkInfo");
