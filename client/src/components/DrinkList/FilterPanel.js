@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react"
 import GlassTypes from "../Admin/GlassTypes";
 import axios from "axios";
-import {FaEraser} from "react-icons/fa";
 
 const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
 
@@ -60,26 +59,22 @@ const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
     }
 
     return (
-        <div className='filter-panel-child'>
+        <div>
             {Object.keys(allTags).map((cat)=>{
-                return <div className='filter-column'>
+                return <div>
                     <p>{cat.charAt(0).toUpperCase() + cat.slice(1)}</p>
-                    <ul>
-                        {allTags[cat].map((tagName)=>{
-                            return <li><label><input type="checkbox" checked={tagInputs[cat][tagName]} name={tagName} onChange={handleTagChange(cat)}/>{tagName}</label></li>
-                        })}
-                    </ul>
+                    {allTags[cat].map((tagName)=>{
+                        return <label><input type="checkbox" checked={tagInputs[cat][tagName]} name={tagName} onChange={handleTagChange(cat)}/>{tagName}</label>
+                    })}
                 </div>
             })}
-            <div className='filter-column'>
-                <p>Glass (Hard Filter)</p>
-                <ul>
-                    {GlassTypes.map((glass) => {
-                        return <li><label><input type="checkbox" checked={glassInputs[glass.name]} name={glass.name} onChange={handleGlassChange}/>{glass.displayName}</label></li>
-                    })}
-                </ul>
-            </div>
-            <div className='filter-erase'><FaEraser onClick={resetAllFilters} style={{cursor:"pointer"}}/></div>
+            <hr/>
+            <p>Glass (Hard Filter)</p>
+            {GlassTypes.map((glass) => {
+               return <label><input type="checkbox" checked={glassInputs[glass.name]} name={glass.name} onChange={handleGlassChange}/>{glass.displayName}</label>
+            })}
+            <p onClick={resetAllFilters} style={{cursor:"pointer"}}>RESET</p>
+            <hr />
         </div>
     )
 }
