@@ -4,12 +4,15 @@ import AddDrinkEntry from "../Admin/AddDrinkEntry";
 import DotColor from "../DotColor";
 import DrinkArray from "./DrinkArray";
 import FilterPanel from "./FilterPanel";
+import {FaFilter} from "react-icons/fa";
+import TagEntry from "../Admin/TagEntry";
 const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => {
 
     const [drinkList, setDrinkList] = useState([{name:"Loading Drinks..."}]);
     const [searchText, setSearchText] = useState("");
     const [glassFilterList, setGlassFilterList] = useState();
     const [tagFilterList, setTagFilterList] = useState();
+    const [showFilterPanel, setShowFilterPanel] = useState(false);
 
     const getDrinkList = () => {
         axios.get('./api/list')
@@ -48,7 +51,8 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
                     <input className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                 </div>
             </header>
-            <FilterPanel setTagFilterList={setTagFilterList} setGlassFilterList={setGlassFilterList}/>
+            <FaFilter onClick={() => {setShowFilterPanel(!showFilterPanel)}}/>
+            {showFilterPanel && <FilterPanel setTagFilterList={setTagFilterList} setGlassFilterList={setGlassFilterList}/>}
             {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}} drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
         </div>

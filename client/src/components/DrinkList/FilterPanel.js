@@ -70,12 +70,13 @@ const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
                 </div>
             })}
             <hr/>
-            <p>Glasses</p>
+            <p>Glass (Hard Filter)</p>
             {GlassTypes.map((glass) => {
                return <label><input type="checkbox" checked={glassInputs[glass.name]} name={glass.name} onChange={handleGlassChange}/>{glass.displayName}</label>
             })}
             <hr/>
             <p onClick={resetAllFilters} style={{cursor:"pointer"}}>RESET</p>
+            <hr />
         </div>
     )
 }
