@@ -61,9 +61,9 @@ const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
     }
 
     return (
-        <div>
+        <>
             {Object.keys(allTags).map((cat)=>{
-                return <div>
+                return <div className="filter-category-container">
                     <p>{cat.charAt(0).toUpperCase() + cat.slice(1)}</p>
                     {allTags[cat].map((tagName)=>{
                         let selected = true;
@@ -81,8 +81,7 @@ const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
                return <label><input type="checkbox" checked={glassInputs[glass.name]} name={glass.name} onChange={handleGlassChange}/>{glass.displayName}</label>
             })}
             <div className='filter-erase'><FaEraser onClick={resetAllFilters} style={{cursor:"pointer"}}/></div>
-            <hr />
-        </div>
+        </>
     )
 }
 
