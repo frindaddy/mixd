@@ -4,17 +4,6 @@ import { getDisplayName } from "./Admin/GlassTypes";
 
 const DrinkTags = ({tags, glass}) => {
 
-
-    const getColor = (tag) => {
-        if (tag.category === 'spirit' && TagColors[tag.value.toLowerCase()]){
-            return TagColors[tag.value.toLowerCase()];
-        }
-        if (TagColors[tag.category]){
-            return TagColors[tag.category];
-        }
-        return TagColors.misc;
-    }
-
     return (
         <div className="tag-container">
             {
@@ -33,3 +22,12 @@ export const filterTags = (unfilteredTags, categories) => {
         return categories.includes(tag.category)
     });
 }
+export const getColor = (tag) => {
+    if (tag.category === 'spirit' && TagColors[tag.value.toLowerCase()]){
+        return TagColors[tag.value.toLowerCase()];
+    }
+    if (TagColors[tag.category]){
+        return TagColors[tag.category];
+    }
+    return TagColors.misc;
+};

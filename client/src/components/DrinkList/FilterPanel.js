@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react"
 import GlassTypes from "../Admin/GlassTypes";
 import axios from "axios";
+import {getColor} from "../DrinkTags";
 
 const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
 
@@ -64,7 +65,8 @@ const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
                 return <div>
                     <p>{cat.charAt(0).toUpperCase() + cat.slice(1)}</p>
                     {allTags[cat].map((tagName)=>{
-                        return <label><input type="checkbox" checked={tagInputs[cat][tagName]} name={tagName} onChange={handleTagChange(cat)}/>{tagName}</label>
+                        let selected = true;
+                        return <div className={'tag ' + (selected ? 'selected-tag-filter':'unselected-tag-filter')} style={selected ? {backgroundColor: getColor({category: cat, value: tagName})}: {}}><p>{tagName}</p></div>
                     })}
                 </div>
             })}
