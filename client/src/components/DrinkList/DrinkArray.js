@@ -29,7 +29,7 @@ const DrinkArray = ({ filter, drinkList, adminKey, setCurrentPage, setCurrentDri
             }
             drinkList[i] = {
                 ...drinkList[i],
-                passesFilter: ((filter.tags && tagCount > 0) || !filter.tags) && ((filter.glasses && inFilteredGlass) || !filter.glasses || filter.glasses.length === 0),
+                passesFilter: ((filter.tags && tagCount > 0) || !filter.tags || filter.tags.length === 0) && ((filter.glasses && inFilteredGlass) || !filter.glasses || filter.glasses.length === 0),
                 tagCount: tagCount,
                 inFilteredGlass: inFilteredGlass
             };
