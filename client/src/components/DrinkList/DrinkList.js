@@ -54,7 +54,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
                 </div>
             </header>
             {tagFilterList && <DrinkTags tags={tagFilterList} />}
-            <div style={showFilterPanel ? {display: "block"}:{display: "none"}}><FilterPanel setTagFilterList={setTagFilterList} setGlassFilterList={setGlassFilterList}/></div>
+            <div className="filter-panel" style={showFilterPanel ? {display: "block"}:{display: "none"}}><FilterPanel setTagFilterList={setTagFilterList} setGlassFilterList={setGlassFilterList}/></div>
             {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}} drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
         </div>

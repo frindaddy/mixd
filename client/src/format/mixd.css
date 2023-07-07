@@ -289,6 +289,20 @@ nav > div {
     color: darkgray;
 }
 
+.filter-panel {
+    animation: slideDown 500ms linear 0s 1 alternate;
+    transform-origin: top center;
+    overflow: hidden;
+}
+@keyframes slideDown{
+    from {
+        max-height: 0;
+    }
+    to {
+        max-height: 1000px;
+    }
+}
+
 @media screen and (max-width: 600px) {
     .create-drink-title {
         display: flex;
