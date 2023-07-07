@@ -54,7 +54,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
             </header>
             <FaFilter onClick={() => {setShowFilterPanel(!showFilterPanel)}}/>
             {tagFilterList && <DrinkTags tags={tagFilterList} />}
-            {showFilterPanel && <FilterPanel setTagFilterList={setTagFilterList} setGlassFilterList={setGlassFilterList}/>}
+            <div style={showFilterPanel ? {display: "block"}:{display: "none"}}><FilterPanel setTagFilterList={setTagFilterList} setGlassFilterList={setGlassFilterList}/></div>
             {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}} drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
         </div>
