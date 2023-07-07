@@ -75,25 +75,33 @@ router.get('/list', (req, res, next) => {
         .then((data) => res.json(data))
         .catch(next);
 });
-
-router.get('/tags/:category', (req, res, next) => {
-    if (req.params.category){
-        Drinks.find({}, 'tags')
-            .then((data) => {
-                let tagList = [];
-                data.forEach((drink) => {
-                    if (drink.tags){
-                        drink.tags.forEach((drinkTag)=>{
-                            if (drinkTag.category === req.params.category) {
-                                tagList.push(drinkTag.value);
-                            }
-                        });
-                    }
+router.get('/tags', (req, res, next) => {
+    Drinks.find({}, 'tags')
+        .then((data) => {
+            let result = {};
+            let tagList = [];
+            let categories = []
+            data.forEach((drink) => {
+                if (drink.tags){
+                    drink.tags.forEach((drinkTag)=>{
+                        tagList.push(drinkTag);
+                        categories.push(drinkTag.category)
+                    });
+                }
+            });
+            categories = Array.from(new Set(categories)).sort();
+            categories.forEach((cat) => {
+                let catTags = [];
+                tagList.forEach((drinkTag) => {
+                   if(drinkTag.category === cat) {
+                       catTags.push(drinkTag.value);
+                   }
                 });
-                res.json(Array.from(new Set(tagList)).sort());
-            })
-            .catch(next);
-    }
+                result = {...result, [cat]:Array.from(new Set(catTags)).sort()};
+            });
+            res.json(result);
+        })
+        .catch(next);
 });
 
 router.get('/image', (req, res, next) => {
