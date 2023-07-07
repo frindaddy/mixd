@@ -8,6 +8,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
 
     const [drinkList, setDrinkList] = useState([{name:"Loading Drinks..."}]);
     const [searchText, setSearchText] = useState("");
+    const [glassFilterList, setGlassFilterList] = useState();
 
     const getDrinkList = () => {
         axios.get('./api/list')
@@ -46,9 +47,9 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
                     <input className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                 </div>
             </header>
-            <FilterPanel />
+            <FilterPanel setGlassFilterList={setGlassFilterList}/>
             {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
-            <DrinkArray filter={{text: searchText}} drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
+            <DrinkArray filter={{text: searchText, glasses: glassFilterList}} drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
         </div>
         </>
     )
