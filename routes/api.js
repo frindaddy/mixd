@@ -76,6 +76,26 @@ router.get('/list', (req, res, next) => {
         .catch(next);
 });
 
+router.get('/tags/:category', (req, res, next) => {
+    if (req.params.category){
+        Drinks.find({}, 'tags')
+            .then((data) => {
+                let tagList = [];
+                data.forEach((drink) => {
+                    if (drink.tags){
+                        drink.tags.forEach((drinkTag)=>{
+                            if (drinkTag.category === req.params.category) {
+                                tagList.push(drinkTag.value);
+                            }
+                        });
+                    }
+                });
+                res.json(Array.from(new Set(tagList)).sort());
+            })
+            .catch(next);
+    }
+});
+
 router.get('/image', (req, res, next) => {
     let directoryPath = process.env.IMAGE_DIR;
     if (req.query.file && fs.existsSync(directoryPath+req.query.file)){
