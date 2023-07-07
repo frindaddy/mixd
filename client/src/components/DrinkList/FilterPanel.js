@@ -62,7 +62,6 @@ const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
         <div>
             {Object.keys(allTags).map((cat)=>{
                 return <div>
-                    <hr />
                     <p>{cat.charAt(0).toUpperCase() + cat.slice(1)}</p>
                     {allTags[cat].map((tagName)=>{
                         return <label><input type="checkbox" checked={tagInputs[cat][tagName]} name={tagName} onChange={handleTagChange(cat)}/>{tagName}</label>
@@ -74,7 +73,6 @@ const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
             {GlassTypes.map((glass) => {
                return <label><input type="checkbox" checked={glassInputs[glass.name]} name={glass.name} onChange={handleGlassChange}/>{glass.displayName}</label>
             })}
-            <hr/>
             <p onClick={resetAllFilters} style={{cursor:"pointer"}}>RESET</p>
             <hr />
         </div>

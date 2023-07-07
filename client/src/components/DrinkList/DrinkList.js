@@ -50,9 +50,9 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
                 </div>
                 <div className="search-container">
                     <input className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
+                    <div style={{float: "right", margin:"5px 0px 0px 10px"}}><FaFilter onClick={() => {setShowFilterPanel(!showFilterPanel)}}/></div>
                 </div>
             </header>
-            <FaFilter onClick={() => {setShowFilterPanel(!showFilterPanel)}}/>
             {tagFilterList && <DrinkTags tags={tagFilterList} />}
             <div style={showFilterPanel ? {display: "block"}:{display: "none"}}><FilterPanel setTagFilterList={setTagFilterList} setGlassFilterList={setGlassFilterList}/></div>
             {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
