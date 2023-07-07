@@ -28,7 +28,6 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
 
     return (
         <div class="drink-entry">
-
             <a style={{display: "flex"}} href={"#drink"}>
                 <div class="glass-container" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>
                     {drink.glass && <img src={'./api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}

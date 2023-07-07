@@ -75,6 +75,34 @@ router.get('/list', (req, res, next) => {
         .then((data) => res.json(data))
         .catch(next);
 });
+router.get('/tags', (req, res, next) => {
+    Drinks.find({}, 'tags')
+        .then((data) => {
+            let result = {};
+            let tagList = [];
+            let categories = []
+            data.forEach((drink) => {
+                if (drink.tags){
+                    drink.tags.forEach((drinkTag)=>{
+                        tagList.push(drinkTag);
+                        categories.push(drinkTag.category)
+                    });
+                }
+            });
+            categories = Array.from(new Set(categories)).sort();
+            categories.forEach((cat) => {
+                let catTags = [];
+                tagList.forEach((drinkTag) => {
+                   if(drinkTag.category === cat) {
+                       catTags.push(drinkTag.value);
+                   }
+                });
+                result = {...result, [cat]:Array.from(new Set(catTags)).sort()};
+            });
+            res.json(result);
+        })
+        .catch(next);
+});
 
 router.get('/image', (req, res, next) => {
     let directoryPath = process.env.IMAGE_DIR;
