@@ -45,6 +45,7 @@ const DrinkArray = ({ filter, drinkList, adminKey, setCurrentPage, setCurrentDri
             {filteredList.map((drink) => {
                 return <DrinkEntry drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
             })}
+            {filteredList.length === 0 && drinkList.length > 0 && <p>No Drinks Match Your Filter</p>}
         </div>
     )
 }
