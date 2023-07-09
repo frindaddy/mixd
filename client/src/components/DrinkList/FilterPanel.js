@@ -67,7 +67,7 @@ const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
                 return <div className="">
                     <p>{cat.charAt(0).toUpperCase() + cat.slice(1)}</p>
                     {allTags[cat].map((tagName)=>{
-                        let selected = true;
+                        let selected = false;
                         return (
                             <div className="tag-container">
                                 <div className={'tag ' + (selected ? 'selected-tag-filter':'unselected-tag-filter')} style={selected ? {backgroundColor: getColor({category: cat, value: tagName})}: {}}>{tagName}</div>
