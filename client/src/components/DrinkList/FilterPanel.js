@@ -70,7 +70,7 @@ const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
                         let selected = false;
                         return (
                             <div className="tag-container">
-                                <div className={'tag ' + (selected ? 'selected-tag-filter':'unselected-tag-filter')} style={selected ? {backgroundColor: getColor({category: cat, value: tagName})}: {}}>{tagName}</div>
+                                <div className={'tag ' + (selected ? '':'unselected-tag-filter')} style={selected ? {backgroundColor: getColor({category: cat, value: tagName})}: {}}>{tagName}</div>
                             </div>
                         )
                     })}
