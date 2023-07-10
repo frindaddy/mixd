@@ -4,11 +4,9 @@ import axios from "axios";
 import {getColor} from "../DrinkTags";
 import {FaEraser} from "react-icons/fa";
 
-const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
+const FilterPanel = ({tagFilterList, setTagFilterList, setGlassFilterList}) => {
 
     const [allTags, setAllTags] = useState([]);
-    const [tagInputs, setTagInputs] = useState({});
-    const [defaultTagInputs, setDefaultTagInputs] = useState({});
     const [glassInputs, setGlassInputs] = useState({});
 
     useEffect(() => {
@@ -16,12 +14,6 @@ const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
             .then((res) => {
                 if (res.data) {
                     setAllTags(res.data);
-                    let init = {}
-                    Object.keys(res.data).forEach((cat)=>{
-                        init[cat] = [];
-                    });
-                    setTagInputs(init);
-                    setDefaultTagInputs(init);
                 }
             }).catch((err) => console.log(err));
     }, []);
@@ -36,28 +28,23 @@ const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
         setGlassFilterList(glassFilterList);
     }, [glassInputs]);
 
-    useEffect(() => {
-        let tagFilterList = [];
-        Object.keys(tagInputs).forEach((category) => {
-            Object.keys(tagInputs[category]).forEach((tagValue) => {
-                if (tagInputs[category][tagValue]) {
-                    tagFilterList.push({category: category, value: tagValue});
-                }
-            })
-        });
-        setTagFilterList(tagFilterList);
-    }, [tagInputs]);
-
     function handleGlassChange(e) {
         setGlassInputs({...glassInputs, [e.target.name]:e.target.checked});
     }
 
-    const handleTagChange = (category) => (e) =>{
-        setTagInputs({...tagInputs, [category]:{...tagInputs[category], [e.target.name]:e.target.checked}});
-    }
     function resetAllFilters() {
         setGlassInputs({});
-        setTagInputs(defaultTagInputs);
+        setTagFilterList([]);
+    }
+
+    const onTagClick = (category, value) => {
+        if(tagFilterList.includes(category + '>' + value)){
+            setTagFilterList(tagFilterList.filter((tag)=>{
+                return tag !== category + '>' + value;
+            }));
+        } else {
+            setTagFilterList([...tagFilterList, category + '>' + value]);
+        }
     }
 
     return (
@@ -67,10 +54,10 @@ const FilterPanel = ({setTagFilterList, setGlassFilterList}) => {
                 return <div className="">
                     <p>{cat.charAt(0).toUpperCase() + cat.slice(1)}</p>
                     {allTags[cat].map((tagName)=>{
-                        let selected = false;
+                        let selected = tagFilterList.includes(cat+'>'+tagName);
                         return (
                             <div className="tag-container">
-                                <div className={'tag ' + (selected ? '':'unselected-tag-filter')} style={selected ? {backgroundColor: getColor({category: cat, value: tagName})}: {}}>{tagName}</div>
+                                <div onClick={()=>{onTagClick(cat, tagName)}} className={'tag clickable unselectable ' + (selected ? '':'unselected-tag-filter')} style={selected ? {backgroundColor: getColor({category: cat, value: tagName})}: {}}>{tagName}</div>
                             </div>
                         )
                     })}
