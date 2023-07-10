@@ -135,19 +135,6 @@ body {
     margin: 5px 0 0 10px;
 }
 
-.show-filter-panel {
-    animation: slideDown 300ms linear 0s 1 forwards;
-    transform-origin: top center;
-    overflow: hidden;
-    display: block;
-}
-.hide-filter-panel {
-    animation: slideUp 300ms linear 0s 1 forwards;
-    transform-origin: top center;
-    overflow: hidden;
-    display: block;
-}
-
 footer {
     padding-top: 5px;
     text-align: center;
@@ -242,6 +229,13 @@ header {
     background-size: cover;
 }
 
+.hide-filter-panel {
+    animation: slideUp 300ms linear 0s 1 forwards;
+    transform-origin: top center;
+    overflow: hidden;
+    display: block;
+}
+
 .logo {
     display: flex;
     justify-content: center;
@@ -296,6 +290,13 @@ nav > div {
     color: white;
     border-radius: 50px;
     padding-left: 10px;
+}
+
+.show-filter-panel {
+    animation: slideDown 300ms linear 0s 1 forwards;
+    transform-origin: top center;
+    overflow: hidden;
+    display: block;
 }
 
 .tag {
