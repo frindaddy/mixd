@@ -4,9 +4,8 @@ import AddDrinkEntry from "../Admin/AddDrinkEntry";
 import DotColor from "../DotColor";
 import DrinkArray from "./DrinkArray";
 import FilterPanel from "./FilterPanel";
-import {FaFilter} from "react-icons/fa";
-import TagEntry from "../Admin/TagEntry";
-import DrinkTags from "../DrinkTags";
+import {FaFilter, FaEraser} from "react-icons/fa";
+
 const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => {
 
     const [drinkList, setDrinkList] = useState([{name:"Loading Drinks..."}]);
@@ -37,6 +36,11 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
         }
     }
 
+    function resetAllFilters() {
+        setGlassFilterList([]);
+        setTagFilterList([]);
+    }
+
     useEffect(() => {
         getDrinkList();
     }, []);
@@ -50,10 +54,11 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
                 </div>
                 <div className="search-container">
                     <input className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
-                    <div style={{float: "right", margin:"5px 0px 0px 10px"}}><FaFilter style={{cursor:"pointer"}} onClick={() => {setShowFilterPanel(!showFilterPanel)}}/></div>
+                    <div className='filter-erase'><FaFilter style={{cursor:"pointer"}} onClick={() => {setShowFilterPanel(!showFilterPanel)}}/></div>
+                    {tagFilterList.length + glassFilterList.length > 0 && <div className='filter-erase'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
                 </div>
             </header>
-            <div className="filter-panel" style={showFilterPanel ? {display: "block"}:{display: "none"}}><FilterPanel tagFilterList={tagFilterList} setTagFilterList={setTagFilterList} glassFilterList={glassFilterList} setGlassFilterList={setGlassFilterList}/></div>
+            <div className="filter-panel" style={showFilterPanel ? {display: "block"}:{display: "none"}}><FilterPanel setShowFilterPanel={setShowFilterPanel} tagFilterList={tagFilterList} setTagFilterList={setTagFilterList} glassFilterList={glassFilterList} setGlassFilterList={setGlassFilterList}/></div>
             {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}} drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
         </div>
