@@ -54,7 +54,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
                 </div>
                 <div className="search-container">
                     <input className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
-                    <div className='filter-erase'><FaFilter style={{cursor:"pointer"}} onClick={() => {setShowFilterPanel(!showFilterPanel)}}/></div>
+                    <div className='filter-toggle'><FaFilter style={{cursor:"pointer"}} onClick={() => {setShowFilterPanel(!showFilterPanel)}}/></div>
                     {tagFilterList.length + glassFilterList.length > 0 && <div className='filter-erase'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
                 </div>
             </header>

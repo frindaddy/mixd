@@ -135,6 +135,11 @@ body {
     margin: 5px 0 0 10px;
 }
 
+.filter-toggle {
+    float: right;
+    margin: 5px 0 0 10px;
+}
+
 footer {
     padding-top: 5px;
     text-align: center;
