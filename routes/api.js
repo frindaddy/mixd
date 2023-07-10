@@ -76,12 +76,16 @@ router.get('/list', (req, res, next) => {
         .catch(next);
 });
 router.get('/tags', (req, res, next) => {
-    Drinks.find({}, 'tags')
+    Drinks.find({}, 'tags glass')
         .then((data) => {
-            let result = {};
+            let tags = {};
             let tagList = [];
-            let categories = []
+            let categories = [];
+            let glasses = [];
             data.forEach((drink) => {
+                if (drink.glass) {
+                    glasses.push(drink.glass);
+                }
                 if (drink.tags){
                     drink.tags.forEach((drinkTag)=>{
                         tagList.push(drinkTag);
@@ -97,9 +101,9 @@ router.get('/tags', (req, res, next) => {
                        catTags.push(drinkTag.value);
                    }
                 });
-                result = {...result, [cat]:Array.from(new Set(catTags)).sort()};
+                tags = {...tags, [cat]:Array.from(new Set(catTags)).sort()};
             });
-            res.json(result);
+            res.json({tags: tags, glasses: Array.from(new Set(glasses)).sort()});
         })
         .catch(next);
 });

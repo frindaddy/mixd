@@ -1,39 +1,26 @@
 import React, {useEffect, useState} from "react"
-import GlassTypes from "../Admin/GlassTypes";
+import {getDisplayName} from "../Admin/GlassTypes";
 import axios from "axios";
 import {getColor} from "../DrinkTags";
 import {FaEraser} from "react-icons/fa";
 
-const FilterPanel = ({tagFilterList, setTagFilterList, setGlassFilterList}) => {
+const FilterPanel = ({tagFilterList, setTagFilterList, glassFilterList, setGlassFilterList}) => {
 
     const [allTags, setAllTags] = useState([]);
-    const [glassInputs, setGlassInputs] = useState({});
+    const [allGlasses, setAllGlasses] = useState([]);
 
     useEffect(() => {
         axios.get('./api/tags/')
             .then((res) => {
                 if (res.data) {
-                    setAllTags(res.data);
+                    setAllTags(res.data.tags);
+                    setAllGlasses(res.data.glasses);
                 }
             }).catch((err) => console.log(err));
     }, []);
 
-    useEffect(() => {
-        let glassFilterList = [];
-        GlassTypes.forEach((glass) => {
-           if (glassInputs[glass.name] === true) {
-               glassFilterList.push(glass.name);
-           }
-        });
-        setGlassFilterList(glassFilterList);
-    }, [glassInputs]);
-
-    function handleGlassChange(e) {
-        setGlassInputs({...glassInputs, [e.target.name]:e.target.checked});
-    }
-
     function resetAllFilters() {
-        setGlassInputs({});
+        setGlassFilterList([]);
         setTagFilterList([]);
     }
 
@@ -44,6 +31,16 @@ const FilterPanel = ({tagFilterList, setTagFilterList, setGlassFilterList}) => {
             }));
         } else {
             setTagFilterList([...tagFilterList, category + '>' + value]);
+        }
+    }
+
+    const onGlassClick = (glassClicked) => {
+        if (glassFilterList.includes(glassClicked)) {
+            setGlassFilterList(glassFilterList.filter((glass)=>{
+                return glassClicked !== glass;
+            }));
+        } else {
+            setGlassFilterList([...glassFilterList, glassClicked]);
         }
     }
 
@@ -65,8 +62,13 @@ const FilterPanel = ({tagFilterList, setTagFilterList, setGlassFilterList}) => {
             })}
         </div>
             <p>Glass</p>
-            {GlassTypes.map((glass) => {
-               return <label><input type="checkbox" checked={glassInputs[glass.name]} name={glass.name} onChange={handleGlassChange}/>{glass.displayName}</label>
+            {allGlasses.map((glass) => {
+                let selected = glassFilterList.includes(glass);
+                return (
+                    <div className="tag-container">
+                        <div onClick={()=>{onGlassClick(glass)}} className={'tag clickable unselectable ' + (selected ? '':'unselected-tag-filter')} style={selected ? {backgroundColor: getColor({category: 'glass'})}: {}}>{getDisplayName(glass)}</div>
+                    </div>
+                )
             })}
             <div className='filter-erase'><FaEraser onClick={resetAllFilters} style={{cursor:"pointer"}}/></div>
         </>

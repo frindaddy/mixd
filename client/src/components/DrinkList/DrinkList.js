@@ -11,7 +11,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
 
     const [drinkList, setDrinkList] = useState([{name:"Loading Drinks..."}]);
     const [searchText, setSearchText] = useState("");
-    const [glassFilterList, setGlassFilterList] = useState();
+    const [glassFilterList, setGlassFilterList] = useState([]);
     const [tagFilterList, setTagFilterList] = useState([]);
     const [showFilterPanel, setShowFilterPanel] = useState(false);
 
@@ -53,7 +53,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
                     <div style={{float: "right", margin:"5px 0px 0px 10px"}}><FaFilter style={{cursor:"pointer"}} onClick={() => {setShowFilterPanel(!showFilterPanel)}}/></div>
                 </div>
             </header>
-            <div className="filter-panel" style={showFilterPanel ? {display: "block"}:{display: "none"}}><FilterPanel tagFilterList={tagFilterList} setTagFilterList={setTagFilterList} setGlassFilterList={setGlassFilterList}/></div>
+            <div className="filter-panel" style={showFilterPanel ? {display: "block"}:{display: "none"}}><FilterPanel tagFilterList={tagFilterList} setTagFilterList={setTagFilterList} glassFilterList={glassFilterList} setGlassFilterList={setGlassFilterList}/></div>
             {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}} drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
         </div>
