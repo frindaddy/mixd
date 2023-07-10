@@ -8,10 +8,16 @@ require('dotenv').config();
 const app = express();
 
 const port = process.env.PORT || 5000;
+
+const DB_USER = process.env.DB_USER || 'test-user';
+const DB_PASS = process.env.DB_PASS || 'test-pass';
+const DB_HOST = process.env.DB_HOST || '127.0.0.1';
+const DB_PORT = process.env.DB_PORT || '27017';
+
 const VERBOSE_DB_VALIDATION = false;
 
 //TODO: The timing on the promises can be out of order.
-mongoose.connect('mongodb://'+process.env.DB_USER+':'+process.env.DB_PASS+'@'+process.env.DB_HOST+':'+process.env.DB_PORT, { useNewUrlParser: true, dbName:"mixd"})
+mongoose.connect('mongodb://'+DB_USER+':'+DB_PASS+'@'+DB_HOST+':'+DB_PORT, { useNewUrlParser: true, dbName:"mixd"})
     .then(()=>{console.log(`Database connected successfully.`)})
     .then(validateDatabase(VERBOSE_DB_VALIDATION))
     .catch((err) => console.log(err));
