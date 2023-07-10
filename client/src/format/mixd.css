@@ -135,10 +135,17 @@ body {
     margin: 5px 0 0 10px;
 }
 
-.filter-panel {
-    animation: slideDown 500ms linear 0s 1 alternate;
+.show-filter-panel {
+    animation: slideDown 300ms linear 0s 1 forwards;
     transform-origin: top center;
     overflow: hidden;
+    display: block;
+}
+.hide-filter-panel {
+    animation: slideUp 300ms linear 0s 1 forwards;
+    transform-origin: top center;
+    overflow: hidden;
+    display: block;
 }
 
 footer {
@@ -340,7 +347,16 @@ nav > div {
         max-height: 0;
     }
     to {
-        max-height: 1000px;
+        max-height: 500px;
+    }
+}
+
+@keyframes slideUp{
+    from {
+        max-height: 500px;
+    }
+    to {
+        max-height: 0;
     }
 }
 
