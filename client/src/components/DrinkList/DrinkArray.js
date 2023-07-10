@@ -8,9 +8,7 @@ const DrinkArray = ({ filter, drinkList, adminKey, setCurrentPage, setCurrentDri
     function countTags(drink, tags) {
         if(drink.tags && drink.tags.length > 0 && tags) {
             return drink.tags.filter((drinkTag) => {
-                return tags.filter((filterTag) => {
-                    return filterTag.category === drinkTag.category && filterTag.value.toLowerCase() === drinkTag.value.toLowerCase();
-                }).length > 0;
+                return tags.includes(drinkTag.category + '>' + drinkTag.value);
             }).length;
         }
         return 0;

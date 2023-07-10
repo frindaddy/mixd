@@ -17,7 +17,10 @@ const TagColors = {
     taste: "#d61616ec",
     mix: "#687387",
     color: "#687387",
-    season: "#687387",
+    spring: "#869F52",
+    summer: "#FCC801",
+    fall: "#D86E01",
+    winter: "#5FB9C2",
     temp: "#687387",
     misc: "#687387"
 };
