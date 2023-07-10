@@ -69,7 +69,7 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
         }
         if (drink.ingredients) {
             drink.ingredients.map((ingredient) => {
-                if(ingredient.unit && ingredient.ingredient){
+                if(ingredient.ingredient){
                     if (typeof ingredient.amount === "string"){
                         ingredient.amount = parseFloat(ingredient.amount.replace(",", "."));
                     }
