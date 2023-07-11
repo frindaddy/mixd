@@ -30,7 +30,7 @@ export const filterTags = (unfilteredTags, categories) => {
 }
 
 export const getColor = (tag) => {
-    if ((tag.category === 'spirit' || tag.category ==='season') && TagColors[tag.value.toLowerCase()]){
+    if ((tag.category === 'spirit') && TagColors[tag.value.toLowerCase()]){
         return TagColors[tag.value.toLowerCase()];
     }
     if (TagColors[tag.category]){
