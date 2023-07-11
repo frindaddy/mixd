@@ -23,6 +23,7 @@ const TagColors = {
     fall: "#D86E01",
     winter: "#5FB9C2",
     temp: "#687387",
+    recommended: "#be8902",
     misc: "#687387"
 };
 

@@ -149,6 +149,11 @@ body {
     display: block;
 }
 
+.filter-tag-list {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
 .filter-toggle {
     float: right;
     margin: 5px 0 0 10px;

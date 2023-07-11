@@ -42,7 +42,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
                 </div>}
                 <div>
                     <a href={"#drink"}><p className="entry-title" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>{drink.name}</p></a>
-                    {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['spirit', 'style', 'taste'])}/>}
+                    {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['spirit', 'style', 'taste', 'recommended'])}/>}
                 </div>
             </div>
             
