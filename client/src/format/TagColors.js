@@ -7,6 +7,7 @@ const TagColors = {
     whiskey: "#d66d2a",
     bourbon: "#d66d2a",
     rye: "#d66d2a",
+    scotch: "#d66d2a",
     aperol: "#ff3c00f3",
     champagne: "#c18d51",
     bitters: "#8e522f",
