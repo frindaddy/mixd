@@ -23,9 +23,8 @@ export const filterTags = (unfilteredTags, categories) => {
     }).sort((a, b) => { // Sort tags by the order given in "categories"
         let indexA = categories.indexOf(a.category);
         let indexB = categories.indexOf(b.category)
-        if (indexA<indexB) return -1; // A is higher on the order list than B
-        if (indexA>indexB) return 1; // B is higher on the order list than A
-        if (indexA === -1) return 2; // A & B are both not on the list
+        if (indexA<indexB) return -1; // A is earlier on the category list than B
+        if (indexA>indexB) return 1; // B is earlier on the category list than A
         return 0; // A & B are the same category
     });
 }
