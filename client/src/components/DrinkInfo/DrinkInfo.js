@@ -40,7 +40,7 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                 <div className="info-column">
                     <div className="info-text">
                         <div className="info-title">{drink.name}</div>
-                        {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste'])} glass={getDisplayName(drink.glass)}/>}
+                        {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste', 'recommended'])} glass={getDisplayName(drink.glass)}/>}
                         <div style={{display: "flex"}}>
                             {drink.abv != null && <div className="abv">{drink.abv}% ABV</div>}
                             {drink.volume != null && <div className="volume"> / {drink.volume}</div>}

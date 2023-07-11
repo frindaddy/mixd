@@ -43,7 +43,7 @@ const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glass
         <>
             <div className="filter-category-container">
                 {Object.keys(allTags).map((cat)=>{
-                    return <div className="">
+                    return <div className="filter-tag-list">
                         <p>{cat.charAt(0).toUpperCase() + cat.slice(1)}</p>
                         {allTags[cat].map((tagName)=>{
                             let selected = tagFilterList.includes(cat+'>'+tagName);

@@ -139,14 +139,17 @@ body {
     animation: slideUp 300ms linear 0s 1 forwards;
     transform-origin: top center;
     overflow: hidden;
-    display: block;
 }
 
 .filter-panel-show {
     animation: slideDown 300ms linear 0s 1 forwards;
     transform-origin: top center;
     overflow: hidden;
-    display: block;
+}
+
+.filter-tag-list {
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 .filter-toggle {

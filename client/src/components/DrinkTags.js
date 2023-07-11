@@ -19,9 +19,16 @@ const DrinkTags = ({tags, glass}) => {
 export default DrinkTags;
 export const filterTags = (unfilteredTags, categories) => {
     return unfilteredTags.filter((tag) =>{
-        return categories.includes(tag.category)
+        return categories.includes(tag.category); // Only allow tags in the given categories
+    }).sort((a, b) => { // Sort tags by the order given in "categories"
+        let indexA = categories.indexOf(a.category);
+        let indexB = categories.indexOf(b.category)
+        if (indexA<indexB) return -1; // A is earlier on the category list than B
+        if (indexA>indexB) return 1; // B is earlier on the category list than A
+        return 0; // A & B are the same category
     });
 }
+
 export const getColor = (tag) => {
     if ((tag.category === 'spirit' || tag.category ==='season') && TagColors[tag.value.toLowerCase()]){
         return TagColors[tag.value.toLowerCase()];
