@@ -44,7 +44,7 @@ const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glass
             <div className="filter-category-container">
                 {Object.keys(allTags).map((cat)=>{
                     return <div className="filter-tag-list">
-                        <p>{cat.charAt(0).toUpperCase() + cat.slice(1)}</p>
+                        <p className="filter-category-title">{cat.charAt(0).toUpperCase() + cat.slice(1)}</p>
                         {allTags[cat].map((tagName)=>{
                             let selected = tagFilterList.includes(cat+'>'+tagName);
                             return (
@@ -56,7 +56,7 @@ const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glass
                     </div>
                 })}
                 <div>
-                    <p>Glass</p>
+                    <p className="filter-category-title">Glass</p>
                     {allGlasses.map((glass) => {
                         let selected = glassFilterList.includes(glass);
                         return (

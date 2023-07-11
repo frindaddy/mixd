@@ -124,6 +124,11 @@ body {
     justify-content: center;
 }
 
+.filter-category-title {
+    font-size: 22px;
+    font-weight: 300;
+}
+
 .filter-chevron {
     display: flex;
     justify-content: center;
