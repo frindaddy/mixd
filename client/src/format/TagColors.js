@@ -11,8 +11,8 @@ const TagColors = {
     aperol: "#ff3c00f3",
     champagne: "#c18d51",
     bitters: "#8e522f",
-    spirit: "#be54c4",
     mocktail: "#13447d",
+    spirit: "#be54c4", //this is the color for spirits not on the list above
     glass: "#709DD8",
     style: "#696db8",
     taste: "#d61616ec",
