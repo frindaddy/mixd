@@ -1,9 +1,25 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import DrinkTags, {filterTags} from "../DrinkTags";
 import {FaTrash, FaWrench} from "react-icons/fa";
 import axios from "axios";
 
-const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, adminKey}) => {
+const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, adminKey, filteredTags}) => {
+
+    const defaultTagCategories = ['spirit', 'style', 'taste', 'recommended'];
+    const [tagCategories, setTagCategories] = useState(defaultTagCategories);
+
+    useEffect(() => {
+        if(filteredTags) {
+            let newCategories = defaultTagCategories;
+            filteredTags.forEach((tag)=>{
+                let cat = tag.split('>')[0];
+                if (!defaultTagCategories.includes(cat) && !newCategories.includes(cat)) {
+                    newCategories = [...newCategories, cat];
+                }
+            });
+            setTagCategories(newCategories);
+        }
+    }, [filteredTags]);
 
     const setDrinkPage = () => {
         setCurrentPage("drinkInfo");
@@ -42,7 +58,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
                 </div>}
                 <div>
                     <a href={"#drink"}><p className="entry-title" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>{drink.name}</p></a>
-                    {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['spirit', 'style', 'taste', 'recommended'])}/>}
+                    {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
                 </div>
             </div>
             
