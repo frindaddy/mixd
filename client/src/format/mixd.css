@@ -356,13 +356,13 @@ nav > div {
         max-height: 0;
     }
     to {
-        max-height: 500px;
+        max-height: 700px;
     }
 }
 
 @keyframes slideUp{
     from {
-        max-height: 500px;
+        max-height: 700px;
     }
     to {
         max-height: 0;
