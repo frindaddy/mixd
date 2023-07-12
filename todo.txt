@@ -1,5 +1,0 @@
-sort by ABV
-style drink instructions
-CRAZY react animations
-    logo to navbar slide
-    filter/tag dropdown animation
