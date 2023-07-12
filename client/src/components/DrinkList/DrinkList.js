@@ -5,6 +5,7 @@ import DotColor from "../DotColor";
 import DrinkArray from "./DrinkArray";
 import FilterPanel from "./FilterPanel";
 import {FaFilter, FaEraser} from "react-icons/fa";
+import {useCookies} from "react-cookie";
 
 const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => {
 
@@ -14,6 +15,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
     const [tagFilterList, setTagFilterList] = useState([]);
     const [showFilterPanel, setShowFilterPanel] = useState(false);
     const [filterPanelOpenedBefore, setFilterPanelOpenedBefore] = useState(false);
+    const [cookies, setCookie] = useCookies(["tagList", "glassList"]);
 
     const getDrinkList = () => {
         axios.get('./api/list')
@@ -45,6 +47,8 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
     function resetAllFilters() {
         setGlassFilterList([]);
         setTagFilterList([]);
+        setCookie('tagList', [], {maxAge:3600});
+        setCookie('glassList', [], {maxAge:3600});
     }
 
     useEffect(() => {
