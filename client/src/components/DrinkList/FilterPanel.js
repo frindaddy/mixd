@@ -3,6 +3,7 @@ import {getDisplayName} from "../Admin/GlassTypes";
 import axios from "axios";
 import {getColor} from "../DrinkTags";
 import {FaChevronUp} from "react-icons/fa";
+import {useCookies} from "react-cookie";
 
 const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glassFilterList, setGlassFilterList}) => {
 
@@ -11,6 +12,7 @@ const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glass
     const [allTags, setAllTags] = useState({});
     const [categoryList, setCategoryList] = useState([])
     const [allGlasses, setAllGlasses] = useState([]);
+    const [cookies, setCookie] = useCookies(["tagList", "glassList"]);
 
     function populateCategoryList(tags) {
         setCategoryList(Object.keys(tags).sort((a, b)=>{
@@ -36,26 +38,38 @@ const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glass
                     setAllGlasses(res.data.glasses);
                 }
             }).catch((err) => console.log(err));
+        if(cookies['tagList']){
+            setTagFilterList(cookies['tagList']);
+        }
+        if(cookies['glassList']){
+            setGlassFilterList(cookies['glassList']);
+        }
     }, []);
 
     const onTagClick = (category, value) => {
+        let newTagList = [];
         if(tagFilterList.includes(category + '>' + value)){
-            setTagFilterList(tagFilterList.filter((tag)=> {
+            newTagList = tagFilterList.filter((tag)=> {
                 return tag !== category + '>' + value;
-            }));
+            });
         } else {
-            setTagFilterList([...tagFilterList, category + '>' + value]);
+            newTagList = [...tagFilterList, category + '>' + value];
         }
+        setTagFilterList(newTagList);
+        setCookie('tagList', newTagList, {maxAge:3600});
     }
 
     const onGlassClick = (glassClicked) => {
+        let newGlassList = [];
         if (glassFilterList.includes(glassClicked)) {
-            setGlassFilterList(glassFilterList.filter((glass)=>{
+            newGlassList = glassFilterList.filter((glass)=>{
                 return glassClicked !== glass;
-            }));
+            });
         } else {
-            setGlassFilterList([...glassFilterList, glassClicked]);
+            newGlassList = [...glassFilterList, glassClicked];
         }
+        setGlassFilterList(newGlassList);
+        setCookie('glassList', newGlassList, {maxAge:3600});
     }
 
     return (
