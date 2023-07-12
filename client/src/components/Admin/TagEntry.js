@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {FaMinus} from "react-icons/fa";
 
-const categories = ['Spirit', 'Style','Taste', 'Mix', 'Color', 'Season', 'Temp', 'Recommended', 'Misc'];
+const categories = ['Spirit', 'Style','Taste', 'Mix', 'Color', 'Season', 'Temp', 'Recommendation', 'Misc'];
 
 const TagEntry = ({index, tags, setTags}) => {
     const [tag, setTag] = useState({});

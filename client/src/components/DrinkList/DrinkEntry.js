@@ -5,7 +5,7 @@ import axios from "axios";
 
 const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, adminKey, filteredTags}) => {
 
-    const defaultTagCategories = ['spirit', 'style', 'taste', 'recommended'];
+    const defaultTagCategories = ['spirit', 'style', 'taste', 'recommendation'];
     const [tagCategories, setTagCategories] = useState(defaultTagCategories);
 
     useEffect(() => {

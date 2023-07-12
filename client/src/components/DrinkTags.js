@@ -1,6 +1,5 @@
 import React from "react";
 import TagColors from '../format/TagColors.js';
-import { getDisplayName } from "./Admin/GlassTypes";
 
 const DrinkTags = ({tags, glass}) => {
 
