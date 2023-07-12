@@ -1,5 +1,4 @@
 import React from "react"
-import DrinkTags, {filterTags} from "../DrinkTags";
 import {FaPlus} from "react-icons/fa";
 const AddDrinkEntry = ({setCurrentPage}) => {
 

@@ -20,7 +20,7 @@ const TagColors = {
     color: "#687387",
     season: "#687387",
     temp: "#687387",
-    recommended: "#be8902",
+    recommendation: "#be8902",
     misc: "#687387"
 };
 
