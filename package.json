@@ -7,7 +7,8 @@
     "start": "node index.js",
     "start-watch": "nodemon index.js",
     "build": "cd client && npm install && npm run build",
-    "dev": "concurrently \"npm run start-watch\" \"cd client && npm start\""
+    "dev": "concurrently \"npm run start-watch\" \"cd client && npm start\"",
+    "update-dep": "npm ci && cd client && npm ci"
   },
   "keywords": [],
   "author": "",
