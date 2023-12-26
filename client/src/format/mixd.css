@@ -514,4 +514,7 @@ nav > div {
     .unselected-tag-filter {
         background-color: #000000;
     }
+    nav {
+        background-color: #000000;
+    }
 }
