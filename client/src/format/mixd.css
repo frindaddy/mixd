@@ -500,3 +500,18 @@ nav > div {
         }
     }
 }
+
+@media screen and (max-width: 480px) {
+    html {
+        background-color: #000000;
+    }
+    .logo {
+        color: #000000;
+    }
+    .search-bar {
+        background-color: #000000;
+    }
+    .unselected-tag-filter {
+        background-color: #000000;
+    }
+}
