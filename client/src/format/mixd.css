@@ -453,6 +453,11 @@ nav > div {
         margin-top: 50px;
     }
 
+    .search-bar {
+        width: 75%;
+        font-size: 16px;
+    }
+
     nav {
         width: 100%;
         background-color: #1D1E1F;
