@@ -31,6 +31,14 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
         setCurrentDrink(drink.uuid);
     };
 
+    const confirmDeleteDrink = () => {
+        if(window.confirm('Are you sure you want to delete \''+drink.name+'\'?') === true){
+            removeDrink();
+        } else {
+            alert('Drink not deleted.');
+        }
+    }
+
     const removeDrink = () => {
         axios.delete('api/drink/'+drink.uuid, {headers:{Authorization: `Bearer ${adminKey}`}})
             .then((res) => {
@@ -56,7 +64,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
             <div className="entry-column">
                 {adminKey && <div className="remove-drink">
                     <FaWrench onClick={()=>{setUpdateDrinkPage()}} style={{cursor: "pointer", paddingRight:'8px'}}/>
-                    <FaTrash onClick={()=>{removeDrink()}} style={{cursor: "pointer"}}/>
+                    <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
                 </div>}
                 <div>
                     <a href={"#drink"}><p className="entry-title" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>{drink.name}</p></a>
