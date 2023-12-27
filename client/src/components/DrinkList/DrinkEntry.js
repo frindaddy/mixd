@@ -5,7 +5,7 @@ import axios from "axios";
 
 const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, adminKey, filteredTags}) => {
 
-    const defaultTagCategories = ['spirit', 'style', 'taste', 'top_pick'];
+    const defaultTagCategories = ['spirit', 'style', 'taste'];
     const [tagCategories, setTagCategories] = useState(defaultTagCategories);
     const [starColor, setStarColor] = useState(undefined);
 
@@ -20,7 +20,17 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
             });
             setTagCategories(newCategories);
         }
-        setStarColor('gold');
+        if(drink.tags){
+            let top_picks = drink.tags.filter((tag) => tag.category === 'top_pick');
+            if (top_picks.length > 0) {
+                let num_unfeatured = top_picks.filter((tag) => tag.value !== 'Featured').length;
+                if(num_unfeatured === 0){
+                    setStarColor('white');
+                } else {
+                    setStarColor('gold');
+                }
+            }
+        }
     }, [filteredTags]);
 
     const setDrinkPage = () => {
