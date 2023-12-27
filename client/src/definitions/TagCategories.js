@@ -6,7 +6,7 @@ const TagCategories = [
     {name: "color", localization: "Color"},
     {name: "season", localization: "Season"},
     {name: "temp", localization: "Temp"},
-    {name: "recommendation", localization: "Recommendation"},
+    {name: "top_pick", localization: "Top Pick"},
     {name: "misc", localization: "Misc."}
 ];
 

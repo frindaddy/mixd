@@ -8,7 +8,7 @@ import TagCategories from "../../definitions/TagCategories";
 
 const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glassFilterList, setGlassFilterList}) => {
 
-    const CAT_ORDER = ['spirit', 'style', 'taste', 'season','color','mix','temp','misc','recommendation'];
+    const CAT_ORDER = ['spirit', 'style', 'taste', 'season','color','mix','temp','misc','top_pick'];
 
     const [allTags, setAllTags] = useState({});
     const [categoryList, setCategoryList] = useState([])
