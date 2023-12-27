@@ -35,7 +35,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
                 }
             }
         }
-    }, [filteredTags]);
+    }, [filteredTags, drink]);
 
     const setDrinkPage = () => {
         setCurrentPage("drinkInfo");
@@ -68,6 +68,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
 
     async function setDrinkFeatured(newFeaturedStatus) {
         setClientSideFeature(newFeaturedStatus);
+        setStarColor(undefined);
         const response = await axios.post('./api/modify_tag/', {drinkUUID: drink.uuid, tag: {value: 'Featured', category: 'top_pick'}, change: newFeaturedStatus ? 'add':'remove'}, {
                 headers: {
                     Authorization: `Bearer ${adminKey}`,
