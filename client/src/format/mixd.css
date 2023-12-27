@@ -102,7 +102,7 @@ body {
 
 .drink-list-separator {
     border: 1px solid darkgray;
-    margin: -2px;
+    margin: 0px;
     margin-right: 8px;
 }
 
