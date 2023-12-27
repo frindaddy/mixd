@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from "react"
 import DrinkTags, {filterTags} from "../DrinkTags";
-import {FaTrash, FaWrench} from "react-icons/fa";
+import {FaTrash, FaWrench, FaStar} from "react-icons/fa";
 import axios from "axios";
 
 const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, adminKey, filteredTags}) => {
 
     const defaultTagCategories = ['spirit', 'style', 'taste', 'top_pick'];
     const [tagCategories, setTagCategories] = useState(defaultTagCategories);
+    const [starColor, setStarColor] = useState(undefined);
 
     useEffect(() => {
         if(filteredTags) {
@@ -19,6 +20,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
             });
             setTagCategories(newCategories);
         }
+        setStarColor('gold');
     }, [filteredTags]);
 
     const setDrinkPage = () => {
@@ -65,6 +67,9 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
                 {adminKey && <div className="remove-drink">
                     <FaWrench onClick={()=>{setUpdateDrinkPage()}} style={{cursor: "pointer", paddingRight:'8px'}}/>
                     <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
+                </div>}
+                {starColor && !adminKey && <div className="remove-drink">
+                    <FaStar style={{color: starColor}}/>
                 </div>}
                 <div>
                     <a href={"#drink"}><p className="entry-title" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>{drink.name}</p></a>
