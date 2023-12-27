@@ -77,10 +77,19 @@ body {
     font-weight: 300;
 }
 
+.description {
+    margin-right: 10%;
+    margin-left: 5px;
+    margin-bottom: 2%;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 23px;
+    text-align: justify;
+    text-justify: auto;
+}
+
 .drink-entry {
     position: relative;
-    border-top: 1px solid darkgray;
-    border-bottom: 1px solid darkgray;
     display: flex;
     margin-right: 8px;
 }
@@ -91,15 +100,10 @@ body {
     clear: both;
 }
 
-.description {
-    margin-right: 10%;
-    margin-left: 5px;
-    margin-bottom: 2%;
-    font-size: 18px;
-    font-weight: 300;
-    line-height: 23px;
-    text-align: justify;
-    text-justify: auto;
+.drink-list-separator {
+    border: 1px solid darkgray;
+    margin: -2px;
+    margin-right: 8px;
 }
 
 .entry-column {
