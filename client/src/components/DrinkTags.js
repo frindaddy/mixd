@@ -1,5 +1,5 @@
 import React from "react";
-import TagColors from '../format/TagColors.js';
+import TagColors from '../definitions/TagColors.js';
 
 const DrinkTags = ({tags, glass}) => {
 
