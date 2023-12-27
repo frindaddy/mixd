@@ -32,7 +32,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
     };
 
     const confirmDeleteDrink = () => {
-        if(window.confirm('Are you sure you want to delete this drink?') === true){
+        if(window.confirm('Are you sure you want to delete '+drink.name+'?') === true){
             removeDrink();
         } else {
             alert('Canceled');
