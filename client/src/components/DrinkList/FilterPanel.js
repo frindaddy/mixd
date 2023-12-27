@@ -4,10 +4,11 @@ import axios from "axios";
 import {getColor} from "../DrinkTags";
 import {FaChevronUp} from "react-icons/fa";
 import {useCookies} from "react-cookie";
+import TagCategories from "../../definitions/TagCategories";
 
 const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glassFilterList, setGlassFilterList}) => {
 
-    const CAT_ORDER = ['spirit', 'style', 'taste', 'season','color','mix','temp','misc','recommendation'];
+    const CAT_ORDER = ['spirit', 'style', 'taste', 'season','color','mix','temp','misc','top_pick'];
 
     const [allTags, setAllTags] = useState({});
     const [categoryList, setCategoryList] = useState([])
@@ -72,12 +73,21 @@ const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glass
         setCookie('glassList', newGlassList, {maxAge:3600});
     }
 
+    const getCategoryLocalization = (categoryName) => {
+        let search = TagCategories.filter((category) => category.name === categoryName);
+        if(search.length > 0){
+            return search[0].localization;
+        } else {
+            return 'Unknown category \''+categoryName+'\'';
+        }
+    }
+
     return (
         <>
             <div className="filter-panel-container">
                 {categoryList.map((cat)=>{
                     return <div className="filter-category-container">
-                        <p className="filter-category-title">{cat.charAt(0).toUpperCase() + cat.slice(1)}</p>
+                        <p className="filter-category-title">{getCategoryLocalization(cat)}</p>
                         <div className="filter-category-tag-container">
                             {allTags[cat].map((tagName)=>{
                                 let selected = tagFilterList.includes(cat+'>'+tagName);
