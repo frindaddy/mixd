@@ -35,7 +35,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
         if(window.confirm('Are you sure you want to delete '+drink.name+'?') === true){
             removeDrink();
         } else {
-            alert('Canceled');
+            alert('Drink not deleted.');
         }
     }
 
