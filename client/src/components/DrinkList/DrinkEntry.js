@@ -75,7 +75,9 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
                 }
             }
         );
-        if (response.status !== 200) {
+        if (response.status === 200) {
+            getDrinkList();
+        } else {
             console.error('Error setting drink tag: status '+response.status);
         }
     }
