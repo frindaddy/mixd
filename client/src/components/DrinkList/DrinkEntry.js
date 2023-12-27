@@ -5,7 +5,7 @@ import axios from "axios";
 
 const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, adminKey, filteredTags}) => {
 
-    const defaultTagCategories = ['spirit', 'style', 'taste', 'top_pick'];
+    const defaultTagCategories = ['spirit', 'style', 'taste'];
     const [tagCategories, setTagCategories] = useState(defaultTagCategories);
     const [starColor, setStarColor] = useState(undefined);
     const [clientSideFeature, setClientSideFeature] = useState(false);
