@@ -43,6 +43,8 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
     }
 
     return (
+        <>
+        <hr class="drink-list-separator"></hr>
         <div class="drink-entry">
             <a style={{display: "flex"}} href={"#drink"}>
                 <div class="glass-container" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>
@@ -61,8 +63,8 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
                 </div>
             </div>
-            
         </div>
+        </>
     )
 }
 
