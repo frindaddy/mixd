@@ -156,6 +156,29 @@ router.post('/add_drink', verifyRequest, (req, res, next) => {
     }
 });
 
+router.post('/modify_tag/', verifyRequest, (req, res, next) => {
+    if (req.body) {
+        switch (req.body.change) {
+            case 'add':
+                Drinks.updateOne({uuid: req.body.drinkUUID}, {$push: {"tags":req.body.tag}})
+                    .then((data) => res.json(data))
+                    .catch(next);
+                console.log('Added tag!');
+                return;
+            case 'remove':
+                Drinks.updateOne({uuid: req.body.drinkUUID}, {$pull: {"tags":req.body.tag}})
+                    .then((data) => res.json(data))
+                    .catch(next);
+                console.log('Removed tag!');
+                return;
+            default:
+                res.sendStatus(400);
+                return;
+        }
+    } else {
+        res.sendStatus(400);
+    }
+});
 /** Unused and depreciated
 router.post('/update_drink/:id', verifyRequest, (req, res, next) => {
     if (req.params.id && req.body) {
