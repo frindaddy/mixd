@@ -20,7 +20,7 @@ const TagColors = {
     color: "#687387",
     season: "#687387",
     temp: "#687387",
-    recommendation: "#be8902",
+    top_pick: "#be8902",
     misc: "#687387"
 };
 

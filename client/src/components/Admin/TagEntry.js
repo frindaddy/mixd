@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react"
 import {FaMinus} from "react-icons/fa";
-
-const categories = ['Spirit', 'Style','Taste', 'Mix', 'Color', 'Season', 'Temp', 'Recommendation', 'Misc'];
+import TagCategories from "../../definitions/TagCategories";
 
 const TagEntry = ({index, tags, setTags}) => {
     const [tag, setTag] = useState({});
@@ -24,8 +23,8 @@ const TagEntry = ({index, tags, setTags}) => {
         <div>
             <select name="category" onChange={handleFormChange}>
                 <option value='no_cat' disabled={true} selected={!tag.category}>Category</option>
-                {categories.map((cat)=>{
-                    return <option selected={cat.toLowerCase()===tag.category} value={cat.toLowerCase()}>{cat}</option>
+                {TagCategories.map((cat)=>{
+                    return <option selected={cat.name===tag.category} value={cat.name}>{cat.localization}</option>
                 })}
             </select>
             <input type='text' placeholder='Tag (ex: Rye)' onChange={handleFormChange} value={tag.value||""} name='value'/>
