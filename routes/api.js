@@ -9,6 +9,7 @@ const Drinks = require('../models/drinks');
 const packVars = require('../package.json');
 
 const ADMIN_PASS = process.env.ADMIN_PASS || 'ADMIN';
+const IMAGE_DIR = process.env.IMAGE_DIR || '';
 
 const adminKey = uuid();
 
@@ -29,7 +30,7 @@ const verifyRequest = (req, res, next) => {
 const imageStorage = multer.diskStorage(
     {
         destination: function ( req, file, cb ) {
-            cb(null, process.env.IMAGE_DIR+'upload');
+            cb(null, IMAGE_DIR+'upload');
         },
         filename: function ( req, file, cb ) {
             cb(null, file.originalname+ '-' + Date.now()+'.jpg');
@@ -109,11 +110,10 @@ router.get('/tags', (req, res, next) => {
 });
 
 router.get('/image', (req, res, next) => {
-    let directoryPath = process.env.IMAGE_DIR;
-    if (req.query.file && fs.existsSync(directoryPath+req.query.file)){
-        res.sendFile(directoryPath+req.query.file);
-    } else if (req.query.backup && fs.existsSync(directoryPath+req.query.backup)) {
-        res.sendFile(directoryPath+req.query.backup);
+    if (req.query.file && fs.existsSync(IMAGE_DIR+req.query.file)){
+        res.sendFile(IMAGE_DIR+req.query.file);
+    } else if (req.query.backup && fs.existsSync(IMAGE_DIR+req.query.backup)) {
+        res.sendFile(IMAGE_DIR+req.query.backup);
     } else {
         res.sendStatus(404);
     }
@@ -121,7 +121,7 @@ router.get('/image', (req, res, next) => {
 
 const compressDrinkImg = async(req, imageUUID) =>{
     let uploadFile = req.file.destination+'/'+req.file.filename;
-    let compressedFile = process.env.IMAGE_DIR+'user_drinks/'+imageUUID+'.jpg';
+    let compressedFile = IMAGE_DIR+'user_drinks/'+imageUUID+'.jpg';
     await sharp(uploadFile)
         .rotate()
         .resize({ width: 600, height:840, fit:"cover" })
@@ -172,7 +172,7 @@ router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
     if(req.params.uuid){
         Drinks.findOneAndDelete({ uuid: req.params.uuid })
             .then((data) => {
-                let drinkImage = process.env.IMAGE_DIR+'user_drinks/'+data.image+'.jpg'
+                let drinkImage = IMAGE_DIR+'user_drinks/'+data.image+'.jpg'
                 if (!req.query.saveImg && fs.existsSync(drinkImage)){
                     fs.unlink(drinkImage, (e)=>{e && console.error(e)});
                 }
