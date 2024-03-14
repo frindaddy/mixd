@@ -179,7 +179,7 @@ router.post('/modify_tag/', verifyRequest, (req, res, next) => {
         res.sendStatus(400);
     }
 });
-/** Unused and depreciated
+/** Unused and deprecated
 router.post('/update_drink/:id', verifyRequest, (req, res, next) => {
     if (req.params.id && req.body) {
         console.log(req.body);
