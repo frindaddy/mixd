@@ -10,6 +10,7 @@ const packVars = require('../package.json');
 
 const ADMIN_PASS = process.env.ADMIN_PASS || 'ADMIN';
 const IMAGE_DIR = process.env.IMAGE_DIR || '';
+const BACKUP_DIR = process.env.BACKUP_DIR || '/root/backups/';
 
 const adminKey = uuid();
 
@@ -45,6 +46,17 @@ const uploadImage = multer( { storage: imageStorage,
     limits: { fileSize: 4000000, files: 1 }
 }).single('drinkImage');
 
+const compressDrinkImg = async(req, imageUUID) =>{
+    let uploadFile = req.file.destination+'/'+req.file.filename;
+    let compressedFile = IMAGE_DIR+'user_drinks/'+imageUUID+'.jpg';
+    await sharp(uploadFile)
+        .rotate()
+        .resize({ width: 600, height:840, fit:"cover" })
+        .jpeg({ quality: 80, mozjpeg: true, force: true })
+        .toFile(compressedFile)
+    await fs.unlink(uploadFile, ()=>{});
+};
+
 router.get('/app-info', (req, res, next) => {
     res.json({
         name: packVars.name,
@@ -76,6 +88,7 @@ router.get('/list', (req, res, next) => {
         .then((data) => res.json(data))
         .catch(next);
 });
+
 router.get('/tags', (req, res, next) => {
     Drinks.find({}, 'tags glass')
         .then((data) => {
@@ -119,16 +132,14 @@ router.get('/image', (req, res, next) => {
     }
 });
 
-const compressDrinkImg = async(req, imageUUID) =>{
-    let uploadFile = req.file.destination+'/'+req.file.filename;
-    let compressedFile = IMAGE_DIR+'user_drinks/'+imageUUID+'.jpg';
-    await sharp(uploadFile)
-        .rotate()
-        .resize({ width: 600, height:840, fit:"cover" })
-        .jpeg({ quality: 80, mozjpeg: true, force: true })
-        .toFile(compressedFile)
-    await fs.unlink(uploadFile, ()=>{});
-}
+router.post('*', (req, res, next) => {
+    Drinks.find({})
+        .then((data) => fs.writeFile(BACKUP_DIR+'backup.json', JSON.stringify(data), (err) => {
+            if(err) console.log('Error writing file:',err);
+        }))
+        .catch(next);
+    console.log("DB BACKE DUP WOOOOO!");
+});
 
 router.post('/image', verifyRequest, async (req, res, next) => {
     uploadImage(req, res, (err) => {
