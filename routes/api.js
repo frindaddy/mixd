@@ -138,7 +138,6 @@ router.post('*', (req, res, next) => {
             if(err) console.log('Error writing file:',err);
         }))
         next()
-    console.log("DB BACKE DUP WOOOOO!");
 });
 
 router.post('/image', verifyRequest, async (req, res, next) => {
