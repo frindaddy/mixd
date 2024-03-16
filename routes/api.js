@@ -137,7 +137,7 @@ router.post('*', (req, res, next) => {
         .then((data) => fs.writeFile(BACKUP_DIR+'backup.json', JSON.stringify(data), (err) => {
             if(err) console.log('Error writing file:',err);
         }))
-        .catch(next);
+        next()
     console.log("DB BACKE DUP WOOOOO!");
 });
 
