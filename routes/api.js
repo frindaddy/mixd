@@ -134,7 +134,7 @@ router.get('/image', (req, res, next) => {
 
 router.post('*', (req, res, next) => {
     Drinks.find({})
-        .then((data) => fs.writeFile(BACKUP_DIR+'backup.json', JSON.stringify(data), (err) => {
+        .then((data) => fs.writeFile(BACKUP_DIR+'backup'+Date.now()+'.json', JSON.stringify(data), (err) => {
             if(err) console.log('Error writing file:',err);
         }))
         next()
