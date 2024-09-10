@@ -201,6 +201,14 @@ router.post('/update_drink/:id', verifyRequest, (req, res, next) => {
     }
 });**/
 
+router.delete('*', (req, res, next) => {
+    Drinks.find({})
+        .then((data) => fs.writeFile(BACKUP_DIR+'backup'+Date.now()+'.json', JSON.stringify(data), (err) => {
+            if(err) console.log('Error writing file:',err);
+        }))
+        next()
+});
+
 router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
     if(req.params.uuid){
         Drinks.findOneAndDelete({ uuid: req.params.uuid })
