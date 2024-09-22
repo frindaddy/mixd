@@ -158,14 +158,16 @@ router.get('/image', (req, res, next) => {
 });
 
 router.post('*', (req, res, next) => {
-    Drinks.find({})
-        .then((data) => fs.writeFile(BACKUP_DIR+'drinkbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
-            if(err) console.log('Error writing file:',err);
-        }))
-    Ingredients.find({})
-        .then((data) => fs.writeFile(BACKUP_DIR+'ingredientbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
-            if(err) console.log('Error writing file:',err);
-        }))
+    if(!process.env.BACKUP_DISABLED){
+        Drinks.find({})
+            .then((data) => fs.writeFile(BACKUP_DIR+'drinkbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
+                if(err) console.log('Error writing file:',err);
+            }))
+        Ingredients.find({})
+            .then((data) => fs.writeFile(BACKUP_DIR+'ingredientbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
+                if(err) console.log('Error writing file:',err);
+            }))
+    }
         next()
 });
 
@@ -231,15 +233,17 @@ router.post('/update_drink/:id', verifyRequest, (req, res, next) => {
 });**/
 
 router.delete('*', (req, res, next) => {
-    Drinks.find({})
-        .then((data) => fs.writeFile(BACKUP_DIR+'drinkbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
-            if(err) console.log('Error writing file:',err);
-        }))
-    Ingredients.find({})
-        .then((data) => fs.writeFile(BACKUP_DIR+'ingredientbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
-            if(err) console.log('Error writing file:',err);
-        }))
-        next()
+    if(!process.env.BACKUP_DISABLED) {
+        Drinks.find({})
+            .then((data) => fs.writeFile(BACKUP_DIR + 'drinkbackup' + Date.now() + '.json', JSON.stringify(data), (err) => {
+                if (err) console.log('Error writing file:', err);
+            }))
+        Ingredients.find({})
+            .then((data) => fs.writeFile(BACKUP_DIR + 'ingredientbackup' + Date.now() + '.json', JSON.stringify(data), (err) => {
+                if (err) console.log('Error writing file:', err);
+            }))
+    }
+    next()
 });
 
 router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
