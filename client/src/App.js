@@ -5,6 +5,7 @@ import React, { useState,  useEffect } from "react";
 import DrinkInfo from "./components/DrinkInfo/DrinkInfo";
 import CreateDrink from "./components/Admin/CreateDrink";
 import axios from "axios";
+import ManageIngredients from "./components/Admin/ManageIngredients";
 
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
                     break;
                 case "#update":
                     setCurrentPage('updateDrink');
+                    break;
+                case "#ingredients":
+                    setCurrentPage('manageIngredients');
                     break;
                 default:
                     setCurrentPage('drinkList');
@@ -45,6 +49,7 @@ function App() {
         {currentPage === "drinkInfo" && <DrinkInfo drinkID={currentDrink} setCurrentPage={setCurrentPage}/>}
         {currentPage === "createDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={null} adminKey={adminKey}/>}
         {currentPage === "updateDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={currentDrink} adminKey={adminKey}/>}
+        {currentPage === "manageIngredients" && <ManageIngredients setCurrentPage={setCurrentPage} adminKey={adminKey}/>}
         <footer>
             <p>©2023 by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
                 Powered by our pure genius.<br/>

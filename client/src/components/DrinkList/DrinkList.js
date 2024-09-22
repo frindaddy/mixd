@@ -6,6 +6,7 @@ import DrinkArray from "./DrinkArray";
 import FilterPanel from "./FilterPanel";
 import {FaFilter, FaEraser} from "react-icons/fa";
 import {useCookies} from "react-cookie";
+import AddIngredientEntry from "../Admin/AddIngredientEntry";
 
 const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => {
 
@@ -70,6 +71,8 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
             </header>
             <div className={showFilterPanel ? 'filter-panel-show':'filter-panel-hide'} style={filterPanelOpenedBefore ? {display: "block"}:{display: "none"}}><FilterPanel setShowFilterPanel={setShowFilterPanel} tagFilterList={tagFilterList} setTagFilterList={setTagFilterList} glassFilterList={glassFilterList} setGlassFilterList={setGlassFilterList}/></div>
             {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
+            {adminKey && <hr className="drink-list-separator"></hr>}
+            {adminKey && <a href="#ingredients"><AddIngredientEntry setCurrentPage={setCurrentPage}/></a>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}} drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
             <hr className="drink-list-separator"></hr>
         </div>
