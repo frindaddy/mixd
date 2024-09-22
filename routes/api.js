@@ -269,6 +269,18 @@ router.post('/add_ingredient', verifyRequest, (req, res, next) => {
     }
 });
 
+router.delete('/ingredient/:uuid', verifyRequest, (req, res, next) => {
+    if(req.params.uuid){
+        Ingredients.findOneAndDelete({ uuid: req.params.uuid })
+            .then((data) => {
+                res.json(data);
+                updateIngredients();
+            })
+            .catch(next);
+    }
+
+});
+
 router.get('/get_ingredients', (req, res, next) => {
     Ingredients.find({}, 'uuid name').sort({name:1})
         .then((data) => res.json(data))

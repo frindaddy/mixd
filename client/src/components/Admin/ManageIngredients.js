@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import {FaChevronLeft} from "react-icons/fa";
+import {FaChevronLeft, FaTrash} from "react-icons/fa";
 import axios from "axios";
 import GlassTypes from "./GlassTypes";
 import TagEntryContainer from "./TagEntryContainer";
@@ -36,17 +36,11 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
             setCurrentPage('drinkList');
         }
     }
-    async function deleteIngredient(ingredientID) {
-        /*
-        axios.delete('api/drink/'+drinkID+(sameImage ? '?saveImg=true':''), {headers:{Authorization: `Bearer ${adminKey}`}})
+    function deleteIngredient(ingredientID) {
+        axios.delete('api/ingredient/'+ingredientID, {headers:{Authorization: `Bearer ${adminKey}`}})
             .then((res) => {
-                if (res.data) {
-                    console.log(res.data[0]);
-                }
+                setIngredients(ingredients.filter(ing => ing.uuid !== ingredientID));
             }).catch((err) => console.log(err));
-
-         */
-        //TODO: Add this
     }
 
     return (
@@ -66,7 +60,10 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 </div>
                 <h1 className="create-drink-title" style={{paddingBottom: "10px"}}>Current Ingredients:</h1>
                 {ingredients.map((ingredient) =>{
-                    return <div style={{display: "flex", justifyContent: "center"}}>{ingredient.name}</div>
+                    return <div>
+                        <div style={{display: "flex", justifyContent: "center"}}><span>{ingredient.name}</span> <FaTrash onClick={()=>{deleteIngredient(ingredient.uuid)}} style={{cursor: "pointer", "padding-left": "10px"}} /> </div>
+
+                    </div>
                 })}
             </div>
         </div>
