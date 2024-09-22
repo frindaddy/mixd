@@ -258,6 +258,32 @@ img {
     font-weight: 300;
 }
 
+.ingredient-category-title {
+    display: flex;
+    margin-bottom: 5px;
+    justify-content: center;
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: 300;
+}
+
+.ingredient-manage-list {
+    display: flex;
+    margin-bottom: 5px;
+    justify-content: center;
+    font-family: Roboto;
+    font-weight: 300;
+}
+
+.ingredient-parent-manage-list {
+    display: flex;
+    margin-bottom: 5px;
+    justify-content: center;
+    font-family: Roboto;
+    font-size: 28px;
+    font-weight: 300; 
+}
+
 .instructions {
     margin-right: 10%;
     margin-left: 5px;

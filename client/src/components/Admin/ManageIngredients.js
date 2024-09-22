@@ -62,12 +62,38 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 <p>Add Ingredient:</p>
                 <div className="create-drink-row">
                     <input type="text" name="ingredientName" placeholder="Lime Juice" value={newIngredientName || ""} onChange={handleFormChange} />
+                    <select name="parent">
+                        <option>Spirit</option>
+                        <option>Liqueur</option>
+                        <option>Syrup</option>
+                        <option>Misc.</option>
+                    </select>
                     <button onClick={()=>{postIngredient(newIngredientName)}}>Add Ingredient</button>
                 </div>
                 <h1 className="create-drink-title" style={{paddingBottom: "10px"}}>Current Ingredients:</h1>
+                <div className="ingredient-category-title">Spirits</div>
+                    <div className="ingredient-parent-manage-list">Gin</div>
+                        <div className="ingredient-manage-list">Beefeater</div>
+                        <div className="ingredient-manage-list">Empress</div>
+                        <div className="ingredient-manage-list">Hendricks</div>
+                        <div className="ingredient-manage-list">Monkey 47</div>
+                    <div className="ingredient-parent-manage-list">Rum</div>
+                        <div className="ingredient-manage-list">Bacardi</div>
+                        <div className="ingredient-manage-list">Diplimatico</div>
+                <div className="ingredient-category-title">Liqueurs</div>
+                    <div className="ingredient-manage-list">Green Chartruese</div>
+                    <div className="ingredient-manage-list">St. Germain</div>
+                <div className="ingredient-category-title">Syrups</div>
+                    <div className="ingredient-manage-list">Grenadine</div>
+                    <div className="ingredient-manage-list">Symple Syrup</div>
+                <div className="ingredient-category-title">Misc.</div>
+                    <div className="ingredient-manage-list">Egg White</div>
+
+                {/* 
                 {ingredients.map((ingredient) =>{
                     return <div style={{display: "flex", justifyContent: "center"}}>{ingredient.name}</div>
                 })}
+                 */}
             </div>
         </div>
     )
