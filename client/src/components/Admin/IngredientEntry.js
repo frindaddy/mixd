@@ -23,8 +23,10 @@ const IngredientEntry = ({index, ingredients, setIngredients, allIngredients}) =
             <input type='text' placeholder='2' size='10' onChange={handleFormChange} value={ingredient.amount||""} name='amount'/>
             <input type='text' placeholder='oz' size='10' onChange={handleFormChange} value={ingredient.unit||""} name='unit'/>
             <select name='ingredient' onChange={handleFormChange}>
-                <option value='' disabled={true} selected={!ingredient.ingredient}>Null</option>
+                <option value='' disabled={true} selected={!ingredient.ingredient}>Select Ingredient</option>
+                <option value='' disabled={true} selected={ingredient.ingredient && ingredient.ingredient.length !== 36}>Legacy Ingredient</option>
                 {allIngredients.map((ingredient)=>{
+                    console.log(ingredient.uuid.length)
                     return <option value={ingredient.uuid} selected={ingredient.ingredient===ingredient.uuid}>{ingredient.name}</option>
                 })}
             </select>
