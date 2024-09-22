@@ -58,16 +58,15 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 </div>
             </nav>
             <div>
-                <h1 className="create-drink-title">Manage Ingredients</h1>
+                <h1 className="create-drink-title" style={{paddingBottom: "20px"}}>Manage Ingredients</h1>
                 <p>Add Ingredient:</p>
                 <div className="create-drink-row">
                     <input type="text" name="ingredientName" placeholder="Lime Juice" value={newIngredientName || ""} onChange={handleFormChange} />
-                </div>
-                <div className="create-drink-row">
                     <button onClick={()=>{postIngredient(newIngredientName)}}>Add Ingredient</button>
                 </div>
+                <h1 className="create-drink-title" style={{paddingBottom: "10px"}}>Current Ingredients:</h1>
                 {ingredients.map((ingredient) =>{
-                    return <p>{ingredient.name}</p>
+                    return <div style={{display: "flex", justifyContent: "center"}}>{ingredient.name}</div>
                 })}
             </div>
         </div>
