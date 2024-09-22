@@ -6,6 +6,7 @@ const fs = require("fs");
 require('dotenv').config();
 const router = express.Router();
 const Drinks = require('../models/drinks');
+const Ingredients = require('../models/ingredients');
 const packVars = require('../package.json');
 
 const ADMIN_PASS = process.env.ADMIN_PASS || 'ADMIN';
@@ -13,6 +14,8 @@ const IMAGE_DIR = process.env.IMAGE_DIR || '';
 const BACKUP_DIR = process.env.BACKUP_DIR || '/root/backups/';
 
 const adminKey = uuid();
+
+var ingredients = {};
 
 const verifyRequest = (req, res, next) => {
     if (req.headers.authorization) {
@@ -57,6 +60,19 @@ const compressDrinkImg = async(req, imageUUID) =>{
     await fs.unlink(uploadFile, ()=>{});
 };
 
+const updateIngredients = async() => {
+    ingredients = {}
+    Ingredients.find({}, 'uuid name').sort({name:1})
+        .then((data) => {
+            data.forEach((ingredient)=>{
+                ingredients[ingredient.uuid] = ingredient.name;
+            })
+        })
+        .catch();
+}
+
+updateIngredients()
+
 router.get('/app-info', (req, res, next) => {
     res.json({
         name: packVars.name,
@@ -75,8 +91,17 @@ router.post('/admin_login', (req, res, next) => {
 
 router.get('/drink/:uuid', (req, res, next) => {
     if(req.params.uuid){
-        Drinks.find({uuid:req.params.uuid}, '')
-            .then((data) => res.json(data))
+        Drinks.findOne({uuid:req.params.uuid}, '')
+            .then((data) => {
+                if(data.ingredients != null){
+                    data.ingredients.forEach((ingredient, index)=>{
+                        if(ingredients[data.ingredients[index].ingredient] != null){
+                            data.ingredients[index].ingredient = ingredients[data.ingredients[index].ingredient];
+                        }
+                    })
+                }
+                res.json(data)
+            })
             .catch(next);
     } else {
         res.sendStatus(400);
@@ -222,5 +247,25 @@ router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
             .catch(next);
     }
 });
+
+router.post('/add_ingredient', verifyRequest, (req, res, next) => {
+    if (req.body.name) {
+        Ingredients.create({uuid: uuid(), name: req.body.name})
+            .then((data) => {
+                res.json(data);
+                updateIngredients();
+            })
+            .catch(next);
+    } else {
+        res.sendStatus(400);
+    }
+});
+
+router.get('/get_ingredients', (req, res, next) => {
+    Ingredients.find({}, 'uuid name').sort({name:1})
+        .then((data) => res.json(data))
+        .catch(next);
+});
+
 
 module.exports = router;
