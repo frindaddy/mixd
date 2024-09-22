@@ -26,7 +26,6 @@ const IngredientEntry = ({index, ingredients, setIngredients, allIngredients}) =
                 <option value='' disabled={true} selected={!ingredient.ingredient}>Select Ingredient</option>
                 <option value='' disabled={true} selected={ingredient.ingredient && ingredient.ingredient.length !== 36}>Legacy Ingredient</option>
                 {allIngredients.map((ingredient)=>{
-                    console.log(ingredient.uuid.length)
                     return <option value={ingredient.uuid} selected={ingredient.ingredient===ingredient.uuid}>{ingredient.name}</option>
                 })}
             </select>
