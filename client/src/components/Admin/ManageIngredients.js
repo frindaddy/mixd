@@ -70,25 +70,34 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                     </select>
                     <button onClick={()=>{postIngredient(newIngredientName)}}>Add Ingredient</button>
                 </div>
-                <h1 className="create-drink-title" style={{paddingBottom: "10px"}}>Current Ingredients:</h1>
-                <div className="ingredient-category-title">Spirits</div>
-                    <div className="ingredient-parent-manage-list">Gin</div>
-                        <div className="ingredient-manage-list">Beefeater</div>
-                        <div className="ingredient-manage-list">Empress</div>
-                        <div className="ingredient-manage-list">Hendricks</div>
-                        <div className="ingredient-manage-list">Monkey 47</div>
-                    <div className="ingredient-parent-manage-list">Rum</div>
-                        <div className="ingredient-manage-list">Bacardi</div>
-                        <div className="ingredient-manage-list">Diplimatico</div>
-                <div className="ingredient-category-title">Liqueurs</div>
-                    <div className="ingredient-manage-list">Green Chartruese</div>
-                    <div className="ingredient-manage-list">St. Germain</div>
-                <div className="ingredient-category-title">Syrups</div>
-                    <div className="ingredient-manage-list">Grenadine</div>
-                    <div className="ingredient-manage-list">Symple Syrup</div>
-                <div className="ingredient-category-title">Misc.</div>
-                    <div className="ingredient-manage-list">Egg White</div>
-
+                <h1 className="create-drink-title">Current Ingredients:</h1>
+                <div style={{display: "table", width: "100%"}}>
+                    <div style={{display: "table-row-group"}}>
+                        <div style={{display: "table-row"}}>
+                            <div className="ingredient-category-manage-list">Spirits 
+                                <div className="ingredient-parent-manage-list">Gin</div>
+                                    <div className="ingredient-manage-list">Beefeater</div>
+                                    <div className="ingredient-manage-list">Empress</div>
+                                    <div className="ingredient-manage-list">Hendricks</div>
+                                    <div className="ingredient-manage-list">Monkey 47</div>
+                                <div className="ingredient-parent-manage-list">Rum</div>
+                                    <div className="ingredient-manage-list">Bacardi</div>
+                                    <div className="ingredient-manage-list">Diplimatico</div>
+                            </div>
+                            <div className="ingredient-category-manage-list">Liqueurs
+                                <div className="ingredient-manage-list">Green Chartruese</div>
+                                <div className="ingredient-manage-list">St. Germain</div>
+                            </div>
+                            <div className="ingredient-category-manage-list">Syrups
+                                <div className="ingredient-manage-list">Grenadine</div>
+                                <div className="ingredient-manage-list">Symple Syrup</div>
+                            </div>
+                            <div className="ingredient-category-manage-list">Misc.
+                                <div className="ingredient-manage-list">Egg White</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {/* 
                 {ingredients.map((ingredient) =>{
                     return <div style={{display: "flex", justifyContent: "center"}}>{ingredient.name}</div>

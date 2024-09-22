@@ -258,10 +258,9 @@ img {
     font-weight: 300;
 }
 
-.ingredient-category-title {
-    display: flex;
-    margin-bottom: 5px;
-    justify-content: center;
+.ingredient-category-manage-list {
+    display: table-cell;
+    text-align: center;
     font-family: Roboto;
     font-size: 30px;
     font-weight: 300;
@@ -269,15 +268,16 @@ img {
 
 .ingredient-manage-list {
     display: flex;
-    margin-bottom: 5px;
+    padding-top: 5px;
     justify-content: center;
     font-family: Roboto;
+    font-size: 16px;
     font-weight: 300;
 }
 
 .ingredient-parent-manage-list {
     display: flex;
-    margin-bottom: 5px;
+    padding-top: 5px;
     justify-content: center;
     font-family: Roboto;
     font-size: 24px;
