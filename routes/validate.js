@@ -65,6 +65,7 @@ async function updateLegacyIngredients() {
             ingredientData.forEach((ingredient)=>{
                 ingredients[ingredient.name] = ingredient.uuid;
             })
+            console.log(ingredients)
             Drinks.find({}, 'name uuid ingredients').then((drinkData) => {
                 drinkData.forEach((drink) => {
                     let new_ingredients = drink.ingredients
