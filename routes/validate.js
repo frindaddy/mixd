@@ -52,33 +52,34 @@ async function updateLegacyIngredients() {
                     }
                 })
             })
-        })
-    })
-    //Assign ingredients based on legacy name
-    Ingredients.find({}, 'uuid name').then(ingredientData => {
-        let ingredientUUIDs = ingredientData.map((ingredient) => ingredient.uuid)
-        let ingredients = {}
-        ingredientData.forEach((ingredient)=>{
-            ingredients[ingredient.name] = ingredient.uuid;
-        })
-        Drinks.find({}, 'name uuid ingredients').then((drinkData) => {
-            drinkData.forEach((drink) => {
-                let new_ingredients = drink.ingredients
-                let updated = false
-                drink.ingredients.forEach(drinkIngredient => {
-                    if(!ingredientUUIDs.includes(drinkIngredient.ingredient)){
-                        let index = drink.ingredients.findIndex(ingredient => ingredient.ingredient === drinkIngredient.ingredient)
-                        new_ingredients[index].ingredient = ingredients[drinkIngredient.ingredient]
-                        updated = true
-                    }
+            //Assign ingredients based on legacy name
+            Ingredients.find({}, 'uuid name').then(ingredientData => {
+                let ingredientUUIDs = ingredientData.map((ingredient) => ingredient.uuid)
+                let ingredients = {}
+                ingredientData.forEach((ingredient)=>{
+                    ingredients[ingredient.name] = ingredient.uuid;
                 })
-                if(updated) {
-                    Drinks.updateOne({uuid: drink.uuid}, {ingredients: new_ingredients}).then((data) => {
-                        console.log("Converted legacy ingredients for drink "+drink.name+" ("+drink.uuid+")")
+                Drinks.find({}, 'name uuid ingredients').then((drinkData) => {
+                    drinkData.forEach((drink) => {
+                        let new_ingredients = drink.ingredients
+                        let updated = false
+                        drink.ingredients.forEach(drinkIngredient => {
+                            if(!ingredientUUIDs.includes(drinkIngredient.ingredient)){
+                                let index = drink.ingredients.findIndex(ingredient => ingredient.ingredient === drinkIngredient.ingredient)
+                                new_ingredients[index].ingredient = ingredients[drinkIngredient.ingredient]
+                                updated = true
+                            }
+                        })
+                        if(updated) {
+                            Drinks.updateOne({uuid: drink.uuid}, {ingredients: new_ingredients}).then((data) => {
+                                console.log("Converted legacy ingredients for drink "+drink.name+" ("+drink.uuid+")")
+                            })
+                        }
                     })
-                }
+                })
             })
         })
+
     })
 }
 
