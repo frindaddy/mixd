@@ -36,7 +36,16 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
             setCurrentPage('drinkList');
         }
     }
-    function deleteIngredient(ingredientID) {
+
+    function confirmDeleteIngredient(ingredientID, ingredientName) {
+        if(window.confirm('Are you sure you want to delete \''+ingredientName+'\'?') === true){
+            removeIngredient(ingredientID);
+        } else {
+            alert('Ingredient not deleted.');
+        }
+    }
+
+    function removeIngredient(ingredientID) {
         axios.delete('api/ingredient/'+ingredientID, {headers:{Authorization: `Bearer ${adminKey}`}})
             .then((res) => {
                 setIngredients(ingredients.filter(ing => ing.uuid !== ingredientID));
@@ -61,8 +70,7 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 <h1 className="create-drink-title" style={{paddingBottom: "10px"}}>Current Ingredients:</h1>
                 {ingredients.map((ingredient) =>{
                     return <div>
-                        <div style={{display: "flex", justifyContent: "center"}}><span>{ingredient.name}</span> <FaTrash onClick={()=>{deleteIngredient(ingredient.uuid)}} style={{cursor: "pointer", "padding-left": "10px"}} /> </div>
-
+                        <div style={{display: "flex", justifyContent: "center"}}><span>{ingredient.name}</span> <FaTrash onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}} style={{cursor: "pointer", "padding-left": "10px"}} /> </div>
                     </div>
                 })}
             </div>
