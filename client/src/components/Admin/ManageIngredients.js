@@ -1,24 +1,45 @@
 import React, {useEffect, useState} from "react"
 import {FaChevronLeft, FaTrash} from "react-icons/fa";
 import axios from "axios";
-import GlassTypes from "./GlassTypes";
-import TagEntryContainer from "./TagEntryContainer";
-import IngredientEntryContainer from "./IngredientEntryContainer";
+import {FaPenToSquare} from "react-icons/fa6";
+
 const ManageIngredients = ({setCurrentPage, adminKey}) => {
     const [newIngredientName, setNewIngredientName] = useState("");
     const [ingredients, setIngredients] = useState([]);
 
     useEffect(() => {
+        fetchIngredients();
+    }, []);
+
+    const fetchIngredients = () => {
         axios.get('api/get_ingredients')
             .then((res) => {
                 if (res.data) {
                     setIngredients(res.data)
                 }
             }).catch((err) => console.log(err));
-    }, []);
+    }
 
     const handleFormChange = (event) => {
         setNewIngredientName(event.target.value);
+    }
+
+    async function renameIngredient(uuid, newName) {
+        if(newName && newName.length > 0){
+            const response = await axios.post('./api/rename_ingredient', {uuid: uuid, name: newName}, {
+                    headers: {
+                        Authorization: `Bearer ${adminKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            if(response.status !== 200) {
+                //TODO: Add errors back.
+                //setErrorMsg('Failed to add drink. Internal server error '+response.status);
+            } else {
+                fetchIngredients();
+            }
+        }
     }
 
     async function postIngredient(ingredientName) {
@@ -33,7 +54,7 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
             //TODO: Add errors back.
             //setErrorMsg('Failed to add drink. Internal server error '+response.status);
         } else {
-            setCurrentPage('drinkList');
+            fetchIngredients();
         }
     }
 
@@ -66,7 +87,7 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 <h1 className="create-drink-title" style={{paddingBottom: "10px"}}>Current Ingredients:</h1>
                 {ingredients.map((ingredient) =>{
                     return <div>
-                        <div style={{display: "flex", justifyContent: "center"}}><span>{ingredient.name}</span> <FaTrash onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}} style={{cursor: "pointer", "padding-left": "10px"}} /> </div>
+                        <div style={{display: "flex", justifyContent: "center"}}><span>{ingredient.name}</span> <FaPenToSquare onClick={()=>{renameIngredient(ingredient.uuid, prompt("Rename '"+ingredient.name+"' to:", ingredient.name))}} style={{cursor: "pointer", "padding-left": "10px"}} /> <FaTrash onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}} style={{cursor: "pointer", "padding-left": "10px"}} /> </div>
                     </div>
                 })}
             </div>
