@@ -304,5 +304,22 @@ router.get('/get_ingredients', (req, res, next) => {
         .catch(next);
 });
 
+router.get('/unused_ingredients', (req, res, next) => {
+    let empty_UUIDs = []
+    Ingredients.find({}, 'uuid')
+        .then((ingredientData) => {
+            Drinks.find({}, 'ingredients').then((drinkData) => {
+                ingredientData.forEach((ingredientResult) => {
+                    let drinks = drinkData.filter((drink) => {
+                        return drink.ingredients.filter(ingr => ingr.ingredient === ingredientResult.uuid).length > 0
+                    })
+                    if(drinks.length === 0) empty_UUIDs.push(ingredientResult.uuid)
+                })
+                res.json(empty_UUIDs)
+            })
+        })
+        .catch(next);
+});
+
 
 module.exports = router;

@@ -6,6 +6,7 @@ import {FaPenToSquare} from "react-icons/fa6";
 const ManageIngredients = ({setCurrentPage, adminKey}) => {
     const [newIngredientName, setNewIngredientName] = useState("");
     const [ingredients, setIngredients] = useState([]);
+    const [unusedIngredients, setUnusedIngredients] = useState([]);
 
     useEffect(() => {
         fetchIngredients();
@@ -16,6 +17,12 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
             .then((res) => {
                 if (res.data) {
                     setIngredients(res.data)
+                }
+            }).catch((err) => console.log(err));
+        axios.get('api/unused_ingredients')
+            .then((res) => {
+                if (res.data) {
+                    setUnusedIngredients(res.data)
                 }
             }).catch((err) => console.log(err));
     }
@@ -87,7 +94,8 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 <h1 className="create-drink-title" style={{paddingBottom: "10px"}}>Current Ingredients:</h1>
                 {ingredients.map((ingredient) =>{
                     return <div>
-                        <div style={{display: "flex", justifyContent: "center"}}><span>{ingredient.name}</span>
+                        <div style={{display: "flex", justifyContent: "center"}}>
+                            <span style={{color: unusedIngredients.includes(ingredient.uuid) ? "red":"white"}}>{ingredient.name}</span>
                             <FaPenToSquare onClick={()=>{renameIngredient(ingredient.uuid, prompt("Rename '"+ingredient.name+"' to:", ingredient.name))}}
                                 style={{cursor: "pointer", "padding-left": "10px"}} />
                             <FaTrash onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}}
