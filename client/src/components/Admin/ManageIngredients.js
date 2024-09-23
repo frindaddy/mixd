@@ -96,7 +96,7 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 {ingredients.map((ingredient) =>{
                     return <div>
                         <div style={{display: "flex", justifyContent: "center"}}>
-                            <span style={{color: unusedIngredients.includes(ingredient.uuid) ? "red":"white"}}>{ingredient.name}</span>
+                            <span style={{color: unusedIngredients.includes(ingredient.uuid) ? "red":"white"}}>{ingredient.name + " ("+ingredient.uuid+")"}</span>
                             <FaPenToSquare onClick={()=>{renameIngredient(ingredient.uuid, prompt("Rename '"+ingredient.name+"' to:", ingredient.name))}}
                                 style={{cursor: "pointer", "padding-left": "10px"}} />
                             <FaTrash onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}}
