@@ -61,6 +61,7 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
             //TODO: Add errors back.
             //setErrorMsg('Failed to add drink. Internal server error '+response.status);
         } else {
+            setNewIngredientName("")
             fetchIngredients();
         }
     }
