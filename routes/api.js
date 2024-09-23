@@ -83,6 +83,7 @@ router.get('/app-info', (req, res, next) => {
 
 router.post('/admin_login', (req, res, next) => {
     if (req.body.password === ADMIN_PASS) {
+        updateIngredients(); //Update ingredients on Admin Login
         res.json({adminKey: adminKey});
     } else {
         res.json({error: 'Incorrect Password'});
@@ -97,6 +98,8 @@ router.get('/drink/:uuid', (req, res, next) => {
                     data.ingredients.forEach((ingredient, index)=>{
                         if(ingredients[data.ingredients[index].ingredient] != null){
                             data.ingredients[index].ingredient = ingredients[data.ingredients[index].ingredient];
+                        } else {
+                            data.ingredients[index].ingredient = "Missing ingredient ("+data.ingredients[index].ingredient+")"
                         }
                     })
                 }
