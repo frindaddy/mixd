@@ -39,17 +39,13 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
 
     function confirmDeleteIngredient(ingredientID, ingredientName) {
         if(window.confirm('Are you sure you want to delete \''+ingredientName+'\'?') === true){
-            removeIngredient(ingredientID);
+            axios.delete('api/ingredient/'+ingredientID, {headers:{Authorization: `Bearer ${adminKey}`}})
+                .then((res) => {
+                    setIngredients(ingredients.filter(ing => ing.uuid !== ingredientID));
+                }).catch((err) => console.log(err));
         } else {
             alert('Ingredient not deleted.');
         }
-    }
-
-    function removeIngredient(ingredientID) {
-        axios.delete('api/ingredient/'+ingredientID, {headers:{Authorization: `Bearer ${adminKey}`}})
-            .then((res) => {
-                setIngredients(ingredients.filter(ing => ing.uuid !== ingredientID));
-            }).catch((err) => console.log(err));
     }
 
     return (
