@@ -87,7 +87,12 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 <h1 className="create-drink-title" style={{paddingBottom: "10px"}}>Current Ingredients:</h1>
                 {ingredients.map((ingredient) =>{
                     return <div>
-                        <div style={{display: "flex", justifyContent: "center"}}><span>{ingredient.name}</span> <FaPenToSquare onClick={()=>{renameIngredient(ingredient.uuid, prompt("Rename '"+ingredient.name+"' to:", ingredient.name))}} style={{cursor: "pointer", "padding-left": "10px"}} /> <FaTrash onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}} style={{cursor: "pointer", "padding-left": "10px"}} /> </div>
+                        <div style={{display: "flex", justifyContent: "center"}}><span>{ingredient.name}</span>
+                            <FaPenToSquare onClick={()=>{renameIngredient(ingredient.uuid, prompt("Rename '"+ingredient.name+"' to:", ingredient.name))}}
+                                style={{cursor: "pointer", "padding-left": "10px"}} />
+                            <FaTrash onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}}
+                                style={{cursor: "pointer", "padding-left": "10px"}} />
+                        </div>
                     </div>
                 })}
             </div>
