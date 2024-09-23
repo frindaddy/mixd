@@ -273,6 +273,19 @@ router.post('/add_ingredient', verifyRequest, (req, res, next) => {
     }
 });
 
+router.post('/rename_ingredient', verifyRequest, (req, res, next) => {
+    if (req.body.uuid && req.body.name) {
+        Ingredients.findOneAndUpdate({uuid: req.body.uuid}, {name: req.body.name})
+            .then((data) => {
+                res.json(data);
+                updateIngredients();
+            })
+            .catch(next);
+    } else {
+        res.sendStatus(400);
+    }
+});
+
 router.delete('/ingredient/:uuid', verifyRequest, (req, res, next) => {
     if(req.params.uuid){
         Ingredients.findOneAndDelete({ uuid: req.params.uuid })
