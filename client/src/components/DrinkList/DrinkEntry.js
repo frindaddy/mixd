@@ -49,21 +49,17 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
 
     const confirmDeleteDrink = () => {
         if(window.confirm('Are you sure you want to delete \''+drink.name+'\'?') === true){
-            removeDrink();
+            axios.delete('api/drink/'+drink.uuid, {headers:{Authorization: `Bearer ${adminKey}`}})
+                .then((res) => {
+                    if (res.data) {
+                        getDrinkList();
+                    } else {
+                        alert('FAILED TO REMOVE DRINK!');
+                    }
+                }).catch((err) => console.log(err));
         } else {
             alert('Drink not deleted.');
         }
-    }
-
-    const removeDrink = () => {
-        axios.delete('api/drink/'+drink.uuid, {headers:{Authorization: `Bearer ${adminKey}`}})
-            .then((res) => {
-                if (res.data) {
-                    getDrinkList();
-                } else {
-                    alert('FAILED TO REMOVE DRINK!');
-                }
-            }).catch((err) => console.log(err));
     }
 
     async function setDrinkFeatured(newFeaturedStatus) {
