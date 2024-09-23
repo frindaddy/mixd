@@ -72,8 +72,13 @@ async function updateLegacyIngredients() {
                     drink.ingredients.forEach(drinkIngredient => {
                         if(!ingredientUUIDs.includes(drinkIngredient.ingredient) && !uuidValidate(drinkIngredient.ingredient)){
                             let index = drink.ingredients.findIndex(ingredient => ingredient.ingredient === drinkIngredient.ingredient)
-                            new_ingredients[index].ingredient = ingredients[drinkIngredient.ingredient]
-                            updated = true
+                            if(ingredients[drinkIngredient.ingredient]){
+                                new_ingredients[index].ingredient = ingredients[drinkIngredient.ingredient]
+                                updated = true
+                            } else {
+                                console.log("ISSUE WITH "+drinkIngredient.ingredient)
+                            }
+
                         }
                     })
                     if(updated) {
