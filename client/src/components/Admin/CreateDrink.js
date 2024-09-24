@@ -101,6 +101,7 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
     const validateDrink = (drink) => {
         if (!drink.name) { return 'Drink name is required!' }
         if (drink.tags.length < 1) { return 'Drink tags are required!' }
+        if (drink.ingredients.length < 1) { return 'Ingredients are required!' }
     }
 
     async function postDrink(drink) {
@@ -163,18 +164,18 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
 
             <div style={{flexDirection: "column", width: "100%"}}>
                 <h1 className="create-drink-title">{drinkID === null ? 'Add New Drink':'Update Existing Drink'}</h1>
-                {errorMsg && <p>{"ERROR: "+errorMsg}</p>}
+                {errorMsg && <p style={{color:"red"}}>{"ERROR: "+errorMsg}</p>}
                 <div className="create-drink-image">
                     <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
                     {(drinkID !== null) && <p style={{cursor: "pointer"}} onClick={()=>{setImagePreviewURL(noImageURL)}}>Remove Image</p>}
                     <p>Drink Preview</p>
                     <input type="file" onChange={onImageSelected}/>
                 </div>
-                <p>Name:</p>
+                <p>Name (Required):</p>
                 <div className="create-drink-row">
                     <input type="text" name="name" placeholder="Manhattan" value={inputs.name || ""} onChange={handleFormChange} />
                 </div>
-                <p>Tags:</p>
+                <p>Tags (Required):</p>
                 <div className="create-drink-row">
                     <TagEntryContainer inputs={inputs} setInputs={setInputs}/>
                 </div>
@@ -187,7 +188,7 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                         })}
                     </select>
                 </div>
-                <p>Ingredients:</p>
+                <p>Ingredients (Required):</p>
                 <div className="create-drink-row">
                     <IngredientEntryContainer inputs={inputs}  setInputs={setInputs} allIngredients={allIngredients}/>
                 </div>
