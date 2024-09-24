@@ -192,6 +192,11 @@ router.post('/image', verifyRequest, async (req, res, next) => {
 
 router.post('/add_drink', verifyRequest, (req, res, next) => {
     if (req.body.name) {
+
+        //Clean up database data
+        delete req.body._id
+        delete req.body.__v
+
         Drinks.create({...req.body, uuid: uuid()})
             .then((data) => res.json(data))
             .catch(next);
