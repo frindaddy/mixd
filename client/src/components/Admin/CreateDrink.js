@@ -80,6 +80,10 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                     if (typeof ingredient.amount === "string"){
                         ingredient.amount = parseFloat(ingredient.amount.replace(",", "."));
                     }
+                    let ingIndex = allIngredients.findIndex(ing => ing.name === ingredient.ingredient)
+                    if(ingIndex !== -1){
+                        ingredient.ingredient = allIngredients[ingIndex].uuid
+                    }
                     ingredients = [...ingredients, ingredient];
                 }
             });
