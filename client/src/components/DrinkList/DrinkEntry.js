@@ -33,6 +33,8 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
                 } else {
                     setStarColor('gold');
                 }
+            } else {
+                setStarColor(undefined)
             }
         }
     }, [filteredTags, drink]);
