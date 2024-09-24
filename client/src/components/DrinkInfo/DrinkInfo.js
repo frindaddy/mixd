@@ -12,8 +12,8 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
     useEffect(() => {
         axios.get('api/drink/'+drinkID)
             .then((res) => {
-                if (res.data && res.data.length > 0) {
-                    setDrink(res.data[0]);
+                if (res.data) {
+                    setDrink(res.data);
                     setDrinkLoaded(true);
                 } else {
                     setDrinkFailed(true);

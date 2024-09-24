@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {FaMinus} from "react-icons/fa";
 
-const IngredientEntry = ({index, ingredients, setIngredients}) => {
+const IngredientEntry = ({index, ingredients, setIngredients, allIngredients}) => {
     const [ingredient, setIngredient] = useState({});
 
     useEffect(() => {
@@ -22,7 +22,13 @@ const IngredientEntry = ({index, ingredients, setIngredients}) => {
         <div>
             <input type='text' placeholder='2' size='10' onChange={handleFormChange} value={ingredient.amount||""} name='amount'/>
             <input type='text' placeholder='oz' size='10' onChange={handleFormChange} value={ingredient.unit||""} name='unit'/>
-            <input type='text' placeholder='Rye' size='10' onChange={handleFormChange} value={ingredient.ingredient||""} name='ingredient'/>
+            <select name='ingredient' onChange={handleFormChange}>
+                <option value='' disabled={true} selected={!ingredient.ingredient}>Select Ingredient</option>
+                {allIngredients.map((ingredientOption)=>{
+                    return <option value={ingredientOption.uuid} selected={ingredient.ingredient === ingredientOption.name}>{ingredientOption.name}</option>
+                })}
+            </select>
+
             {(index === ingredients.length - 1) && <FaMinus style={{marginLeft: "5px"}}
                 onClick={() =>{setIngredients(ingredients.slice(0, -1))}}/>}
         </div>

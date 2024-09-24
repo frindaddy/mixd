@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {FaPlus} from "react-icons/fa";
 import IngredientEntry from "./IngredientEntry";
-const IngredientEntryContainer = ({inputs, setInputs}) => {
+const IngredientEntryContainer = ({inputs, setInputs, allIngredients}) => {
 
     const [ingredients, setIngredients] = useState([{}]);
 
@@ -19,7 +19,7 @@ const IngredientEntryContainer = ({inputs, setInputs}) => {
     return (
         <div>
             {ingredients.map((ingredient, index) => {
-                return <IngredientEntry index={index} ingredients={ingredients} setIngredients={updateAllIngredients}/>
+                return <IngredientEntry index={index} ingredients={ingredients} setIngredients={updateAllIngredients} allIngredients={allIngredients}/>
             })}
             <div style={{display: "flex", justifyContent: "center", marginTop: "5px"}}>
                 <FaPlus onClick={() => {setIngredients([...ingredients, {}])}}/>

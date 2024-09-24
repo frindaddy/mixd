@@ -9,6 +9,7 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
     const [imagePreviewURL, setImagePreviewURL] = useState(noImageURL);
     const [selectedImage, setSelectedImage] = useState(null);
     const [inputs, setInputs] = useState({});
+    const [allIngredients, setAllIngredients] = useState([]);
     const [imageUUID, setImageUUID] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
 
@@ -17,11 +18,17 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
             axios.get('api/drink/'+drinkID)
                 .then((res) => {
                     if (res.data) {
-                        setInputs(res.data[0]);
-                        setImagePreviewURL('./api/image?file=user_drinks/'+res.data[0].image+'.jpg&backup=glassware/unknown.svg');
+                        setInputs(res.data);
+                        setImagePreviewURL('./api/image?file=user_drinks/'+res.data.image+'.jpg&backup=glassware/unknown.svg');
                     }
                 }).catch((err) => console.log(err));
         }
+        axios.get('api/get_ingredients')
+            .then((res) => {
+                if (res.data) {
+                    setAllIngredients(res.data);
+                }
+            }).catch((err) => console.log(err));
     }, [drinkID]);
 
     const onImageSelected = (e) => {
@@ -178,7 +185,7 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                 </div>
                 <p>Ingredients:</p>
                 <div className="create-drink-row">
-                    <IngredientEntryContainer inputs={inputs}  setInputs={setInputs}/>
+                    <IngredientEntryContainer inputs={inputs}  setInputs={setInputs} allIngredients={allIngredients}/>
                 </div>
                 <p>Garnish:</p>
                 <div className="create-drink-row">
