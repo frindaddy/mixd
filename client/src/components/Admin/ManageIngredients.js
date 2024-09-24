@@ -99,8 +99,8 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                             <span style={{color: unusedIngredients.includes(ingredient.uuid) ? "red":"white"}}>{ingredient.name}</span>
                             <FaPenToSquare onClick={()=>{renameIngredient(ingredient.uuid, prompt("Rename '"+ingredient.name+"' to:", ingredient.name))}}
                                 style={{cursor: "pointer", "padding-left": "10px"}} />
-                            <FaTrash onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}}
-                                style={{cursor: "pointer", "padding-left": "10px"}} />
+                            {unusedIngredients.includes(ingredient.uuid) && <FaTrash onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}}
+                                style={{cursor: "pointer", "padding-left": "10px"}} />}
                         </div>
                     </div>
                 })}
