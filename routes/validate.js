@@ -61,6 +61,7 @@ async function updateLegacyIngredients() {
         //Assign ingredients based on legacy name
         Ingredients.find({}, 'uuid name').then(ingredientData => {
             let ingredientUUIDs = ingredientData.map((ingredient) => ingredient.uuid)
+            console.log(ingredientData)
             Drinks.find({}, 'name uuid ingredients').then((drinkData) => {
                 drinkData.forEach((drink) => {
                     let new_ingredients = drink.ingredients
