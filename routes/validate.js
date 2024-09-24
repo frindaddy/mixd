@@ -60,10 +60,6 @@ async function updateLegacyIngredients() {
     }).then(()=>{
         //Assign ingredients based on legacy name
         Ingredients.find({}, 'uuid name').then(ingredientData => {
-            if(ingredientData.length === 0){
-                console.log("Database converting. Please restart server.")
-                return
-            }
             let ingredientUUIDs = ingredientData.map((ingredient) => ingredient.uuid)
             Drinks.find({}, 'name uuid ingredients').then((drinkData) => {
                 drinkData.forEach((drink) => {
@@ -72,9 +68,7 @@ async function updateLegacyIngredients() {
                     drink.ingredients.forEach(drinkIngredient => {
                         if(!ingredientUUIDs.includes(drinkIngredient.ingredient) && !uuidValidate(drinkIngredient.ingredient)){
                             let ingIndex = ingredientData.findIndex(ingredient => ingredient.name === drinkIngredient.ingredient)
-                            if(ingIndex === -1){
-                                console.log("ISSUE WITH "+drinkIngredient.ingredient)
-                            } else {
+                            if(ingIndex !== -1) {
                                 let index = drink.ingredients.findIndex(ingredient => ingredient.ingredient === drinkIngredient.ingredient)
                                 new_ingredients[index].ingredient = ingredientData[ingIndex].uuid
                                 updated = true
