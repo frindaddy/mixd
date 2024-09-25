@@ -175,10 +175,6 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                 <div className="create-drink-row">
                     <input type="text" name="name" placeholder="Manhattan" value={inputs.name || ""} onChange={handleFormChange} />
                 </div>
-                <p>Tags (Required):</p>
-                <div className="create-drink-row">
-                    <TagEntryContainer inputs={inputs} setInputs={setInputs}/>
-                </div>
                 <p>Glass:</p>
                 <div className="create-drink-row">
                     <select name="glass" onChange={handleFormChange}>
@@ -215,6 +211,10 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                 <p>Footnotes:</p>
                 <div className="create-drink-row">
                     <textarea name="footnotes" rows="3" cols="45" value={inputs.footnotes || ""} onChange={handleFormChange} />
+                </div>
+                <p>Tags (Required):</p>
+                <div className="create-drink-row">
+                    <TagEntryContainer inputs={inputs} setInputs={setInputs}/>
                 </div>
                 <div className="create-drink-row">
                     <button onClick={()=>{drinkID === null ? createDrink(false):updateDrink()}}>{drinkID === null ? 'Add New Drink':'Update Drink'}</button>
