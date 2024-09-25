@@ -42,7 +42,7 @@ const IngredientEntry = ({index, ingredients, setIngredients, allIngredients, sw
             <select name='ingredient' onChange={handleFormChange}>
                 <option value='' disabled={true} selected={!ingredient.ingredient}>Select Ingredient</option>
                 {allIngredients.map((ingredientOption)=>{
-                    return <option value={ingredientOption.uuid} selected={ingredient.ingredient === ingredientOption.name}>{ingredientOption.name}</option>
+                    return <option value={ingredientOption.uuid} selected={ingredient.ingredient === ingredientOption.name || ingredient.ingredient === ingredientOption.uuid}>{ingredientOption.name}</option>
                 })}
             </select>
 
