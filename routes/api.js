@@ -83,6 +83,7 @@ router.get('/app-info', (req, res, next) => {
 
 router.post('/admin_login', (req, res, next) => {
     if (req.body.password === ADMIN_PASS) {
+        updateIngredients(); //Update ingredients on Admin Login
         res.json({adminKey: adminKey});
     } else {
         res.json({error: 'Incorrect Password'});
@@ -97,6 +98,8 @@ router.get('/drink/:uuid', (req, res, next) => {
                     data.ingredients.forEach((ingredient, index)=>{
                         if(ingredients[data.ingredients[index].ingredient] != null){
                             data.ingredients[index].ingredient = ingredients[data.ingredients[index].ingredient];
+                        } else {
+                            data.ingredients[index].ingredient = "Missing ingredient ("+data.ingredients[index].ingredient+")"
                         }
                     })
                 }
@@ -158,14 +161,16 @@ router.get('/image', (req, res, next) => {
 });
 
 router.post('*', (req, res, next) => {
-    Drinks.find({})
-        .then((data) => fs.writeFile(BACKUP_DIR+'drinkbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
-            if(err) console.log('Error writing file:',err);
-        }))
-    Ingredients.find({})
-        .then((data) => fs.writeFile(BACKUP_DIR+'ingredientbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
-            if(err) console.log('Error writing file:',err);
-        }))
+    if(!process.env.BACKUP_DISABLED){
+        Drinks.find({})
+            .then((data) => fs.writeFile(BACKUP_DIR+'drinkbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
+                if(err) console.log('Error writing file:',err);
+            }))
+        Ingredients.find({})
+            .then((data) => fs.writeFile(BACKUP_DIR+'ingredientbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
+                if(err) console.log('Error writing file:',err);
+            }))
+    }
         next()
 });
 
@@ -187,6 +192,11 @@ router.post('/image', verifyRequest, async (req, res, next) => {
 
 router.post('/add_drink', verifyRequest, (req, res, next) => {
     if (req.body.name) {
+
+        //Clean up database data
+        delete req.body._id
+        delete req.body.__v
+
         Drinks.create({...req.body, uuid: uuid()})
             .then((data) => res.json(data))
             .catch(next);
@@ -231,15 +241,17 @@ router.post('/update_drink/:id', verifyRequest, (req, res, next) => {
 });**/
 
 router.delete('*', (req, res, next) => {
-    Drinks.find({})
-        .then((data) => fs.writeFile(BACKUP_DIR+'drinkbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
-            if(err) console.log('Error writing file:',err);
-        }))
-    Ingredients.find({})
-        .then((data) => fs.writeFile(BACKUP_DIR+'ingredientbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
-            if(err) console.log('Error writing file:',err);
-        }))
-        next()
+    if(!process.env.BACKUP_DISABLED) {
+        Drinks.find({})
+            .then((data) => fs.writeFile(BACKUP_DIR + 'drinkbackup' + Date.now() + '.json', JSON.stringify(data), (err) => {
+                if (err) console.log('Error writing file:', err);
+            }))
+        Ingredients.find({})
+            .then((data) => fs.writeFile(BACKUP_DIR + 'ingredientbackup' + Date.now() + '.json', JSON.stringify(data), (err) => {
+                if (err) console.log('Error writing file:', err);
+            }))
+    }
+    next()
 });
 
 router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
@@ -269,9 +281,51 @@ router.post('/add_ingredient', verifyRequest, (req, res, next) => {
     }
 });
 
+router.post('/rename_ingredient', verifyRequest, (req, res, next) => {
+    if (req.body.uuid && req.body.name) {
+        Ingredients.findOneAndUpdate({uuid: req.body.uuid}, {name: req.body.name})
+            .then((data) => {
+                res.json(data);
+                updateIngredients();
+            })
+            .catch(next);
+    } else {
+        res.sendStatus(400);
+    }
+});
+
+router.delete('/ingredient/:uuid', verifyRequest, (req, res, next) => {
+    if(req.params.uuid){
+        Ingredients.findOneAndDelete({ uuid: req.params.uuid })
+            .then((data) => {
+                res.json(data);
+                updateIngredients();
+            })
+            .catch(next);
+    }
+
+});
+
 router.get('/get_ingredients', (req, res, next) => {
     Ingredients.find({}, 'uuid name').sort({name:1})
         .then((data) => res.json(data))
+        .catch(next);
+});
+
+router.get('/unused_ingredients', (req, res, next) => {
+    let empty_UUIDs = []
+    Ingredients.find({}, 'uuid')
+        .then((ingredientData) => {
+            Drinks.find({}, 'ingredients').then((drinkData) => {
+                ingredientData.forEach((ingredientResult) => {
+                    let drinks = drinkData.filter((drink) => {
+                        return drink.ingredients.filter(ingr => ingr.ingredient === ingredientResult.uuid).length > 0
+                    })
+                    if(drinks.length === 0) empty_UUIDs.push(ingredientResult.uuid)
+                })
+                res.json(empty_UUIDs)
+            })
+        })
         .catch(next);
 });
 

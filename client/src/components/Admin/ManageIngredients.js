@@ -1,24 +1,52 @@
 import React, {useEffect, useState} from "react"
-import {FaChevronLeft} from "react-icons/fa";
+import {FaChevronLeft, FaTrash} from "react-icons/fa";
 import axios from "axios";
-import GlassTypes from "./GlassTypes";
-import TagEntryContainer from "./TagEntryContainer";
-import IngredientEntryContainer from "./IngredientEntryContainer";
+import {FaPenToSquare} from "react-icons/fa6";
+
 const ManageIngredients = ({setCurrentPage, adminKey}) => {
     const [newIngredientName, setNewIngredientName] = useState("");
     const [ingredients, setIngredients] = useState([]);
+    const [unusedIngredients, setUnusedIngredients] = useState([]);
 
     useEffect(() => {
+        fetchIngredients();
+    }, []);
+
+    const fetchIngredients = () => {
         axios.get('api/get_ingredients')
             .then((res) => {
                 if (res.data) {
                     setIngredients(res.data)
                 }
             }).catch((err) => console.log(err));
-    }, []);
+        axios.get('api/unused_ingredients')
+            .then((res) => {
+                if (res.data) {
+                    setUnusedIngredients(res.data)
+                }
+            }).catch((err) => console.log(err));
+    }
 
     const handleFormChange = (event) => {
         setNewIngredientName(event.target.value);
+    }
+
+    async function renameIngredient(uuid, newName) {
+        if(newName && newName.length > 0){
+            const response = await axios.post('./api/rename_ingredient', {uuid: uuid, name: newName}, {
+                    headers: {
+                        Authorization: `Bearer ${adminKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            if(response.status !== 200) {
+                //TODO: Add errors back.
+                //setErrorMsg('Failed to add drink. Internal server error '+response.status);
+            } else {
+                fetchIngredients();
+            }
+        }
     }
 
     async function postIngredient(ingredientName) {
@@ -33,20 +61,20 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
             //TODO: Add errors back.
             //setErrorMsg('Failed to add drink. Internal server error '+response.status);
         } else {
-            setCurrentPage('drinkList');
+            setNewIngredientName("")
+            fetchIngredients();
         }
     }
-    async function deleteIngredient(ingredientID) {
-        /*
-        axios.delete('api/drink/'+drinkID+(sameImage ? '?saveImg=true':''), {headers:{Authorization: `Bearer ${adminKey}`}})
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data[0]);
-                }
-            }).catch((err) => console.log(err));
 
-         */
-        //TODO: Add this
+    function confirmDeleteIngredient(ingredientID, ingredientName) {
+        if(window.confirm('Are you sure you want to delete \''+ingredientName+'\'?') === true){
+            axios.delete('api/ingredient/'+ingredientID, {headers:{Authorization: `Bearer ${adminKey}`}})
+                .then((res) => {
+                    setIngredients(ingredients.filter(ing => ing.uuid !== ingredientID));
+                }).catch((err) => console.log(err));
+        } else {
+            alert('Ingredient not deleted.');
+        }
     }
 
     return (
@@ -100,7 +128,15 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 </div>
                 {/* 
                 {ingredients.map((ingredient) =>{
-                    return <div style={{display: "flex", justifyContent: "center"}}>{ingredient.name}</div>
+                    return <div>
+                        <div style={{display: "flex", justifyContent: "center"}}>
+                            <span style={{color: unusedIngredients.includes(ingredient.uuid) ? "red":"white"}}>{ingredient.name}</span>
+                            <FaPenToSquare onClick={()=>{renameIngredient(ingredient.uuid, prompt("Rename '"+ingredient.name+"' to:", ingredient.name))}}
+                                style={{cursor: "pointer", "padding-left": "10px"}} />
+                            {unusedIngredients.includes(ingredient.uuid) && <FaTrash onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}}
+                                style={{cursor: "pointer", "padding-left": "10px"}} />}
+                        </div>
+                    </div>
                 })}
                  */}
             </div>

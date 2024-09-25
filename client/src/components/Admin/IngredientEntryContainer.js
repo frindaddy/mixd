@@ -3,7 +3,7 @@ import {FaPlus} from "react-icons/fa";
 import IngredientEntry from "./IngredientEntry";
 const IngredientEntryContainer = ({inputs, setInputs, allIngredients}) => {
 
-    const [ingredients, setIngredients] = useState([{}]);
+    const [ingredients, setIngredients] = useState([{}, {}, {}, {}, {}]);
 
     useEffect(() => {
         if(inputs.ingredients){
