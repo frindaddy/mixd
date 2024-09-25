@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
-import {FaMinus} from "react-icons/fa";
+import {FaMinus, FaArrowUp, FaArrowDown} from "react-icons/fa";
 
-const IngredientEntry = ({index, ingredients, setIngredients, allIngredients}) => {
+const IngredientEntry = ({index, ingredients, setIngredients, allIngredients, swapIngredients}) => {
     const [ingredient, setIngredient] = useState({});
     const units = ['oz']
 
@@ -26,6 +26,10 @@ const IngredientEntry = ({index, ingredients, setIngredients, allIngredients}) =
 
     return (
         <div>
+            {index !== 0 && <FaArrowUp style={{padding: '0px 3px', cursor: 'pointer'}} onClick={()=>{swapIngredients(index, index-1)}} />}
+            {index === 0 && <span style={{padding: '0px 11px'}} />}
+            {index !== ingredients.length-1 && <FaArrowDown style={{padding: '0px 3px', cursor: 'pointer'}} onClick={()=>{swapIngredients(index, index+1)}} />}
+            {index === ingredients.length-1 && <span style={{padding: '0px 11px'}} />}
             <input type='text' placeholder='2' size='10' onChange={handleFormChange} value={ingredient.amount||""} name='amount'/>
             <select name='unit_dropdown' onChange={handleFormChange}>
                 <option value='' disabled={true} selected={!ingredient.unit_dropdown}>No Unit</option>
