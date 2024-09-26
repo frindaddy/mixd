@@ -6,7 +6,7 @@ import {FaChevronUp} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import TagCategories from "../../definitions/TagCategories";
 
-const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glassFilterList, setGlassFilterList}) => {
+const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glassFilterList, setGlassFilterList, tagMenu}) => {
 
     const CAT_ORDER = ['spirit', 'style', 'taste', 'season','color','mix','temp','misc','top_pick'];
 
@@ -39,11 +39,13 @@ const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glass
                     setAllGlasses(res.data.glasses);
                 }
             }).catch((err) => console.log(err));
-        if(cookies['tagList']){
-            setTagFilterList(cookies['tagList']);
-        }
-        if(cookies['glassList']){
-            setGlassFilterList(cookies['glassList']);
+        if(!tagMenu){
+            if(cookies['tagList']){
+                setTagFilterList(cookies['tagList']);
+            }
+            if(cookies['glassList']){
+                setGlassFilterList(cookies['glassList']);
+            }
         }
     }, []);
 
@@ -57,20 +59,24 @@ const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glass
             newTagList = [...tagFilterList, category + '>' + value];
         }
         setTagFilterList(newTagList);
-        setCookie('tagList', newTagList, {maxAge:3600});
+        if(!tagMenu){
+            setCookie('tagList', newTagList, {maxAge:3600});
+        }
     }
 
     const onGlassClick = (glassClicked) => {
-        let newGlassList = [];
-        if (glassFilterList.includes(glassClicked)) {
-            newGlassList = glassFilterList.filter((glass)=>{
-                return glassClicked !== glass;
-            });
-        } else {
-            newGlassList = [...glassFilterList, glassClicked];
+        if(!tagMenu){
+            let newGlassList = [];
+            if (glassFilterList.includes(glassClicked)) {
+                newGlassList = glassFilterList.filter((glass)=>{
+                    return glassClicked !== glass;
+                });
+            } else {
+                newGlassList = [...glassFilterList, glassClicked];
+            }
+            setGlassFilterList(newGlassList);
+            setCookie('glassList', newGlassList, {maxAge:3600});
         }
-        setGlassFilterList(newGlassList);
-        setCookie('glassList', newGlassList, {maxAge:3600});
     }
 
     const getCategoryLocalization = (categoryName) => {
@@ -102,21 +108,24 @@ const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glass
                         </div>
                     </div>
                 })}
-                <div className="filter-category-container">
-                    <p className="filter-category-title">Glass</p>
-                    <div className="filter-category-tag-container">
-                        {allGlasses.map((glass) => {
-                            let selected = glassFilterList.includes(glass);
-                            return (
-                                <div className="tag-container">
-                                    <div onClick={()=>{onGlassClick(glass)}} className={'tag clickable unselectable ' + (selected ? '':'unselected-tag-filter')} style={selected ? {backgroundColor: getColor({category: 'glass'})}: {}}>{getDisplayName(glass)}</div>
-                                </div>
-                            )
-                        })}
+                {!tagMenu &&
+                    <div className="filter-category-container">
+                        <p className="filter-category-title">Glass</p>
+                        <div className="filter-category-tag-container">
+                            {allGlasses.map((glass) => {
+                                let selected = glassFilterList.includes(glass);
+                                return (
+                                    <div className="tag-container">
+                                        <div onClick={()=>{onGlassClick(glass)}} className={'tag clickable unselectable ' + (selected ? '':'unselected-tag-filter')} style={selected ? {backgroundColor: getColor({category: 'glass'})}: {}}>{getDisplayName(glass)}</div>
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </div>
-                </div>
+                }
+
             </div>
-            <div className='filter-chevron'><FaChevronUp style={{cursor:"pointer"}} onClick={() => {setShowFilterPanel(false)}}/></div>
+            {!tagMenu && <div className='filter-chevron'><FaChevronUp style={{cursor:"pointer"}} onClick={() => {setShowFilterPanel(false)}}/></div>}
         </>
     )
 }
