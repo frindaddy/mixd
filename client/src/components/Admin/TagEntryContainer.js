@@ -19,10 +19,13 @@ const TagEntryContainer = ({inputs, setInputs}) => {
 
     const validateAndFormatTags = (selectedTagStrings, customTagStrings) => {
         let allTags = [...new Set([...selectedTagStrings, ...customTagStrings])]
-        return allTags.map((tagString) => {
+        let mappedTags = allTags.map((tagString) => {
             let split = tagString.split('>')
-            return {category: split[0], value: split[1]}
+            if(split[0] !== 'undefined' && split[1] !== 'undefined' && split[0] !== '' && split[1] !== ''){
+                return {category: split[0], value: split[1]}
+            }
         })
+        return mappedTags.filter(tag =>tag !== undefined);
     }
 
     const updateSelectedTags = (selTags) => {
