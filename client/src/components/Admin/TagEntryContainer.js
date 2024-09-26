@@ -47,11 +47,15 @@ const TagEntryContainer = ({inputs, setInputs}) => {
     return (
         <div>
             <FilterPanel setShowFilterPanel={undefined} tagFilterList={tagSelectedList} setTagFilterList={updateSelectedTags} glassFilterList={null} setGlassFilterList={null} tagMenu={true}/>
-            <p>Add new tag:</p>
-            {customTags.map((tag, index) => {
-                return <TagEntry index={index} tags={customTags} setTags={updateCustomTags}/>
-            })}
-            <div style={{display: "flex", justifyContent: "center", marginTop: "5px"}}>
+            <div className="create-drink-row">Add new tag:</div>
+            <div className="create-drink-row">
+                <div>
+                {customTags.map((tag, index) => {
+                    return <TagEntry index={index} tags={customTags} setTags={updateCustomTags}/>
+                })}
+                </div>
+            </div>
+            <div style={{display: "flex", justifyContent: "center", marginTop: "-15px"}}>
                 <FaPlus onClick={() => {setCustomTags([...customTags, {}])}}/>
             </div>
         </div>

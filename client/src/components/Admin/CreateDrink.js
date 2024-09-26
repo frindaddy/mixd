@@ -212,7 +212,7 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                 <div className="create-drink-row">
                     <textarea name="footnotes" rows="3" cols="45" value={inputs.footnotes || ""} onChange={handleFormChange} />
                 </div>
-                <p>Tags (Required):</p>
+                <p style={{marginTop: "50px", marginBottom: "-35px"}}>Tags (Required):</p>
                 <div className="create-drink-row">
                     <TagEntryContainer inputs={inputs} setInputs={setInputs}/>
                 </div>
