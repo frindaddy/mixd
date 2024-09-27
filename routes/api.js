@@ -44,7 +44,7 @@ const imageStorage = multer.diskStorage(
 
 const uploadImage = multer( { storage: imageStorage,
     fileFilter: function ( req, file, cb ) {
-        cb(null, file.mimetype==='image/jpeg' );
+        cb(null, file.mimetype==='image/jpeg' || file.mimetype==='image/png' || file.mimetype==='image/webp');
     },
     limits: { fileSize: 4000000, files: 1 }
 }).single('drinkImage');
