@@ -8,9 +8,9 @@ import {FaFilter, FaEraser} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import AddIngredientEntry from "../Admin/AddIngredientEntry";
 
-const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => {
+const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList}) => {
 
-    const [drinkList, setDrinkList] = useState([{name:"Loading Drinks..."}]);
+    const [drinkList, setDrinkList] = useState(previousDrinkList);
     const [searchText, setSearchText] = useState("");
     const [glassFilterList, setGlassFilterList] = useState([]);
     const [tagFilterList, setTagFilterList] = useState([]);
@@ -23,6 +23,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, adminKey, setAdminKey}) => 
             .then((res) => {
                 if (res.data) {
                     setDrinkList(res.data);
+                    setPreviousDrinkList(res.data);
                 }
             }).catch((err) => console.log(err));
     }
