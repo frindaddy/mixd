@@ -16,26 +16,6 @@ function App() {
     const [adminKey, setAdminKey] = useState();
 
     useEffect(() => {
-        window.addEventListener('hashchange', (hash)=>{
-            switch(window.location.hash){
-                case "#drink":
-                    setCurrentPage('drinkInfo');
-                    break;
-                case "#create":
-                    setCurrentPage('createDrink');
-                    break;
-                case "#update":
-                    setCurrentPage('updateDrink');
-                    break;
-                case "#ingredients":
-                    setCurrentPage('manageIngredients');
-                    break;
-                default:
-                    setCurrentPage('drinkList');
-                    break;
-            }
-        });
-
         axios.get('api/app-info')
             .then((res) => {
                 if (res.data) {
