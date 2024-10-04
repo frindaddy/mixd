@@ -13,6 +13,7 @@ function App() {
     const [currentPage, setCurrentPage] = useState("drinkList");
     const [currentDrink, setCurrentDrink] = useState("");
     const [previousDrinkList, setPreviousDrinkList] = useState([{name:"Loading Drinks..."}]);
+    const [searchText, setSearchText] = useState("");
     const [adminKey, setAdminKey] = useState();
 
     useEffect(() => {
@@ -26,7 +27,7 @@ function App() {
 
     return (
     <div className="App">
-        {currentPage === "drinkList" && <DrinkList setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} adminKey={adminKey} setAdminKey={setAdminKey} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList}/>}
+        {currentPage === "drinkList" && <DrinkList setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} searchText={searchText} setSearchText={setSearchText} adminKey={adminKey} setAdminKey={setAdminKey} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList}/>}
         {currentPage === "drinkInfo" && <DrinkInfo drinkID={currentDrink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}/>}
         {currentPage === "createDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={null} adminKey={adminKey}/>}
         {currentPage === "updateDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={currentDrink} adminKey={adminKey}/>}
