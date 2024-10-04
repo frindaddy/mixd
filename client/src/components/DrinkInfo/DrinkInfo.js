@@ -26,7 +26,7 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
         <div className='DrinkInfo'>
             <nav>
                 <div className="nav-container">
-                    <a href="/" className="back" onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/></a>
+                    <a className="back" onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/></a>
                     <div className="nav-logo">mixd.</div>
                 </div>
             </nav>
