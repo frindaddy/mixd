@@ -2,36 +2,44 @@ import React, {useEffect, useState} from "react"
 
 
 
-const LinkableText = ({className, rawBodyText}) => {
+const LinkableText = ({className, rawBodyText, setCurrentDrink}) => {
     const [bodyText, setBodyText] = useState([rawBodyText]);
     const [allLinks, setAllLinks] = useState([]);
 
     useEffect(() => {
-        let links = rawBodyText.match(/\<.+?\>\{.{36}\}/g).map((link)=>{
-            return link.substring(1, link.length-1).split('>{')
-        })
+        let regexRes = rawBodyText.match(/\<.+?\>\{.{36}\}/g)
+        if(regexRes) {
+            let links = regexRes.map((link)=>{
+                return link.substring(1, link.length-1).split('>{')
+            })
 
-        let remainingBody = rawBodyText.split(/\<.+?\>\{.{36}\}/)
-        let newBody = []
-        for (let i = 0; i < links.length+remainingBody.length; i++) {
-            if(i % 2 === 0){
-                newBody.push(remainingBody[i/2])
-            } else {
-                newBody.push(links[(i-1)/2][0])
+            let remainingBody = rawBodyText.split(/\<.+?\>\{.{36}\}/)
+            let newBody = []
+            for (let i = 0; i < links.length+remainingBody.length; i++) {
+                if(i % 2 === 0){
+                    newBody.push(remainingBody[i/2])
+                } else {
+                    newBody.push(links[(i-1)/2][0])
+                }
             }
+            setAllLinks(links);
+            setBodyText(newBody);
+        } else {
+            setBodyText([rawBodyText]);
+            setAllLinks([]);
         }
-        setAllLinks(links);
-        setBodyText(newBody);
-    }, []);
+    }, [rawBodyText]);
 
-    function linkTo(drinkID) {
-        console.log(drinkID)
+    function linkTo(index) {
+        if(allLinks[index]){
+            setCurrentDrink(allLinks[index][1])
+        }
     }
 
     return (
         <div className={className}>
             {bodyText.map((line, index)=>{
-                return <span style={index % 2 === 1 ? {cursor: 'pointer', 'font-style': 'italic'}:{}} onClick={()=>{linkTo(allLinks[(index-1)/2][1])}}>{line}</span>
+                return <span style={index % 2 === 1 ? {cursor: 'pointer', 'text-decoration-line': 'underline'}:{}} onClick={()=>{linkTo((index-1)/2)}}>{line}</span>
             })}
         </div>
     )

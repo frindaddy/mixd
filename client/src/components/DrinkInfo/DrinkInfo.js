@@ -4,7 +4,7 @@ import {FaChevronLeft} from "react-icons/fa";
 import DrinkTags, {filterTags} from "../DrinkTags";
 import {getDisplayName} from "../Admin/GlassTypes";
 import LinkableText from "./LinkableText";
-const DrinkInfo = ({drinkID, setCurrentPage}) => {
+const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
 
     const [drink, setDrink] = useState({name:"No Drink"});
     const [drinkLoaded, setDrinkLoaded] = useState(false);
@@ -56,9 +56,9 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                             })}
                             {drink.garnish && <li>Garnished with {drink.garnish}</li>}
                         </ul>
-                        {drink.instructions && <LinkableText className="instructions" rawBodyText={drink.instructions} />}
-                        {drink.description && <LinkableText className="description" rawBodyText={drink.description} />}
-                        {drink.footnotes && <LinkableText className="footnote" rawBodyText={drink.footnotes} />}
+                        {drink.instructions && <LinkableText className="instructions" rawBodyText={drink.instructions} setCurrentDrink={setCurrentDrink} />}
+                        {drink.description && <LinkableText className="description" rawBodyText={drink.description} setCurrentDrink={setCurrentDrink} />}
+                        {drink.footnotes && <LinkableText className="footnote" rawBodyText={drink.footnotes} setCurrentDrink={setCurrentDrink} />}
                     </div>
                 </div>
             </div> }
