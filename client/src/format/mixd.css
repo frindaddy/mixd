@@ -103,6 +103,7 @@ body {
 .drink-list-separator {
     border: 1px solid darkgray;
     margin: 0px;
+    margin-right: 8px;
 }
 
 .entry-column {
@@ -147,6 +148,7 @@ body {
     padding-bottom: 10px;
     margin-top: 0px;
     margin-bottom: 0px;
+    margin-right: 8px;
     font-size: 35px;
     font-weight: 300;
     border-bottom: 1px solid darkgray;
