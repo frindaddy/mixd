@@ -165,6 +165,7 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
             <div style={{flexDirection: "column", width: "100%"}}>
                 <h1 className="create-drink-title">{drinkID === null ? 'Add New Drink':'Update Existing Drink'}</h1>
                 {errorMsg && <p style={{color:"red"}}>{"ERROR: "+errorMsg}</p>}
+
                 <div className="create-drink-image">
                     <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
                     {(drinkID !== null) && <p style={{cursor: "pointer"}} onClick={()=>{setImagePreviewURL(noImageURL)}}>Remove Image</p>}
@@ -174,6 +175,9 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                 <p>Name (Required):</p>
                 <div className="create-drink-row">
                     <input type="text" name="name" placeholder="Manhattan" value={inputs.name || ""} onChange={handleFormChange} />
+                </div>
+                <div className="create-drink-row">
+                    {drinkID && <p>{'UUID: ' + drinkID}</p>}
                 </div>
                 <p>Glass:</p>
                 <div className="create-drink-row">
