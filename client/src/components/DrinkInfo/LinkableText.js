@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 
 
 
-const LinkableText = ({className, rawBodyText, setCurrentDrink}) => {
+const LinkableText = ({rawBodyText, setCurrentDrink}) => {
     const [bodyText, setBodyText] = useState([rawBodyText]);
     const [allLinks, setAllLinks] = useState([]);
 
@@ -37,7 +37,7 @@ const LinkableText = ({className, rawBodyText, setCurrentDrink}) => {
     }
 
     return (
-        <div className={className}>
+        <div>
             {bodyText.map((line, index)=>{
                 return <span style={index % 2 === 1 ? {cursor: 'pointer', 'text-decoration-line': 'underline'}:{}} onClick={()=>{linkTo((index-1)/2)}}>{line}</span>
             })}

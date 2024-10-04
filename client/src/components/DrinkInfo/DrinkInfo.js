@@ -14,6 +14,15 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
         axios.get('api/drink/'+drinkID)
             .then((res) => {
                 if (res.data) {
+                    if(res.data.instructions){
+                        res.data.instructions = res.data.instructions.split(/\r\n|\r|\n/g)
+                    }
+                    if(res.data.description){
+                        res.data.description = res.data.description.split(/\r\n|\r|\n/g)
+                    }
+                    if(res.data.footnotes){
+                        res.data.footnotes = res.data.footnotes.split(/\r\n|\r|\n/g)
+                    }
                     setDrink(res.data);
                     setDrinkLoaded(true);
                 } else {
@@ -56,9 +65,21 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
                             })}
                             {drink.garnish && <li>Garnished with {drink.garnish}</li>}
                         </ul>
-                        {drink.instructions && <LinkableText className="instructions" rawBodyText={drink.instructions} setCurrentDrink={setCurrentDrink} />}
-                        {drink.description && <LinkableText className="description" rawBodyText={drink.description} setCurrentDrink={setCurrentDrink} />}
-                        {drink.footnotes && <LinkableText className="footnote" rawBodyText={drink.footnotes} setCurrentDrink={setCurrentDrink} />}
+                        <div className="instructions">
+                            {drink.instructions && drink.instructions.map(line=>{
+                                return <LinkableText rawBodyText={line} setCurrentDrink={setCurrentDrink} />
+                            })}
+                        </div>
+                        <div className="description">
+                            {drink.description && drink.description.map(line=>{
+                                return <LinkableText rawBodyText={line} setCurrentDrink={setCurrentDrink} />
+                            })}
+                        </div>
+                        <div className="footnote">
+                            {drink.footnotes && drink.footnotes.map(line=>{
+                                return <LinkableText rawBodyText={line} setCurrentDrink={setCurrentDrink} />
+                            })}
+                        </div>
                     </div>
                 </div>
             </div> }
