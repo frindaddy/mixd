@@ -69,11 +69,18 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
                     {tagFilterList.length + glassFilterList.length > 0 && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
                 </div>
             </header>
-            <div className={showFilterPanel ? 'filter-panel-show':'filter-panel-hide'} style={filterPanelOpenedBefore ? {display: "block"}:{display: "none"}}><FilterPanel setShowFilterPanel={setShowFilterPanel} tagFilterList={tagFilterList} setTagFilterList={setTagFilterList} glassFilterList={glassFilterList} setGlassFilterList={setGlassFilterList} tagMenu={false}/></div>
+            <div className={showFilterPanel ? 'filter-panel-show':'filter-panel-hide'}
+                style={filterPanelOpenedBefore ? {display: "block"}:{display: "none"}}>
+                <FilterPanel setShowFilterPanel={setShowFilterPanel} tagFilterList={tagFilterList}
+                setTagFilterList={setTagFilterList} glassFilterList={glassFilterList}
+                setGlassFilterList={setGlassFilterList} tagMenu={false}/>
+            </div>
             {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
             {adminKey && <hr className="drink-list-separator"></hr>}
             {adminKey && <a href="#ingredients"><AddIngredientEntry setCurrentPage={setCurrentPage}/></a>}
-            <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}} drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey}/>
+            <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}}
+                drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}
+                getDrinkList={getDrinkList} adminKey={adminKey}/>
             <hr className="drink-list-separator"></hr>
         </div>
         </>
