@@ -116,7 +116,8 @@ const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glass
                                 let selected = glassFilterList.includes(glass);
                                 return (
                                     <div className="tag-container">
-                                        <div onClick={()=>{onGlassClick(glass)}} className={'tag clickable unselectable ' + (selected ? '':'unselected-tag-filter')} style={selected ? {backgroundColor: getColor({category: 'glass'})}: {}}>{getDisplayName(glass)}</div>
+                                        <div onClick={()=>{onGlassClick(glass)}} className={'tag clickable unselectable ' + (selected ? '':'unselected-tag-filter')}
+                                            style={selected ? {backgroundColor: getColor({category: 'glass'})}: {}}>{getDisplayName(glass)}</div>
                                     </div>
                                 )
                             })}
