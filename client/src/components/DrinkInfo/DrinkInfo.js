@@ -3,6 +3,7 @@ import axios from "axios";
 import {FaChevronLeft} from "react-icons/fa";
 import DrinkTags, {filterTags} from "../DrinkTags";
 import {getDisplayName} from "../Admin/GlassTypes";
+import LinkableText from "./LinkableText";
 const DrinkInfo = ({drinkID, setCurrentPage}) => {
 
     const [drink, setDrink] = useState({name:"No Drink"});
@@ -55,9 +56,9 @@ const DrinkInfo = ({drinkID, setCurrentPage}) => {
                             })}
                             {drink.garnish && <li>Garnished with {drink.garnish}</li>}
                         </ul>
-                        {drink.instructions && <p className="instructions">{drink.instructions}</p>}
-                        {drink.description && <p className="description">{drink.description}</p>}
-                        {drink.footnotes && <p className="footnote">{drink.footnotes}</p>}
+                        {drink.instructions && <LinkableText className="instructions" rawBodyText={drink.instructions} />}
+                        {drink.description && <LinkableText className="description" rawBodyText={drink.description} />}
+                        {drink.footnotes && <LinkableText className="footnote" rawBodyText={drink.footnotes} />}
                     </div>
                 </div>
             </div> }
