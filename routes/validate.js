@@ -1,3 +1,4 @@
+/*
 const Drinks = require("../models/drinks");
 const Ingredients = require('../models/ingredients');
 const { v4: uuid, validate: uuidValidate } = require('uuid');
@@ -84,15 +85,16 @@ async function updateLegacyIngredients() {
             })
         })
     })
-}
+}*/
 
 module.exports = {
     validateDatabase: async function (verbose) {
-        console.log('Validating Database...');
+        //No current conversion needed. All methods depreciated
+        /*
+        console.log('Converting Database...');
         await checkUUIDs(verbose);
         await updateLegacyIngredients();
-        //TODO: Make this read something different if the validation fails
-        console.log('Database validation complete.')
-
+        console.log('Database conversion complete.')
+        */
     }
 }
