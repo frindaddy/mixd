@@ -39,7 +39,7 @@ const IngredientEntry = ({index, ingredients, setIngredients, allIngredients, sw
                 <option value='custom' selected={ingredient.unit_dropdown === 'custom'}>Custom</option>
             </select>
             {ingredient.unit_dropdown === "custom" && <input type='text' placeholder='oz' size='5' onChange={handleFormChange} value={ingredient.unit||""} name='unit'/>}
-            <select name='ingredient' onChange={handleFormChange} style={(ingredient.unit_dropdown === "custom" ? {width:"108px"}:{width: "180px"})}>
+            <select name='ingredient' onChange={handleFormChange} style={(ingredient.unit_dropdown === "custom" ? {width:"36%"}:{width: "50%"})}>
                 <option value='' disabled={true} selected={!ingredient.ingredient}>Select Ingredient</option>
                 {allIngredients.map((ingredientOption)=>{
                     return <option value={ingredientOption.uuid} selected={ingredient.ingredient === ingredientOption.name || ingredient.ingredient === ingredientOption.uuid}>{ingredientOption.name}</option>
