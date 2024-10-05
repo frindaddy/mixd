@@ -25,12 +25,12 @@ const IngredientEntry = ({index, ingredients, setIngredients, allIngredients, sw
     }
 
     return (
-        <div>
+        <div style={{display: "flex", width: "100%"}}>
             {index !== 0 && <FaArrowUp style={{padding: '0px 3px', cursor: 'pointer'}} onClick={()=>{swapIngredients(index, index-1)}} />}
             {index === 0 && <span style={{padding: '0px 11px'}} />}
             {index !== ingredients.length-1 && <FaArrowDown style={{padding: '0px 3px', cursor: 'pointer'}} onClick={()=>{swapIngredients(index, index+1)}} />}
             {index === ingredients.length-1 && <span style={{padding: '0px 11px'}} />}
-            <input type='text' placeholder='2' size='10' onChange={handleFormChange} value={ingredient.amount||""} name='amount'/>
+            <input type='text' placeholder='2' size='1' onChange={handleFormChange} value={ingredient.amount||""} name='amount'/>
             <select name='unit_dropdown' onChange={handleFormChange}>
                 <option value='' disabled={true} selected={!ingredient.unit_dropdown}>No Unit</option>
                 {units.map((unit) => {
@@ -38,8 +38,8 @@ const IngredientEntry = ({index, ingredients, setIngredients, allIngredients, sw
                 })}
                 <option value='custom' selected={ingredient.unit_dropdown === 'custom'}>Custom</option>
             </select>
-            {ingredient.unit_dropdown === "custom" && <input type='text' placeholder='oz' size='10' onChange={handleFormChange} value={ingredient.unit||""} name='unit'/>}
-            <select name='ingredient' onChange={handleFormChange}>
+            {ingredient.unit_dropdown === "custom" && <input type='text' placeholder='oz' size='5' onChange={handleFormChange} value={ingredient.unit||""} name='unit'/>}
+            <select name='ingredient' onChange={handleFormChange} style={(ingredient.unit_dropdown === "custom" ? {width:"108px"}:{width: "180px"})}>
                 <option value='' disabled={true} selected={!ingredient.ingredient}>Select Ingredient</option>
                 {allIngredients.map((ingredientOption)=>{
                     return <option value={ingredientOption.uuid} selected={ingredient.ingredient === ingredientOption.name || ingredient.ingredient === ingredientOption.uuid}>{ingredientOption.name}</option>
