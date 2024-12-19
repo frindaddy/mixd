@@ -7,6 +7,7 @@ import CreateDrink from "./components/Admin/CreateDrink";
 import axios from "axios";
 import ManageIngredients from "./components/Admin/ManageIngredients";
 
+let currentYear = new Date().getFullYear();
 
 function App() {
     const [appInfo, setAppInfo] = useState({});
@@ -33,7 +34,7 @@ function App() {
         {currentPage === "updateDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={currentDrink} adminKey={adminKey}/>}
         {currentPage === "manageIngredients" && <ManageIngredients setCurrentPage={setCurrentPage} adminKey={adminKey}/>}
         <footer>
-            <p>©2024 by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
+            <p>©{currentYear} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
                 Powered by our pure genius.<br/>
                 v{appInfo.version}</p>
         </footer>
