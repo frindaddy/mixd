@@ -364,6 +364,14 @@ nav > div {
     font-size: 16px;
 }
 
+.sorted-filter-icon {
+    cursor: pointer;
+    float: right;
+    font-size: 32px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 .tag {
     margin-top: 5px;
     margin-bottom: 5px;
