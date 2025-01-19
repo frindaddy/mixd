@@ -3,7 +3,7 @@ import {FaChevronLeft, FaSortAmountDown} from "react-icons/fa";
 import axios from "axios";
 import IngredientListEntry from "./IngredientListEntry";
 
-const ViewIngredients = ({setCurrentPage}) => {
+const ViewIngredients = ({setCurrentPage, setIngrFilter}) => {
     const [ingredients, setIngredients] = useState([]);
     const [sortedIngredients, setSortedIngredients] = useState([]);
     const [sorted, setSorted] = useState(false);
@@ -41,7 +41,7 @@ const ViewIngredients = ({setCurrentPage}) => {
                 {(sorted ? sortedIngredients:ingredients).map((ingredient) =>{
                     return <div>
                         <div style={{display: "flex", justifyContent: "center"}}>
-                            {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} setCurrentPage={setCurrentPage}/>}
+                            {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} setCurrentPage={setCurrentPage} setIngrFilter={setIngrFilter}/>}
                         </div>
                     </div>;
                 })}

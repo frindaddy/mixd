@@ -6,7 +6,7 @@ import {FaChevronUp} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import TagCategories from "../../definitions/TagCategories";
 
-const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glassFilterList, setGlassFilterList, tagMenu}) => {
+const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glassFilterList, setGlassFilterList, tagMenu, ingrFilter}) => {
 
     const CAT_ORDER = ['spirit', 'style', 'taste', 'season','color','mix','temp','misc','top_pick'];
 
@@ -90,6 +90,7 @@ const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glass
 
     return (
         <>
+            {ingrFilter[0] !=="" && <span style={{display:"flex", justifyContent: "center", fontStyle:"italic"}}>{'Only showing drinks using '+ingrFilter[1]}</span>}
             <div className="filter-panel-container">
                 {categoryList.map((cat)=>{
                     return <div className="filter-category-container">
