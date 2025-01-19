@@ -284,8 +284,8 @@ router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
 });
 
 router.post('/add_ingredient', verifyRequest, (req, res, next) => {
-    if (req.body.name) {
-        Ingredients.create({uuid: uuid(), name: req.body.name})
+    if (req.body.name && req.body.abv !== undefined) {
+        Ingredients.create({uuid: uuid(), name: req.body.name, abv: Math.abs(req.body.abv)})
             .then((data) => {
                 res.json(data);
                 updateIngredients();
@@ -296,9 +296,11 @@ router.post('/add_ingredient', verifyRequest, (req, res, next) => {
     }
 });
 
-router.post('/rename_ingredient', verifyRequest, (req, res, next) => {
-    if (req.body.uuid && req.body.name) {
-        Ingredients.findOneAndUpdate({uuid: req.body.uuid}, {name: req.body.name})
+router.post('/update_ingredient', verifyRequest, (req, res, next) => {
+    if (req.body.uuid && (req.body.name || req.body.abv !== undefined)) {
+        let update = req.body.name ? {name: req.body.name}:{abv: Math.abs(req.body.abv)}
+        if (req.body.name && req.body.abv !== undefined) update = {name: req.body.name, abv: Math.abs(req.body.abv)}
+        Ingredients.findOneAndUpdate({uuid: req.body.uuid}, update)
             .then((data) => {
                 res.json(data);
                 updateIngredients();
@@ -322,7 +324,7 @@ router.delete('/ingredient/:uuid', verifyRequest, (req, res, next) => {
 });
 
 router.get('/get_ingredients', (req, res, next) => {
-    Ingredients.find({}, 'uuid name').sort({name:1})
+    Ingredients.find({}, 'uuid name abv').sort({name:1})
         .then((data) => res.json(data))
         .catch(next);
 });
