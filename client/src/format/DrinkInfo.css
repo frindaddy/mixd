@@ -1,0 +1,124 @@
+.abv {
+    margin-top: 5px;
+    margin-left: 5px;
+    font-size: 15px;
+    font-style: italic;
+    padding-right: 5px;
+}
+
+.description {
+    margin-right: 10%;
+    margin-left: 5px;
+    margin-bottom: 2%;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 23px;
+    text-align: justify;
+    text-justify: auto;
+}
+
+.drink-image{
+    text-align: right;
+    padding-right: 2%;
+}
+
+.info-column {
+    float: left;
+    width: 50%;
+}
+
+.info-text{
+    padding-right: 2%;
+    text-align: left;
+}
+
+.info-row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.info-title {
+    font-family: Roboto;
+    font-weight: 100;
+    font-size: 60px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.ingredients {
+    margin-right: 10%;
+    margin-left: 5px;
+    margin-top: 5%;
+    margin-bottom: 3%;
+    padding-left: 0;
+    list-style: none;
+    font-size: 22px;
+    font-weight: 300;
+}
+
+.instructions {
+    margin-right: 10%;
+    margin-left: 5px;
+    margin-top: 0px;
+    margin-bottom: 3%;
+    font-size: 22px;
+    font-weight: 300;
+    text-align: justify;
+    text-justify: auto;
+}
+
+.volume {
+    margin-top: 5px;
+    font-size: 15px;
+    color: darkgray;
+}
+
+.footnote {
+    margin-top: 0px;
+    font-style: italic;
+    color: darkgray;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+@media screen and (max-width: 600px) {
+    .create-drink-title {
+        display: flex;
+        margin-top: 60px;
+        margin-bottom: 5px;
+        justify-content: center;
+        font-family: Roboto;
+        font-weight: 300;
+    }
+
+    .description {
+        margin-right: 10px;
+        font-size: 18px;
+    }
+
+    .footnote {
+        margin-right: 10px;
+        margin-top: 15px;
+        font-size: 16px;
+    }
+
+    .ingredients {
+        margin-bottom: 15px;
+        font-size: 22px;
+    }
+
+    .instructions {
+        margin-right: 10px;
+        margin-bottom: 15px;
+        font-size: 22px;
+    }
+    
+    .info-column {
+        width: 100%;
+    }
+
+    .info-column > .image {
+        margin-top: 50px;
+    }
+}

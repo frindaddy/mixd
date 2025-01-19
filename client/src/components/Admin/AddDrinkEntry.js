@@ -1,15 +1,17 @@
 import React from "react"
 import {FaPlus} from "react-icons/fa";
+import "../../format/DrinkList.css";
+
 const AddDrinkEntry = ({setCurrentPage}) => {
 
     return (
-        <div class="drink-entry" onClick={()=>{setCurrentPage("createDrink")}} style={{cursor: "pointer"}}>
+        <div class="list-entry" onClick={()=>{setCurrentPage("createDrink")}} style={{cursor: "pointer"}}>
             <div class="glass-container">
                 <FaPlus style={{margin: '30px', fontSize:'30px'}}/>
             </div>
-            <div className="entry-column">
+            <div className="list-column">
                 <div>
-                    <p className="entry-title">Add New Drink</p>
+                    <p className="list-title">Add New Drink</p>
                 </div>
             </div>
         </div>

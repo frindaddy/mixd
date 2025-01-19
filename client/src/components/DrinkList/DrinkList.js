@@ -7,6 +7,7 @@ import FilterPanel from "./FilterPanel";
 import {FaFilter, FaEraser, FaLemon} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import AddIngredientEntry from "../Admin/AddIngredientEntry";
+import "../../format/DrinkList.css";
 
 const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter}) => {
 
@@ -63,7 +64,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
 
     return (
         <>
-        <div className='DrinkList'>
+        <div>
             <header>
                 <div>
                     <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>
@@ -82,12 +83,12 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
                 setGlassFilterList={setGlassFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
             </div>
             {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
-            {adminKey && <hr className="drink-list-separator"></hr>}
+            {adminKey && <hr className="list-separator"></hr>}
             {adminKey && <a href="#ingredients"><AddIngredientEntry setCurrentPage={setCurrentPage}/></a>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}}
                 drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}
                 getDrinkList={getDrinkList} adminKey={adminKey}/>
-            <hr className="drink-list-separator"></hr>
+            <hr className="list-separator"></hr>
         </div>
         </>
     )

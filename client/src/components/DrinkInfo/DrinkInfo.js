@@ -4,6 +4,8 @@ import {FaChevronLeft} from "react-icons/fa";
 import DrinkTags, {filterTags} from "../DrinkTags";
 import {getDisplayName} from "../Admin/GlassTypes";
 import LinkableText from "./LinkableText";
+import "../../format/DrinkInfo.css";
+
 const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
 
     const [drink, setDrink] = useState({name:"No Drink"});
@@ -32,7 +34,7 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
     }, [drinkID]);
 
     return (
-        <div className='DrinkInfo'>
+        <div>
             <nav>
                 <div className="nav-container" onClick={()=>{setCurrentPage('drinkList')}}>
                     <a className="back" style={{cursor: "pointer"}}><FaChevronLeft/></a>
@@ -43,7 +45,7 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
             {drinkFailed && <p style={{textAlign: "center"}}>Error: Failed to Get Drink Information</p>}
             {drinkLoaded && <div className="info-row">
                 <div className="info-column">
-                    <div className="image">
+                    <div className="drink-image">
                         <img src={'./api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
                     </div>
                 </div>

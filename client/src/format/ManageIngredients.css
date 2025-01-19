@@ -1,0 +1,26 @@
+.manage-ingredients-title {
+    display: flex;
+    margin-bottom: 5px;
+    justify-content: center;
+    font-family: Roboto;
+    font-weight: 300;
+}
+
+.manage-ingredients-row {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width: 600px) {
+    .manage-ingredients-title {
+        display: flex;
+        margin-top: 60px;
+        margin-bottom: 5px;
+        justify-content: center;
+        font-family: Roboto;
+        font-weight: 300;
+    }
+}

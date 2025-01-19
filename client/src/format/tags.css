@@ -1,3 +1,35 @@
+.tag {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius: 20px;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.unselected-tag-filter {
+    background-color: #1D1E1F;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    padding: 0 8px;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: darkgray;
+    border-width: 2px;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
 .gin {
     background-color: rgb(0, 69, 172);
 }

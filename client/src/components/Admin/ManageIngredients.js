@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react"
 import {FaChevronLeft, FaTrash} from "react-icons/fa";
 import axios from "axios";
 import {FaPenToSquare} from "react-icons/fa6";
+import '../../format/ManageIngredients.css';
 
 const ManageIngredients = ({setCurrentPage, adminKey}) => {
     const [newIngredientName, setNewIngredientName] = useState("");
@@ -78,7 +79,7 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
     }
 
     return (
-        <div className='add-new-drink'>
+        <div>
             <nav>
                 <div className="nav-container">
                     <a href="/" className="back" onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/></a>
@@ -86,13 +87,13 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 </div>
             </nav>
             <div>
-                <h1 className="create-drink-title" style={{paddingBottom: "20px"}}>Manage Ingredients</h1>
-                <p>Add Ingredient:</p>
-                <div className="create-drink-row">
+                <h1 className="manage-ingredients-title" style={{paddingBottom: "20px"}}>Manage Ingredients</h1>
+                <p style={{display:"flex", justifyContent:"center", marginTop:"-10px", marginBottom:"-10px"}}>Add Ingredient:</p>
+                <div className="manage-ingredients-row">
                     <input type="text" name="ingredientName" placeholder="Lime Juice" value={newIngredientName || ""} onChange={handleFormChange} />
                     <button onClick={()=>{postIngredient(newIngredientName)}}>Add Ingredient</button>
                 </div>
-                <h1 className="create-drink-title" style={{paddingBottom: "10px"}}>Current Ingredients:</h1>
+                <h1 className="manage-ingredients-title" style={{paddingBottom: "10px"}}>Current Ingredients:</h1>
                 {ingredients.map((ingredient) =>{
                     return <div>
                         <div style={{display: "flex", justifyContent: "center"}}>
