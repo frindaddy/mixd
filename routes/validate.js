@@ -1,5 +1,6 @@
-/*
 const Drinks = require("../models/drinks");
+
+/*
 const Ingredients = require('../models/ingredients');
 const { v4: uuid, validate: uuidValidate } = require('uuid');
 
@@ -87,9 +88,31 @@ async function updateLegacyIngredients() {
     })
 }*/
 
+function calculateDrinkVolume(drink) {
+    let volume = 0
+    if(drink.ingredients){
+        drink.ingredients.forEach(ingredient => {
+            if(ingredient.unit === 'oz') volume += ingredient.amount
+        });
+    }
+    return volume
+}
+
 module.exports = {
     validateDatabase: async function (verbose) {
-        //No current conversion needed. All methods depreciated
+
+        Drinks.find({}, 'uuid name volume ingredients').then((drinkData) => {
+            drinkData.forEach(drink => {
+                console.log(drink)
+                if(drink.volume === undefined || typeof(drink.volume) !== "number") {
+                    Drinks.updateOne({uuid: drink.uuid}, {volume: calculateDrinkVolume(drink)}).then((data) => {
+                        console.log("Auto calculated volume for "+drink.name+" ("+drink.uuid+")")
+                    })
+                }
+            })
+        })
+
+        //Depreciated methods below
         /*
         console.log('Converting Database...');
         await checkUUIDs(verbose);
