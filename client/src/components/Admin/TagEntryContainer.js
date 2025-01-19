@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import TagEntry from "./TagEntry";
 import {FaPlus} from "react-icons/fa";
 import FilterPanel from "../DrinkList/FilterPanel";
+import "../../format/CreateDrink.css";
+
 const TagEntryContainer = ({inputs, setInputs}) => {
 
     const [customTags, setCustomTags] = useState([{}]);

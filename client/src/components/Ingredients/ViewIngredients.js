@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react"
 import {FaChevronLeft, FaSortAmountDown} from "react-icons/fa";
 import axios from "axios";
 import IngredientListEntry from "./IngredientListEntry";
+import "../../format/Ingredients.css";
 
 const ViewIngredients = ({setCurrentPage, setIngrFilter}) => {
     const [ingredients, setIngredients] = useState([]);
@@ -28,7 +29,7 @@ const ViewIngredients = ({setCurrentPage, setIngrFilter}) => {
     }
 
     return (
-        <div className='add-new-drink'>
+        <div>
             <nav>
                 <div className="nav-container">
                     <a href="/" className="back" onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/></a>
@@ -37,7 +38,7 @@ const ViewIngredients = ({setCurrentPage, setIngrFilter}) => {
             </nav>
             <div>
                 <FaSortAmountDown className="sorted-filter-icon" style={{backgroundColor: sorted? "3B3D3F":""}} onClick={()=>{setSorted(!sorted)}}/>
-                <h1 className="create-drink-title" style={{paddingBottom: "20px"}}>All Ingredients:</h1>
+                <h1 className="all-ingredients-title" style={{paddingBottom: "20px"}}>All Ingredients:</h1>
                 {(sorted ? sortedIngredients:ingredients).map((ingredient) =>{
                     return <div>
                         <div style={{display: "flex", justifyContent: "center"}}>

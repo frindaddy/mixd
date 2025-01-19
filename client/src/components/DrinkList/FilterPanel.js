@@ -5,6 +5,7 @@ import {getColor} from "../DrinkTags";
 import {FaChevronUp} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import TagCategories from "../../definitions/TagCategories";
+import "../../format/FilterPanel.css";
 
 const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glassFilterList, setGlassFilterList, tagMenu, ingrFilter}) => {
 
