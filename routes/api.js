@@ -221,7 +221,7 @@ router.post('/add_drink', verifyRequest, (req, res, next) => {
         //Clean up database data
         delete req.body._id
         delete req.body.__v
-        
+
         let new_drink = {...req.body, uuid: uuid()}
         new_drink.volume = calculateDrinkVolume(new_drink)
         Drinks.create(new_drink)
