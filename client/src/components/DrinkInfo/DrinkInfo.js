@@ -4,6 +4,7 @@ import {FaChevronLeft} from "react-icons/fa";
 import DrinkTags, {filterTags} from "../DrinkTags";
 import {getDisplayName} from "../Admin/GlassTypes";
 import LinkableText from "./LinkableText";
+
 const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
 
     const [drink, setDrink] = useState({name:"No Drink"});
@@ -31,6 +32,12 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
             }).catch((err) => console.log(err));
     }, [drinkID]);
 
+    function getVolume() {
+        if (drink.override_volume && drink.override_volume > 0) return drink.override_volume
+        if (drink.volume && drink.volume > 0) return drink.volume
+        return 0
+    }
+
     return (
         <div className='DrinkInfo'>
             <nav>
@@ -53,7 +60,7 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
                         {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste', 'recommendation'])} glass={getDisplayName(drink.glass)}/>}
                         <div style={{display: "flex"}}>
                             {drink.abv != null && <div className="abv">{drink.abv}% ABV</div>}
-                            {drink.volume != null && <div className="volume"> / {drink.volume}</div>}
+                            {(drink.volume != null || drink.override_volume != null) && <div className="volume"> / {getVolume()} oz</div>}
                         </div>
                         <ul className="ingredients">
                             { drink.ingredients && drink.ingredients.map((ingredient) => {
