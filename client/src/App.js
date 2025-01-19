@@ -6,6 +6,7 @@ import DrinkInfo from "./components/DrinkInfo/DrinkInfo";
 import CreateDrink from "./components/Admin/CreateDrink";
 import axios from "axios";
 import ManageIngredients from "./components/Admin/ManageIngredients";
+import ViewIngredients from "./components/Ingredients/ViewIngredients";
 
 let currentYear = new Date().getFullYear();
 
@@ -15,6 +16,7 @@ function App() {
     const [currentDrink, setCurrentDrink] = useState("");
     const [previousDrinkList, setPreviousDrinkList] = useState([{name:"Loading Drinks..."}]);
     const [searchText, setSearchText] = useState("");
+    const [ingrFilter, setIngrFilter] = useState(["",""]);
     const [adminKey, setAdminKey] = useState();
 
     useEffect(() => {
@@ -28,11 +30,12 @@ function App() {
 
     return (
     <div className="App">
-        {currentPage === "drinkList" && <DrinkList setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} searchText={searchText} setSearchText={setSearchText} adminKey={adminKey} setAdminKey={setAdminKey} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList}/>}
+        {currentPage === "drinkList" && <DrinkList setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} searchText={searchText} setSearchText={setSearchText} adminKey={adminKey} setAdminKey={setAdminKey} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList} ingrFilter={ingrFilter} setIngrFilter={setIngrFilter}/>}
         {currentPage === "drinkInfo" && <DrinkInfo drinkID={currentDrink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}/>}
         {currentPage === "createDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={null} adminKey={adminKey}/>}
         {currentPage === "updateDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={currentDrink} adminKey={adminKey}/>}
         {currentPage === "manageIngredients" && <ManageIngredients setCurrentPage={setCurrentPage} adminKey={adminKey}/>}
+        {currentPage === "viewIngredients" && <ViewIngredients setCurrentPage={setCurrentPage} setIngrFilter={setIngrFilter}/>}
         <footer>
             <p>©{currentYear} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
                 Powered by our pure genius.<br/>
