@@ -103,7 +103,6 @@ module.exports = {
 
         Drinks.find({}, 'uuid name volume ingredients').then((drinkData) => {
             drinkData.forEach(drink => {
-                console.log(drink)
                 if(drink.volume === undefined || typeof(drink.volume) !== "number") {
                     Drinks.updateOne({uuid: drink.uuid}, {volume: calculateDrinkVolume(drink)}).then((data) => {
                         console.log("Auto calculated volume for "+drink.name+" ("+drink.uuid+")")
