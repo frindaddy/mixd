@@ -1,5 +1,6 @@
-import './format/tags.css';
-import './format/mixd.css';
+import './format/Tags.css';
+import './format/App.css';
+import './format/Navbar.css';
 import DrinkList from "./components/DrinkList/DrinkList";
 import React, { useState,  useEffect } from "react";
 import DrinkInfo from "./components/DrinkInfo/DrinkInfo";

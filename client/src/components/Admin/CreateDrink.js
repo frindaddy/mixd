@@ -4,6 +4,9 @@ import axios from "axios";
 import GlassTypes from "./GlassTypes";
 import TagEntryContainer from "./TagEntryContainer";
 import IngredientEntryContainer from "./IngredientEntryContainer";
+import "../../format/CreateDrink.css";
+import "../../format/FilterPanel.css";
+
 const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
     const noImageURL = './api/image?file=glassware/unknown.svg';
     const [imagePreviewURL, setImagePreviewURL] = useState(noImageURL);
@@ -154,7 +157,7 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
     }
 
     return (
-        <div className='add-new-drink'>
+        <div className="create-drink">
             <nav>
                 <div className="nav-container">
                     <a href="/" className="back" onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/></a>
@@ -170,7 +173,7 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                     <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
                     {(drinkID !== null) && <p style={{cursor: "pointer"}} onClick={()=>{setImagePreviewURL(noImageURL)}}>Remove Image</p>}
                     <p>Drink Preview</p>
-                    <input type="file" onChange={onImageSelected}/>
+                    <input style={{paddingTop:"30px"}} type="file" onChange={onImageSelected}/>
                 </div>
                 <p>Name (Required):</p>
                 <div className="create-drink-row">
@@ -200,9 +203,9 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                 <div className="create-drink-row">
                     <input type="text" name="abv" placeholder="0.0" value={inputs.abv || ""} onChange={handleFormChange} />
                 </div>
-                <p>Total Drink Volume:</p>
+                <p>Override Drink Volume (oz):</p>
                 <div className="create-drink-row">
-                    <input type="text" name="volume" placeholder="4 oz" value={inputs.volume || ""} onChange={handleFormChange} />
+                    <input type="text" name="override_volume" placeholder="4" value={inputs.override_volume || ""} onChange={handleFormChange} />
                 </div>
                 <p>Instructions:</p>
                 <div className="create-drink-row">

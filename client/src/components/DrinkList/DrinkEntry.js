@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react"
 import DrinkTags, {filterTags} from "../DrinkTags";
 import {FaTrash, FaWrench, FaStar, FaRegStar} from "react-icons/fa";
 import axios from "axios";
+import "../../format/DrinkList.css";
 
 const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, adminKey, filteredTags}) => {
 
@@ -83,8 +84,8 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
 
     return (
         <>
-        <hr class="drink-list-separator"></hr>
-        <div class="drink-entry">
+        <hr class="list-separator"></hr>
+        <div class="list-entry">
             <a style={{display: "flex"}}>
                 <div class="glass-container" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>
                     {drink.glass && <img src={'./api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}
@@ -92,7 +93,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
                 </div>
             </a>
 
-            <div className="entry-column">
+            <div className="list-column">
                 {adminKey && <div className="remove-drink">
                     {!clientSideFeature && <FaRegStar onClick={()=>{setDrinkFeatured(true)}} style={{cursor: "pointer", paddingRight:'8px'}}/>}
                     {clientSideFeature && <FaStar onClick={()=>{setDrinkFeatured(false)}} style={{cursor: "pointer", paddingRight:'8px'}}/>}
@@ -103,7 +104,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
                     <FaStar style={{color: starColor}}/>
                 </div>}
                 <div>
-                    <a><p className="entry-title" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>{drink.name}</p></a>
+                    <a><p className="list-title" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>{drink.name}</p></a>
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
                 </div>
             </div>

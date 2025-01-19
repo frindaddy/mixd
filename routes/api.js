@@ -71,6 +71,16 @@ const updateIngredients = async() => {
         .catch();
 }
 
+function calculateDrinkVolume(drink) {
+    let volume = 0
+    if(drink.ingredients){
+        drink.ingredients.forEach(ingredient => {
+           if(ingredient.unit === 'oz') volume += ingredient.amount
+        });
+    }
+    return volume
+}
+
 updateIngredients()
 
 router.get('/app-info', (req, res, next) => {
@@ -212,7 +222,9 @@ router.post('/add_drink', verifyRequest, (req, res, next) => {
         delete req.body._id
         delete req.body.__v
 
-        Drinks.create({...req.body, uuid: uuid()})
+        let new_drink = {...req.body, uuid: uuid()}
+        new_drink.volume = calculateDrinkVolume(new_drink)
+        Drinks.create(new_drink)
             .then((data) => res.json(data))
             .catch(next);
     } else {

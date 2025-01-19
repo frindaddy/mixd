@@ -4,6 +4,8 @@ import {FaChevronLeft} from "react-icons/fa";
 import DrinkTags, {filterTags} from "../DrinkTags";
 import {getDisplayName} from "../Admin/GlassTypes";
 import LinkableText from "./LinkableText";
+import "../../format/DrinkInfo.css";
+
 const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
 
     const [drink, setDrink] = useState({name:"No Drink"});
@@ -31,8 +33,14 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
             }).catch((err) => console.log(err));
     }, [drinkID]);
 
+    function getVolume() {
+        if (drink.override_volume && drink.override_volume > 0) return drink.override_volume
+        if (drink.volume && drink.volume > 0) return drink.volume
+        return 0
+    }
+
     return (
-        <div className='DrinkInfo'>
+        <div>
             <nav>
                 <div className="nav-container" onClick={()=>{setCurrentPage('drinkList')}}>
                     <a className="back" style={{cursor: "pointer"}}><FaChevronLeft/></a>
@@ -43,7 +51,7 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
             {drinkFailed && <p style={{textAlign: "center"}}>Error: Failed to Get Drink Information</p>}
             {drinkLoaded && <div className="info-row">
                 <div className="info-column">
-                    <div className="image">
+                    <div className="drink-image">
                         <img src={'./api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
                     </div>
                 </div>
@@ -53,7 +61,7 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
                         {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste', 'recommendation'])} glass={getDisplayName(drink.glass)}/>}
                         <div style={{display: "flex"}}>
                             {drink.abv != null && <div className="abv">{drink.abv}% ABV</div>}
-                            {drink.volume != null && <div className="volume"> / {drink.volume}</div>}
+                            {(drink.volume != null || drink.override_volume != null) && <div className="volume"> / {getVolume()} oz</div>}
                         </div>
                         <ul className="ingredients">
                             { drink.ingredients && drink.ingredients.map((ingredient) => {
