@@ -117,6 +117,21 @@ router.get('/list', (req, res, next) => {
         .catch(next);
 });
 
+router.get('/list/:ingr_uuid', (req, res, next) => {
+    if(req.params.ingr_uuid){
+        Drinks.find({}, 'uuid name tags glass ingredients').sort({name:1})
+            .then((data) => {
+                let filteredDrinks = data.filter((drink) => {
+                    return drink.ingredients.filter((ingredient) => ingredient.ingredient === req.params.ingr_uuid).length > 0
+                }).map(drink => {return {uuid: drink.uuid, name: drink.name, tags: drink.tags, glass: drink.glass}})
+                res.json(filteredDrinks)
+            })
+            .catch(next);
+    } else {
+        res.sendStatus(400);
+    }
+});
+
 router.get('/tags', (req, res, next) => {
     Drinks.find({}, 'tags glass')
         .then((data) => {
