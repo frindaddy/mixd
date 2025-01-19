@@ -312,6 +312,27 @@ router.get('/get_ingredients', (req, res, next) => {
         .catch(next);
 });
 
+router.get('/count_ingredients/', (req, res, next) => {
+    let ingredients = []
+    Ingredients.find({}, 'uuid name').sort({name:1})
+        .then((ingredientData) => {
+            Drinks.find({}, 'ingredients').then((drinkData) => {
+                ingredientData.forEach((ingredientResult) => {
+                    let drinks = drinkData.filter((drink) => {
+                        return drink.ingredients.filter(ingr => ingr.ingredient === ingredientResult.uuid).length > 0
+                    })
+                    ingredients.push({
+                        uuid: ingredientResult.uuid,
+                        name: ingredientResult.name,
+                        count: drinks.length
+                    })
+                })
+                res.json(ingredients)
+            })
+        })
+        .catch(next);
+});
+
 router.get('/unused_ingredients', (req, res, next) => {
     let empty_UUIDs = []
     Ingredients.find({}, 'uuid')

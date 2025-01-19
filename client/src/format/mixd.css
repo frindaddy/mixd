@@ -273,6 +273,11 @@ img {
     margin-top: 0;
 }
 
+.ingredient-button {
+    float: right;
+    margin: 5px 10px 0 0;
+}
+
 .ingredients {
     margin-right: 10%;
     margin-left: 5px;

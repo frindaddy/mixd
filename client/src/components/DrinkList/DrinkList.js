@@ -4,7 +4,7 @@ import AddDrinkEntry from "../Admin/AddDrinkEntry";
 import DotColor from "../DotColor";
 import DrinkArray from "./DrinkArray";
 import FilterPanel from "./FilterPanel";
-import {FaFilter, FaEraser} from "react-icons/fa";
+import {FaFilter, FaEraser, FaLemon} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import AddIngredientEntry from "../Admin/AddIngredientEntry";
 
@@ -45,6 +45,10 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
         setFilterPanelOpenedBefore(true);
     }
 
+    function goToIngredientsPage() {
+        setCurrentPage('viewIngredients')
+    }
+
     function resetAllFilters() {
         setGlassFilterList([]);
         setTagFilterList([]);
@@ -64,6 +68,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
                     <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>
                 </div>
                 <div className="search-container">
+                    <div className='ingredient-button'><FaLemon style={{cursor:"pointer"}} onClick={goToIngredientsPage}/></div>
                     <input className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer"}} onClick={toggleFilterPanel}/></div>
                     {tagFilterList.length + glassFilterList.length > 0 && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
