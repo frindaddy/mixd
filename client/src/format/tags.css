@@ -29,31 +29,3 @@
     font-size: 15px;
     white-space: nowrap;
 }
-
-.gin {
-    background-color: rgb(0, 69, 172);
-}
-
-.aperol {
-    background-color: orangered;
-}
-
-.campari {
-    background-color: red;
-}
-
-.spirit-forward {
-    background-color: green;
-}
-
-.light {
-    background-color: rgb(223, 160, 0);
-}
-
-.bitter {
-    background-color: blueviolet;
-}
-
-.citrus {
-    background-color: rgb(255, 136, 0);
-}
