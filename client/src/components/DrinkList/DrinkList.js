@@ -47,7 +47,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
     }
 
     function goToIngredientsPage() {
-        setCurrentPage('viewIngredients')
+        setCurrentPage('Ingredients')
     }
 
     function resetAllFilters() {
