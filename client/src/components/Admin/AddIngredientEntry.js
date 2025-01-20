@@ -1,5 +1,7 @@
-import React from "react"
+import React from "react";
 import {FaLemon} from "react-icons/fa";
+import "../../format/DrinkList.css";
+
 const AddIngredientEntry = ({setCurrentPage}) => {
 
     return (

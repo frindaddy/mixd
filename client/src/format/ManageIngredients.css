@@ -1,26 +1,46 @@
+.edit-ingredient {
+    cursor: pointer;
+    margin-left: 10px;
+    margin-top: 2px;
+}
+
+.manage-ingredients-entry {
+    padding: 0px;
+    margin: 2px 0px 0px 0px;
+    font-size: 20px;
+    font-weight: 300;
+}
+
 .manage-ingredients-title {
     display: flex;
-    margin-bottom: 5px;
+    padding-bottom: 20px;
+    margin-top: 0px;
     justify-content: center;
-    font-family: Roboto;
     font-weight: 300;
 }
 
 .manage-ingredients-row {
     display: flex;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 10px;
     align-items: center;
     justify-content: center;
 }
 
 @media screen and (max-width: 600px) {
+    .edit-ingredient {
+        margin-top: 6px;
+    }
+    
+    .manage-ingredients-entry {
+        font-size: 25px;
+        margin-top: 5px;
+    }
+    
     .manage-ingredients-title {
         display: flex;
-        margin-top: 60px;
+        margin-top: 10px;
         margin-bottom: 5px;
         justify-content: center;
-        font-family: Roboto;
         font-weight: 300;
     }
 }

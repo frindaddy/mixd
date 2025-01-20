@@ -1,4 +1,4 @@
-import "../../format/Ingredients.css";
+import "../../format/ViewIngredients.css";
 
 const IngredientListEntry = ({ingredient, setCurrentPage, setIngrFilter}) => {
 
@@ -9,8 +9,8 @@ const IngredientListEntry = ({ingredient, setCurrentPage, setIngrFilter}) => {
 
     return (
         <>
-            <p className="ingredient-entry-title" onClick={()=>{setIngredientFilter()}} style={{cursor: "pointer"}}>{ingredient.name}</p>
-            <p style={{marginLeft:'10px'}}>({ingredient.count})</p>
+            <p className="ingredient-entry" onClick={()=>{setIngredientFilter()}} style={{cursor: "pointer"}}>{ingredient.name}</p>
+            <p className="ingredient-use-count">({ingredient.count})</p>
         </>
     )
 }
