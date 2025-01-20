@@ -35,9 +35,7 @@ nav > div {
         left: 0px;
         margin-bottom: 0px;
     }
-}
-
-@media screen and (max-width: 480px) {
+    
     nav {
         background-color: #000000;
     }
