@@ -87,21 +87,19 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 </div>
             </nav>
             <div>
-                <h1 className="manage-ingredients-title" style={{paddingBottom: "20px"}}>Manage Ingredients</h1>
+                <h1 className="manage-ingredients-title">Manage Ingredients</h1>
                 <p style={{display:"flex", justifyContent:"center", marginTop:"-10px", marginBottom:"-10px"}}>Add Ingredient:</p>
                 <div className="manage-ingredients-row">
                     <input type="text" name="ingredientName" placeholder="Lime Juice" value={newIngredientName || ""} onChange={handleFormChange} />
                     <button onClick={()=>{postIngredient(newIngredientName)}}>Add Ingredient</button>
                 </div>
-                <h1 className="manage-ingredients-title" style={{paddingBottom: "10px"}}>Current Ingredients:</h1>
+                <h1 className="manage-ingredients-title" style={{marginTop:"20px", marginBottom:"-10px"}}>Current Ingredients:</h1>
                 {ingredients.map((ingredient) =>{
                     return <div>
-                        <div style={{display: "flex", justifyContent: "center"}}>
-                            <span style={{color: unusedIngredients.includes(ingredient.uuid) ? "red":"white"}}>{ingredient.name}</span>
-                            <FaPenToSquare onClick={()=>{renameIngredient(ingredient.uuid, prompt("Rename '"+ingredient.name+"' to:", ingredient.name))}}
-                                style={{cursor: "pointer", "padding-left": "10px"}} />
-                            {unusedIngredients.includes(ingredient.uuid) && <FaTrash onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}}
-                                style={{cursor: "pointer", "padding-left": "10px"}} />}
+                        <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
+                            <span className="manage-ingredients-entry" style={{color: unusedIngredients.includes(ingredient.uuid) ? "red":"white"}}>{ingredient.name}</span>
+                            <FaPenToSquare className="edit-ingredient" onClick={()=>{renameIngredient(ingredient.uuid, prompt("Rename '"+ingredient.name+"' to:", ingredient.name))}}/>
+                            {unusedIngredients.includes(ingredient.uuid) && <FaTrash className="edit-ingredient" onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}}/>}
                         </div>
                     </div>
                 })}
