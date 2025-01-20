@@ -122,8 +122,10 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 <h1 className="manage-ingredients-title">Manage Ingredients</h1>
                 <p style={{display:"flex", justifyContent:"center", marginTop:"-10px", marginBottom:"-10px"}}>Add Ingredient:</p>
                 <div className="manage-ingredients-row">
-                    <input type="text" name="ingredientName" placeholder="Lime Juice" value={newIngredientName || ""} onChange={e => setNewIngredientName(e.target.value)} />
-                    <input type="number" name="ingredientABV" placeholder="0" value={newIngredientABV || ""} onChange={e => setNewIngredientABV(e.target.value)} />
+                    <input type="text" style={{width:"150px"}} name="ingredientName" placeholder="Lime Juice" value={newIngredientName || ""}
+                        onChange={e => setNewIngredientName(e.target.value)}/>
+                    <input type="number" style={{width:"40px"}} name="ingredientABV" placeholder="0" value={newIngredientABV || ""}
+                        onChange={e => setNewIngredientABV(e.target.value)}/>
                     <button onClick={()=>{postIngredient(newIngredientName, newIngredientABV)}}>Add Ingredient</button>
                 </div>
                 <h1 className="manage-ingredients-title" style={{marginTop:"20px", marginBottom:"-10px"}}>Current Ingredients:</h1>
