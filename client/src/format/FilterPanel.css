@@ -1,3 +1,7 @@
+.clickable {
+    cursor: pointer;
+}
+
 .filter-category-container {
     padding-left: 2px;
     padding-right: 2px;
