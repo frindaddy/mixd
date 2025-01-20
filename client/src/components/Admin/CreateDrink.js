@@ -199,10 +199,6 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                 <div className="create-drink-row">
                     <input type="text" name="garnish" placeholder="a maraschino cherry" value={inputs.garnish || ""} onChange={handleFormChange} />
                 </div>
-                <p>Override Drink Volume (oz):</p>
-                <div className="create-drink-row">
-                    <input type="text" name="override_volume" placeholder="4" value={inputs.override_volume || ""} onChange={handleFormChange} />
-                </div>
                 <p>Instructions:</p>
                 <div className="create-drink-row">
                     <textarea name="instructions" rows="6" cols="45" value={inputs.instructions || ""} onChange={handleFormChange} />
@@ -214,6 +210,10 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                 <p>Footnotes:</p>
                 <div className="create-drink-row">
                     <textarea name="footnotes" rows="3" cols="45" value={inputs.footnotes || ""} onChange={handleFormChange} />
+                </div>
+                <p>Override Drink Volume (oz):</p>
+                <div className="create-drink-row">
+                    <input type="text" name="override_volume" placeholder="4" value={inputs.override_volume || ""} onChange={handleFormChange} />
                 </div>
                 <p style={{marginTop: "50px", marginBottom: "-35px"}}>Tags (Required):</p>
                 <div className="create-drink-row">
