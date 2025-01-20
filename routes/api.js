@@ -81,6 +81,24 @@ function calculateDrinkVolume(drink) {
     return volume
 }
 
+async function updateDrinkEtOH(drink){
+    let etoh = 0
+    await Ingredients.find({}, '').then(all_ingr => {
+        all_ingr.forEach(ingr => {
+            let matched_ingrs = drink.ingredients.filter(i => (i.unit === 'oz' && i.ingredient === ingr.uuid))
+
+            if(matched_ingrs.length > 0 && matched_ingrs[0].amount !== undefined && ingr.abv !== undefined){
+
+                etoh += ingr.abv * matched_ingrs[0].amount;
+            }
+        })
+        if(drink.etoh !== etoh){
+            //EtOH is saved at 100ths of an oz to stay as int
+            Drinks.updateOne({uuid: drink.uuid}, {etoh: etoh}).then(data =>{})
+        }
+    })
+}
+
 updateIngredients()
 
 router.get('/app-info', (req, res, next) => {
@@ -225,8 +243,13 @@ router.post('/add_drink', verifyRequest, (req, res, next) => {
         let new_drink = {...req.body, uuid: uuid()}
         new_drink.volume = calculateDrinkVolume(new_drink)
         Drinks.create(new_drink)
-            .then((data) => res.json(data))
+            .then((data) => {
+                updateDrinkEtOH(new_drink).then(()=>{
+                    res.json(data)
+                })
+            })
             .catch(next);
+
     } else {
         res.sendStatus(400);
     }

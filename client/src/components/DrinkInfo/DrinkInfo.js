@@ -60,7 +60,7 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
                         <div className="info-title">{drink.name}</div>
                         {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste', 'recommendation'])} glass={getDisplayName(drink.glass)}/>}
                         <div style={{display: "flex"}}>
-                            {drink.etoh != null && getVolume() !== 0 && <div className="abv">{Math.round(1000*drink.etoh/getVolume())/10}% ABV</div>}
+                            {drink.etoh != null && getVolume() !== 0 && <div className="abv">{Math.round(10*drink.etoh/getVolume())/10}% ABV</div>}
                             {(drink.volume != null || drink.override_volume != null) && <div className="volume"> / {getVolume()} oz</div>}
                         </div>
                         <ul className="ingredients">
