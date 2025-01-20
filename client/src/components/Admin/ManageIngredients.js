@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react"
-import {FaChevronLeft, FaTrash} from "react-icons/fa";
+import {FaChevronLeft, FaPercent, FaTrash} from "react-icons/fa";
 import axios from "axios";
 import {FaPenToSquare} from "react-icons/fa6";
 import '../../format/ManageIngredients.css';
 
 const ManageIngredients = ({setCurrentPage, adminKey}) => {
     const [newIngredientName, setNewIngredientName] = useState("");
+    const [newIngredientABV, setNewIngredientABV] = useState("");
     const [ingredients, setIngredients] = useState([]);
     const [unusedIngredients, setUnusedIngredients] = useState([]);
 
@@ -28,13 +29,9 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
             }).catch((err) => console.log(err));
     }
 
-    const handleFormChange = (event) => {
-        setNewIngredientName(event.target.value);
-    }
-
     async function renameIngredient(uuid, newName) {
         if(newName && newName.length > 0){
-            const response = await axios.post('./api/rename_ingredient', {uuid: uuid, name: newName}, {
+            const response = await axios.post('./api/update_ingredient', {uuid: uuid, name: newName}, {
                     headers: {
                         Authorization: `Bearer ${adminKey}`,
                         'Content-Type': 'application/json'
@@ -50,8 +47,42 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
         }
     }
 
-    async function postIngredient(ingredientName) {
-        const response = await axios.post('./api/add_ingredient', {name: ingredientName}, {
+    function validateABV(abv) {
+        if(abv === undefined || abv === "" || abv === "0"){
+            abv = 0
+        } else {
+            try {
+                abv = parseFloat(abv)
+                if (typeof (abv) !== "number") abv = 0
+            } catch (e) {
+                abv = 0
+            }
+        }
+        return abv
+    }
+
+    async function changeABV(uuid, abv) {
+        abv = validateABV(abv)
+        if(abv !== undefined){
+            const response = await axios.post('./api/update_ingredient', {uuid: uuid, abv: abv}, {
+                    headers: {
+                        Authorization: `Bearer ${adminKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            if(response.status !== 200) {
+                //TODO: Add errors back.
+                //setErrorMsg('Failed to add drink. Internal server error '+response.status);
+            } else {
+                fetchIngredients();
+            }
+        }
+    }
+
+    async function postIngredient(ingredientName, abv) {
+        abv = validateABV(abv)
+        const response = await axios.post('./api/add_ingredient', {name: ingredientName, abv: abv}, {
                 headers: {
                     Authorization: `Bearer ${adminKey}`,
                     'Content-Type': 'application/json'
@@ -63,6 +94,7 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
             //setErrorMsg('Failed to add drink. Internal server error '+response.status);
         } else {
             setNewIngredientName("")
+            setNewIngredientABV("")
             fetchIngredients();
         }
     }
@@ -90,15 +122,19 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 <h1 className="manage-ingredients-title">Manage Ingredients</h1>
                 <p style={{display:"flex", justifyContent:"center", marginTop:"-10px", marginBottom:"-10px"}}>Add Ingredient:</p>
                 <div className="manage-ingredients-row">
-                    <input type="text" name="ingredientName" placeholder="Lime Juice" value={newIngredientName || ""} onChange={handleFormChange} />
-                    <button onClick={()=>{postIngredient(newIngredientName)}}>Add Ingredient</button>
+                    <input type="text" style={{width:"150px"}} name="ingredientName" placeholder="Lime Juice" value={newIngredientName || ""}
+                        onChange={e => setNewIngredientName(e.target.value)}/>
+                    <input type="number" style={{width:"40px"}} name="ingredientABV" placeholder="0" value={newIngredientABV || ""}
+                        onChange={e => setNewIngredientABV(e.target.value)}/>
+                    <button onClick={()=>{postIngredient(newIngredientName, newIngredientABV)}}>Add Ingredient</button>
                 </div>
                 <h1 className="manage-ingredients-title" style={{marginTop:"20px", marginBottom:"-10px"}}>Current Ingredients:</h1>
                 {ingredients.map((ingredient) =>{
                     return <div>
                         <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-                            <span className="manage-ingredients-entry" style={{color: unusedIngredients.includes(ingredient.uuid) ? "red":"white"}}>{ingredient.name}</span>
+                            <span className="manage-ingredients-entry" style={{color: unusedIngredients.includes(ingredient.uuid) ? "red":"white"}}>{ingredient.name + ' ('+ingredient.abv+'%)'}</span>
                             <FaPenToSquare className="edit-ingredient" onClick={()=>{renameIngredient(ingredient.uuid, prompt("Rename '"+ingredient.name+"' to:", ingredient.name))}}/>
+                            <FaPercent className="edit-ingredient" onClick={()=>{changeABV(ingredient.uuid, prompt("Change abv of '"+ingredient.name+"' to:", ingredient.abv?ingredient.abv:0))}}/>
                             {unusedIngredients.includes(ingredient.uuid) && <FaTrash className="edit-ingredient" onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}}/>}
                         </div>
                     </div>

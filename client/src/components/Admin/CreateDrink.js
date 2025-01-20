@@ -199,10 +199,6 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
                 <div className="create-drink-row">
                     <input type="text" name="garnish" placeholder="a maraschino cherry" value={inputs.garnish || ""} onChange={handleFormChange} />
                 </div>
-                <p>ABV:</p>
-                <div className="create-drink-row">
-                    <input type="text" name="abv" placeholder="0.0" value={inputs.abv || ""} onChange={handleFormChange} />
-                </div>
                 <p>Override Drink Volume (oz):</p>
                 <div className="create-drink-row">
                     <input type="text" name="override_volume" placeholder="4" value={inputs.override_volume || ""} onChange={handleFormChange} />

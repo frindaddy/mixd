@@ -81,6 +81,34 @@ function calculateDrinkVolume(drink) {
     return volume
 }
 
+async function updateDrinkEtOH(drink){
+    let etoh = 0
+    await Ingredients.find({}, '').then(all_ingr => {
+        all_ingr.forEach(ingr => {
+            let matched_ingrs = drink.ingredients.filter(i => (i.unit === 'oz' && i.ingredient === ingr.uuid))
+
+            if(matched_ingrs.length > 0 && matched_ingrs[0].amount !== undefined && ingr.abv !== undefined){
+
+                etoh += ingr.abv * matched_ingrs[0].amount;
+            }
+        })
+        if(drink.etoh !== etoh){
+            //EtOH is saved at 100ths of an oz to stay as int
+            Drinks.updateOne({uuid: drink.uuid}, {etoh: etoh}).then(data =>{})
+        }
+    })
+}
+
+function updateABVforIngredient(ingr_uuid) {
+    Drinks.find({}, 'uuid ingredients').then(drinks => {
+        drinks.forEach(drink => {
+            if(drink.ingredients.filter(ingr => ingr.ingredient === ingr_uuid).length > 0) {
+                updateDrinkEtOH(drink)
+            }
+        })
+    })
+}
+
 updateIngredients()
 
 router.get('/app-info', (req, res, next) => {
@@ -225,8 +253,13 @@ router.post('/add_drink', verifyRequest, (req, res, next) => {
         let new_drink = {...req.body, uuid: uuid()}
         new_drink.volume = calculateDrinkVolume(new_drink)
         Drinks.create(new_drink)
-            .then((data) => res.json(data))
+            .then((data) => {
+                updateDrinkEtOH(new_drink).then(()=>{
+                    res.json(data)
+                })
+            })
             .catch(next);
+
     } else {
         res.sendStatus(400);
     }
@@ -296,8 +329,8 @@ router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
 });
 
 router.post('/add_ingredient', verifyRequest, (req, res, next) => {
-    if (req.body.name) {
-        Ingredients.create({uuid: uuid(), name: req.body.name})
+    if (req.body.name && req.body.abv !== undefined) {
+        Ingredients.create({uuid: uuid(), name: req.body.name, abv: Math.abs(req.body.abv)})
             .then((data) => {
                 res.json(data);
                 updateIngredients();
@@ -308,12 +341,16 @@ router.post('/add_ingredient', verifyRequest, (req, res, next) => {
     }
 });
 
-router.post('/rename_ingredient', verifyRequest, (req, res, next) => {
-    if (req.body.uuid && req.body.name) {
-        Ingredients.findOneAndUpdate({uuid: req.body.uuid}, {name: req.body.name})
+router.post('/update_ingredient', verifyRequest, (req, res, next) => {
+
+    if (req.body.uuid && (req.body.name || req.body.abv !== undefined)) {
+        let update = req.body.name ? {name: req.body.name}:{abv: Math.abs(req.body.abv)}
+        if (req.body.name && req.body.abv !== undefined) update = {name: req.body.name, abv: Math.abs(req.body.abv)}
+        Ingredients.findOneAndUpdate({uuid: req.body.uuid}, update)
             .then((data) => {
                 res.json(data);
                 updateIngredients();
+                if(req.body.abv !== undefined) updateABVforIngredient(req.body.uuid)
             })
             .catch(next);
     } else {
@@ -334,7 +371,7 @@ router.delete('/ingredient/:uuid', verifyRequest, (req, res, next) => {
 });
 
 router.get('/get_ingredients', (req, res, next) => {
-    Ingredients.find({}, 'uuid name').sort({name:1})
+    Ingredients.find({}, 'uuid name abv').sort({name:1})
         .then((data) => res.json(data))
         .catch(next);
 });
