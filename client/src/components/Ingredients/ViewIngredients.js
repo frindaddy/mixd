@@ -37,8 +37,10 @@ const ViewIngredients = ({setCurrentPage, setIngrFilter}) => {
                 </div>
             </nav>
             <div>
-                <FaSortAmountDown className="sorted-filter-icon" style={{backgroundColor: sorted? "3B3D3F":""}} onClick={()=>{setSorted(!sorted)}}/>
-                <h1 className="all-ingredients-title" style={{paddingBottom: "20px"}}>All Ingredients:</h1>
+                <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginLeft:"-53px"}}>
+                    <FaSortAmountDown className="sorted-filter-icon" style={{backgroundColor: sorted? "3B3D3F":""}} onClick={()=>{setSorted(!sorted)}}/>
+                    <h1 className="all-ingredients-title">All Ingredients</h1>
+                </div>
                 {(sorted ? sortedIngredients:ingredients).map((ingredient) =>{
                     return <div>
                         <div style={{display: "flex", justifyContent: "center"}}>
