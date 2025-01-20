@@ -62,6 +62,7 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
                         <div style={{display: "flex"}}>
                             {drink.etoh != null && getVolume() !== 0 && <div className="abv">{Math.round(10*drink.etoh/getVolume())/10}% ABV</div>}
                             {(drink.volume != null || drink.override_volume != null) && <div className="volume"> / {getVolume()} oz</div>}
+                            {drink.etoh != null && <div className="abv">or {Math.round(drink.etoh/5.04)/10} EMU</div>}
                         </div>
                         <ul className="ingredients">
                             { drink.ingredients && drink.ingredients.map((ingredient) => {
