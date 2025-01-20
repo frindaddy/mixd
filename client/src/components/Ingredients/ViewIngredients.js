@@ -4,7 +4,7 @@ import axios from "axios";
 import IngredientListEntry from "./IngredientListEntry";
 import "../../format/Ingredients.css";
 
-const Ingredients = ({setCurrentPage, setIngrFilter}) => {
+const ViewIngredients = ({setCurrentPage, setIngrFilter}) => {
     const [ingredients, setIngredients] = useState([]);
     const [sortedIngredients, setSortedIngredients] = useState([]);
     const [sorted, setSorted] = useState(false);
@@ -51,4 +51,4 @@ const Ingredients = ({setCurrentPage, setIngrFilter}) => {
     )
 }
 
-export default Ingredients;
+export default ViewIngredients;

@@ -7,7 +7,7 @@ import DrinkInfo from "./components/DrinkInfo/DrinkInfo";
 import CreateDrink from "./components/Admin/CreateDrink";
 import axios from "axios";
 import ManageIngredients from "./components/Admin/ManageIngredients";
-import Ingredients from "./components/Ingredients/Ingredients";
+import ViewIngredients from "./components/Ingredients/ViewIngredients";
 
 let currentYear = new Date().getFullYear();
 
@@ -36,7 +36,7 @@ function App() {
         {currentPage === "createDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={null} adminKey={adminKey}/>}
         {currentPage === "updateDrink" && <CreateDrink setCurrentPage={setCurrentPage} drinkID={currentDrink} adminKey={adminKey}/>}
         {currentPage === "manageIngredients" && <ManageIngredients setCurrentPage={setCurrentPage} adminKey={adminKey}/>}
-        {currentPage === "Ingredients" && <Ingredients setCurrentPage={setCurrentPage} setIngrFilter={setIngrFilter}/>}
+        {currentPage === "viewIngredients" && <ViewIngredients setCurrentPage={setCurrentPage} setIngrFilter={setIngrFilter}/>}
         <footer>
             <p>©{currentYear} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
                 Powered by our pure genius.<br/>
