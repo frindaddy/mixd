@@ -1,4 +1,4 @@
-import "../../format/Ingredients.css";
+import "../../format/ViewIngredients.css";
 
 const IngredientListEntry = ({ingredient, setCurrentPage, setIngrFilter}) => {
 
