@@ -29,6 +29,13 @@
     object-fit: cover;
 }
 
+.emu {
+    margin-top: 5px;
+    margin-left: 5px;
+    font-size: 15px;
+    color: darkgray;
+}
+
 .info-column {
     float: left;
     width: 50%;
