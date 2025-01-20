@@ -99,6 +99,16 @@ async function updateDrinkEtOH(drink){
     })
 }
 
+function updateABVforIngredient(ingr_uuid) {
+    Drinks.find({}, 'uuid ingredients').then(drinks => {
+        drinks.forEach(drink => {
+            if(drink.ingredients.filter(ingr => ingr.ingredient === ingr_uuid).length > 0) {
+                updateDrinkEtOH(drink)
+            }
+        })
+    })
+}
+
 updateIngredients()
 
 router.get('/app-info', (req, res, next) => {
@@ -332,6 +342,7 @@ router.post('/add_ingredient', verifyRequest, (req, res, next) => {
 });
 
 router.post('/update_ingredient', verifyRequest, (req, res, next) => {
+
     if (req.body.uuid && (req.body.name || req.body.abv !== undefined)) {
         let update = req.body.name ? {name: req.body.name}:{abv: Math.abs(req.body.abv)}
         if (req.body.name && req.body.abv !== undefined) update = {name: req.body.name, abv: Math.abs(req.body.abv)}
@@ -339,6 +350,7 @@ router.post('/update_ingredient', verifyRequest, (req, res, next) => {
             .then((data) => {
                 res.json(data);
                 updateIngredients();
+                if(req.body.abv !== undefined) updateABVforIngredient(req.body.uuid)
             })
             .catch(next);
     } else {
