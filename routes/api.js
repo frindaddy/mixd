@@ -214,15 +214,23 @@ router.get('/image', (req, res, next) => {
 });
 
 router.post('*', (req, res, next) => {
-    if(!process.env.BACKUP_DISABLED){
+    if(!process.env.BACKUP_DISABLED || process.env.BACKUP_DISABLED==='false' || process.env.BACKUP_DISABLED==='False'){
+        let all_dbs = {}
         Drinks.find({})
-            .then((data) => fs.writeFile(BACKUP_DIR+'drinkbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
-                if(err) console.log('Error writing file:',err);
-            }))
-        Ingredients.find({})
-            .then((data) => fs.writeFile(BACKUP_DIR+'ingredientbackup'+Date.now()+'.json', JSON.stringify(data), (err) => {
-                if(err) console.log('Error writing file:',err);
-            }))
+            .then((drink_db_data) => {
+                all_dbs.drinks = drink_db_data
+                Ingredients.find({})
+                    .then((ingr_db_data) => {
+                        all_dbs.ingredients = ingr_db_data
+                        fs.writeFile(BACKUP_DIR+'backup-'+Date.now()+'.json', JSON.stringify(all_dbs), (err) => {
+                            if(err){
+                                console.error('Error writing file:',err);
+                            } else {
+                                console.log('Database backed up!');
+                            }
+                        })
+                    })
+            })
     }
         next()
 });

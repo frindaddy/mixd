@@ -27,10 +27,10 @@ const IngredientEntry = ({index, ingredients, setIngredients, allIngredients, sw
     return (
         <div style={{display: "flex", width: "100%"}}>
             {index !== 0 && <FaArrowUp style={{padding: '0px 3px', cursor: 'pointer'}} onClick={()=>{swapIngredients(index, index-1)}} />}
-            {index === 0 && <span style={{padding: '0px 11px'}} />}
+            {index === 0 && <span style={{padding: '0px 10.75px'}} />}
             {index !== ingredients.length-1 && <FaArrowDown style={{padding: '0px 3px', cursor: 'pointer'}} onClick={()=>{swapIngredients(index, index+1)}} />}
-            {index === ingredients.length-1 && <span style={{padding: '0px 11px'}} />}
-            <input type='text' placeholder='2' size='1' onChange={handleFormChange} value={ingredient.amount||""} name='amount'/>
+            {index === ingredients.length-1 && <span style={{padding: '0px 11.75px'}} />}
+            <input type='text' placeholder='2' style={{width: '36px'}} onChange={handleFormChange} value={ingredient.amount||""} name='amount'/>
             <select name='unit_dropdown' onChange={handleFormChange}>
                 <option value='' disabled={true} selected={!ingredient.unit_dropdown}>No Unit</option>
                 {units.map((unit) => {
