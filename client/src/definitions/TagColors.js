@@ -11,6 +11,10 @@ const TagColors = {
     aperol: "#ff3c00f3",
     champagne: "#c18d51",
     bitters: "#8e522f",
+    chartreuse: "#405927",
+    sake: "#233758",
+    brandy: "#800020",
+    liqueur: "#687387",
     none: "#13447d",
     spirit: "#be54c4", //this is the color for spirits not on the list above
     glass: "#709DD8",
