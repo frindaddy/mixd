@@ -88,7 +88,7 @@ async function updateLegacyIngredients() {
     })
 }*/
 
-function calculateDrinkVolume(drink) {
+/*function calculateDrinkVolume(drink) {
     let volume = 0
     if(drink.ingredients){
         drink.ingredients.forEach(ingredient => {
@@ -96,12 +96,12 @@ function calculateDrinkVolume(drink) {
         });
     }
     return volume
-}
+}*/
 
 module.exports = {
     validateDatabase: async function (verbose) {
 
-        Drinks.find({}, 'uuid name volume ingredients').then((drinkData) => {
+        /*Drinks.find({}, 'uuid name volume ingredients').then((drinkData) => {
             drinkData.forEach(drink => {
                 if(drink.volume === undefined || typeof(drink.volume) !== "number") {
                     Drinks.updateOne({uuid: drink.uuid}, {volume: calculateDrinkVolume(drink)}).then((data) => {
@@ -109,7 +109,7 @@ module.exports = {
                     })
                 }
             })
-        })
+        })*/
 
         //Depreciated methods below
         /*
