@@ -1,6 +1,7 @@
-const Drinks = require("../models/drinks");
+const fs = require('fs');
 
 /*
+const Drinks = require("../models/drinks");
 const Ingredients = require('../models/ingredients');
 const { v4: uuid, validate: uuidValidate } = require('uuid');
 
@@ -118,5 +119,19 @@ module.exports = {
         await updateLegacyIngredients();
         console.log('Database conversion complete.')
         */
+    },
+    //Import data from a JSON if one is provided
+    importJSON: async function (JSON_FILE) {
+        if(JSON_FILE !== undefined){
+            console.log('Attempting to import data from:', JSON_FILE);
+            fs.readFile(JSON_FILE, function(err, data) {
+                if (!err){
+                    const json_data = JSON.parse(data);
+                    console.log(json_data);
+                } else {
+                    console.error(err);
+                }
+            });
+        }
     }
 }

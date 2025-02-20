@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes/api');
 const path = require("path");
-const { validateDatabase } = require('./routes/validate');
+const { validateDatabase, importJSON } = require('./routes/validate');
 require('dotenv').config();
 
 const app = express();
@@ -15,11 +15,13 @@ const DB_HOST = process.env.DB_HOST || '127.0.0.1';
 const DB_PORT = process.env.DB_PORT || '27017';
 
 const VERBOSE_DB_VALIDATION = false;
+const IMPORT_JSON = process.env.IMPORT_JSON;
 
 //TODO: The timing on the promises can be out of order.
 mongoose.connect('mongodb://'+DB_USER+':'+DB_PASS+'@'+DB_HOST+':'+DB_PORT, { useNewUrlParser: true, dbName:"mixd"})
     .then(()=>{console.log(`Database connected successfully.`)})
     .then(validateDatabase(VERBOSE_DB_VALIDATION))
+    .then(importJSON(IMPORT_JSON))
     .catch((err) => console.log(err));
 
 app.use((req, res, next) => {
