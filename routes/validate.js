@@ -1,8 +1,8 @@
 const fs = require('fs');
-
-/*
 const Drinks = require("../models/drinks");
 const Ingredients = require('../models/ingredients');
+
+/*
 const { v4: uuid, validate: uuidValidate } = require('uuid');
 
 async function checkUUIDs(verbose) {
@@ -99,9 +99,34 @@ async function updateLegacyIngredients() {
     return volume
 }*/
 
+async function importObjectToModel(model, object) {
+    return new Promise((resolve) =>{
+        model.findOne({uuid:object.uuid}, '').then(data => {
+            //Check that object is not in db
+            if(data === null){
+                //Clean up old db data
+                delete object._id
+                delete object.__v
+
+                model.create(object).then(()=>{
+                    resolve(true);
+                }).catch(()=>{
+                    resolve(false);
+                })
+            } else {
+                resolve(false);
+            }
+        }).catch(()=>{
+            resolve(false);
+        });
+    });
+}
+
 module.exports = {
     validateDatabase: async function (verbose) {
-
+        return new Promise((resolve) =>{
+            resolve();
+        })
         /*Drinks.find({}, 'uuid name volume ingredients').then((drinkData) => {
             drinkData.forEach(drink => {
                 if(drink.volume === undefined || typeof(drink.volume) !== "number") {
@@ -122,16 +147,36 @@ module.exports = {
     },
     //Import data from a JSON if one is provided
     importJSON: async function (JSON_FILE) {
-        if(JSON_FILE !== undefined){
-            console.log('Attempting to import data from:', JSON_FILE);
-            fs.readFile(JSON_FILE, function(err, data) {
-                if (!err){
-                    const json_data = JSON.parse(data);
-                    console.log(json_data);
-                } else {
-                    console.error(err);
-                }
-            });
-        }
+        return new Promise((resolve) => {
+            if(JSON_FILE !== undefined){
+                console.log('Attempting to import data from:', JSON_FILE);
+                fs.readFile(JSON_FILE, async function (err, data) {
+                    if (!err) {
+                        const json_data = JSON.parse(data);
+                        let drinks = []
+                        let ingredients = []
+                        if (json_data.drinks !== undefined && json_data.drinks.length > 0) drinks = json_data.drinks;
+                        if (json_data.ingredients !== undefined && json_data.ingredients.length > 0) ingredients = json_data.ingredients
+                        for await (const drink of drinks) {
+                            await importObjectToModel(Drinks, drink).then(added => {
+                                if (added) console.log('Imported Drink:', drink.name, '(' + drink.uuid + ')');
+                            });
+                        }
+                        for await (const ingredient of ingredients) {
+                            await importObjectToModel(Ingredients, ingredient).then(added => {
+                                if (added) console.log('Imported Ingredient:', ingredient.name, '(' + ingredient.uuid + ')');
+                            });
+                        }
+                        resolve();
+                    } else {
+                        resolve();
+                        console.error(err);
+                    }
+                });
+            } else {
+                resolve();
+            }
+        });
+
     }
 }
