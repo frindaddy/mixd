@@ -125,6 +125,7 @@ async function importObjectToModel(model, object) {
 module.exports = {
     validateDatabase: async function (verbose) {
         return new Promise((resolve) =>{
+            console.log(`Database connected successfully.`)
             resolve();
         })
         /*Drinks.find({}, 'uuid name volume ingredients').then((drinkData) => {
