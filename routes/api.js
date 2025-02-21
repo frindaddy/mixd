@@ -258,7 +258,11 @@ router.post('/add_drink', verifyRequest, (req, res, next) => {
         delete req.body._id
         delete req.body.__v
 
-        let new_drink = {...req.body, uuid: uuid()}
+        let new_drink = req.body
+        if(new_drink.uuid === undefined){
+            new_drink = {...req.body, uuid: uuid()}
+        }
+
         new_drink.volume = calculateDrinkVolume(new_drink)
         Drinks.create(new_drink)
             .then((data) => {
