@@ -147,7 +147,7 @@ module.exports = {
         */
     },
     //Import data from a JSON if one is provided
-    importJSON: async function (JSON_FILE) {
+    importJSON: async function (JSON_FILE, resolveDatabase) {
         return new Promise((resolve) => {
             if(JSON_FILE !== undefined){
                 console.log('Attempting to import data from:', JSON_FILE);
@@ -181,16 +181,18 @@ module.exports = {
                         } else {
                             console.log('Nothing to import. Consider removing import file.');
                         }
+                        resolveDatabase();
                         resolve();
                     } else {
+                        resolveDatabase();
                         resolve();
                         console.error(err);
                     }
                 });
             } else {
+                resolveDatabase();
                 resolve();
             }
         });
-
     }
 }

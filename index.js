@@ -17,28 +17,36 @@ const DB_PORT = process.env.DB_PORT || '27017';
 const VERBOSE_DB_VALIDATION = false;
 const IMPORT_JSON = process.env.IMPORT_JSON;
 
-mongoose.connect('mongodb://'+DB_USER+':'+DB_PASS+'@'+DB_HOST+':'+DB_PORT, { useNewUrlParser: true, dbName:"mixd"})
-    .then(validateDatabase(VERBOSE_DB_VALIDATION))
-    .then(importJSON(IMPORT_JSON))
-    .catch((err) => console.log(err));
+async function start_database() {
+    return new Promise((resolve) =>{
+        mongoose.connect('mongodb://'+DB_USER+':'+DB_PASS+'@'+DB_HOST+':'+DB_PORT, { useNewUrlParser: true, dbName:"mixd"})
+            .then(validateDatabase(VERBOSE_DB_VALIDATION))
+            .then(importJSON(IMPORT_JSON, resolve)).catch((err) => console.log(err));
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
+    })
+}
 
-app.use(express.json());
+function start_server() {
+    app.use((req, res, next) => {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+        next();
+    });
 
-app.use(express.static(path.join(__dirname, './client/build')));
+    app.use(express.json());
 
-app.use('/api', routes);
+    app.use(express.static(path.join(__dirname, './client/build')));
 
-app.use((err, req, res, next) => {
-    console.log(err);
-    next();
-});
+    app.use('/api', routes);
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
+    app.use((err, req, res, next) => {
+        console.log(err);
+        next();
+    });
+
+    app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+    });
+}
+
+start_database().then(start_server);
