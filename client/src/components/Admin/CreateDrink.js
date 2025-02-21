@@ -94,8 +94,8 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
 
         drink.tags = tags;
         drink.ingredients = ingredients;
-        if (typeof drink.abv === "string"){
-            drink.abv = parseFloat((drink.abv||"").replace(",", "."));
+        if (typeof drink.override_volume === "string"){
+            drink.override_volume = parseFloat((drink.override_volume||"").replace(",", "."));
         }
         
         return drink;
@@ -122,32 +122,40 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
         }
     }
     async function deleteDrink(sameImage, drinkID) {
-        axios.delete('api/drink/'+drinkID+(sameImage ? '?saveImg=true':''), {headers:{Authorization: `Bearer ${adminKey}`}})
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data[0]);
-                }
-            }).catch((err) => console.log(err));
+        return new Promise((resolve, reject) => {
+            axios.delete('api/drink/'+drinkID+(sameImage ? '?saveImg=true':''), {headers:{Authorization: `Bearer ${adminKey}`}})
+                .then((res) => {
+                    if (res.data) {
+                        console.log(res.data[0]);
+                        resolve()
+                    }
+                }).catch((err) =>{
+                    console.log(err)
+                    reject(err);
+                });
+        });
     }
 
     const updateDrink = async () => {
         let sameImage = !selectedImage;
-        await deleteDrink(sameImage && imagePreviewURL !== noImageURL, drinkID);
-        await createDrink(sameImage);
+        deleteDrink(sameImage && imagePreviewURL !== noImageURL, drinkID)
+            .then(async ()=>{await createDrink(sameImage)})
+            .catch(console.error('Failed to delete drink.'));
     }
 
     const createDrink = async (sameImage) => {
-        let uuid = imageUUID;
+        let tempImageUUID = imageUUID;
         if (!imageUUID && !sameImage && imagePreviewURL !== noImageURL){
-            uuid = await uploadImage();
-            setImageUUID(uuid);
+            tempImageUUID = await uploadImage();
+            setImageUUID(tempImageUUID);
         }
         let drink = {};
-        if (uuid) {
-            drink = parseDrink({...inputs, image:uuid});
+        if (tempImageUUID) {
+            drink = parseDrink({...inputs, image:tempImageUUID});
         } else {
             drink = parseDrink(inputs);
         }
+        if(drinkID) drink.uuid = drinkID;
         let error = validateDrink(drink);
         if (error) {
             setErrorMsg(error);
