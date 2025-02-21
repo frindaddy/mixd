@@ -94,8 +94,8 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
 
         drink.tags = tags;
         drink.ingredients = ingredients;
-        if (typeof drink.abv === "string"){
-            drink.abv = parseFloat((drink.abv||"").replace(",", "."));
+        if (typeof drink.override_volume === "string"){
+            drink.override_volume = parseFloat((drink.override_volume||"").replace(",", "."));
         }
         
         return drink;
