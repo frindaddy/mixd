@@ -46,14 +46,6 @@ module.exports = {
                         if (json_data.ingredients !== undefined && json_data.ingredients.length > 0) ingredients = json_data.ingredients
                         let imported_drinks = 0;
                         let imported_ingr = 0;
-                        for await (const drink of drinks) {
-                            await importObjectToModel(Drinks, drink).then(added => {
-                                if (added){
-                                    console.log('Imported Drink:', drink.name, '(' + drink.uuid + ')');
-                                    imported_drinks++;
-                                }
-                            });
-                        }
                         for await (const ingredient of ingredients) {
                             await importObjectToModel(Ingredients, ingredient).then(added => {
                                 if (added){
@@ -62,8 +54,16 @@ module.exports = {
                                 }
                             });
                         }
+                        for await (const drink of drinks) {
+                            await importObjectToModel(Drinks, drink).then(added => {
+                                if (added){
+                                    console.log('Imported Drink:', drink.name, '(' + drink.uuid + ')');
+                                    imported_drinks++;
+                                }
+                            });
+                        }
                         if(imported_drinks + imported_ingr > 0){
-                            console.log('Import complete! Imported', imported_drinks + imported_ingr, 'objects');
+                            console.log('Import complete! Imported', imported_drinks, 'drinks and', imported_ingr, 'ingredients.');
                         } else {
                             console.log('Nothing to import. Consider removing import file.');
                         }
