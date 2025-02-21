@@ -9,6 +9,7 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
     const [newIngredientABV, setNewIngredientABV] = useState("");
     const [ingredients, setIngredients] = useState([]);
     const [unusedIngredients, setUnusedIngredients] = useState([]);
+    const [errorMsg, setErrorMsg] = useState('');
 
     useEffect(() => {
         fetchIngredients();
@@ -39,9 +40,9 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 }
             );
             if(response.status !== 200) {
-                //TODO: Add errors back.
-                //setErrorMsg('Failed to add drink. Internal server error '+response.status);
+                setErrorMsg('Failed to update ingredient. Internal server error '+response.status);
             } else {
+                setErrorMsg('');
                 fetchIngredients();
             }
         }
@@ -72,9 +73,9 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
                 }
             );
             if(response.status !== 200) {
-                //TODO: Add errors back.
-                //setErrorMsg('Failed to add drink. Internal server error '+response.status);
+                setErrorMsg('Failed to update ingredient. Internal server error '+response.status);
             } else {
+                setErrorMsg('');
                 fetchIngredients();
             }
         }
@@ -90,9 +91,9 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
             }
         );
         if(response.status !== 200) {
-            //TODO: Add errors back.
-            //setErrorMsg('Failed to add drink. Internal server error '+response.status);
+            setErrorMsg('Failed to add ingredient. Internal server error '+response.status);
         } else {
+            setErrorMsg('');
             setNewIngredientName("")
             setNewIngredientABV("")
             fetchIngredients();
@@ -120,6 +121,7 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
             </nav>
             <div>
                 <h1 className="manage-ingredients-title">Manage Ingredients</h1>
+                {errorMsg && errorMsg !== '' && <p style={{color:"red"}}>{"ERROR: "+errorMsg}</p>}
                 <p style={{display:"flex", justifyContent:"center", marginTop:"-10px", marginBottom:"-10px"}}>Add Ingredient:</p>
                 <div className="manage-ingredients-row">
                     <input type="text" style={{width:"150px"}} name="ingredientName" placeholder="Lime Juice" value={newIngredientName || ""}
