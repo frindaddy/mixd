@@ -41,13 +41,6 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
 
     return (
         <div>
-            <nav>
-                <div className="nav-container" onClick={()=>{setCurrentPage('drinkList')}}>
-                    <a className="back" style={{cursor: "pointer"}}><FaChevronLeft/></a>
-                    <div className="nav-logo">mixd.</div>
-                </div>
-            </nav>
-
             {drinkFailed && <p style={{textAlign: "center"}}>Error: Failed to Get Drink Information</p>}
             {drinkLoaded && <div className="info-row">
                 <div className="info-column">

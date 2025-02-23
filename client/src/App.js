@@ -8,7 +8,7 @@ import CreateDrink from "./components/Admin/CreateDrink";
 import ManageIngredients from "./components/Admin/ManageIngredients";
 import ViewIngredients from "./components/Ingredients/ViewIngredients";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import PageFrame from "./pages/PageFrame";
+import Layout from "./pages/Layout";
 import Page404 from "./pages/Page404";
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
     return (
     <BrowserRouter>
         <Routes>
-            <Route path="/" element={<PageFrame />}>
+            <Route path="/" element={<Layout />}>
                 <Route index element={<DrinkList setCurrentDrink={setCurrentDrink} searchText={searchText} setSearchText={setSearchText} adminKey={adminKey} setAdminKey={setAdminKey} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList} ingrFilter={ingrFilter} setIngrFilter={setIngrFilter}/>}/>
                 <Route path="drink" element={<DrinkInfo drinkID={currentDrink} setCurrentDrink={setCurrentDrink}/>}/>
                 <Route path="create_drink" element={<CreateDrink drinkID={null} adminKey={adminKey}/>}/>

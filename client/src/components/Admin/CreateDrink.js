@@ -165,71 +165,62 @@ const CreateDrink = ({setCurrentPage, drinkID, adminKey}) => {
     }
 
     return (
-        <div className="create-drink">
-            <nav>
-                <div className="nav-container">
-                    <a href="/" className="back" onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/></a>
-                    <div className="nav-logo">mixd.</div>
-                </div>
-            </nav>
+        <div className="create-drink" style={{flexDirection: "column", width: "100%"}}>
+            <h1 className="create-drink-title">{drinkID === null ? 'Add New Drink':'Update Existing Drink'}</h1>
+            {errorMsg && <p style={{color:"red"}}>{"ERROR: "+errorMsg}</p>}
 
-            <div style={{flexDirection: "column", width: "100%"}}>
-                <h1 className="create-drink-title">{drinkID === null ? 'Add New Drink':'Update Existing Drink'}</h1>
-                {errorMsg && <p style={{color:"red"}}>{"ERROR: "+errorMsg}</p>}
-
-                <div className="create-drink-image">
-                    <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
-                    {(drinkID !== null) && <p style={{cursor: "pointer"}} onClick={()=>{setImagePreviewURL(noImageURL)}}>Remove Image</p>}
-                    <p>Drink Preview</p>
-                    <input style={{paddingTop:"30px"}} type="file" onChange={onImageSelected}/>
-                </div>
-                <p>Name (Required):</p>
-                <div className="create-drink-row">
-                    <input type="text" name="name" placeholder="Manhattan" value={inputs.name || ""} onChange={handleFormChange} />
-                </div>
-                <div className="create-drink-row">
-                    {drinkID && <p>{'UUID: ' + drinkID}</p>}
-                </div>
-                <p>Glass:</p>
-                <div className="create-drink-row">
-                    <select name="glass" onChange={handleFormChange}>
-                        <option value='no_drink' disabled={true} selected={!inputs.glass}>No Glass</option>
-                        {GlassTypes.map((glass)=> {
-                            return <option value={glass.name} selected={inputs.glass===glass.name}>{glass.displayName}</option>
-                        })}
-                    </select>
-                </div>
-                <p>Ingredients (Required):</p>
-                <div className="create-drink-row">
-                    <IngredientEntryContainer inputs={inputs}  setInputs={setInputs} allIngredients={allIngredients}/>
-                </div>
-                <p>Garnish:</p>
-                <div className="create-drink-row">
-                    <input type="text" name="garnish" placeholder="a maraschino cherry" value={inputs.garnish || ""} onChange={handleFormChange} />
-                </div>
-                <p>Instructions:</p>
-                <div className="create-drink-row">
-                    <textarea name="instructions" rows="6" cols="45" value={inputs.instructions || ""} onChange={handleFormChange} />
-                </div>
-                <p>Description:</p>
-                <div className="create-drink-row">
-                    <textarea name="description" rows="6" cols="45" value={inputs.description || ""} onChange={handleFormChange} />
-                </div>
-                <p>Footnotes:</p>
-                <div className="create-drink-row">
-                    <textarea name="footnotes" rows="3" cols="45" value={inputs.footnotes || ""} onChange={handleFormChange} />
-                </div>
-                <p>Override Drink Volume (oz):</p>
-                <div className="create-drink-row">
-                    <input type="text" name="override_volume" placeholder="4" value={inputs.override_volume || ""} onChange={handleFormChange} />
-                </div>
-                <p style={{marginTop: "50px", marginBottom: "-35px"}}>Tags (Required):</p>
-                <div className="create-drink-row">
-                    <TagEntryContainer inputs={inputs} setInputs={setInputs}/>
-                </div>
-                <div className="create-drink-row">
-                    <button onClick={()=>{drinkID === null ? createDrink(false):updateDrink()}}>{drinkID === null ? 'Add New Drink':'Update Drink'}</button>
-                </div>
+            <div className="create-drink-image">
+                <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
+                {(drinkID !== null) && <p style={{cursor: "pointer"}} onClick={()=>{setImagePreviewURL(noImageURL)}}>Remove Image</p>}
+                <p>Drink Preview</p>
+                <input style={{paddingTop:"30px"}} type="file" onChange={onImageSelected}/>
+            </div>
+            <p>Name (Required):</p>
+            <div className="create-drink-row">
+                <input type="text" name="name" placeholder="Manhattan" value={inputs.name || ""} onChange={handleFormChange} />
+            </div>
+            <div className="create-drink-row">
+                {drinkID && <p>{'UUID: ' + drinkID}</p>}
+            </div>
+            <p>Glass:</p>
+            <div className="create-drink-row">
+                <select name="glass" onChange={handleFormChange}>
+                    <option value='no_drink' disabled={true} selected={!inputs.glass}>No Glass</option>
+                    {GlassTypes.map((glass)=> {
+                        return <option value={glass.name} selected={inputs.glass===glass.name}>{glass.displayName}</option>
+                    })}
+                </select>
+            </div>
+            <p>Ingredients (Required):</p>
+            <div className="create-drink-row">
+                <IngredientEntryContainer inputs={inputs}  setInputs={setInputs} allIngredients={allIngredients}/>
+            </div>
+            <p>Garnish:</p>
+            <div className="create-drink-row">
+                <input type="text" name="garnish" placeholder="a maraschino cherry" value={inputs.garnish || ""} onChange={handleFormChange} />
+            </div>
+            <p>Instructions:</p>
+            <div className="create-drink-row">
+                <textarea name="instructions" rows="6" cols="45" value={inputs.instructions || ""} onChange={handleFormChange} />
+            </div>
+            <p>Description:</p>
+            <div className="create-drink-row">
+                <textarea name="description" rows="6" cols="45" value={inputs.description || ""} onChange={handleFormChange} />
+            </div>
+            <p>Footnotes:</p>
+            <div className="create-drink-row">
+                <textarea name="footnotes" rows="3" cols="45" value={inputs.footnotes || ""} onChange={handleFormChange} />
+            </div>
+            <p>Override Drink Volume (oz):</p>
+            <div className="create-drink-row">
+                <input type="text" name="override_volume" placeholder="4" value={inputs.override_volume || ""} onChange={handleFormChange} />
+            </div>
+            <p style={{marginTop: "50px", marginBottom: "-35px"}}>Tags (Required):</p>
+            <div className="create-drink-row">
+                <TagEntryContainer inputs={inputs} setInputs={setInputs}/>
+            </div>
+            <div className="create-drink-row">
+                <button onClick={()=>{drinkID === null ? createDrink(false):updateDrink()}}>{drinkID === null ? 'Add New Drink':'Update Drink'}</button>
             </div>
         </div>
     )

@@ -30,25 +30,17 @@ const ViewIngredients = ({setCurrentPage, setIngrFilter}) => {
 
     return (
         <div>
-            <nav>
-                <div className="nav-container">
-                    <a href="/" className="back" onClick={()=>{setCurrentPage('drinkList')}} style={{cursor: "pointer"}}><FaChevronLeft/></a>
-                    <div className="nav-logo">mixd.</div>
-                </div>
-            </nav>
-            <div>
-                <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginLeft:"-53px"}}>
-                    <FaSortAmountDown className="sorted-filter-icon" style={{backgroundColor: sorted? "3B3D3F":""}} onClick={()=>{setSorted(!sorted)}}/>
-                    <h1 className="all-ingredients-title">All Ingredients</h1>
-                </div>
-                {(sorted ? sortedIngredients:ingredients).map((ingredient) =>{
-                    return <div>
-                        <div style={{display: "flex", justifyContent: "center"}}>
-                            {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} setCurrentPage={setCurrentPage} setIngrFilter={setIngrFilter}/>}
-                        </div>
-                    </div>;
-                })}
+            <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginLeft:"-53px"}}>
+                <FaSortAmountDown className="sorted-filter-icon" style={{backgroundColor: sorted? "3B3D3F":""}} onClick={()=>{setSorted(!sorted)}}/>
+                <h1 className="all-ingredients-title">All Ingredients</h1>
             </div>
+            {(sorted ? sortedIngredients:ingredients).map((ingredient) =>{
+                return <div>
+                    <div style={{display: "flex", justifyContent: "center"}}>
+                        {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} setCurrentPage={setCurrentPage} setIngrFilter={setIngrFilter}/>}
+                    </div>
+                </div>;
+            })}
         </div>
     )
 }
