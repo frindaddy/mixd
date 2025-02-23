@@ -8,8 +8,9 @@ import {FaFilter, FaEraser, FaLemon} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import AddIngredientEntry from "../Admin/AddIngredientEntry";
 import "../../format/DrinkList.css";
+import {Link} from "react-router-dom";
 
-const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter}) => {
+const DrinkList = ({setCurrentDrink, searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter}) => {
 
     const [drinkList, setDrinkList] = useState(previousDrinkList);
     const [glassFilterList, setGlassFilterList] = useState([]);
@@ -46,10 +47,6 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
         setFilterPanelOpenedBefore(true);
     }
 
-    function goToIngredientsPage() {
-        setCurrentPage('viewIngredients')
-    }
-
     function resetAllFilters() {
         setGlassFilterList([]);
         setTagFilterList([]);
@@ -70,7 +67,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
                     <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>
                 </div>
                 <div className="search-container">
-                    <div className='ingredient-button'><FaLemon style={{cursor:"pointer"}} onClick={goToIngredientsPage}/></div>
+                    <Link to="/view_ingredients" className='ingredient-button'><FaLemon style={{cursor:"pointer"}} /></Link>
                     <input className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer"}} onClick={toggleFilterPanel}/></div>
                     {((tagFilterList.length + glassFilterList.length > 0) || ingrFilter[0] !== "") && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
@@ -82,11 +79,11 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
                 setTagFilterList={setTagFilterList} glassFilterList={glassFilterList}
                 setGlassFilterList={setGlassFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
             </div>
-            {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
+            {adminKey && <Link to="/create_drink"><AddDrinkEntry /></Link>}
             {adminKey && <hr className="list-separator"></hr>}
-            {adminKey && <a href="#ingredients"><AddIngredientEntry setCurrentPage={setCurrentPage}/></a>}
+            {adminKey && <Link to="/manage_ingredients"><AddIngredientEntry /></Link>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}}
-                drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}
+                drinkList={drinkList} setCurrentDrink={setCurrentDrink}
                 getDrinkList={getDrinkList} adminKey={adminKey}/>
             <hr className="list-separator"></hr>
         </div>

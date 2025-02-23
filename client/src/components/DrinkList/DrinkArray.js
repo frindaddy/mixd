@@ -46,14 +46,14 @@ const DrinkArray = ({ filter, drinkList, adminKey, setCurrentPage, setCurrentDri
             {filteredList.length > 0 && filter.tags && filteredList[filteredList.length - 1].tagCount < filter.tags.length && <p className="filter-match-title">Perfect Matches</p>}
             {filteredList.map((drink) => {
                 if (!filter.tags || drink.tagCount === filter.tags.length) {
-                    return <DrinkEntry drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey} filteredTags={filter.tags}/>
+                    return <DrinkEntry drink={drink} getDrinkList={getDrinkList} adminKey={adminKey} filteredTags={filter.tags}/>
                 }
             })}
             {filteredList.length > 0 && filter.tags && filteredList[0].tagCount !== filter.tags.length && <p className="filter-match-none">None</p>}
             {filteredList.length > 0 && filter.tags && filteredList[filteredList.length - 1].tagCount < filter.tags.length && <p className="filter-match-title">Close Results</p>}
             {filteredList.map((drink) => {
                 if (filter.tags && drink.tagCount < filter.tags.length) {
-                    return <DrinkEntry drink={drink} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey} filteredTags={filter.tags}/>
+                    return <DrinkEntry drink={drink} setCurrentDrink={setCurrentDrink} getDrinkList={getDrinkList} adminKey={adminKey} filteredTags={filter.tags}/>
                 }
             })}
             {filteredList.length === 0 && drinkList.length > 0 && <p className="filter-match-title">No Drinks Match Your Filter</p>}
