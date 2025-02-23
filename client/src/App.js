@@ -23,7 +23,7 @@ function App() {
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route index element={<DrinkList setCurrentDrink={setCurrentDrink} searchText={searchText} setSearchText={setSearchText} adminKey={adminKey} setAdminKey={setAdminKey} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList} ingrFilter={ingrFilter} setIngrFilter={setIngrFilter}/>}/>
-                <Route path="drink" element={<DrinkInfo drinkID={currentDrink} setCurrentDrink={setCurrentDrink}/>}/>
+                <Route path="drink/:uuid" element={<DrinkInfo drinkID={currentDrink} setCurrentDrink={setCurrentDrink}/>}/>
                 <Route path="create_drink" element={<CreateDrink drinkID={null} adminKey={adminKey}/>}/>
                 <Route path="update_drink" element={<CreateDrink drinkID={currentDrink} adminKey={adminKey}/>}/>
                 <Route path="manage_ingredients" element={<ManageIngredients adminKey={adminKey}/>}/>

@@ -15,7 +15,7 @@ const Layout = () => {
     }
 
     useEffect(() => {
-        axios.get('api/app-info')
+        axios.get('/api/app-info')
             .then((res) => {
                 if (res.data) {
                     res.data.year = new Date().getFullYear();

@@ -3,6 +3,7 @@ import DrinkTags, {filterTags} from "../DrinkTags";
 import {FaTrash, FaWrench, FaStar, FaRegStar} from "react-icons/fa";
 import axios from "axios";
 import "../../format/DrinkList.css";
+import {Link} from "react-router-dom";
 
 const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, adminKey, filteredTags}) => {
 
@@ -39,11 +40,6 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
             }
         }
     }, [filteredTags, drink]);
-
-    const setDrinkPage = () => {
-        setCurrentPage("drinkInfo");
-        setCurrentDrink(drink.uuid);
-    };
 
     const setUpdateDrinkPage = () => {
         setCurrentPage("updateDrink");
@@ -87,10 +83,10 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
         <hr class="list-separator"></hr>
         <div class="list-entry">
             <div style={{display: "flex"}}>
-                <div class="glass-container" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>
+                <Link to={'drink/'+drink.uuid} class="glass-container" style={{cursor: "pointer"}}>
                     {drink.glass && <img src={'./api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}
                     {!drink.glass && <img src={'./api/image?file=glassware/unknown.svg'} alt={'No glass listed'}/>}
-                </div>
+                </Link>
             </div>
 
             <div className="list-column">
@@ -104,7 +100,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
                     <FaStar style={{color: starColor}}/>
                 </div>}
                 <div>
-                    <a><p className="list-title" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>{drink.name}</p></a>
+                    <Link to={'drink/'+drink.uuid} className="list-title" style={{cursor: "pointer"}}>{drink.name}</Link>
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
                 </div>
             </div>

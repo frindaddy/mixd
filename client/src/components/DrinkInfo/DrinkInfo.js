@@ -5,15 +5,18 @@ import DrinkTags, {filterTags} from "../DrinkTags";
 import {getDisplayName} from "../Admin/GlassTypes";
 import LinkableText from "./LinkableText";
 import "../../format/DrinkInfo.css";
+import {useParams} from "react-router-dom";
 
-const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
+const DrinkInfo = ({setCurrentDrink}) => {
+
+    const { uuid } = useParams();
 
     const [drink, setDrink] = useState({name:"No Drink"});
     const [drinkLoaded, setDrinkLoaded] = useState(false);
     const [drinkFailed, setDrinkFailed] = useState(false);
 
     useEffect(() => {
-        axios.get('api/drink/'+drinkID)
+        axios.get('/api/drink/'+uuid)
             .then((res) => {
                 if (res.data) {
                     if(res.data.instructions){
@@ -31,7 +34,7 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
                     setDrinkFailed(true);
                 }
             }).catch((err) => console.log(err));
-    }, [drinkID]);
+    }, [uuid]);
 
     function getVolume() {
         if (drink.override_volume && drink.override_volume > 0) return drink.override_volume
@@ -45,7 +48,7 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
             {drinkLoaded && <div className="info-row">
                 <div className="info-column">
                     <div className="drink-image">
-                        <img src={'./api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
+                        <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
                     </div>
                 </div>
                 <div className="info-column">
