@@ -3,8 +3,9 @@ import DrinkTags, {filterTags} from "../DrinkTags";
 import {FaTrash, FaWrench, FaStar, FaRegStar} from "react-icons/fa";
 import axios from "axios";
 import "../../format/DrinkList.css";
+import {Link} from "react-router-dom";
 
-const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, adminKey, filteredTags}) => {
+const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags}) => {
 
     const defaultTagCategories = ['spirit', 'style', 'taste'];
     const [tagCategories, setTagCategories] = useState(defaultTagCategories);
@@ -40,19 +41,9 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
         }
     }, [filteredTags, drink]);
 
-    const setDrinkPage = () => {
-        setCurrentPage("drinkInfo");
-        setCurrentDrink(drink.uuid);
-    };
-
-    const setUpdateDrinkPage = () => {
-        setCurrentPage("updateDrink");
-        setCurrentDrink(drink.uuid);
-    };
-
     const confirmDeleteDrink = () => {
         if(window.confirm('Are you sure you want to delete \''+drink.name+'\'?') === true){
-            axios.delete('api/drink/'+drink.uuid, {headers:{Authorization: `Bearer ${adminKey}`}})
+            axios.delete('/api/drink/'+drink.uuid, {headers:{Authorization: `Bearer ${adminKey}`}})
                 .then((res) => {
                     if (res.data) {
                         getDrinkList();
@@ -68,7 +59,7 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
     async function setDrinkFeatured(newFeaturedStatus) {
         setClientSideFeature(newFeaturedStatus);
         setStarColor(undefined);
-        const response = await axios.post('./api/modify_tag/', {drinkUUID: drink.uuid, tag: {value: 'Featured', category: 'top_pick'}, change: newFeaturedStatus ? 'add':'remove'}, {
+        const response = await axios.post('/api/modify_tag/', {drinkUUID: drink.uuid, tag: {value: 'Featured', category: 'top_pick'}, change: newFeaturedStatus ? 'add':'remove'}, {
                 headers: {
                     Authorization: `Bearer ${adminKey}`,
                     'Content-Type': 'application/json'
@@ -84,27 +75,27 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
 
     return (
         <>
-        <hr class="list-separator"></hr>
-        <div class="list-entry">
-            <a style={{display: "flex"}}>
-                <div class="glass-container" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>
-                    {drink.glass && <img src={'./api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}
-                    {!drink.glass && <img src={'./api/image?file=glassware/unknown.svg'} alt={'No glass listed'}/>}
-                </div>
-            </a>
+        <hr className="list-separator"></hr>
+        <div className="list-entry">
+            <div style={{display: "flex"}}>
+                <Link to={'/drink/'+drink.uuid} class="glass-container" style={{cursor: "pointer"}}>
+                    {drink.glass && <img src={'/api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}
+                    {!drink.glass && <img src={'/api/image?file=glassware/unknown.svg'} alt={'No glass listed'}/>}
+                </Link>
+            </div>
 
             <div className="list-column">
                 {adminKey && <div className="remove-drink">
                     {!clientSideFeature && <FaRegStar onClick={()=>{setDrinkFeatured(true)}} style={{cursor: "pointer", paddingRight:'8px'}}/>}
                     {clientSideFeature && <FaStar onClick={()=>{setDrinkFeatured(false)}} style={{cursor: "pointer", paddingRight:'8px'}}/>}
-                    <FaWrench onClick={()=>{setUpdateDrinkPage()}} style={{cursor: "pointer", paddingRight:'8px'}}/>
+                    <Link to={'/update_drink/'+drink.uuid}><FaWrench style={{cursor: "pointer", paddingRight:'8px'}}/></Link>
                     <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
                 </div>}
                 {starColor && !adminKey && <div className="remove-drink">
                     <FaStar style={{color: starColor}}/>
                 </div>}
                 <div>
-                    <a><p className="list-title" onClick={()=>{setDrinkPage()}} style={{cursor: "pointer"}}>{drink.name}</p></a>
+                    <Link to={'/drink/'+drink.uuid} className="list-title" style={{cursor: "pointer"}}>{drink.name}</Link>
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
                 </div>
             </div>

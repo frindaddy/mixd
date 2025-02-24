@@ -2,11 +2,11 @@ import React from "react";
 import {FaLemon} from "react-icons/fa";
 import "../../format/DrinkList.css";
 
-const AddIngredientEntry = ({setCurrentPage}) => {
+const AddIngredientEntry = () => {
 
     return (
-        <div class="list-entry" onClick={()=>{setCurrentPage("manageIngredients")}} style={{cursor: "pointer"}}>
-            <div class="glass-container">
+        <div className="list-entry" style={{cursor: "pointer"}}>
+            <div className="glass-container">
                 <FaLemon style={{margin: '30px', fontSize:'30px'}}/>
             </div>
             <div className="list-column">

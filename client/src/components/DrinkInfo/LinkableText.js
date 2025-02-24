@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from "react"
+import {useNavigate} from "react-router-dom";
 
 
 
-const LinkableText = ({rawBodyText, setCurrentDrink}) => {
+const LinkableText = ({rawBodyText}) => {
+    const navigate = useNavigate();
+
     const [bodyText, setBodyText] = useState([rawBodyText]);
     const [allLinks, setAllLinks] = useState([]);
 
@@ -30,16 +33,16 @@ const LinkableText = ({rawBodyText, setCurrentDrink}) => {
         }
     }, [rawBodyText]);
 
-    function linkTo(index) {
+    function goToLinkUUID(index) {
         if(allLinks[index]){
-            setCurrentDrink(allLinks[index][1])
+            navigate('/drink/'+allLinks[index][1]);
         }
     }
 
     return (
         <div>
             {bodyText.map((line, index)=>{
-                return <span style={index % 2 === 1 ? {cursor: 'pointer', 'text-decoration-line': 'underline'}:{}} onClick={()=>{linkTo((index-1)/2)}}>{line}</span>
+                return <span onClick={()=>{goToLinkUUID((index-1)/2)}} style={index % 2 === 1 ? {cursor: 'pointer', 'text-decoration-line': 'underline'}:{}}>{line}</span>
             })}
         </div>
     )

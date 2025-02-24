@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {FaChevronLeft} from "react-icons/fa";
 import DrinkTags, {filterTags} from "../DrinkTags";
 import {getDisplayName} from "../Admin/GlassTypes";
 import LinkableText from "./LinkableText";
 import "../../format/DrinkInfo.css";
+import {useParams} from "react-router-dom";
 
-const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
+const DrinkInfo = () => {
+
+    const { uuid } = useParams();
 
     const [drink, setDrink] = useState({name:"No Drink"});
     const [drinkLoaded, setDrinkLoaded] = useState(false);
     const [drinkFailed, setDrinkFailed] = useState(false);
 
     useEffect(() => {
-        axios.get('api/drink/'+drinkID)
+        setDrinkFailed(false);
+        setDrinkLoaded(false);
+        axios.get('/api/drink/'+uuid)
             .then((res) => {
                 if (res.data) {
+                    if (res.data.name) document.title = res.data.name+' | mixd.';
                     if(res.data.instructions){
                         res.data.instructions = res.data.instructions.split(/\r\n|\r|\n/g)
                     }
@@ -29,9 +34,13 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
                     setDrinkLoaded(true);
                 } else {
                     setDrinkFailed(true);
+                    setDrinkLoaded(false);
                 }
-            }).catch((err) => console.log(err));
-    }, [drinkID]);
+            }).catch((err) => {
+                setDrinkFailed(true);
+                setDrinkLoaded(false);
+        });
+    }, [uuid]);
 
     function getVolume() {
         if (drink.override_volume && drink.override_volume > 0) return drink.override_volume
@@ -41,18 +50,11 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
 
     return (
         <div>
-            <nav>
-                <div className="nav-container" onClick={()=>{setCurrentPage('drinkList')}}>
-                    <a className="back" style={{cursor: "pointer"}}><FaChevronLeft/></a>
-                    <div className="nav-logo">mixd.</div>
-                </div>
-            </nav>
-
-            {drinkFailed && <p style={{textAlign: "center"}}>Error: Failed to Get Drink Information</p>}
-            {drinkLoaded && <div className="info-row">
+            {drinkFailed && <p style={{textAlign: "center"}}>Invalid drink ID. This drink does not exist.</p>}
+            {!drinkFailed && drinkLoaded && <div className="info-row">
                 <div className="info-column">
                     <div className="drink-image">
-                        <img src={'./api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
+                        <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
                     </div>
                 </div>
                 <div className="info-column">
@@ -76,17 +78,17 @@ const DrinkInfo = ({drinkID, setCurrentPage, setCurrentDrink}) => {
                         </ul>
                         <div className="instructions">
                             {drink.instructions && drink.instructions.map(line=>{
-                                return <LinkableText rawBodyText={line} setCurrentDrink={setCurrentDrink} />
+                                return <LinkableText rawBodyText={line} />
                             })}
                         </div>
                         <div className="description">
                             {drink.description && drink.description.map(line=>{
-                                return <LinkableText rawBodyText={line} setCurrentDrink={setCurrentDrink} />
+                                return <LinkableText rawBodyText={line} />
                             })}
                         </div>
                         <div className="footnote">
                             {drink.footnotes && drink.footnotes.map(line=>{
-                                return <LinkableText rawBodyText={line} setCurrentDrink={setCurrentDrink} />
+                                return <LinkableText rawBodyText={line} />
                             })}
                         </div>
                     </div>

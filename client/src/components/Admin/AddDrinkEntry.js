@@ -1,12 +1,13 @@
 import React from "react"
 import {FaPlus} from "react-icons/fa";
 import "../../format/DrinkList.css";
+import {Link} from "react-router-dom";
 
-const AddDrinkEntry = ({setCurrentPage}) => {
+const AddDrinkEntry = ({}) => {
 
     return (
-        <div class="list-entry" onClick={()=>{setCurrentPage("createDrink")}} style={{cursor: "pointer"}}>
-            <div class="glass-container">
+        <div className="list-entry" style={{cursor: "pointer"}}>
+            <div className="glass-container">
                 <FaPlus style={{margin: '30px', fontSize:'30px'}}/>
             </div>
             <div className="list-column">

@@ -1,10 +1,12 @@
 import "../../format/ViewIngredients.css";
+import {useNavigate} from "react-router-dom";
 
-const IngredientListEntry = ({ingredient, setCurrentPage, setIngrFilter}) => {
+const IngredientListEntry = ({ingredient, setIngrFilter}) => {
 
+    const navigate = useNavigate();
     const setIngredientFilter = () => {
-        setCurrentPage("drinkList");
         setIngrFilter([ingredient.uuid, ingredient.name])
+        navigate('/')
     };
 
     return (

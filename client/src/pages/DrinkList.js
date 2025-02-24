@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import AddDrinkEntry from "../Admin/AddDrinkEntry";
-import DotColor from "../DotColor";
-import DrinkArray from "./DrinkArray";
-import FilterPanel from "./FilterPanel";
+import AddDrinkEntry from "../components/Admin/AddDrinkEntry";
+import DotColor from "../components/DotColor";
+import DrinkArray from "../components/DrinkList/DrinkArray";
+import FilterPanel from "../components/DrinkList/FilterPanel";
 import {FaFilter, FaEraser, FaLemon} from "react-icons/fa";
 import {useCookies} from "react-cookie";
-import AddIngredientEntry from "../Admin/AddIngredientEntry";
-import "../../format/DrinkList.css";
+import AddIngredientEntry from "../components/Admin/AddIngredientEntry";
+import "../format/DrinkList.css";
+import {Link} from "react-router-dom";
 
-const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter}) => {
+const DrinkList = ({searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter}) => {
 
     const [drinkList, setDrinkList] = useState(previousDrinkList);
     const [glassFilterList, setGlassFilterList] = useState([]);
@@ -19,7 +20,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
     const [cookies, setCookie] = useCookies(["tagList", "glassList"]);
 
     const getDrinkList = () => {
-        axios.get('./api/list/'+ingrFilter[0])
+        axios.get('/api/list/'+ingrFilter[0])
             .then((res) => {
                 if (res.data) {
                     setDrinkList(res.data);
@@ -33,7 +34,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
             setAdminKey(null);
         } else {
             const adminPassword = prompt('Enter Admin Password');
-            const {data} = await axios.post('./api/admin_login',
+            const {data} = await axios.post('/api/admin_login',
                 {password: adminPassword},
                 {headers: {'Content-Type': 'application/json'}}
             );
@@ -44,10 +45,6 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
     const toggleFilterPanel = () => {
         setShowFilterPanel(!showFilterPanel);
         setFilterPanelOpenedBefore(true);
-    }
-
-    function goToIngredientsPage() {
-        setCurrentPage('viewIngredients')
     }
 
     function resetAllFilters() {
@@ -70,7 +67,7 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
                     <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>
                 </div>
                 <div className="search-container">
-                    <div className='ingredient-button'><FaLemon style={{cursor:"pointer"}} onClick={goToIngredientsPage}/></div>
+                    <Link to="/view_ingredients" className='ingredient-button'><FaLemon style={{cursor:"pointer"}} /></Link>
                     <input className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer"}} onClick={toggleFilterPanel}/></div>
                     {((tagFilterList.length + glassFilterList.length > 0) || ingrFilter[0] !== "") && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
@@ -82,12 +79,11 @@ const DrinkList = ({setCurrentPage, setCurrentDrink, searchText, setSearchText, 
                 setTagFilterList={setTagFilterList} glassFilterList={glassFilterList}
                 setGlassFilterList={setGlassFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
             </div>
-            {adminKey && <a href="#create"><AddDrinkEntry setCurrentPage={setCurrentPage}/></a>}
+            {adminKey && <Link to="/create_drink"><AddDrinkEntry /></Link>}
             {adminKey && <hr className="list-separator"></hr>}
-            {adminKey && <a href="#ingredients"><AddIngredientEntry setCurrentPage={setCurrentPage}/></a>}
+            {adminKey && <Link to="/manage_ingredients"><AddIngredientEntry /></Link>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}}
-                drinkList={drinkList} setCurrentPage={setCurrentPage} setCurrentDrink={setCurrentDrink}
-                getDrinkList={getDrinkList} adminKey={adminKey}/>
+                drinkList={drinkList} getDrinkList={getDrinkList} adminKey={adminKey}/>
             <hr className="list-separator"></hr>
         </div>
         </>
