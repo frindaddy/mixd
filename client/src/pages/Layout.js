@@ -24,6 +24,10 @@ const Layout = () => {
             }).catch((err) => console.log(err));
     }, []);
 
+    useEffect(() => {
+        document.title = 'mixd.';
+    }, [location.pathname]);
+
     return (
         <div className="App">
             {displayNavBar() && <nav>

@@ -12,6 +12,7 @@ const ManageIngredients = ({adminKey}) => {
     const [errorMsg, setErrorMsg] = useState('');
 
     useEffect(() => {
+        document.title = 'Manage Ingredients | mixd.';
         fetchIngredients();
     }, []);
 

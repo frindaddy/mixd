@@ -22,6 +22,7 @@ const CreateDrink = ({adminKey}) => {
     const [loadedDrinkData, setLoadedDrinkData] = useState(false);
 
     useEffect(() => {
+        document.title = (uuid ? 'Update':'Create')+' Drink | mixd.';
         setLoadedDrinkData(false);
         if (uuid){
             axios.get('/api/drink/'+uuid)

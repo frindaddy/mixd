@@ -20,6 +20,7 @@ const DrinkInfo = () => {
         axios.get('/api/drink/'+uuid)
             .then((res) => {
                 if (res.data) {
+                    if (res.data.name) document.title = res.data.name+' | mixd.';
                     if(res.data.instructions){
                         res.data.instructions = res.data.instructions.split(/\r\n|\r|\n/g)
                     }

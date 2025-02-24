@@ -10,6 +10,7 @@ const ViewIngredients = ({setIngrFilter}) => {
     const [sorted, setSorted] = useState(false);
 
     useEffect(() => {
+        document.title = 'Ingredients | mixd.';
         fetchIngredients();
     }, []);
 
