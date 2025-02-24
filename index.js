@@ -44,6 +44,10 @@ function start_server() {
         next();
     });
 
+    app.get('*', function(req, res) {
+        res.redirect('/');
+    });
+
     app.listen(port, () => {
         console.log(`Server running on port ${port}`);
     });
