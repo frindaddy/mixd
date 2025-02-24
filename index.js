@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const routes = require('./routes/api');
 const path = require("path");
 const { validateDatabase, importJSON } = require('./routes/validate');
+const {readFile} = require("fs");
 require('dotenv').config();
 
 const app = express();
@@ -16,6 +17,8 @@ const DB_PORT = process.env.DB_PORT || '27017';
 
 const VERBOSE_DB_VALIDATION = false;
 const IMPORT_JSON = process.env.IMPORT_JSON;
+
+const Drinks = require('./models/drinks');
 
 async function start_database() {
     return new Promise((resolve) =>{
@@ -35,9 +38,32 @@ function start_server() {
 
     app.use(express.json());
 
-    app.use(express.static(path.join(__dirname, './client/build')));
-
     app.use('/api', routes);
+
+    app.get('/*', (req, res, next) => {
+        if(req.path.match(/^\/[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i)){
+            Drinks.findOne({uuid: req.path.substring(1)}).then((drink)=>{
+                readFile(path.join(__dirname, './client/build/index.html'), 'utf8', (err, indexHTML) => {
+                    if (err) {
+                        next();
+                        return;
+                    }
+                    if(drink && drink.name && drink.name !==''){
+                        indexHTML = indexHTML.replace('title>mixd.</title', 'title>'+drink.name+' | mixd.</title');
+                        if(drink.image && drink.image !== ''){
+                            indexHTML = indexHTML
+                                .replace('/logo512.png', '/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg')
+                        }
+                    }
+                    return res.send(indexHTML);
+                });
+            });
+        } else {
+            next();
+        }
+    });
+
+    app.use(express.static(path.join(__dirname, './client/build')));
 
     app.use((err, req, res, next) => {
         console.log(err);

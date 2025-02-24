@@ -35,7 +35,7 @@ const LinkableText = ({rawBodyText}) => {
 
     function goToLinkUUID(index) {
         if(allLinks[index]){
-            navigate('/drink/'+allLinks[index][1]);
+            navigate('/'+allLinks[index][1]);
         }
     }
 
