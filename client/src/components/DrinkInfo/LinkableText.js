@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react"
+import {Link} from "react-router-dom";
 
 
 
-const LinkableText = ({rawBodyText, setCurrentDrink}) => {
+const LinkableText = ({rawBodyText}) => {
     const [bodyText, setBodyText] = useState([rawBodyText]);
     const [allLinks, setAllLinks] = useState([]);
 
@@ -30,16 +31,16 @@ const LinkableText = ({rawBodyText, setCurrentDrink}) => {
         }
     }, [rawBodyText]);
 
-    function linkTo(index) {
+    function getLinkUUID(index) {
         if(allLinks[index]){
-            setCurrentDrink(allLinks[index][1])
+            return allLinks[index][1];
         }
     }
 
     return (
         <div>
             {bodyText.map((line, index)=>{
-                return <span style={index % 2 === 1 ? {cursor: 'pointer', 'text-decoration-line': 'underline'}:{}} onClick={()=>{linkTo((index-1)/2)}}>{line}</span>
+                return <Link to={'/drink/'+getLinkUUID((index-1)/2)} style={index % 2 === 1 ? {cursor: 'pointer', 'text-decoration-line': 'underline'}:{}}>{line}</Link>
             })}
         </div>
     )

@@ -16,13 +16,13 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
     }, []);
 
     const fetchIngredients = () => {
-        axios.get('api/get_ingredients')
+        axios.get('/api/get_ingredients')
             .then((res) => {
                 if (res.data) {
                     setIngredients(res.data)
                 }
             }).catch((err) => console.log(err));
-        axios.get('api/unused_ingredients')
+        axios.get('/api/unused_ingredients')
             .then((res) => {
                 if (res.data) {
                     setUnusedIngredients(res.data)
@@ -32,7 +32,7 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
 
     async function renameIngredient(uuid, newName) {
         if(newName && newName.length > 0){
-            const response = await axios.post('./api/update_ingredient', {uuid: uuid, name: newName}, {
+            const response = await axios.post('/api/update_ingredient', {uuid: uuid, name: newName}, {
                     headers: {
                         Authorization: `Bearer ${adminKey}`,
                         'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
     async function changeABV(uuid, abv) {
         abv = validateABV(abv)
         if(abv !== undefined){
-            const response = await axios.post('./api/update_ingredient', {uuid: uuid, abv: abv}, {
+            const response = await axios.post('/api/update_ingredient', {uuid: uuid, abv: abv}, {
                     headers: {
                         Authorization: `Bearer ${adminKey}`,
                         'Content-Type': 'application/json'
@@ -83,7 +83,7 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
 
     async function postIngredient(ingredientName, abv) {
         abv = validateABV(abv)
-        const response = await axios.post('./api/add_ingredient', {name: ingredientName, abv: abv}, {
+        const response = await axios.post('/api/add_ingredient', {name: ingredientName, abv: abv}, {
                 headers: {
                     Authorization: `Bearer ${adminKey}`,
                     'Content-Type': 'application/json'
@@ -102,7 +102,7 @@ const ManageIngredients = ({setCurrentPage, adminKey}) => {
 
     function confirmDeleteIngredient(ingredientID, ingredientName) {
         if(window.confirm('Are you sure you want to delete \''+ingredientName+'\'?') === true){
-            axios.delete('api/ingredient/'+ingredientID, {headers:{Authorization: `Bearer ${adminKey}`}})
+            axios.delete('/api/ingredient/'+ingredientID, {headers:{Authorization: `Bearer ${adminKey}`}})
                 .then((res) => {
                     setIngredients(ingredients.filter(ing => ing.uuid !== ingredientID));
                 }).catch((err) => console.log(err));

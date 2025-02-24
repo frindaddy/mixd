@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {FaChevronLeft} from "react-icons/fa";
 import DrinkTags, {filterTags} from "../DrinkTags";
 import {getDisplayName} from "../Admin/GlassTypes";
 import LinkableText from "./LinkableText";
 import "../../format/DrinkInfo.css";
 import {useParams} from "react-router-dom";
 
-const DrinkInfo = ({setCurrentDrink}) => {
+const DrinkInfo = () => {
 
     const { uuid } = useParams();
 
@@ -16,9 +15,12 @@ const DrinkInfo = ({setCurrentDrink}) => {
     const [drinkFailed, setDrinkFailed] = useState(false);
 
     useEffect(() => {
+        setDrinkFailed(false);
+        setDrinkLoaded(false);
         axios.get('/api/drink/'+uuid)
             .then((res) => {
                 if (res.data) {
+                    console.log(res.data)
                     if(res.data.instructions){
                         res.data.instructions = res.data.instructions.split(/\r\n|\r|\n/g)
                     }
@@ -32,8 +34,12 @@ const DrinkInfo = ({setCurrentDrink}) => {
                     setDrinkLoaded(true);
                 } else {
                     setDrinkFailed(true);
+                    setDrinkLoaded(false);
                 }
-            }).catch((err) => console.log(err));
+            }).catch((err) => {
+                setDrinkFailed(true);
+                setDrinkLoaded(false);
+        });
     }, [uuid]);
 
     function getVolume() {
@@ -44,8 +50,8 @@ const DrinkInfo = ({setCurrentDrink}) => {
 
     return (
         <div>
-            {drinkFailed && <p style={{textAlign: "center"}}>Error: Failed to Get Drink Information</p>}
-            {drinkLoaded && <div className="info-row">
+            {drinkFailed && <p style={{textAlign: "center"}}>Invalid drink ID. This drink does not exist.</p>}
+            {!drinkFailed && drinkLoaded && <div className="info-row">
                 <div className="info-column">
                     <div className="drink-image">
                         <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
@@ -72,17 +78,17 @@ const DrinkInfo = ({setCurrentDrink}) => {
                         </ul>
                         <div className="instructions">
                             {drink.instructions && drink.instructions.map(line=>{
-                                return <LinkableText rawBodyText={line} setCurrentDrink={setCurrentDrink} />
+                                return <LinkableText rawBodyText={line} />
                             })}
                         </div>
                         <div className="description">
                             {drink.description && drink.description.map(line=>{
-                                return <LinkableText rawBodyText={line} setCurrentDrink={setCurrentDrink} />
+                                return <LinkableText rawBodyText={line} />
                             })}
                         </div>
                         <div className="footnote">
                             {drink.footnotes && drink.footnotes.map(line=>{
-                                return <LinkableText rawBodyText={line} setCurrentDrink={setCurrentDrink} />
+                                return <LinkableText rawBodyText={line} />
                             })}
                         </div>
                     </div>

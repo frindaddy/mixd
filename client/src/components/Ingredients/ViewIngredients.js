@@ -14,7 +14,7 @@ const ViewIngredients = ({setCurrentPage, setIngrFilter}) => {
     }, []);
 
     const fetchIngredients = () => {
-        axios.get('api/count_ingredients')
+        axios.get('/api/count_ingredients')
             .then((res) => {
                 if (res.data) {
                     setIngredients(res.data);

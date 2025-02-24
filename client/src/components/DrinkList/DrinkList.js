@@ -20,7 +20,7 @@ const DrinkList = ({setCurrentDrink, searchText, setSearchText, adminKey, setAdm
     const [cookies, setCookie] = useCookies(["tagList", "glassList"]);
 
     const getDrinkList = () => {
-        axios.get('./api/list/'+ingrFilter[0])
+        axios.get('/api/list/'+ingrFilter[0])
             .then((res) => {
                 if (res.data) {
                     setDrinkList(res.data);
@@ -34,7 +34,7 @@ const DrinkList = ({setCurrentDrink, searchText, setSearchText, adminKey, setAdm
             setAdminKey(null);
         } else {
             const adminPassword = prompt('Enter Admin Password');
-            const {data} = await axios.post('./api/admin_login',
+            const {data} = await axios.post('/api/admin_login',
                 {password: adminPassword},
                 {headers: {'Content-Type': 'application/json'}}
             );

@@ -32,7 +32,7 @@ const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glass
     }
 
     useEffect(() => {
-        axios.get('./api/tags/')
+        axios.get('/api/tags/')
             .then((res) => {
                 if (res.data) {
                     setAllTags(res.data.tags);
