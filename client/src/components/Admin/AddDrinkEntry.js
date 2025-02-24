@@ -1,7 +1,6 @@
 import React from "react"
 import {FaPlus} from "react-icons/fa";
 import "../../format/DrinkList.css";
-import {Link} from "react-router-dom";
 
 const AddDrinkEntry = ({}) => {
 
