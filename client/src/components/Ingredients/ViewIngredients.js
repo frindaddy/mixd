@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import {FaChevronLeft, FaSortAmountDown} from "react-icons/fa";
+import {FaSortAmountDown} from "react-icons/fa";
 import axios from "axios";
 import IngredientListEntry from "./IngredientListEntry";
 import "../../format/ViewIngredients.css";

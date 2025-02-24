@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import {FaChevronLeft, FaPercent, FaTrash} from "react-icons/fa";
+import {FaPercent, FaTrash} from "react-icons/fa";
 import axios from "axios";
 import {FaPenToSquare} from "react-icons/fa6";
 import '../../format/ManageIngredients.css';
