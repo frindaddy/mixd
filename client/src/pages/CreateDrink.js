@@ -33,11 +33,11 @@ const CreateDrink = ({adminKey}) => {
                         setLoadedDrinkData(true);
                     } else {
                         console.error('Failed to load drink with uuid '+uuid);
-                        navigate('/');
+                        navigate('/', { replace: true });
                     }
                 }).catch((err) => {
                     console.error('Failed to load drink with uuid '+uuid);
-                    navigate('/');
+                    navigate('/', { replace: true });
             });
         } else {
             setLoadedDrinkData(true);
@@ -134,7 +134,7 @@ const CreateDrink = ({adminKey}) => {
         if(response.status !== 200) {
             setErrorMsg('Failed to add drink. Internal server error '+response.status);
         } else {
-            navigate('/');
+            navigate('/', { replace: true });
         }
     }
     async function deleteDrink(sameImage, drinkID) {
