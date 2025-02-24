@@ -1,4 +1,4 @@
-.create-drink > div > p {
+.create-drink > p {
     display: flex;
     justify-content: center;
     margin-bottom: -15px;
