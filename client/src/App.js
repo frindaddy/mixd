@@ -7,7 +7,7 @@ import DrinkInfo from "./components/DrinkInfo/DrinkInfo";
 import CreateDrink from "./pages/CreateDrink";
 import ManageIngredients from "./pages/ManageIngredients";
 import ViewIngredients from "./pages/ViewIngredients";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {HashRouter, Route, Routes} from "react-router-dom";
 import Layout from "./pages/Layout";
 import Page404 from "./pages/Page404";
 
@@ -18,7 +18,7 @@ function App() {
     const [adminKey, setAdminKey] = useState();
 
     return (
-    <BrowserRouter>
+    <HashRouter>
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route index element={<DrinkList searchText={searchText} setSearchText={setSearchText} adminKey={adminKey} setAdminKey={setAdminKey} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList} ingrFilter={ingrFilter} setIngrFilter={setIngrFilter}/>}/>
@@ -30,7 +30,7 @@ function App() {
                 <Route path="*" element={<Page404 />} />
             </Route>
         </Routes>
-    </BrowserRouter>
+    </HashRouter>
     );
 }
 
