@@ -25,6 +25,14 @@ const Layout = () => {
     }, []);
 
     useEffect(() => {
+        if(location.hash){
+            let route = location.hash.split('/')
+            if(route.length === 3 && route[1]==='drink'){
+                navigate(location.hash.substring(1));
+            } else {
+                navigate('/')
+            }
+        }
         document.title = 'mixd.';
     }, [location.pathname]);
 
