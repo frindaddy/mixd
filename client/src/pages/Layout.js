@@ -14,6 +14,11 @@ const Layout = () => {
         return route !== '/';
     }
 
+    function backArrowClicked() {
+        navigate(-1);
+        navigate('/');
+    }
+
     useEffect(() => {
         axios.get('/api/app-info')
             .then((res) => {
@@ -32,7 +37,7 @@ const Layout = () => {
         <div className="App">
             {displayNavBar() && <nav>
                 <div className="nav-container">
-                    <div className="back" style={{cursor: "pointer"}} onClick={()=> navigate(-1)}><FaChevronLeft/></div>
+                    <div className="back" style={{cursor: "pointer"}} onClick={()=> backArrowClicked()}><FaChevronLeft/></div>
                     <Link to='/' className="nav-logo">mixd.</Link>
                 </div>
             </nav>}
