@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import AddDrinkEntry from "../Admin/AddDrinkEntry";
-import DotColor from "../DotColor";
-import DrinkArray from "./DrinkArray";
-import FilterPanel from "./FilterPanel";
+import AddDrinkEntry from "../components/Admin/AddDrinkEntry";
+import DotColor from "../components/DotColor";
+import DrinkArray from "../components/DrinkList/DrinkArray";
+import FilterPanel from "../components/DrinkList/FilterPanel";
 import {FaFilter, FaEraser, FaLemon} from "react-icons/fa";
 import {useCookies} from "react-cookie";
-import AddIngredientEntry from "../Admin/AddIngredientEntry";
-import "../../format/DrinkList.css";
+import AddIngredientEntry from "../components/Admin/AddIngredientEntry";
+import "../format/DrinkList.css";
 import {Link} from "react-router-dom";
 
 const DrinkList = ({searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter}) => {

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react"
 import {FaSortAmountDown} from "react-icons/fa";
 import axios from "axios";
-import IngredientListEntry from "./IngredientListEntry";
-import "../../format/ViewIngredients.css";
+import IngredientListEntry from "../components/Ingredients/IngredientListEntry";
+import "../format/ViewIngredients.css";
 
 const ViewIngredients = ({setIngrFilter}) => {
     const [ingredients, setIngredients] = useState([]);

@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react"
 import axios from "axios";
-import GlassTypes from "./GlassTypes";
-import TagEntryContainer from "./TagEntryContainer";
-import IngredientEntryContainer from "./IngredientEntryContainer";
-import "../../format/CreateDrink.css";
-import "../../format/FilterPanel.css";
+import GlassTypes from "../components/Admin/GlassTypes";
+import TagEntryContainer from "../components/Admin/TagEntryContainer";
+import IngredientEntryContainer from "../components/Admin/IngredientEntryContainer";
+import "../format/CreateDrink.css";
+import "../format/FilterPanel.css";
 import {useNavigate, useParams} from "react-router-dom";
 
 const CreateDrink = ({adminKey}) => {

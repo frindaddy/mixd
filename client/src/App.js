@@ -1,12 +1,12 @@
 import './format/Tags.css';
 import './format/App.css';
 import './format/Navbar.css';
-import DrinkList from "./components/DrinkList/DrinkList";
+import DrinkList from "./pages/DrinkList";
 import React, { useState,  useEffect } from "react";
 import DrinkInfo from "./components/DrinkInfo/DrinkInfo";
-import CreateDrink from "./components/Admin/CreateDrink";
-import ManageIngredients from "./components/Admin/ManageIngredients";
-import ViewIngredients from "./components/Ingredients/ViewIngredients";
+import CreateDrink from "./pages/CreateDrink";
+import ManageIngredients from "./pages/ManageIngredients";
+import ViewIngredients from "./pages/ViewIngredients";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Layout from "./pages/Layout";
 import Page404 from "./pages/Page404";
