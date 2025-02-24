@@ -2,7 +2,7 @@ import React from "react";
 import {FaLemon} from "react-icons/fa";
 import "../../format/DrinkList.css";
 
-const AddIngredientEntry = ({setCurrentPage}) => {
+const AddIngredientEntry = () => {
 
     return (
         <div className="list-entry" style={{cursor: "pointer"}}>

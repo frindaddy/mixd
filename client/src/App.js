@@ -12,7 +12,6 @@ import Layout from "./pages/Layout";
 import Page404 from "./pages/Page404";
 
 function App() {
-    const [currentDrink, setCurrentDrink] = useState("");
     const [previousDrinkList, setPreviousDrinkList] = useState([{name:"Loading Drinks..."}]);
     const [searchText, setSearchText] = useState("");
     const [ingrFilter, setIngrFilter] = useState(["",""]);
@@ -22,7 +21,7 @@ function App() {
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<Layout />}>
-                <Route index element={<DrinkList setCurrentDrink={setCurrentDrink} searchText={searchText} setSearchText={setSearchText} adminKey={adminKey} setAdminKey={setAdminKey} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList} ingrFilter={ingrFilter} setIngrFilter={setIngrFilter}/>}/>
+                <Route index element={<DrinkList searchText={searchText} setSearchText={setSearchText} adminKey={adminKey} setAdminKey={setAdminKey} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList} ingrFilter={ingrFilter} setIngrFilter={setIngrFilter}/>}/>
                 <Route path="drink/:uuid" element={<DrinkInfo />}/>
                 <Route path="create_drink" element={<CreateDrink adminKey={adminKey}/>}/>
                 <Route path="update_drink/:uuid" element={<CreateDrink adminKey={adminKey}/>}/>

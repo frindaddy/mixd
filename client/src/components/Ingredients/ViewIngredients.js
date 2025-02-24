@@ -4,7 +4,7 @@ import axios from "axios";
 import IngredientListEntry from "./IngredientListEntry";
 import "../../format/ViewIngredients.css";
 
-const ViewIngredients = ({setCurrentPage, setIngrFilter}) => {
+const ViewIngredients = ({setIngrFilter}) => {
     const [ingredients, setIngredients] = useState([]);
     const [sortedIngredients, setSortedIngredients] = useState([]);
     const [sorted, setSorted] = useState(false);
@@ -37,7 +37,7 @@ const ViewIngredients = ({setCurrentPage, setIngrFilter}) => {
             {(sorted ? sortedIngredients:ingredients).map((ingredient) =>{
                 return <div>
                     <div style={{display: "flex", justifyContent: "center"}}>
-                        {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} setCurrentPage={setCurrentPage} setIngrFilter={setIngrFilter}/>}
+                        {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} setIngrFilter={setIngrFilter}/>}
                     </div>
                 </div>;
             })}

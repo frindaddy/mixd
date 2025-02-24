@@ -5,7 +5,7 @@ import axios from "axios";
 import "../../format/DrinkList.css";
 import {Link} from "react-router-dom";
 
-const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, adminKey, filteredTags}) => {
+const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags}) => {
 
     const defaultTagCategories = ['spirit', 'style', 'taste'];
     const [tagCategories, setTagCategories] = useState(defaultTagCategories);
@@ -75,8 +75,8 @@ const DrinkEntry = ({drink, setCurrentPage, setCurrentDrink, getDrinkList, admin
 
     return (
         <>
-        <hr class="list-separator"></hr>
-        <div class="list-entry">
+        <hr className="list-separator"></hr>
+        <div className="list-entry">
             <div style={{display: "flex"}}>
                 <Link to={'/drink/'+drink.uuid} class="glass-container" style={{cursor: "pointer"}}>
                     {drink.glass && <img src={'/api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}
