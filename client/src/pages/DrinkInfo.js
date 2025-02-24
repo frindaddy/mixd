@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import DrinkTags, {filterTags} from "../DrinkTags";
-import {getDisplayName} from "../Admin/GlassTypes";
-import LinkableText from "./LinkableText";
-import "../../format/DrinkInfo.css";
+import DrinkTags, {filterTags} from "../components/DrinkTags";
+import {getDisplayName} from "../components/Admin/GlassTypes";
+import LinkableText from "../components/DrinkInfo/LinkableText";
+import "../format/DrinkInfo.css";
 import {useParams} from "react-router-dom";
 
 const DrinkInfo = () => {

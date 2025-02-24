@@ -3,7 +3,7 @@ import './format/App.css';
 import './format/Navbar.css';
 import DrinkList from "./pages/DrinkList";
 import React, { useState } from "react";
-import DrinkInfo from "./components/DrinkInfo/DrinkInfo";
+import DrinkInfo from "./pages/DrinkInfo";
 import CreateDrink from "./pages/CreateDrink";
 import ManageIngredients from "./pages/ManageIngredients";
 import ViewIngredients from "./pages/ViewIngredients";
