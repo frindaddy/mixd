@@ -54,8 +54,10 @@ const DrinkInfo = () => {
         <div>
             {drinkFailed && <p style={{textAlign: "center"}}>Invalid drink ID. This drink does not exist.</p>}
             {!drinkFailed && drinkLoaded && <div>
-                <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} onLoad={()=>{setImageLoaded(true)}} style={{display: "none"}}/>
-                {!imageLoaded && <img src={Shaker} className='loading-icon'/>}
+                <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} onLoad={()=>{setImageLoaded(false)}} style={{display: "none"}}/>
+                <div style={{display:"flex", justifyContent:"center"}}>
+                    {!imageLoaded && <img src={Shaker} className='loading-icon'/>}
+                </div>
                 {imageLoaded && <div className="info-row">
                     <div className="info-column">
                         <div className="drink-image">
