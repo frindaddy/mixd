@@ -60,7 +60,6 @@ const DrinkInfo = ({setShowLoader}) => {
         if (navigator.share) {
             navigator.share({
                 title: drink.name,
-                text: drink.name,
                 url: window.location.href
             }).then(() => console.log('Successful share'))
                 .catch(error => console.log('Error sharing:', error));
