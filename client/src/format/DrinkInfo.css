@@ -114,6 +114,10 @@
     animation-timing-function: linear;
 }
 
+.share-button {
+    display: none;
+}
+
 @media screen and (max-width: 600px) {
     .description {
         margin-right: 10px;
@@ -148,5 +152,9 @@
     .loading-icon {
         width: 100px;
         margin: 50% 0px 50% 0px;
+    }
+
+    .share-button {
+        display: flex;
     }
 }

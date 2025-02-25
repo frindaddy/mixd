@@ -61,8 +61,7 @@ const DrinkInfo = ({setShowLoader}) => {
             navigator.share({
                 title: drink.name,
                 url: window.location.href
-            }).then(() => console.log('Successful share'))
-                .catch(error => console.log('Error sharing:', error));
+            }).then();
         }
     }
 
@@ -72,10 +71,10 @@ const DrinkInfo = ({setShowLoader}) => {
             {!drinkFailed && drinkLoaded && <div>
                 <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} onLoad={onImageLoad} style={{display: "none"}}/>
                 {imageLoaded && <div className="info-row">
-                    <IoShareOutline style={{scale:'200%', float: 'right', cursor:"pointer"}} onClick={()=>{shareButton()}} />
                     <div className="info-column">
                         <div className="drink-image">
                             <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
+                            <IoShareOutline className="share-button" onClick={()=>{shareButton()}} />
                         </div>
                     </div>
                     <div className="info-column">
