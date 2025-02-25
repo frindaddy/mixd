@@ -5,9 +5,8 @@ import {getDisplayName} from "../components/Admin/GlassTypes";
 import LinkableText from "../components/DrinkInfo/LinkableText";
 import "../format/DrinkInfo.css";
 import {useParams} from "react-router-dom";
-import Shaker from "../components/DrinkInfo/cocktail_shaker.svg";
 
-const DrinkInfo = () => {
+const DrinkInfo = ({setShowLoader}) => {
 
     const { uuid } = useParams();
 
@@ -17,6 +16,7 @@ const DrinkInfo = () => {
     const [imageLoaded, setImageLoaded] = useState(false);
 
     useEffect(() => {
+        setShowLoader(true);
         setDrinkFailed(false);
         setDrinkLoaded(false);
         axios.get('/api/drink/'+uuid)
@@ -50,14 +50,16 @@ const DrinkInfo = () => {
         return 0
     }
 
+    function onImageLoad(){
+        setImageLoaded(true);
+        setShowLoader(false);
+    }
+
     return (
         <div>
             {drinkFailed && <p style={{textAlign: "center"}}>Invalid drink ID. This drink does not exist.</p>}
             {!drinkFailed && drinkLoaded && <div>
-                <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} onLoad={()=>{setImageLoaded(false)}} style={{display: "none"}}/>
-                <div style={{display:"flex", justifyContent:"center"}}>
-                    {!imageLoaded && <img src={Shaker} className='loading-icon'/>}
-                </div>
+                <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} onLoad={onImageLoad} style={{display: "none"}}/>
                 {imageLoaded && <div className="info-row">
                     <div className="info-column">
                         <div className="drink-image">
