@@ -4,6 +4,7 @@ import axios from "axios";
 import {FaChevronLeft} from "react-icons/fa";
 import Shaker from "../components/DrinkInfo/cocktail_shaker.svg";
 import {IoShareOutline} from "react-icons/io5";
+import '../format/Navbar.css';
 
 const Layout = ({showLoader, setShowLoader}) => {
 
@@ -50,13 +51,17 @@ const Layout = ({showLoader, setShowLoader}) => {
     }, [location.pathname]);
 
     return (
-        <div className="App">
+        <div>
             {displayNavBar() && <nav>
                 <div className="nav-container">
-                    <div className="back" style={{cursor: "pointer"}} onClick={()=> backArrowClicked()}><FaChevronLeft/></div>
-                    <Link to='/' className="nav-logo">mixd.</Link>
+                    <div style={{display:"flex"}}>
+                        <div className="back" style={{cursor: "pointer"}} onClick={()=> backArrowClicked()}><FaChevronLeft/></div>
+                        <Link to='/' className="nav-logo">mixd.</Link>
+                    </div>
+                    <div>
+                        {isDrinkPage() && <IoShareOutline className="share-button" onClick={()=>{shareButton()}} />}
+                    </div>
                 </div>
-                {isDrinkPage() && <IoShareOutline className="share-button" onClick={()=>{shareButton()}} />}
             </nav>}
             <div style={{display:"flex", justifyContent:"center"}}>
                 <img src={Shaker} className='loading-icon' style={(showLoader && displayNavBar()) ? {}:{display:"none"}}/>
