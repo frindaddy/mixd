@@ -44,7 +44,7 @@ const Layout = ({showLoader, setShowLoader}) => {
                 </div>
             </nav>}
             <div style={{display:"flex", justifyContent:"center"}}>
-                <img src={Shaker} className='loading-icon' style={showLoader ? {}:{display:"none"}}/>
+                <img src={Shaker} className='loading-icon' style={(showLoader && displayNavBar()) ? {}:{display:"none"}}/>
             </div>
             <Outlet />
             {!showLoader && <footer>

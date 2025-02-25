@@ -10,7 +10,7 @@ import AddIngredientEntry from "../components/Admin/AddIngredientEntry";
 import "../format/DrinkList.css";
 import {Link} from "react-router-dom";
 
-const DrinkList = ({searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter}) => {
+const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter}) => {
 
     const [drinkList, setDrinkList] = useState(previousDrinkList);
     const [glassFilterList, setGlassFilterList] = useState([]);
@@ -83,7 +83,7 @@ const DrinkList = ({searchText, setSearchText, adminKey, setAdminKey, previousDr
             {adminKey && <hr className="list-separator"></hr>}
             {adminKey && <Link to="/manage_ingredients"><AddIngredientEntry /></Link>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}}
-                drinkList={drinkList} getDrinkList={getDrinkList} adminKey={adminKey}/>
+                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={adminKey}/>
             <hr className="list-separator"></hr>
         </div>
         </>

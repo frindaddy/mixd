@@ -5,7 +5,7 @@ import axios from "axios";
 import "../../format/DrinkList.css";
 import {Link} from "react-router-dom";
 
-const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags}) => {
+const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader}) => {
 
     const defaultTagCategories = ['spirit', 'style', 'taste'];
     const [tagCategories, setTagCategories] = useState(defaultTagCategories);
@@ -73,12 +73,16 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags}) => {
         }
     }
 
+    function goToDrink(drink_uuid){
+
+    }
+
     return (
         <>
         <hr className="list-separator"></hr>
         <div className="list-entry">
             <div style={{display: "flex"}}>
-                <Link to={'/'+drink.uuid} class="glass-container" style={{cursor: "pointer"}}>
+                <Link to={'/'+drink.uuid} class="glass-container" style={{cursor: "pointer"}} onClick={()=>{ setShowLoader(true)}}>
                     {drink.glass && <img src={'/api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}
                     {!drink.glass && <img src={'/api/image?file=glassware/unknown.svg'} alt={'No glass listed'}/>}
                 </Link>
@@ -95,7 +99,7 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags}) => {
                     <FaStar style={{color: starColor}}/>
                 </div>}
                 <div>
-                    <Link to={'/'+drink.uuid} className="list-title" style={{cursor: "pointer"}}>{drink.name}</Link>
+                    <Link to={'/'+drink.uuid} className="list-title" style={{cursor: "pointer"}} onClick={()=>{ setShowLoader(true)}}>{drink.name}</Link>
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
                 </div>
             </div>
