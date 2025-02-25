@@ -8,7 +8,7 @@ const DotColor = ({toggleAdminMode}) => {
 
     useEffect(() => {
         let dotColors = ["#7856a1", "#5096ab", "#d6a038", "#6f8548", "#d66d2a"];
-        let colorIndex = cookies.colorIndex;
+        let colorIndex = cookies.colorIndex || 0;
         setColor(dotColors[colorIndex])
         if(colorIndex < 4) {
             setCookie('colorIndex', ++colorIndex)
