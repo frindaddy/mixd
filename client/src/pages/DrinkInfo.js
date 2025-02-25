@@ -5,7 +5,6 @@ import {getDisplayName} from "../components/Admin/GlassTypes";
 import LinkableText from "../components/DrinkInfo/LinkableText";
 import "../format/DrinkInfo.css";
 import {useParams} from "react-router-dom";
-import { IoShareOutline } from "react-icons/io5";
 
 const DrinkInfo = ({setShowLoader}) => {
 
@@ -56,15 +55,6 @@ const DrinkInfo = ({setShowLoader}) => {
         setShowLoader(false);
     }
 
-    function shareButton(){
-        if (navigator.share) {
-            navigator.share({
-                title: drink.name,
-                url: window.location.href
-            }).then();
-        }
-    }
-
     return (
         <div>
             {drinkFailed && <p style={{textAlign: "center"}}>Invalid drink ID. This drink does not exist.</p>}
@@ -74,7 +64,6 @@ const DrinkInfo = ({setShowLoader}) => {
                     <div className="info-column">
                         <div className="drink-image">
                             <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
-                            <IoShareOutline className="share-button" onClick={()=>{shareButton()}} />
                         </div>
                     </div>
                     <div className="info-column">

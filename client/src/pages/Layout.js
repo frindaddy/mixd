@@ -3,6 +3,7 @@ import React, {useEffect, useState } from "react";
 import axios from "axios";
 import {FaChevronLeft} from "react-icons/fa";
 import Shaker from "../components/DrinkInfo/cocktail_shaker.svg";
+import {IoShareOutline} from "react-icons/io5";
 
 const Layout = ({showLoader, setShowLoader}) => {
 
@@ -15,9 +16,22 @@ const Layout = ({showLoader, setShowLoader}) => {
         return route !== '/';
     }
 
+    function isDrinkPage(){
+        return location.pathname.match(/^\/[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
+    }
+
     function backArrowClicked() {
         navigate(-1);
         navigate('/');
+    }
+
+    function shareButton(){
+        if (navigator.share) {
+            navigator.share({
+                title: document.title,
+                url: window.location.href
+            }).then();
+        }
     }
 
     useEffect(() => {
@@ -42,6 +56,7 @@ const Layout = ({showLoader, setShowLoader}) => {
                     <div className="back" style={{cursor: "pointer"}} onClick={()=> backArrowClicked()}><FaChevronLeft/></div>
                     <Link to='/' className="nav-logo">mixd.</Link>
                 </div>
+                {isDrinkPage() && <IoShareOutline className="share-button" onClick={()=>{shareButton()}} />}
             </nav>}
             <div style={{display:"flex", justifyContent:"center"}}>
                 <img src={Shaker} className='loading-icon' style={(showLoader && displayNavBar()) ? {}:{display:"none"}}/>
