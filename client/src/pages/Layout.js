@@ -2,8 +2,9 @@ import {Link, Outlet, useLocation, useNavigate} from "react-router-dom";
 import React, {useEffect, useState } from "react";
 import axios from "axios";
 import {FaChevronLeft} from "react-icons/fa";
+import Shaker from "../components/DrinkInfo/cocktail_shaker.svg";
 
-const Layout = () => {
+const Layout = ({showLoader, setShowLoader}) => {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -30,6 +31,7 @@ const Layout = () => {
     }, []);
 
     useEffect(() => {
+        setShowLoader(false);
         document.title = 'mixd.';
     }, [location.pathname]);
 
@@ -41,12 +43,15 @@ const Layout = () => {
                     <Link to='/' className="nav-logo">mixd.</Link>
                 </div>
             </nav>}
+            <div style={{display:"flex", justifyContent:"center"}}>
+                <img src={Shaker} className='loading-icon' style={showLoader ? {}:{display:"none"}}/>
+            </div>
             <Outlet />
-            <footer>
+            {!showLoader && <footer>
                 <p>©{appInfo.year} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
                     Powered by our pure genius.<br/>
                     v{appInfo.version}</p>
-            </footer>
+            </footer>}
         </div>
     )
 };

@@ -16,13 +16,14 @@ function App() {
     const [searchText, setSearchText] = useState("");
     const [ingrFilter, setIngrFilter] = useState(["",""]);
     const [adminKey, setAdminKey] = useState();
+    const [showLoader, setShowLoader] = useState(false);
 
     return (
     <BrowserRouter>
         <Routes>
-            <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Layout showLoader={showLoader} setShowLoader={setShowLoader}/>}>
                 <Route index element={<DrinkList searchText={searchText} setSearchText={setSearchText} adminKey={adminKey} setAdminKey={setAdminKey} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList} ingrFilter={ingrFilter} setIngrFilter={setIngrFilter}/>}/>
-                <Route path=":uuid" element={<DrinkInfo />}/>
+                <Route path=":uuid" element={<DrinkInfo setShowLoader={setShowLoader}/>}/>
                 <Route path="create_drink" element={<CreateDrink adminKey={adminKey}/>}/>
                 <Route path="update_drink/:uuid" element={<CreateDrink adminKey={adminKey}/>}/>
                 <Route path="manage_ingredients" element={<ManageIngredients adminKey={adminKey}/>}/>
