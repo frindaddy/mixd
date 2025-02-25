@@ -5,6 +5,7 @@ import {getDisplayName} from "../components/Admin/GlassTypes";
 import LinkableText from "../components/DrinkInfo/LinkableText";
 import "../format/DrinkInfo.css";
 import {useParams} from "react-router-dom";
+import Shaker from "../components/DrinkInfo/cocktail_shaker.svg";
 
 const DrinkInfo = () => {
 
@@ -13,6 +14,7 @@ const DrinkInfo = () => {
     const [drink, setDrink] = useState({name:"No Drink"});
     const [drinkLoaded, setDrinkLoaded] = useState(false);
     const [drinkFailed, setDrinkFailed] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     useEffect(() => {
         setDrinkFailed(false);
@@ -51,49 +53,53 @@ const DrinkInfo = () => {
     return (
         <div>
             {drinkFailed && <p style={{textAlign: "center"}}>Invalid drink ID. This drink does not exist.</p>}
-            {!drinkFailed && drinkLoaded && <div className="info-row">
-                <div className="info-column">
-                    <div className="drink-image">
-                        <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
-                    </div>
-                </div>
-                <div className="info-column">
-                    <div className="info-text">
-                        <div className="info-title">{drink.name}</div>
-                        {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste', 'recommendation'])} glass={getDisplayName(drink.glass)}/>}
-                        <div style={{display: "flex"}}>
-                            {drink.etoh != null && getVolume() !== 0 && <div className="abv">{Math.round(10*drink.etoh/getVolume())/10}% ABV</div>}
-                            {(drink.volume != null || drink.override_volume != null) && <div className="volume"> / {getVolume()} oz</div>}
-                            {drink.etoh != null && <div className="emu">({Math.round(drink.etoh/5.04)/10} EMU)</div>}
-                        </div>
-                        <ul className="ingredients">
-                            { drink.ingredients && drink.ingredients.map((ingredient) => {
-                                if(ingredient.amount > 0){
-                                    return <li>{ingredient.amount} {ingredient.unit} {ingredient.ingredient}</li>
-                                } else {
-                                    return <li>{ingredient.unit} {ingredient.ingredient}</li>
-                                }
-                            })}
-                            {drink.garnish && <li>Garnished with {drink.garnish}</li>}
-                        </ul>
-                        <div className="instructions">
-                            {drink.instructions && drink.instructions.map(line=>{
-                                return <LinkableText rawBodyText={line} />
-                            })}
-                        </div>
-                        <div className="description">
-                            {drink.description && drink.description.map(line=>{
-                                return <LinkableText rawBodyText={line} />
-                            })}
-                        </div>
-                        <div className="footnote">
-                            {drink.footnotes && drink.footnotes.map(line=>{
-                                return <LinkableText rawBodyText={line} />
-                            })}
+            {!drinkFailed && drinkLoaded && <div>
+                <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} onLoad={()=>{setImageLoaded(true)}} style={{display: "none"}}/>
+                {!imageLoaded && <img src={Shaker} className='loading-icon'/>}
+                {imageLoaded && <div className="info-row">
+                    <div className="info-column">
+                        <div className="drink-image">
+                            <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
                         </div>
                     </div>
-                </div>
-            </div> }
+                    <div className="info-column">
+                        <div className="info-text">
+                            <div className="info-title">{drink.name}</div>
+                            {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste', 'recommendation'])} glass={getDisplayName(drink.glass)}/>}
+                            <div style={{display: "flex"}}>
+                                {drink.etoh != null && getVolume() !== 0 && <div className="abv">{Math.round(10*drink.etoh/getVolume())/10}% ABV</div>}
+                                {(drink.volume != null || drink.override_volume != null) && <div className="volume"> / {getVolume()} oz</div>}
+                                {drink.etoh != null && <div className="emu">({Math.round(drink.etoh/5.04)/10} EMU)</div>}
+                            </div>
+                            <ul className="ingredients">
+                                { drink.ingredients && drink.ingredients.map((ingredient) => {
+                                    if(ingredient.amount > 0){
+                                        return <li>{ingredient.amount} {ingredient.unit} {ingredient.ingredient}</li>
+                                    } else {
+                                        return <li>{ingredient.unit} {ingredient.ingredient}</li>
+                                    }
+                                })}
+                                {drink.garnish && <li>Garnished with {drink.garnish}</li>}
+                            </ul>
+                            <div className="instructions">
+                                {drink.instructions && drink.instructions.map(line=>{
+                                    return <LinkableText rawBodyText={line} />
+                                })}
+                            </div>
+                            <div className="description">
+                                {drink.description && drink.description.map(line=>{
+                                    return <LinkableText rawBodyText={line} />
+                                })}
+                            </div>
+                            <div className="footnote">
+                                {drink.footnotes && drink.footnotes.map(line=>{
+                                    return <LinkableText rawBodyText={line} />
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                </div>}
+            </div>}
         </div>
     )
 }
