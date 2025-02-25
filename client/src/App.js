@@ -1,6 +1,5 @@
 import './format/Tags.css';
 import './format/App.css';
-import './format/Navbar.css';
 import DrinkList from "./pages/DrinkList";
 import React, { useState } from "react";
 import DrinkInfo from "./pages/DrinkInfo";

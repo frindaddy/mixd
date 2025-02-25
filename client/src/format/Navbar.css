@@ -16,7 +16,8 @@ nav > div {
 }
 
 .nav-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 .nav-logo {
@@ -25,6 +26,10 @@ nav > div {
     font-size: 40px;
     font-weight: 300;
     text-align: left;
+}
+
+.share-button {
+    display: none;
 }
 
 @media screen and (max-width: 600px) {
@@ -38,5 +43,14 @@ nav > div {
     
     nav {
         background-color: #000000;
+    }
+
+    .share-button {
+        display: grid;
+        float: right;
+        cursor: pointer;
+        font-size: 40px;
+        padding-top: 3px;
+        margin-right: 11px;
     }
 }
