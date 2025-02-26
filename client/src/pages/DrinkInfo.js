@@ -1,10 +1,12 @@
+import "../format/DrinkInfo.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DrinkTags, {filterTags} from "../components/DrinkTags";
 import {getDisplayName} from "../components/Admin/GlassTypes";
 import LinkableText from "../components/DrinkInfo/LinkableText";
-import "../format/DrinkInfo.css";
 import {useParams} from "react-router-dom";
+import { FiPlus } from "react-icons/fi";
+import { FiMinus } from "react-icons/fi";
 
 const DrinkInfo = ({setShowLoader}) => {
 
@@ -14,6 +16,7 @@ const DrinkInfo = ({setShowLoader}) => {
     const [drinkLoaded, setDrinkLoaded] = useState(false);
     const [drinkFailed, setDrinkFailed] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
+    const [drinkMultiplier, setDrinkMultiplier] = useState(1);
 
     useEffect(() => {
         setShowLoader(true);
@@ -75,10 +78,15 @@ const DrinkInfo = ({setShowLoader}) => {
                                 {(drink.volume != null || drink.override_volume != null) && <div className="volume"> / {getVolume()} oz</div>}
                                 {drink.etoh != null && <div className="emu">({Math.round(drink.etoh/5.04)/10} EMU)</div>}
                             </div>
+                            <div>
+                                <p>For {drinkMultiplier} {drinkMultiplier > 1 ? "drinks":"drink"}</p>
+                                <div style={{cursor:"pointer"}} onClick={() => setDrinkMultiplier(Math.max(1, drinkMultiplier - 1))}><FiMinus/></div>
+                                <div style={{cursor:"pointer"}} onClick={() => setDrinkMultiplier(drinkMultiplier + 1)}><FiPlus/></div>
+                            </div>
                             <ul className="ingredients">
                                 { drink.ingredients && drink.ingredients.map((ingredient) => {
                                     if(ingredient.amount > 0){
-                                        return <li>{ingredient.amount} {ingredient.unit} {ingredient.ingredient}</li>
+                                        return <li>{ingredient.amount * drinkMultiplier} {ingredient.unit} {ingredient.ingredient}</li>
                                     } else {
                                         return <li>{ingredient.unit} {ingredient.ingredient}</li>
                                     }
