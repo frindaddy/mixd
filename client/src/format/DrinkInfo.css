@@ -194,4 +194,12 @@
         width: 100px;
         margin: 50% 0px 50% 0px;
     }
+
+    .drink-multiplier-container button {
+        background-color: #000000;
+    }
+    
+    .multiplier-quantity {
+        background-color: #000000;
+    }
 }
