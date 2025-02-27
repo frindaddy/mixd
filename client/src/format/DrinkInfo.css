@@ -71,8 +71,8 @@
 .ingredients {
     margin-right: 10%;
     margin-left: 5px;
-    margin-top: 5%;
     margin-bottom: 3%;
+    margin-top: 0;
     padding-left: 0;
     list-style: none;
     font-size: 22px;
@@ -113,6 +113,56 @@
     animation-iteration-count: infinite;
     animation-timing-function: linear;
 }
+
+/* BEGIN DRINK MULTIPLIER */
+
+input,
+textarea {
+    border: 3px solid white;
+    box-sizing: border-box;
+    margin: 0;
+    outline: none;
+    padding: 10px;
+    background-color: #1D1E1F;
+}
+
+input[type="button"] {
+    cursor: pointer;
+    min-width: 38px;
+    width: auto;
+}
+
+.drink-multiplier-container {
+    margin-left: 5px;
+    margin-top: 5%;
+    padding-left: 0;
+    clear: both;
+}
+
+.multiplier-minus,.multiplier-plus {
+    font-family: Roboto;
+    color: white;
+    height: 38px;
+    padding: 0;
+    width: 38px;
+    position: relative;
+}
+
+.multiplier-quantity {
+    position: relative;
+    font-family: Roboto;
+    color: white;
+    height: 38px;
+    left: -6px;
+    text-align: center;
+    width: 62px;
+    display: inline-block;
+    font-size: 13px;
+    margin: 0 0 5px;
+    resize: vertical;
+}
+
+/* END DRINK MULTIPLIER */
 
 @media screen and (max-width: 600px) {
     .description {

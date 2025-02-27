@@ -78,10 +78,10 @@ const DrinkInfo = ({setShowLoader}) => {
                                 {(drink.volume != null || drink.override_volume != null) && <div className="volume"> / {getVolume()} oz</div>}
                                 {drink.etoh != null && <div className="emu">({Math.round(drink.etoh/5.04)/10} EMU)</div>}
                             </div>
-                            <div>
-                                <p>For {drinkMultiplier} {drinkMultiplier > 1 ? "drinks":"drink"}</p>
-                                <div style={{cursor:"pointer"}} onClick={() => setDrinkMultiplier(Math.max(1, drinkMultiplier - 1))}><FiMinus/></div>
-                                <div style={{cursor:"pointer"}} onClick={() => setDrinkMultiplier(drinkMultiplier + 1)}><FiPlus/></div>
+                            <div className="drink-multiplier-container">
+                                <input type="button" value="-" className="multiplier-minus" onClick={() => setDrinkMultiplier(Math.max(1, drinkMultiplier - 1))}></input>
+                                <input type="number" value={drinkMultiplier} className="multiplier-quantity"></input>
+                                <input type="button" value="+" className="multiplier-plus" onClick={() => setDrinkMultiplier(drinkMultiplier + 1)}></input>
                             </div>
                             <ul className="ingredients">
                                 { drink.ingredients && drink.ingredients.map((ingredient) => {
