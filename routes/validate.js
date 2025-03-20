@@ -1,7 +1,6 @@
 const fs = require('fs');
 const Drinks = require("../models/drinks");
 const Ingredients = require('../models/ingredients');
-const {RESERVED_ROUTES} = require("../constants");
 
 async function importObjectToModel(model, object) {
     return new Promise((resolve) =>{
@@ -26,54 +25,10 @@ async function importObjectToModel(model, object) {
     });
 }
 
-function sanitize_drink_name(name) {
-    return name
-        .replace(/[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/gi, '')
-        .replace(/ /g, '-')
-        .toLowerCase();
-}
-
-async function is_url_name_available(url_name, uuid){
-    return new Promise((resolve, reject) => {
-        if(RESERVED_ROUTES.includes(url_name)) reject();
-        Drinks.find({}, 'uuid url_name').then((all_drinks) => {
-            all_drinks.forEach((drink)=> {
-                if(drink.uuid !== uuid && drink.url_name === url_name) reject();
-            });
-            resolve();
-        })
-    });
-}
-
-async function attempt_name(url_name, uuid) {
-    return new Promise((resolve)=> {
-        is_url_name_available(url_name, uuid).then(()=>{
-            resolve(url_name);
-        }).catch(async () => {
-            url_name = url_name + '_';
-            resolve(await attempt_name(url_name, uuid));
-        })
-    });
-
-}
-
-async function generate_url_name(name, uuid){
-    let url_name = sanitize_drink_name(name);
-    return attempt_name(url_name, uuid);
-}
-
 module.exports = {
     validateDatabase: async function (verbose) {
         return new Promise((resolve) =>{
             console.log(`Database connected successfully.`)
-            Drinks.find({}, 'name uuid').then(drinks =>{
-                drinks.forEach((drink) => {
-                    generate_url_name(drink.name, drink.uuid).then(url_name=>{
-                        console.log(url_name, drink.name, drink.uuid)
-                        Drinks.updateOne({uuid: drink.uuid}, {url_name: url_name}).then(data =>{});
-                    })
-                })
-            })
             resolve();
         })
     },

@@ -1,1 +1,1 @@
-export const RESERVED_ROUTES = ['api', 'create_drink', 'update_drink', 'manage_ingredients', 'view_ingredients'];
+export const RESERVED_ROUTES = ['api', 'static', 'create_drink', 'update_drink', 'manage_ingredients', 'view_ingredients'];

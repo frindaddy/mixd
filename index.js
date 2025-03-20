@@ -21,6 +21,12 @@ const IMPORT_JSON = process.env.IMPORT_JSON;
 const Drinks = require('./models/drinks');
 const {RESERVED_ROUTES} = require("./constants");
 
+function is_reserved_route(route) {
+    if(route === '/') return true;
+    if(route.includes('.')) return true;
+    return RESERVED_ROUTES.includes(req.path.split('/')[1]);
+}
+
 async function start_database() {
     return new Promise((resolve) =>{
         mongoose.connect('mongodb://'+DB_USER+':'+DB_PASS+'@'+DB_HOST+':'+DB_PORT, { useNewUrlParser: true, dbName:"mixd"})
@@ -42,7 +48,7 @@ function start_server() {
     app.use('/api', routes);
 
     app.get('/*', (req, res, next) => {
-        if(!RESERVED_ROUTES.includes(req.path.split('/')[1])){
+        if(!is_reserved_route(req.path)){
             let filter
             if(req.path.match(/^\/[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i)){
                 filter = {uuid: req.path.substring(1)}
