@@ -75,7 +75,6 @@ const DrinkInfo = ({setShowLoader}) => {
                                 {(drink.volume != null || drink.override_volume != null) && <div className="volume"> / {getVolume()} oz</div>}
                                 {drink.etoh != null && <div className="emu">({Math.round(drink.etoh/5.04)/10} EMU)</div>}
                             </div>
-                            <p>{drink.url_name}</p>
                             <ul className="ingredients">
                                 { drink.ingredients && drink.ingredients.map((ingredient) => {
                                     if(ingredient.amount > 0){
