@@ -8,7 +8,7 @@ import {useParams} from "react-router-dom";
 
 const DrinkInfo = ({setShowLoader}) => {
 
-    const { uuid } = useParams();
+    const { drink_identifier } = useParams();
 
     const [drink, setDrink] = useState({name:"No Drink"});
     const [drinkLoaded, setDrinkLoaded] = useState(false);
@@ -19,7 +19,7 @@ const DrinkInfo = ({setShowLoader}) => {
         setShowLoader(true);
         setDrinkFailed(false);
         setDrinkLoaded(false);
-        axios.get('/api/drink/'+uuid)
+        axios.get('/api/drink/'+drink_identifier)
             .then((res) => {
                 if (res.data) {
                     if (res.data.name) document.title = res.data.name+' | mixd.';
@@ -42,7 +42,7 @@ const DrinkInfo = ({setShowLoader}) => {
                 setDrinkFailed(true);
                 setDrinkLoaded(false);
         });
-    }, [uuid]);
+    }, [drink_identifier]);
 
     function getVolume() {
         if (drink.override_volume && drink.override_volume > 0) return drink.override_volume
@@ -75,6 +75,7 @@ const DrinkInfo = ({setShowLoader}) => {
                                 {(drink.volume != null || drink.override_volume != null) && <div className="volume"> / {getVolume()} oz</div>}
                                 {drink.etoh != null && <div className="emu">({Math.round(drink.etoh/5.04)/10} EMU)</div>}
                             </div>
+                            <p>{drink.url_name}</p>
                             <ul className="ingredients">
                                 { drink.ingredients && drink.ingredients.map((ingredient) => {
                                     if(ingredient.amount > 0){

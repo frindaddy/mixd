@@ -17,6 +17,13 @@ const adminKey = uuid();
 
 var ingredients = {};
 
+function sanitize_drink_name(name) {
+    return name
+        .replace(/[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/gi, '')
+        .replace(/ /g, '-')
+        .toLowerCase();
+}
+
 const verifyRequest = (req, res, next) => {
     if (req.headers.authorization) {
         let bearerToken = req.headers.authorization.split(' ')[1];
@@ -128,9 +135,15 @@ router.post('/admin_login', (req, res, next) => {
     }
 });
 
-router.get('/drink/:uuid', (req, res, next) => {
-    if(req.params.uuid){
-        Drinks.findOne({uuid:req.params.uuid}, '')
+router.get('/drink/:identifier', (req, res, next) => {
+    if(req.params.identifier){
+        let filter
+        if(req.params.identifier.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i)){
+            filter = {uuid:req.params.identifier};
+        } else {
+            filter = {url_name:req.params.identifier};
+        }
+        Drinks.findOne(filter, '')
             .then((data) => {
                 if(data.ingredients != null){
                     data.ingredients.forEach((ingredient, index)=>{
@@ -150,14 +163,14 @@ router.get('/drink/:uuid', (req, res, next) => {
 });
 
 router.get('/list', (req, res, next) => {
-    Drinks.find({}, 'uuid name tags glass').sort({name:1})
+    Drinks.find({}, 'uuid name url_name tags glass').sort({name:1})
         .then((data) => res.json(data))
         .catch(next);
 });
 
 router.get('/list/:ingr_uuid', (req, res, next) => {
     if(req.params.ingr_uuid){
-        Drinks.find({}, 'uuid name tags glass ingredients').sort({name:1})
+        Drinks.find({}, 'uuid name url_name tags glass ingredients').sort({name:1})
             .then((data) => {
                 let filteredDrinks = data.filter((drink) => {
                     return drink.ingredients.filter((ingredient) => ingredient.ingredient === req.params.ingr_uuid).length > 0
@@ -262,6 +275,9 @@ router.post('/add_drink', verifyRequest, (req, res, next) => {
         if(new_drink.uuid === undefined){
             new_drink = {...req.body, uuid: uuid()}
         }
+
+        //TODO: prevent collision. add _2 or _3 to repeat drink names
+        new_drink.url_name = sanitize_drink_name(new_drink.name);
 
         new_drink.volume = calculateDrinkVolume(new_drink)
         Drinks.create(new_drink)
