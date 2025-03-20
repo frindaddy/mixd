@@ -24,7 +24,7 @@ const {RESERVED_ROUTES} = require("./constants");
 function is_reserved_route(route) {
     if(route === '/') return true;
     if(route.includes('.')) return true;
-    return RESERVED_ROUTES.includes(req.path.split('/')[1]);
+    return RESERVED_ROUTES.includes(route.split('/')[1]);
 }
 
 async function start_database() {
