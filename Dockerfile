@@ -13,6 +13,7 @@ RUN mkdir images/user_drinks
 COPY models ./models/
 COPY routes ./routes/
 COPY index.js ./
+COPY constants.js ./
 
 EXPOSE 5000
 
