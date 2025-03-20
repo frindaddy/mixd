@@ -19,6 +19,7 @@ const VERBOSE_DB_VALIDATION = false;
 const IMPORT_JSON = process.env.IMPORT_JSON;
 
 const Drinks = require('./models/drinks');
+const {RESERVED_ROUTES} = require("./constants");
 
 async function start_database() {
     return new Promise((resolve) =>{
@@ -41,8 +42,14 @@ function start_server() {
     app.use('/api', routes);
 
     app.get('/*', (req, res, next) => {
-        if(req.path.match(/^\/[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i)){
-            Drinks.findOne({uuid: req.path.substring(1)}).then((drink)=>{
+        if(!RESERVED_ROUTES.includes(req.path.split('/')[1])){
+            let filter
+            if(req.path.match(/^\/[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i)){
+                filter = {uuid: req.path.substring(1)}
+            } else {
+                filter = {url_name: req.path.substring(1)}
+            }
+            Drinks.findOne(filter).then((drink)=>{
                 readFile(path.join(__dirname, './client/build/index.html'), 'utf8', (err, indexHTML) => {
                     if (err) {
                         next();

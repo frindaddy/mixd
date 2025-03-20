@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const DrinkSchema = new Schema({
     uuid: String,
     name: String,
+    url_name: String,
     tags: [{value: String, category: String}],
     etoh: Number,
     volume: Number,
