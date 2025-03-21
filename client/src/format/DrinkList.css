@@ -19,6 +19,8 @@
 .list-column {
     float: left;
     margin-right: 5%;
+    margin-top: 5px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
 }
