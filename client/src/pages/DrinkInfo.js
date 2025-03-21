@@ -24,6 +24,7 @@ const DrinkInfo = ({setShowLoader}) => {
         axios.get('/api/drink/'+drink_identifier)
             .then((res) => {
                 if (res.data) {
+                    if(!res.data.uuid) navigate('/404', {replace: true});
                     if(drink_identifier.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i) && res.data.url_name){
                         navigate('/'+res.data.url_name, {replace: true});
                     }

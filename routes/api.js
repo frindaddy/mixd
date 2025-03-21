@@ -176,7 +176,7 @@ router.get('/drink/:identifier', (req, res, next) => {
         }
         Drinks.findOne(filter, '')
             .then((data) => {
-                if(data.ingredients != null){
+                if(data && data.ingredients){
                     data.ingredients.forEach((ingredient, index)=>{
                         if(ingredients[data.ingredients[index].ingredient] != null){
                             data.ingredients[index].ingredient = ingredients[data.ingredients[index].ingredient];
