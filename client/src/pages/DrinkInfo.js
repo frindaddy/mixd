@@ -43,10 +43,12 @@ const DrinkInfo = ({setShowLoader}) => {
                 } else {
                     setDrinkFailed(true);
                     setDrinkLoaded(false);
+                    navigate('/404', {replace: true});
                 }
             }).catch((err) => {
                 setDrinkFailed(true);
                 setDrinkLoaded(false);
+                navigate('/404', {replace: true});
         });
     }, [drink_identifier]);
 
