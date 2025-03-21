@@ -205,7 +205,7 @@ router.get('/list/:ingr_uuid', (req, res, next) => {
             .then((data) => {
                 let filteredDrinks = data.filter((drink) => {
                     return drink.ingredients.filter((ingredient) => ingredient.ingredient === req.params.ingr_uuid).length > 0
-                }).map(drink => {return {uuid: drink.uuid, name: drink.name, tags: drink.tags, glass: drink.glass}})
+                }).map(drink => {return {uuid: drink.uuid, name: drink.name, url_name: drink.url_name, tags: drink.tags, glass: drink.glass}})
                 res.json(filteredDrinks)
             })
             .catch(next);
