@@ -42,7 +42,7 @@ const DrinkArray = ({ filter, drinkList, adminKey, getDrinkList, setShowLoader }
     }, [drinkList, filter]);
 
     return (
-        <div>
+        <>
             {filteredList.length > 0 && filter.tags && filteredList[filteredList.length - 1].tagCount < filter.tags.length && <p className="filter-match-title">Perfect Matches</p>}
             {filteredList.map((drink) => {
                 if (!filter.tags || drink.tagCount === filter.tags.length) {
@@ -57,7 +57,7 @@ const DrinkArray = ({ filter, drinkList, adminKey, getDrinkList, setShowLoader }
                 }
             })}
             {filteredList.length === 0 && drinkList.length > 0 && <p className="filter-match-title">No Drinks Match Your Filter</p>}
-        </div>
+        </>
     )
 }
 
