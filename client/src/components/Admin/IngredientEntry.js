@@ -10,6 +10,8 @@ const IngredientEntry = ({index, ingredients, setIngredients, allIngredients, sw
             let dropdown = ingredients[index].unit
             if(!units.includes(dropdown) && dropdown !== undefined) dropdown = 'custom'
             setIngredient({amount: ingredients[index].amount, unit: ingredients[index].unit, ingredient: ingredients[index].ingredient, unit_dropdown: dropdown})
+        } else {
+            setIngredient({});
         }
     }, [index, ingredients]);
 
