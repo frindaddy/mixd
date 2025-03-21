@@ -42,6 +42,7 @@ const LinkableText = ({rawBodyText}) => {
     return (
         <div>
             {bodyText.map((line, index)=>{
+                if(line === '') return <br />
                 return <span onClick={()=>{goToLinkUUID((index-1)/2)}} style={index % 2 === 1 ? {cursor: 'pointer', 'text-decoration-line': 'underline'}:{}}>{line}</span>
             })}
         </div>
