@@ -5,8 +5,6 @@ import DrinkTags, {filterTags} from "../components/DrinkTags";
 import {getDisplayName} from "../components/Admin/GlassTypes";
 import LinkableText from "../components/DrinkInfo/LinkableText";
 import {useParams} from "react-router-dom";
-import { FiPlus } from "react-icons/fi";
-import { FiMinus } from "react-icons/fi";
 
 const DrinkInfo = ({setShowLoader}) => {
 
@@ -79,9 +77,9 @@ const DrinkInfo = ({setShowLoader}) => {
                                 {drink.etoh != null && <div className="emu">({Math.round(drink.etoh/5.04)/10} EMU)</div>}
                             </div>
                             <div className="drink-multiplier-container">
-                                <button className="multiplier-minus" onClick={() => setDrinkMultiplier(Math.max(1, drinkMultiplier - 1))}><FiMinus/></button>
+                                <button className="multiplier-minus" onClick={() => setDrinkMultiplier(Math.max(1, drinkMultiplier - 1))}>-</button>
                                 <input type="number" value={drinkMultiplier} min="1" className="multiplier-quantity"/>
-                                <button value="+" className="multiplier-plus" onClick={() => setDrinkMultiplier(drinkMultiplier + 1)}><FiPlus/></button>
+                                <button value="+" className="multiplier-plus" onClick={() => setDrinkMultiplier(drinkMultiplier + 1)}>+</button>
                             </div>
                             <ul className="ingredients">
                                 { drink.ingredients && drink.ingredients.map((ingredient) => {
