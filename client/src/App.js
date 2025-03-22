@@ -22,12 +22,12 @@ function App() {
         <Routes>
             <Route path="/" element={<Layout showLoader={showLoader} setShowLoader={setShowLoader}/>}>
                 <Route index element={<DrinkList setShowLoader={setShowLoader} searchText={searchText} setSearchText={setSearchText} adminKey={adminKey} setAdminKey={setAdminKey} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList} ingrFilter={ingrFilter} setIngrFilter={setIngrFilter}/>}/>
-                <Route path=":uuid" element={<DrinkInfo setShowLoader={setShowLoader}/>}/>
+                <Route path=":drink_identifier" element={<DrinkInfo setShowLoader={setShowLoader}/>}/>
                 <Route path="create_drink" element={<CreateDrink adminKey={adminKey}/>}/>
                 <Route path="update_drink/:uuid" element={<CreateDrink adminKey={adminKey}/>}/>
                 <Route path="manage_ingredients" element={<ManageIngredients adminKey={adminKey}/>}/>
                 <Route path="view_ingredients" element={<ViewIngredients setIngrFilter={setIngrFilter}/>}/>
-                <Route path="*" element={<Page404 />} />
+                <Route path="404" element={<Page404 />} />
             </Route>
         </Routes>
     </BrowserRouter>

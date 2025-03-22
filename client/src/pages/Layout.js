@@ -18,7 +18,8 @@ const Layout = ({showLoader, setShowLoader}) => {
     }
 
     function isDrinkPage(){
-        return location.pathname.match(/^\/[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
+        let reserved_routes = ['api', 'static', '404', 'create_drink', 'update_drink', 'manage_ingredients', 'view_ingredients'];
+        return !reserved_routes.includes(location.pathname.substring(1));
     }
 
     function backArrowClicked() {
@@ -51,7 +52,7 @@ const Layout = ({showLoader, setShowLoader}) => {
     }, [location.pathname]);
 
     return (
-        <div>
+        <>
             {displayNavBar() && <nav>
                 <div className="nav-container">
                     <div style={{display:"flex"}}>
@@ -72,7 +73,7 @@ const Layout = ({showLoader, setShowLoader}) => {
                     Powered by our pure genius.<br/>
                     v{appInfo.version}</p>
             </footer>}
-        </div>
+        </>
     )
 };
 

@@ -5,10 +5,12 @@ import DrinkTags, {filterTags} from "../components/DrinkTags";
 import {getDisplayName} from "../components/Admin/GlassTypes";
 import LinkableText from "../components/DrinkInfo/LinkableText";
 import {useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const DrinkInfo = ({setShowLoader}) => {
 
-    const { uuid } = useParams();
+    const { drink_identifier } = useParams();
+    const navigate = useNavigate();
 
     const [drink, setDrink] = useState({name:"No Drink"});
     const [drinkLoaded, setDrinkLoaded] = useState(false);
@@ -20,9 +22,13 @@ const DrinkInfo = ({setShowLoader}) => {
         setShowLoader(true);
         setDrinkFailed(false);
         setDrinkLoaded(false);
-        axios.get('/api/drink/'+uuid)
+        axios.get('/api/drink/'+drink_identifier)
             .then((res) => {
                 if (res.data) {
+                    if(!res.data.uuid) navigate('/404', {replace: true});
+                    if(drink_identifier.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i) && res.data.url_name){
+                        navigate('/'+res.data.url_name, {replace: true});
+                    }
                     if (res.data.name) document.title = res.data.name+' | mixd.';
                     if(res.data.instructions){
                         res.data.instructions = res.data.instructions.split(/\r\n|\r|\n/g)
@@ -38,12 +44,14 @@ const DrinkInfo = ({setShowLoader}) => {
                 } else {
                     setDrinkFailed(true);
                     setDrinkLoaded(false);
+                    navigate('/404', {replace: true});
                 }
             }).catch((err) => {
                 setDrinkFailed(true);
                 setDrinkLoaded(false);
+                navigate('/404', {replace: true});
         });
-    }, [uuid]);
+    }, [drink_identifier]);
 
     function getVolume() {
         if (drink.override_volume && drink.override_volume > 0) return drink.override_volume

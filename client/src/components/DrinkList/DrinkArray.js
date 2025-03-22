@@ -42,7 +42,7 @@ const DrinkArray = ({ filter, drinkList, adminKey, getDrinkList, setShowLoader }
     }, [drinkList, filter]);
 
     return (
-        <div>
+        <>
             {filteredList.length > 0 && filter.tags && filteredList[filteredList.length - 1].tagCount < filter.tags.length && <p className="filter-match-title">Perfect Matches</p>}
             {filteredList.map((drink) => {
                 if (!filter.tags || drink.tagCount === filter.tags.length) {
@@ -50,14 +50,14 @@ const DrinkArray = ({ filter, drinkList, adminKey, getDrinkList, setShowLoader }
                 }
             })}
             {filteredList.length > 0 && filter.tags && filteredList[0].tagCount !== filter.tags.length && <p className="filter-match-none">None</p>}
-            {filteredList.length > 0 && filter.tags && filteredList[filteredList.length - 1].tagCount < filter.tags.length && <p className="filter-match-title">Close Results</p>}
+            {filteredList.length > 0 && filter.tags && filteredList[filteredList.length - 1].tagCount < filter.tags.length && <p className="filter-match-title" style={{marginTop:"20px"}}>Close Results</p>}
             {filteredList.map((drink) => {
                 if (filter.tags && drink.tagCount < filter.tags.length) {
                     return <DrinkEntry drink={drink} getDrinkList={getDrinkList} adminKey={adminKey} filteredTags={filter.tags} setShowLoader={setShowLoader}/>
                 }
             })}
             {filteredList.length === 0 && drinkList.length > 0 && <p className="filter-match-title">No Drinks Match Your Filter</p>}
-        </div>
+        </>
     )
 }
 
