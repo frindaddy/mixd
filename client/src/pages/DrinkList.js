@@ -108,7 +108,6 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
             {adminKey && <Link to="/manage_ingredients"><AddIngredientEntry /></Link>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}}
                 drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={adminKey}/>
-            <hr className="list-separator"></hr>
         </>
     )
 }
