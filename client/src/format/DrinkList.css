@@ -56,7 +56,10 @@
 }
 
 .list-separator {
-    border: 1px solid darkgray;
+    border-top: 1px solid darkgray;
+    border-bottom: 0px;
+    border-left: 0px;
+    border-right: 0px;
     margin: 0px;
     margin-right: 8px;
 }
