@@ -1,0 +1,53 @@
+.page404-container {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.page404-container > div {
+    font-family: Roboto;
+    font-weight: 300;
+    text-align: center;
+}
+
+.page404-container > a {
+    font-family: Roboto;
+    font-weight: 400;
+    text-decoration: underline;
+    text-align: center;
+    font-size: 20px;
+    margin-top: 8px;
+    margin-bottom: 50px;
+    cursor: pointer;
+}
+
+.page404-image {
+    height: 500px;
+}
+
+.page404-subtext {
+    font-size: 30px;
+}
+
+.page404-uhoh {
+    font-size: 50px;
+}
+
+@media screen and (max-width: 600px){
+    .page404-container > a {
+        font-size: 20px;
+        margin-bottom: 50px;
+    }
+    
+    .page404-image {
+        height: 300px;
+    }
+
+    .page404-subtext {
+        font-size: 25px;
+    }
+    
+    .page404-uhoh {
+        font-size: 40px;
+    }
+}
