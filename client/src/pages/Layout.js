@@ -52,7 +52,7 @@ const Layout = ({showLoader, setShowLoader}) => {
     }, [location.pathname]);
 
     return (
-        <div>
+        <>
             {displayNavBar() && <nav>
                 <div className="nav-container">
                     <div style={{display:"flex"}}>
@@ -73,7 +73,7 @@ const Layout = ({showLoader, setShowLoader}) => {
                     Powered by our pure genius.<br/>
                     v{appInfo.version}</p>
             </footer>}
-        </div>
+        </>
     )
 };
 

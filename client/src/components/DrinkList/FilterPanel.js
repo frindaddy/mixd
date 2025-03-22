@@ -7,7 +7,7 @@ import {useCookies} from "react-cookie";
 import TagCategories from "../../definitions/TagCategories";
 import "../../format/FilterPanel.css";
 
-const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glassFilterList, setGlassFilterList, tagMenu, ingrFilter}) => {
+const FilterPanel = ({toggleFilterPanel, tagFilterList, setTagFilterList, glassFilterList, setGlassFilterList, tagMenu, ingrFilter}) => {
 
     const CAT_ORDER = ['spirit', 'style', 'taste', 'season','color','mix','temp','misc','top_pick'];
 
@@ -128,7 +128,7 @@ const FilterPanel = ({setShowFilterPanel, tagFilterList, setTagFilterList, glass
                 }
 
             </div>
-            {!tagMenu && <div className='filter-chevron'><FaChevronUp style={{cursor:"pointer"}} onClick={() => {setShowFilterPanel(false)}}/></div>}
+            {!tagMenu && <div className='filter-chevron'><FaChevronUp style={{cursor:"pointer", marginBottom:"10px"}} onClick={() => {toggleFilterPanel()}}/></div>}
         </>
     )
 }

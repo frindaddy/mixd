@@ -15,8 +15,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
     const [drinkList, setDrinkList] = useState(previousDrinkList);
     const [glassFilterList, setGlassFilterList] = useState([]);
     const [tagFilterList, setTagFilterList] = useState([]);
-    const [showFilterPanel, setShowFilterPanel] = useState(false);
-    const [filterPanelOpenedBefore, setFilterPanelOpenedBefore] = useState(false);
+    const [filterPanelShown, setfilterPanelShown] = useState(false);
     const [cookies, setCookie] = useCookies(["tagList", "glassList"]);
 
     const getDrinkList = () => {
@@ -43,8 +42,35 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
     }
 
     const toggleFilterPanel = () => {
-        setShowFilterPanel(!showFilterPanel);
-        setFilterPanelOpenedBefore(true);
+        if(!filterPanelShown){
+            expandFilterPanel();
+            setfilterPanelShown(true);
+        } else {
+            collapseFilterPanel();
+            setfilterPanelShown(false);
+        }
+    }
+
+    function expandFilterPanel() {
+        const filterPanel = document.querySelector(".filter-panel");
+        var panelHeight = filterPanel.scrollHeight;
+        filterPanel.style.height = panelHeight + 'px';
+        filterPanel.addEventListener('transitioned', function (e) {
+            filterPanel.removeEventListener('transitioned', arguments.callee);
+            filterPanel.style.height = null;
+        });
+    }
+
+    function collapseFilterPanel() {
+        const filterPanel = document.querySelector(".filter-panel")
+        var panelHeight = filterPanel.scrollHeight
+        requestAnimationFrame(function () {
+            filterPanel.style.height = panelHeight + 'px';
+            filterPanel.style.transition = filterPanel.style.transition;
+            requestAnimationFrame(function () {
+                filterPanel.style.height = 0 + 'px';
+            })
+        });
     }
 
     function resetAllFilters() {
@@ -61,7 +87,6 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
 
     return (
         <>
-        <div>
             <header>
                 <div>
                     <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>
@@ -73,9 +98,8 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
                     {((tagFilterList.length + glassFilterList.length > 0) || ingrFilter[0] !== "") && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
                 </div>
             </header>
-            <div className={showFilterPanel ? 'filter-panel-show':'filter-panel-hide'}
-                style={filterPanelOpenedBefore ? {display: "block"}:{display: "none"}}>
-                <FilterPanel setShowFilterPanel={setShowFilterPanel} tagFilterList={tagFilterList}
+            <div className={'filter-panel'}>
+                <FilterPanel toggleFilterPanel={toggleFilterPanel} tagFilterList={tagFilterList}
                 setTagFilterList={setTagFilterList} glassFilterList={glassFilterList}
                 setGlassFilterList={setGlassFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
             </div>
@@ -85,7 +109,6 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}}
                 drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={adminKey}/>
             <hr className="list-separator"></hr>
-        </div>
         </>
     )
 }
