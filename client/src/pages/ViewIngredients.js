@@ -59,12 +59,16 @@ const ViewIngredients = ({setIngrFilter}) => {
         }
     };
 
+    function checkEnter(e) {
+        if(e.code === "Enter") get_user_ingredients();
+    }
+
     return (
         <div>
             <p>{"User ID:"+(userIngredients === null ? '':' '+user)}</p>
             {userIngredients !== null && <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>}
             {userIngredients === null && <div>
-                <input content='text' placeholder='00000' value={user} onChange={(e)=> setUser(parseInt(e.target.value.substring(0,5)) || null)}></input>
+                <input content='text' placeholder='00000' value={user} onChange={(e)=> setUser(parseInt(e.target.value.substring(0,5)) || null)} onKeyDownCapture={(e)=>{checkEnter(e)}}></input>
                 <FaCheck style={{marginLeft: '10px', cursor:'pointer'}} onClick={get_user_ingredients} />
             </div>}
 
