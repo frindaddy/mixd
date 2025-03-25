@@ -147,6 +147,25 @@ function updateABVforIngredient(ingr_uuid) {
     })
 }
 
+//TODO: Consider adding ingredient expense and using it sort. A drink missing club soda should be higher than a drink missing top shelf liquor.
+async function find_on_hand_drinks(ingr_uuids, missing_ingr_tol) {
+    return new Promise(resolve => {
+        if(ingr_uuids.length === 0 || missing_ingr_tol < 0) resolve([[]]);
+        Drinks.find({'ingredients.0': {"$exists":true}}, 'uuid ingredients').then(drinks => {
+            let results = drinks.map(drink => {
+                return {
+                    uuid: drink.uuid,
+                    num_missing_ingr: drink.ingredients.filter(ingr => !ingr_uuids.includes(ingr.ingredient)).length
+                };
+            });
+            let sorted_results = Array.apply(null, Array(missing_ingr_tol+1)).map((val, index) =>{
+                return results.filter((result => result.num_missing_ingr === index)).map(result => result.uuid);
+            });
+            resolve(sorted_results);
+        })
+    });
+}
+
 updateIngredients()
 
 router.get('/app-info', (req, res, next) => {
