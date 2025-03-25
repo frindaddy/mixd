@@ -507,7 +507,17 @@ router.get('/user_drinks/:user_id', (req, res, next) => {
         Users.findOne({user_id: req.params.user_id}, 'available_ingredients')
             .then(async (ingredientData) => {
                 if (ingredientData) {
-                    res.json({drinks: await find_on_hand_drinks(ingredientData.available_ingredients, 1)});
+                    let drink_uuids = await find_on_hand_drinks(ingredientData.available_ingredients, 1);
+                    Drinks.find({"uuid": {'$in':[...drink_uuids[0], ...drink_uuids[1]]}}, 'uuid name url_name tags glass').sort({name:1}).then(drinks => {
+                        if(drinks && drinks.length >= 0){
+                            res.json(drinks.map(drink => {
+                                return {uuid:drink.uuid, name:drink.name, url_name:drink.url_name, tags:drink.tags, glass:drink.glass, onhand: drink_uuids[0].includes(drink.uuid)};
+                            }));
+                        } else {
+                            res.sendStatus(500);
+                        }
+
+                    })
                 } else {
                     res.sendStatus(400);
                 }
