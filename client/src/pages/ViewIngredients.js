@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from "react"
-import {FaCheck, FaEdit, FaSortAmountDown} from "react-icons/fa";
+import {FaCheck, FaEdit, FaSearch, FaSortAmountDown} from "react-icons/fa";
 import axios from "axios";
 import IngredientListEntry from "../components/Ingredients/IngredientListEntry";
 import "../format/ViewIngredients.css";
 import {useNavigate} from "react-router-dom";
 
-const ViewIngredients = ({setIngrFilter}) => {
+const ViewIngredients = ({setIngrFilter, setUserDrinksReq}) => {
     const [ingredients, setIngredients] = useState([]);
     const [sortedIngredients, setSortedIngredients] = useState([]);
     const [sorted, setSorted] = useState(false);
     const [user, setUser] = useState(null);
     const [userIngredients, setUserIngredients] = useState(null);
     const [editUserIngr, setEditUserIngr] = useState(false);
+    const [searchSettings, setSearchSettings] = useState({tol: 0, strict: false});
 
     const navigate = useNavigate();
 
@@ -37,12 +38,20 @@ const ViewIngredients = ({setIngrFilter}) => {
     }
 
     function get_user_ingredients(){
-        axios.get('/api/user_ingredients/'+user).then(res =>{
-            if(res.data) {
-                setUserIngredients(res.data.available_ingredients)
-                console.log(res.data.available_ingredients)
-            }
-        }).catch((err) => console.log(err));
+        if(user && typeof user === "number" && user > 10000){
+            axios.get('/api/user_ingredients/'+user).then(res =>{
+                if(res.data && res.data.available_ingredients) {
+                    setUserIngredients(res.data.available_ingredients);
+                    setSearchSettings({...searchSettings, user_id: user});
+                }
+            }).catch((err) => {
+                if(err.response.status === 400){
+                    setUser(null);
+                } else {
+                    console.log(err)
+                }
+            });
+        }
     }
 
     const onIngredientClick = (ingredient, onHand) => {
@@ -55,20 +64,42 @@ const ViewIngredients = ({setIngrFilter}) => {
             });
         } else {
             setIngrFilter([ingredient.uuid, ingredient.name])
-            navigate('/')
+            navigate('/');
         }
     };
 
     function checkEnter(e) {
-        if(e.code === "Enter") get_user_ingredients();
+        if(e.code === "Enter" || e.code === "NumpadEnter") get_user_ingredients();
+    }
+
+    function search_user_drinks(){
+        if(searchSettings.user_id){
+            setUserDrinksReq(searchSettings);
+            navigate('/');
+        }
     }
 
     return (
         <div>
             <p>{"User ID:"+(userIngredients === null ? '':' '+user)}</p>
-            {userIngredients !== null && <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>}
+            {userIngredients !== null && <div>
+                <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>
+                <div>
+                    <span>Allowed Missing Ingredients:  </span>
+                    <select onChange={(e)=> setSearchSettings({...searchSettings, tol: e.target.value})}>
+                        {[0,1,2,3,4,5].map(index=> {
+                            return <option value={index} selected={searchSettings.tol === index}>{index}</option>;
+                        })}
+                    </select>
+                </div>
+                <div>
+                    <span>Exact Search:  </span>
+                    <input type='checkbox' checked={searchSettings.strict} onChange={(e)=> setSearchSettings({...searchSettings, strict: e.target.checked})}></input>
+                </div>
+                <FaSearch style={{cursor:'pointer', marginTop:'15px'}} onClick={search_user_drinks}/>
+            </div>}
             {userIngredients === null && <div>
-                <input content='text' placeholder='00000' value={user} onChange={(e)=> setUser(parseInt(e.target.value.substring(0,5)) || null)} onKeyDownCapture={(e)=>{checkEnter(e)}}></input>
+                <input content='text' placeholder='00000' value={user||''} onChange={(e)=> setUser(parseInt(e.target.value.substring(0,5)) || null)} onKeyDownCapture={(e)=>{checkEnter(e)}}></input>
                 <FaCheck style={{marginLeft: '10px', cursor:'pointer'}} onClick={get_user_ingredients} />
             </div>}
 

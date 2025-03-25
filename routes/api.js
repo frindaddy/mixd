@@ -502,7 +502,11 @@ router.get('/user_ingredients/:user_id', (req, res, next) => {
     if(req.params.user_id){
         Users.findOne({user_id: req.params.user_id}, 'available_ingredients')
             .then((ingredientData) => {
-                res.json({available_ingredients: ingredientData.available_ingredients});
+                if(ingredientData && ingredientData.available_ingredients){
+                    res.json({available_ingredients: ingredientData.available_ingredients});
+                } else {
+                    res.sendStatus(400);
+                }
             })
             .catch(next);
     }
