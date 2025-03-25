@@ -15,6 +15,7 @@ function App() {
     const [searchText, setSearchText] = useState("");
     const [ingrFilter, setIngrFilter] = useState(["",""]);
     const [userDrinksReq, setUserDrinksReq] = useState(null);
+    const [user, setUser] = useState(null);
     const [adminKey, setAdminKey] = useState();
     const [showLoader, setShowLoader] = useState(false);
 
@@ -27,7 +28,7 @@ function App() {
                 <Route path="create_drink" element={<CreateDrink adminKey={adminKey}/>}/>
                 <Route path="update_drink/:uuid" element={<CreateDrink adminKey={adminKey}/>}/>
                 <Route path="manage_ingredients" element={<ManageIngredients adminKey={adminKey}/>}/>
-                <Route path="view_ingredients" element={<ViewIngredients setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq}/>}/>
+                <Route path="view_ingredients" element={<ViewIngredients setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser}/>}/>
                 <Route path="404" element={<Page404 />} />
             </Route>
         </Routes>
