@@ -7,6 +7,7 @@ require('dotenv').config();
 const router = express.Router();
 const Drinks = require('../models/drinks');
 const Ingredients = require('../models/ingredients');
+const Users = require('../models/users');
 const packVars = require('../package.json');
 
 const ADMIN_PASS = process.env.ADMIN_PASS || 'ADMIN';
@@ -489,6 +490,79 @@ router.get('/unused_ingredients', (req, res, next) => {
             })
         })
         .catch(next);
+});
+
+router.get('/user_ingredients/:user_id', (req, res, next) => {
+    if(req.params.user_id){
+        Users.findOne({user_id: req.params.user_id}, 'available_ingredients')
+            .then((ingredientData) => {
+                res.json({available_ingredients: ingredientData.available_ingredients});
+            })
+            .catch(next);
+    }
+});
+
+router.get('/users', (req, res, next) => {
+    Users.find({}, 'user_id')
+        .then((users) => {
+            res.json({users: users.map(user => user.user_id)})
+        })
+        .catch(next);
+});
+
+router.post('/create_user', verifyRequest, (req, res, next) => {
+    Users.find({}, 'user_id').then(users => {
+        if(users.length >= 1000){
+            res.sendStatus(503);
+        } else {
+            let used_ids = users.map(user => user.user_id);
+            let new_id = 10000+Math.floor(Math.random() * 89999);
+            while(used_ids.includes(new_id)) {
+                new_id = 10000+Math.floor(Math.random() * 89999);
+            }
+            Users.create({user_id: new_id}).then(user => {
+                res.json({user_id: user.user_id});
+            }).catch(()=>{res.sendStatus(500)});
+        }
+    }).catch(next);
+});
+
+router.delete('/user/:user_id', verifyRequest, (req, res, next) => {
+    if(req.params.user_id){
+        Users.findOneAndDelete({ user_id: req.params.user_id })
+            .then((data) => {
+                res.json(data);
+            })
+            .catch(next);
+    }
+});
+
+router.post('/user_ingredients', (req, res, next) => {
+    if(req.body.user_id && req.body.ingr_uuid && req.body.ingr_uuid.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i)){
+        Users.findOne({user_id: req.body.user_id}, 'available_ingredients')
+            .then((ingredientData) => {
+                if(ingredientData){
+                    let new_ingrs = []
+                    if(req.body.delete) {
+                        new_ingrs = ingredientData.available_ingredients.filter(ingr => ingr !== req.body.ingr_uuid)
+                    } else if(!ingredientData.available_ingredients.includes(req.body.ingr_uuid)) {
+                        new_ingrs = [...ingredientData.available_ingredients, req.body.ingr_uuid]
+                    } else {
+                        res.json({user_id: req.body.user_id, available_ingredients: ingredientData.available_ingredients});
+                        return;
+                    }
+                    Users.updateOne({user_id: req.body.user_id}, {available_ingredients: new_ingrs}).then((user)=>{
+                        res.json({user_id: req.body.user_id, available_ingredients: new_ingrs});
+                    })
+                } else {
+                    res.sendStatus(400);
+                }
+            })
+            .catch(next);
+
+    } else {
+        res.sendStatus(400)
+    }
 });
 
 
