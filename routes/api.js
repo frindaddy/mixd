@@ -502,6 +502,20 @@ router.get('/user_ingredients/:user_id', (req, res, next) => {
     }
 });
 
+router.get('/user_drinks/:user_id', (req, res, next) => {
+    if(req.params.user_id){
+        Users.findOne({user_id: req.params.user_id}, 'available_ingredients')
+            .then(async (ingredientData) => {
+                if (ingredientData) {
+                    res.json({drinks: await find_on_hand_drinks(ingredientData.available_ingredients, 1)});
+                } else {
+                    res.sendStatus(400);
+                }
+            })
+            .catch(next);
+    }
+});
+
 router.get('/users', (req, res, next) => {
     Users.find({}, 'user_id')
         .then((users) => {
