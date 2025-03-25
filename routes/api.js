@@ -149,7 +149,7 @@ function updateABVforIngredient(ingr_uuid) {
 }
 
 //TODO: Consider adding ingredient expense and using it sort. A drink missing club soda should be higher than a drink missing top shelf liquor.
-async function find_on_hand_drinks(ingr_uuids, missing_ingr_tol) {
+async function find_on_hand_drinks(ingr_uuids, missing_ingr_tol, grouped, strict) {
     return new Promise(resolve => {
         if(ingr_uuids.length === 0 || missing_ingr_tol < 0) resolve([[]]);
         Drinks.find({'ingredients.0': {"$exists":true}}, 'uuid ingredients').then(drinks => {
@@ -159,10 +159,16 @@ async function find_on_hand_drinks(ingr_uuids, missing_ingr_tol) {
                     num_missing_ingr: drink.ingredients.filter(ingr => !ingr_uuids.includes(ingr.ingredient)).length
                 };
             });
-            let sorted_results = Array.apply(null, Array(missing_ingr_tol+1)).map((val, index) =>{
-                return results.filter((result => result.num_missing_ingr === index)).map(result => result.uuid);
-            });
-            resolve(sorted_results);
+            if(strict){
+                resolve(results.filter(result => result.num_missing_ingr == missing_ingr_tol).map(result => result.uuid));
+            } else if(grouped) {
+                let grouped_results = Array.apply(null, Array(missing_ingr_tol+1)).map((val, index) =>{
+                    return results.filter((result => result.num_missing_ingr === index)).map(result => result.uuid);
+                });
+                resolve(grouped_results);
+            } else {
+                resolve(results.filter(result => result.num_missing_ingr <= missing_ingr_tol).map(result => result.uuid));
+            }
         })
     });
 }
@@ -504,19 +510,20 @@ router.get('/user_ingredients/:user_id', (req, res, next) => {
 
 router.get('/user_drinks/:user_id', (req, res, next) => {
     if(req.params.user_id){
+        let tol = req.query.tol || 0;
+        //grouped searches are not currently allowed
+        let grouped = false //req.query.grouped ==='true' || false;
+        let strict = req.query.strict ==='true' || false;
         Users.findOne({user_id: req.params.user_id}, 'available_ingredients')
             .then(async (ingredientData) => {
                 if (ingredientData) {
-                    let drink_uuids = await find_on_hand_drinks(ingredientData.available_ingredients, 1);
-                    Drinks.find({"uuid": {'$in':[...drink_uuids[0], ...drink_uuids[1]]}}, 'uuid name url_name tags glass').sort({name:1}).then(drinks => {
+                    let drink_uuids = await find_on_hand_drinks(ingredientData.available_ingredients, tol, grouped, strict);
+                    Drinks.find({"uuid": {'$in':drink_uuids}}, 'uuid name url_name tags glass').sort({name:1}).then(drinks => {
                         if(drinks && drinks.length >= 0){
-                            res.json(drinks.map(drink => {
-                                return {uuid:drink.uuid, name:drink.name, url_name:drink.url_name, tags:drink.tags, glass:drink.glass, onhand: drink_uuids[0].includes(drink.uuid)};
-                            }));
+                            res.json(drinks);
                         } else {
                             res.sendStatus(500);
                         }
-
                     })
                 } else {
                     res.sendStatus(400);
