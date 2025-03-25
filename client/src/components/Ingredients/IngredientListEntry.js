@@ -1,17 +1,10 @@
 import "../../format/ViewIngredients.css";
-import {useNavigate} from "react-router-dom";
 
-const IngredientListEntry = ({ingredient, setIngrFilter}) => {
-
-    const navigate = useNavigate();
-    const setIngredientFilter = () => {
-        setIngrFilter([ingredient.uuid, ingredient.name])
-        navigate('/')
-    };
+const IngredientListEntry = ({ingredient, onIngredientClick, userOnHand}) => {
 
     return (
         <>
-            <p className="ingredient-entry" onClick={()=>{setIngredientFilter()}} style={{cursor: "pointer"}}>{ingredient.name}</p>
+            <p className="ingredient-entry" onClick={()=>{onIngredientClick(ingredient, userOnHand)}} style={{cursor: "pointer", color: userOnHand ? 'lime':''}}>{ingredient.name}</p>
             <p className="ingredient-use-count">({ingredient.count})</p>
         </>
     )
