@@ -24,7 +24,10 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
           list_route = '/api/user_drinks/'+userDrinksReq.user_id
             if(userDrinksReq.tol){
                 list_route = list_route + '?tol='+userDrinksReq.tol;
+                if(userDrinksReq.no_na) list_route = list_route + '&no_na=true';
                 if(userDrinksReq.strict) list_route = list_route + '&strict=true';
+            } else if (userDrinksReq.no_na) {
+                list_route = list_route + '?no_na=true';
             }
         }
         axios.get(list_route)

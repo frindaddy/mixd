@@ -12,7 +12,7 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
     const [userField, setUserField] = useState(null);
     const [userIngredients, setUserIngredients] = useState(null);
     const [editUserIngr, setEditUserIngr] = useState(false);
-    const [searchSettings, setSearchSettings] = useState({tol: 0, strict: false});
+    const [searchSettings, setSearchSettings] = useState({tol: 0, no_na: false, strict: false});
 
     const navigate = useNavigate();
 
@@ -86,7 +86,7 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
         setUserField(null);
         setUserIngredients(null);
         setEditUserIngr(false);
-        setSearchSettings({tol: 0, strict: false});
+        setSearchSettings({tol: 0, no_na: false, strict: false});
     }
 
     return (
@@ -104,6 +104,10 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
                             return <option value={index} selected={searchSettings.tol === index}>{index}</option>;
                         })}
                     </select>
+                </div>
+                <div>
+                    <span>Ignore NA Ingredients:  </span>
+                    <input type='checkbox' checked={searchSettings.no_na} onChange={(e)=> setSearchSettings({...searchSettings, no_na: e.target.checked})}></input>
                 </div>
                 <div>
                     <span>Exact Search:  </span>
