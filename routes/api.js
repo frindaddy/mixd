@@ -600,5 +600,4 @@ router.post('/user_ingredients', (req, res, next) => {
     }
 });
 
-
 module.exports = router;
