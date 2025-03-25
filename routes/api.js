@@ -507,7 +507,7 @@ router.get('/user_drinks/:user_id', (req, res, next) => {
         Users.findOne({user_id: req.params.user_id}, 'available_ingredients')
             .then(async (ingredientData) => {
                 if (ingredientData) {
-                    res.json({drinks: await find_on_hand_drinks(ingredientData.available_ingredients, 1)});
+                    res.json(await find_on_hand_drinks(ingredientData.available_ingredients, 1));
                 } else {
                     res.sendStatus(400);
                 }
@@ -519,7 +519,7 @@ router.get('/user_drinks/:user_id', (req, res, next) => {
 router.get('/users', (req, res, next) => {
     Users.find({}, 'user_id')
         .then((users) => {
-            res.json({users: users.map(user => user.user_id)})
+            res.json(users.map(user => user.user_id))
         })
         .catch(next);
 });
