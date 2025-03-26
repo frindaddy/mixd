@@ -4,11 +4,11 @@ import AddDrinkEntry from "../components/Admin/AddDrinkEntry";
 import DotColor from "../components/DotColor";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import FilterPanel from "../components/DrinkList/FilterPanel";
-import {FaFilter, FaEraser, FaLemon} from "react-icons/fa";
+import {FaFilter, FaEraser, FaLemon, FaUser} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import AddIngredientEntry from "../components/Admin/AddIngredientEntry";
 import "../format/DrinkList.css";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
 
@@ -17,6 +17,8 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
     const [tagFilterList, setTagFilterList] = useState([]);
     const [filterPanelShown, setfilterPanelShown] = useState(false);
     const [cookies, setCookie] = useCookies(["tagList", "glassList"]);
+
+    const navigate = useNavigate();
 
     const getDrinkList = () => {
         let list_route = '/api/list/'+ingrFilter[0];
@@ -99,13 +101,14 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
 
     return (
         <>
+            <FaUser style={{fontSize:"25px", position: 'absolute', right:'10px', top:'10px', cursor:'pointer'}} onClick={()=>navigate('/login')}/>
             <header>
                 <div>
                     <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>
                 </div>
                 <div className="search-container">
                     <Link to="/view_ingredients" className='ingredient-button'><FaLemon style={{cursor:"pointer"}} /></Link>
-                    <input className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
+                    <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer"}} onClick={toggleFilterPanel}/></div>
                     {((tagFilterList.length + glassFilterList.length > 0) || ingrFilter[0] !== "" || userDrinksReq !== null) && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
                 </div>

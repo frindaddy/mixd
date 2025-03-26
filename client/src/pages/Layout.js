@@ -18,7 +18,7 @@ const Layout = ({showLoader, setShowLoader}) => {
     }
 
     function isDrinkPage(){
-        let reserved_routes = ['api', 'static', '404', 'create_drink', 'update_drink', 'manage_ingredients', 'view_ingredients'];
+        let reserved_routes = ['api', 'static', '404', 'create_drink', 'update_drink', 'manage_ingredients', 'view_ingredients', 'login'];
         return !reserved_routes.includes(location.pathname.substring(1));
     }
 

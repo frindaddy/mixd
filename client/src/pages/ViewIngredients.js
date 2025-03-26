@@ -9,7 +9,6 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
     const [ingredients, setIngredients] = useState([]);
     const [sortedIngredients, setSortedIngredients] = useState([]);
     const [sorted, setSorted] = useState(false);
-    const [userField, setUserField] = useState(null);
     const [userIngredients, setUserIngredients] = useState(null);
     const [editUserIngr, setEditUserIngr] = useState(false);
     const [searchSettings, setSearchSettings] = useState({tol: 0, no_na: false, strict: false});
@@ -39,21 +38,12 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
     }
 
     function get_user_ingredients(){
-        if(userField && typeof userField === "number" && userField > 10000 || user){
-            axios.get('/api/user_ingredients/'+(userField||user)).then(res =>{
-                if(res.data && res.data.available_ingredients) {
-                    setUserIngredients(res.data.available_ingredients);
-                    setUser(userField||user);
-                    setSearchSettings({...searchSettings, user_id: userField||user});
-                }
-            }).catch((err) => {
-                if(err.response.status === 400){
-                    setUserField(null);
-                } else {
-                    console.log(err)
-                }
-            });
-        }
+        axios.get('/api/user_ingredients/'+user).then(res =>{
+            if(res.data && res.data.available_ingredients) {
+                setUserIngredients(res.data.available_ingredients);
+                setSearchSettings({...searchSettings, user_id: user});
+            }
+        }).catch((err) => console.log(err));
     }
 
     const onIngredientClick = (ingredient, onHand) => {
@@ -83,7 +73,6 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
 
     function clear_user_id(){
         setUser(null);
-        setUserField(null);
         setUserIngredients(null);
         setEditUserIngr(false);
         setSearchSettings({tol: 0, no_na: false, strict: false});
@@ -102,13 +91,13 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
                     </div>
                 </div>;
             })}
-            <br />
             <div style={{display: "flex", justifyContent: "center"}}>
                 <div>
-                    <div>
-                        <span>{"User ID:"+(user === null ? '':' '+user)}</span>
-                        {user !== null && <FaTrash style={{cursor:'pointer', marginLeft:'10px'}} onClick={clear_user_id}/>}
-                    </div>
+                    {user !== null && <div>
+                        <br />
+                        <span>{"User ID: "+user}</span>
+                        <FaTrash style={{cursor:'pointer', marginLeft:'10px'}} onClick={clear_user_id} />
+                    </div>}
                     {user !== null && <div>
                         <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>
                         <div>
@@ -128,10 +117,6 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
                             <input type='checkbox' checked={searchSettings.strict} onChange={(e)=> setSearchSettings({...searchSettings, strict: e.target.checked})}></input>
                         </div>
                         <FaSearch style={{cursor:'pointer', marginTop:'15px'}} onClick={search_user_drinks}/>
-                    </div>}
-                    {user === null && <div>
-                        <input inputMode='numeric' content='text' placeholder='00000' value={userField||''} onChange={(e)=> setUserField(parseInt(e.target.value.substring(0,5)) || null)} onKeyDownCapture={(e)=>{checkEnter(e)}}></input>
-                        <FaCheck style={{marginLeft: '10px', cursor:'pointer'}} onClick={get_user_ingredients} />
                     </div>}
                 </div>
             </div>

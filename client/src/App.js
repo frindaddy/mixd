@@ -9,6 +9,7 @@ import ViewIngredients from "./pages/ViewIngredients";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Layout from "./pages/Layout";
 import Page404 from "./pages/Page404";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
     const [previousDrinkList, setPreviousDrinkList] = useState([{name:"Loading Drinks..."}]);
@@ -29,6 +30,7 @@ function App() {
                 <Route path="update_drink/:uuid" element={<CreateDrink adminKey={adminKey}/>}/>
                 <Route path="manage_ingredients" element={<ManageIngredients adminKey={adminKey}/>}/>
                 <Route path="view_ingredients" element={<ViewIngredients setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser}/>}/>
+                <Route path="login" element={<LoginPage user={user} setUser={setUser}/>}/>
                 <Route path="404" element={<Page404 />} />
             </Route>
         </Routes>
