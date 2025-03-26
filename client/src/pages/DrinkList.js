@@ -77,7 +77,6 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
         var panelHeight = filterPanel.scrollHeight
         requestAnimationFrame(function () {
             filterPanel.style.height = panelHeight + 'px';
-            filterPanel.style.transition = filterPanel.style.transition;
             requestAnimationFrame(function () {
                 filterPanel.style.height = 0 + 'px';
             })
