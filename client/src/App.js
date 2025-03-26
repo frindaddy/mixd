@@ -18,18 +18,17 @@ function App() {
     const [ingrFilter, setIngrFilter] = useState(["",""]);
     const [userDrinksReq, setUserDrinksReq] = useState(null);
     const [user, setUser] = useState({});
-    const [adminKey, setAdminKey] = useState();
     const [showLoader, setShowLoader] = useState(false);
 
     return (
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<Layout showLoader={showLoader} setShowLoader={setShowLoader}/>}>
-                <Route index element={<DrinkList setShowLoader={setShowLoader} searchText={searchText} setSearchText={setSearchText} adminKey={adminKey} setAdminKey={setAdminKey} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList} ingrFilter={ingrFilter} setIngrFilter={setIngrFilter} userDrinksReq={userDrinksReq} setUserDrinksReq={setUserDrinksReq} />}/>
+                <Route index element={<DrinkList setShowLoader={setShowLoader} searchText={searchText} setSearchText={setSearchText} adminKey={user.adminKey} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList} ingrFilter={ingrFilter} setIngrFilter={setIngrFilter} userDrinksReq={userDrinksReq} setUserDrinksReq={setUserDrinksReq} />}/>
                 <Route path=":drink_identifier" element={<DrinkInfo setShowLoader={setShowLoader}/>}/>
-                <Route path="create_drink" element={<CreateDrink adminKey={adminKey}/>}/>
-                <Route path="update_drink/:uuid" element={<CreateDrink adminKey={adminKey}/>}/>
-                <Route path="manage_ingredients" element={<ManageIngredients adminKey={adminKey}/>}/>
+                <Route path="create_drink" element={<CreateDrink adminKey={user.adminKey}/>}/>
+                <Route path="update_drink/:uuid" element={<CreateDrink adminKey={user.adminKey}/>}/>
+                <Route path="manage_ingredients" element={<ManageIngredients adminKey={user.adminKey}/>}/>
                 <Route path="view_ingredients" element={<ViewIngredients setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser}/>}/>
                 <Route path="account" element={<AccountPage user={user} setUser={setUser} />} />
                 <Route path="account/login" element={<LoginPage user={user} setUser={setUser} />}/>

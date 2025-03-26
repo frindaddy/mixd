@@ -10,7 +10,7 @@ import AddIngredientEntry from "../components/Admin/AddIngredientEntry";
 import "../format/DrinkList.css";
 import {Link, useNavigate} from "react-router-dom";
 
-const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
+const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
 
     const [drinkList, setDrinkList] = useState(previousDrinkList);
     const [glassFilterList, setGlassFilterList] = useState([]);
@@ -39,19 +39,6 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
                     setPreviousDrinkList(res.data);
                 }
             }).catch((err) => console.log(err));
-    }
-
-    const toggleAdminMode = async () => {
-        if (adminKey) {
-            setAdminKey(null);
-        } else {
-            const adminPassword = prompt('Enter Admin Password');
-            const {data} = await axios.post('/api/admin_login',
-                {password: adminPassword},
-                {headers: {'Content-Type': 'application/json'}}
-            );
-            setAdminKey(data.adminKey);
-        }
     }
 
     const toggleFilterPanel = () => {
@@ -103,7 +90,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
             <FaUser style={{fontSize:"25px", position: 'absolute', right:'10px', top:'10px', cursor:'pointer'}} onClick={()=>navigate('/account/login')}/>
             <header>
                 <div>
-                    <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>
+                    <div className="logo">mixd<DotColor /></div>
                 </div>
                 <div className="search-container">
                     <Link to="/view_ingredients" className='ingredient-button'><FaLemon style={{cursor:"pointer"}} /></Link>
