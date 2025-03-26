@@ -216,11 +216,15 @@ const CreateDrink = ({adminKey}) => {
                 <div className="create-drink-row">
                     <input type="text" name="garnish" placeholder="a maraschino cherry" value={inputs.garnish || ""} onChange={handleFormChange} />
                 </div>
+                <p>Menu Description:</p>
+                <div className="create-drink-row">
+                    <textarea name="menu_desc" rows="6" cols="45" placeholder='150 character maximum' maxLength={150} value={inputs.menu_desc || ""} onChange={handleFormChange} />
+                </div>
                 <p>Instructions:</p>
                 <div className="create-drink-row">
                     <textarea name="instructions" rows="6" cols="45" value={inputs.instructions || ""} onChange={handleFormChange} />
                 </div>
-                <p>Description:</p>
+                <p>Story:</p>
                 <div className="create-drink-row">
                     <textarea name="description" rows="6" cols="45" value={inputs.description || ""} onChange={handleFormChange} />
                 </div>

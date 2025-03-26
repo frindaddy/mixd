@@ -84,6 +84,9 @@ const DrinkInfo = ({setShowLoader}) => {
                                 {(drink.volume != null || drink.override_volume != null) && <div className="volume"> / {getVolume()} oz</div>}
                                 {drink.etoh != null && <div className="emu">({Math.round(drink.etoh/5.04)/10} EMU)</div>}
                             </div>
+                            <div>
+                                <p>{drink.menu_desc}</p>
+                            </div>
                             <div className="drink-multiplier-container">
                                 <button className="multiplier-minus" onClick={() => setDrinkMultiplier(Math.max(1, drinkMultiplier - 1))}>-</button>
                                 <input type="number" value={drinkMultiplier} min="1" className="multiplier-quantity"/>
