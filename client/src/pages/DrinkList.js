@@ -4,13 +4,23 @@ import AddDrinkEntry from "../components/Admin/AddDrinkEntry";
 import DotColor from "../components/DotColor";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import FilterPanel from "../components/DrinkList/FilterPanel";
-import {FaFilter, FaEraser, FaLemon, FaUser} from "react-icons/fa";
+import {
+    FaFilter,
+    FaEraser,
+    FaLemon,
+    FaUser,
+    FaUserMd,
+    FaUserCog,
+    FaUserCircle,
+    FaUserTag,
+    FaUserSecret, FaRegUser, FaRegUserCircle
+} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import AddIngredientEntry from "../components/Admin/AddIngredientEntry";
 import "../format/DrinkList.css";
 import {Link, useNavigate} from "react-router-dom";
 
-const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
+const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
 
     const [drinkList, setDrinkList] = useState(previousDrinkList);
     const [glassFilterList, setGlassFilterList] = useState([]);
@@ -87,7 +97,8 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, previous
 
     return (
         <>
-            <FaUser style={{fontSize:"25px", position: 'absolute', right:'10px', top:'10px', cursor:'pointer'}} onClick={()=>navigate('/account/login')}/>
+            {!user.user_id && <FaRegUserCircle className="user_icon" onClick={()=>navigate('/account/login')}/>}
+            {user.user_id && <FaUserCircle className="user_icon" onClick={()=>navigate('/account/login')}/>}
             <header>
                 <div>
                     <div className="logo">mixd<DotColor /></div>
@@ -104,11 +115,11 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, previous
                 setTagFilterList={setTagFilterList} glassFilterList={glassFilterList}
                 setGlassFilterList={setGlassFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
             </div>
-            {adminKey && <Link to="/create_drink"><AddDrinkEntry /></Link>}
-            {adminKey && <hr className="list-separator"></hr>}
-            {adminKey && <Link to="/manage_ingredients"><AddIngredientEntry /></Link>}
+            {user.adminKey && <Link to="/create_drink"><AddDrinkEntry /></Link>}
+            {user.adminKey && <hr className="list-separator"></hr>}
+            {user.adminKey && <Link to="/manage_ingredients"><AddIngredientEntry /></Link>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}}
-                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={adminKey}/>
+                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={user.adminKey}/>
         </>
     )
 }
