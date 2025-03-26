@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import {FaCheck, FaEdit, FaSearch, FaSortAmountDown, FaTrash} from "react-icons/fa";
+import {FaEdit, FaSearch, FaSortAmountDown} from "react-icons/fa";
 import axios from "axios";
 import IngredientListEntry from "../components/Ingredients/IngredientListEntry";
 import "../format/ViewIngredients.css";
@@ -71,13 +71,6 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
         }
     }
 
-    function clear_user_id(){
-        setUser(null);
-        setUserIngredients(null);
-        setEditUserIngr(false);
-        setSearchSettings({tol: 0, no_na: false, strict: false});
-    }
-
     return (
         <div>
             <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginLeft:"-53px"}}>
@@ -96,7 +89,6 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
                     {user !== null && <div>
                         <br />
                         <span>{"User ID: "+user}</span>
-                        <FaTrash style={{cursor:'pointer', marginLeft:'10px'}} onClick={clear_user_id} />
                     </div>}
                     {user !== null && <div>
                         <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>

@@ -10,9 +10,13 @@ const LoginPage = ({user, setUser}) => {
 
     useEffect(() => {
         if(user !== null){
-            navigate('/account');
+            navigate('/account', {replace:true});
         }
     }, [user]);
+
+    useEffect(() => {
+        document.title = 'Login | mixd.';
+    }, []);
 
     function checkEnter(e) {
         if(e.code === "Enter" || e.code === "NumpadEnter") submitLogin();
