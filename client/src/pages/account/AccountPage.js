@@ -21,8 +21,8 @@ const AccountPage = ({user, setUser}) => {
 
     return (
         <div>
-            <h1>Account</h1>
-            <p>{'User: '+user.user_id}</p>
+            <h1>{'Account #'+user.user_id}</h1>
+            {user.adminKey && <p>User is an admin</p>}
             <p style={{cursor:'pointer'}} onClick={logout}>Logout</p>
         </div>
     )
