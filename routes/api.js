@@ -507,7 +507,6 @@ router.get('/account/:user_id', (req, res, next) => {
     if(req.params.user_id){
         Users.findOne({user_id: req.params.user_id}, 'username admin')
             .then((user_data) => {
-                console.log(user_data)
                 if(user_data){
                     res.json({user_id: req.params.user_id, username: user_data.username, adminKey: user_data.admin ? adminKey : undefined});
                 } else {
