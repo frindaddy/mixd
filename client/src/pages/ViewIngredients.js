@@ -116,7 +116,7 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
                 <FaSearch style={{cursor:'pointer', marginTop:'15px'}} onClick={search_user_drinks}/>
             </div>}
             {user === null && <div>
-                <input content='text' placeholder='00000' value={userField||''} onChange={(e)=> setUserField(parseInt(e.target.value.substring(0,5)) || null)} onKeyDownCapture={(e)=>{checkEnter(e)}}></input>
+                <input inputMode='numeric' content='text' placeholder='00000' value={userField||''} onChange={(e)=> setUserField(parseInt(e.target.value.substring(0,5)) || null)} onKeyDownCapture={(e)=>{checkEnter(e)}}></input>
                 <FaCheck style={{marginLeft: '10px', cursor:'pointer'}} onClick={get_user_ingredients} />
             </div>}
 
