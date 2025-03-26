@@ -19,7 +19,7 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
     useEffect(() => {
         document.title = 'Ingredients | mixd.';
         fetchIngredients();
-        if(user) get_user_ingredients();
+        if(user.user_id) get_user_ingredients();
     }, []);
 
     const fetchIngredients = () => {
@@ -38,17 +38,17 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
     }
 
     function get_user_ingredients(){
-        axios.get('/api/user_ingredients/'+user).then(res =>{
+        axios.get('/api/user_ingredients/'+user.user_id).then(res =>{
             if(res.data && res.data.available_ingredients) {
                 setUserIngredients(res.data.available_ingredients);
-                setSearchSettings({...searchSettings, user_id: user});
+                setSearchSettings({...searchSettings, user_id: user.user_id});
             }
         }).catch((err) => console.log(err));
     }
 
     const onIngredientClick = (ingredient, onHand) => {
         if(editUserIngr) {
-            axios.post('/api/user_ingredients', {user_id: user, ingr_uuid: ingredient.uuid, delete: onHand}).then(res =>{
+            axios.post('/api/user_ingredients', {user_id: user.user_id, ingr_uuid: ingredient.uuid, delete: onHand}).then(res =>{
                 console.log(res)
                 if(res.data && res.data.available_ingredients){
                     setUserIngredients(res.data.available_ingredients);
@@ -59,10 +59,6 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
             navigate('/');
         }
     };
-
-    function checkEnter(e) {
-        if(e.code === "Enter" || e.code === "NumpadEnter") get_user_ingredients();
-    }
 
     function search_user_drinks(){
         if(searchSettings.user_id){
@@ -86,11 +82,11 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
             })}
             <div style={{display: "flex", justifyContent: "center"}}>
                 <div>
-                    {user !== null && <div>
-                        <br />
-                        <span>{"User ID: "+user}</span>
-                    </div>}
-                    {user !== null && <div>
+                    {user.user_id !== undefined && <div>
+                        <div>
+                            <br />
+                            <span>{"User ID: "+user.user_id}</span>
+                        </div>
                         <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>
                         <div>
                             <span>Allowed Missing Ingredients:  </span>

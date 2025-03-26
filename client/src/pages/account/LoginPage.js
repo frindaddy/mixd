@@ -9,7 +9,7 @@ const LoginPage = ({user, setUser}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(user !== null){
+        if(user.user_id){
             navigate('/account', {replace:true});
         }
     }, [user]);
@@ -26,7 +26,7 @@ const LoginPage = ({user, setUser}) => {
         if(userIDField && typeof userIDField === "number" && userIDField > 10000) {
             axios.get('/api/account/'+userIDField).then(res =>{
                 if(res.data && res.data.user_id) {
-                    setUser(userIDField);
+                    setUser(res.data);
                 }
             }).catch((err) => {
                 if(err.response.status === 400){

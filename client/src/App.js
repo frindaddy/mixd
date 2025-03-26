@@ -17,7 +17,7 @@ function App() {
     const [searchText, setSearchText] = useState("");
     const [ingrFilter, setIngrFilter] = useState(["",""]);
     const [userDrinksReq, setUserDrinksReq] = useState(null);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({});
     const [adminKey, setAdminKey] = useState();
     const [showLoader, setShowLoader] = useState(false);
 
