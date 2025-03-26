@@ -83,11 +83,7 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
             <div style={{display: "flex", justifyContent: "center"}}>
                 <div>
                     {user.user_id !== undefined && <div>
-                        <div>
-                            <br />
-                            <span>{"User ID: "+user.user_id}</span>
-                        </div>
-                        <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>
+                        <br />
                         <div>
                             <span>Allowed Missing Ingredients:  </span>
                             <select onChange={(e)=> setSearchSettings({...searchSettings, tol: e.target.value})}>
@@ -104,7 +100,10 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
                             <span>Exact Search:  </span>
                             <input type='checkbox' checked={searchSettings.strict} onChange={(e)=> setSearchSettings({...searchSettings, strict: e.target.checked})}></input>
                         </div>
-                        <FaSearch style={{cursor:'pointer', marginTop:'15px'}} onClick={search_user_drinks}/>
+                        <div>
+                            <FaSearch className="sorted-filter-icon" style={{cursor:'pointer', marginTop:'15px'}} onClick={search_user_drinks}/>
+                            <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>
+                        </div>
                     </div>}
                 </div>
             </div>
