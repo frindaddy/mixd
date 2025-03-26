@@ -100,7 +100,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
 
     return (
         <>
-            <FaUser style={{fontSize:"25px", position: 'absolute', right:'10px', top:'10px', cursor:'pointer'}} onClick={()=>navigate('/login')}/>
+            <FaUser style={{fontSize:"25px", position: 'absolute', right:'10px', top:'10px', cursor:'pointer'}} onClick={()=>navigate('/account/login')}/>
             <header>
                 <div>
                     <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>

@@ -10,7 +10,7 @@ const LoginPage = ({user, setUser}) => {
 
     useEffect(() => {
         if(user !== null){
-            navigate('/');
+            navigate('/account');
         }
     }, [user]);
 
