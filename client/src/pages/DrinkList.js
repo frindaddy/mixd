@@ -66,8 +66,8 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
         const filterPanel = document.querySelector(".filter-panel");
         var panelHeight = filterPanel.scrollHeight;
         filterPanel.style.height = panelHeight + 'px';
-        filterPanel.addEventListener('transitioned', function (e) {
-            filterPanel.removeEventListener('transitioned', arguments.callee);
+        filterPanel.addEventListener('transitioned', function () {
+            filterPanel.removeEventListener('transitioned');
             filterPanel.style.height = null;
         });
     }
