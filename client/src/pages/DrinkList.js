@@ -10,7 +10,7 @@ import AddIngredientEntry from "../components/Admin/AddIngredientEntry";
 import "../format/DrinkList.css";
 import {Link} from "react-router-dom";
 
-const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter}) => {
+const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
 
     const [drinkList, setDrinkList] = useState(previousDrinkList);
     const [glassFilterList, setGlassFilterList] = useState([]);
@@ -19,7 +19,18 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
     const [cookies, setCookie] = useCookies(["tagList", "glassList"]);
 
     const getDrinkList = () => {
-        axios.get('/api/list/'+ingrFilter[0])
+        let list_route = '/api/list/'+ingrFilter[0];
+        if(userDrinksReq && userDrinksReq.user_id){
+          list_route = '/api/user_drinks/'+userDrinksReq.user_id
+            if(userDrinksReq.tol){
+                list_route = list_route + '?tol='+userDrinksReq.tol;
+                if(userDrinksReq.no_na) list_route = list_route + '&no_na=true';
+                if(userDrinksReq.strict) list_route = list_route + '&strict=true';
+            } else if (userDrinksReq.no_na) {
+                list_route = list_route + '?no_na=true';
+            }
+        }
+        axios.get(list_route)
             .then((res) => {
                 if (res.data) {
                     setDrinkList(res.data);
@@ -77,6 +88,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
         setGlassFilterList([]);
         setTagFilterList([]);
         setIngrFilter(["", ""]);
+        setUserDrinksReq(null);
         setCookie('tagList', [], {maxAge:3600});
         setCookie('glassList', [], {maxAge:3600});
     }
@@ -95,7 +107,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
                     <Link to="/view_ingredients" className='ingredient-button'><FaLemon style={{cursor:"pointer"}} /></Link>
                     <input className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer"}} onClick={toggleFilterPanel}/></div>
-                    {((tagFilterList.length + glassFilterList.length > 0) || ingrFilter[0] !== "") && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
+                    {((tagFilterList.length + glassFilterList.length > 0) || ingrFilter[0] !== "" || userDrinksReq !== null) && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
                 </div>
             </header>
             <div className={'filter-panel'}>
