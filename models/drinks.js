@@ -6,6 +6,7 @@ const DrinkSchema = new Schema({
     name: String,
     url_name: String,
     tags: [{value: String, category: String}],
+    menu_desc: {type: String, maxLength: 150},
     etoh: Number,
     volume: Number,
     override_volume: Number,
