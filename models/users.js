@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     user_id: Number,
+    username: String,
     available_ingredients: [String]
 });
 
