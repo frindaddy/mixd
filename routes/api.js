@@ -183,15 +183,6 @@ router.get('/app-info', (req, res, next) => {
     });
 });
 
-router.post('/admin_login', (req, res, next) => {
-    if (req.body.password === ADMIN_PASS) {
-        updateIngredients(); //Update ingredients on Admin Login
-        res.json({adminKey: adminKey});
-    } else {
-        res.json({error: 'Incorrect Password'});
-    }
-});
-
 router.get('/drink/:identifier', (req, res, next) => {
     if(req.params.identifier){
         let filter
@@ -504,6 +495,20 @@ router.get('/user_ingredients/:user_id', (req, res, next) => {
             .then((ingredientData) => {
                 if(ingredientData && ingredientData.available_ingredients){
                     res.json({available_ingredients: ingredientData.available_ingredients});
+                } else {
+                    res.sendStatus(400);
+                }
+            })
+            .catch(next);
+    }
+});
+
+router.get('/account/:user_id', (req, res, next) => {
+    if(req.params.user_id){
+        Users.findOne({user_id: req.params.user_id}, 'username admin')
+            .then((user_data) => {
+                if(user_data){
+                    res.json({user_id: req.params.user_id, username: user_data.username, adminKey: user_data.admin ? adminKey : undefined});
                 } else {
                     res.sendStatus(400);
                 }

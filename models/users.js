@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     user_id: Number,
+    username: String,
+    admin: Boolean,
     available_ingredients: [String]
 });
 

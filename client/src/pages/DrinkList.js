@@ -4,13 +4,13 @@ import AddDrinkEntry from "../components/Admin/AddDrinkEntry";
 import DotColor from "../components/DotColor";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import FilterPanel from "../components/DrinkList/FilterPanel";
-import {FaFilter, FaEraser, FaLemon, FaUser} from "react-icons/fa";
+import {FaFilter, FaEraser, FaLemon, FaUserCircle, FaRegUserCircle} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import AddIngredientEntry from "../components/Admin/AddIngredientEntry";
 import "../format/DrinkList.css";
 import {Link, useNavigate} from "react-router-dom";
 
-const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
+const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
 
     const [drinkList, setDrinkList] = useState(previousDrinkList);
     const [glassFilterList, setGlassFilterList] = useState([]);
@@ -39,19 +39,6 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
                     setPreviousDrinkList(res.data);
                 }
             }).catch((err) => console.log(err));
-    }
-
-    const toggleAdminMode = async () => {
-        if (adminKey) {
-            setAdminKey(null);
-        } else {
-            const adminPassword = prompt('Enter Admin Password');
-            const {data} = await axios.post('/api/admin_login',
-                {password: adminPassword},
-                {headers: {'Content-Type': 'application/json'}}
-            );
-            setAdminKey(data.adminKey);
-        }
     }
 
     const toggleFilterPanel = () => {
@@ -85,6 +72,10 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
         });
     }
 
+    function userIconClicked() {
+        navigate('/account/login');
+    }
+
     function resetAllFilters() {
         setGlassFilterList([]);
         setTagFilterList([]);
@@ -100,10 +91,11 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
 
     return (
         <>
-            <FaUser style={{fontSize:"25px", position: 'absolute', right:'10px', top:'10px', cursor:'pointer'}} onClick={()=>navigate('/login')}/>
+            {!user.user_id && <FaRegUserCircle className="user_icon" onClick={userIconClicked}/>}
+            {user.user_id && <FaUserCircle className="user_icon" onClick={userIconClicked}/>}
             <header>
                 <div>
-                    <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>
+                    <div className="logo">mixd<DotColor /></div>
                 </div>
                 <div className="search-container">
                     <Link to="/view_ingredients" className='ingredient-button'><FaLemon style={{cursor:"pointer"}} /></Link>
@@ -117,11 +109,11 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
                 setTagFilterList={setTagFilterList} glassFilterList={glassFilterList}
                 setGlassFilterList={setGlassFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
             </div>
-            {adminKey && <Link to="/create_drink"><AddDrinkEntry /></Link>}
-            {adminKey && <hr className="list-separator"></hr>}
-            {adminKey && <Link to="/manage_ingredients"><AddIngredientEntry /></Link>}
+            {user.adminKey && <Link to="/create_drink"><AddDrinkEntry /></Link>}
+            {user.adminKey && <hr className="list-separator"></hr>}
+            {user.adminKey && <Link to="/manage_ingredients"><AddIngredientEntry /></Link>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}}
-                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={adminKey}/>
+                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={user.adminKey}/>
         </>
     )
 }

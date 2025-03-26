@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import {FaCheck, FaEdit, FaSearch, FaSortAmountDown, FaTrash} from "react-icons/fa";
+import {FaEdit, FaSearch, FaSortAmountDown} from "react-icons/fa";
 import axios from "axios";
 import IngredientListEntry from "../components/Ingredients/IngredientListEntry";
 import "../format/ViewIngredients.css";
@@ -19,7 +19,7 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
     useEffect(() => {
         document.title = 'Ingredients | mixd.';
         fetchIngredients();
-        if(user) get_user_ingredients();
+        if(user.user_id) get_user_ingredients();
     }, []);
 
     const fetchIngredients = () => {
@@ -38,17 +38,17 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
     }
 
     function get_user_ingredients(){
-        axios.get('/api/user_ingredients/'+user).then(res =>{
+        axios.get('/api/user_ingredients/'+user.user_id).then(res =>{
             if(res.data && res.data.available_ingredients) {
                 setUserIngredients(res.data.available_ingredients);
-                setSearchSettings({...searchSettings, user_id: user});
+                setSearchSettings({...searchSettings, user_id: user.user_id});
             }
         }).catch((err) => console.log(err));
     }
 
     const onIngredientClick = (ingredient, onHand) => {
         if(editUserIngr) {
-            axios.post('/api/user_ingredients', {user_id: user, ingr_uuid: ingredient.uuid, delete: onHand}).then(res =>{
+            axios.post('/api/user_ingredients', {user_id: user.user_id, ingr_uuid: ingredient.uuid, delete: onHand}).then(res =>{
                 console.log(res)
                 if(res.data && res.data.available_ingredients){
                     setUserIngredients(res.data.available_ingredients);
@@ -60,22 +60,11 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
         }
     };
 
-    function checkEnter(e) {
-        if(e.code === "Enter" || e.code === "NumpadEnter") get_user_ingredients();
-    }
-
     function search_user_drinks(){
         if(searchSettings.user_id){
             setUserDrinksReq(searchSettings);
             navigate('/');
         }
-    }
-
-    function clear_user_id(){
-        setUser(null);
-        setUserIngredients(null);
-        setEditUserIngr(false);
-        setSearchSettings({tol: 0, no_na: false, strict: false});
     }
 
     return (
@@ -93,13 +82,8 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
             })}
             <div style={{display: "flex", justifyContent: "center"}}>
                 <div>
-                    {user !== null && <div>
+                    {user.user_id !== undefined && <div>
                         <br />
-                        <span>{"User ID: "+user}</span>
-                        <FaTrash style={{cursor:'pointer', marginLeft:'10px'}} onClick={clear_user_id} />
-                    </div>}
-                    {user !== null && <div>
-                        <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>
                         <div>
                             <span>Allowed Missing Ingredients:  </span>
                             <select onChange={(e)=> setSearchSettings({...searchSettings, tol: e.target.value})}>
@@ -116,7 +100,10 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
                             <span>Exact Search:  </span>
                             <input type='checkbox' checked={searchSettings.strict} onChange={(e)=> setSearchSettings({...searchSettings, strict: e.target.checked})}></input>
                         </div>
-                        <FaSearch style={{cursor:'pointer', marginTop:'15px'}} onClick={search_user_drinks}/>
+                        <div>
+                            <FaSearch className="sorted-filter-icon" style={{cursor:'pointer', marginTop:'15px'}} onClick={search_user_drinks}/>
+                            <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>
+                        </div>
                     </div>}
                 </div>
             </div>

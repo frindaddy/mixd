@@ -9,10 +9,14 @@ const LoginPage = ({user, setUser}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(user !== null){
-            navigate('/');
+        if(user.user_id){
+            navigate('/account', {replace:true});
         }
     }, [user]);
+
+    useEffect(() => {
+        document.title = 'Login | mixd.';
+    }, []);
 
     function checkEnter(e) {
         if(e.code === "Enter" || e.code === "NumpadEnter") submitLogin();
@@ -20,9 +24,9 @@ const LoginPage = ({user, setUser}) => {
 
     function submitLogin() {
         if(userIDField && typeof userIDField === "number" && userIDField > 10000) {
-            axios.get('/api/user_ingredients/'+userIDField).then(res =>{
-                if(res.data && res.data.available_ingredients) {
-                    setUser(userIDField);
+            axios.get('/api/account/'+userIDField).then(res =>{
+                if(res.data && res.data.user_id) {
+                    setUser(res.data);
                 }
             }).catch((err) => {
                 if(err.response.status === 400){
