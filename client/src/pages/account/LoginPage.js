@@ -24,8 +24,8 @@ const LoginPage = ({user, setUser}) => {
 
     function submitLogin() {
         if(userIDField && typeof userIDField === "number" && userIDField > 10000) {
-            axios.get('/api/user_ingredients/'+userIDField).then(res =>{
-                if(res.data && res.data.available_ingredients) {
+            axios.get('/api/account/'+userIDField).then(res =>{
+                if(res.data && res.data.user_id) {
                     setUser(userIDField);
                 }
             }).catch((err) => {
