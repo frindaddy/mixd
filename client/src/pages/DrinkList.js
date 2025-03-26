@@ -4,17 +4,7 @@ import AddDrinkEntry from "../components/Admin/AddDrinkEntry";
 import DotColor from "../components/DotColor";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import FilterPanel from "../components/DrinkList/FilterPanel";
-import {
-    FaFilter,
-    FaEraser,
-    FaLemon,
-    FaUser,
-    FaUserMd,
-    FaUserCog,
-    FaUserCircle,
-    FaUserTag,
-    FaUserSecret, FaRegUser, FaRegUserCircle
-} from "react-icons/fa";
+import {FaFilter, FaEraser, FaLemon, FaUserCircle, FaRegUserCircle} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import AddIngredientEntry from "../components/Admin/AddIngredientEntry";
 import "../format/DrinkList.css";
@@ -82,6 +72,10 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
         });
     }
 
+    function userIconClicked() {
+        navigate('/account/login');
+    }
+
     function resetAllFilters() {
         setGlassFilterList([]);
         setTagFilterList([]);
@@ -97,8 +91,8 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
 
     return (
         <>
-            {!user.user_id && <FaRegUserCircle className="user_icon" onClick={()=>navigate('/account/login')}/>}
-            {user.user_id && <FaUserCircle className="user_icon" onClick={()=>navigate('/account/login')}/>}
+            {!user.user_id && <FaRegUserCircle className="user_icon" onClick={userIconClicked}/>}
+            {user.user_id && <FaUserCircle className="user_icon" onClick={userIconClicked}/>}
             <header>
                 <div>
                     <div className="logo">mixd<DotColor /></div>
