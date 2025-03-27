@@ -11,6 +11,7 @@ import Layout from "./pages/Layout";
 import Page404 from "./pages/Page404";
 import LoginPage from "./pages/account/LoginPage";
 import AccountPage from "./pages/account/AccountPage";
+import MenuPage from "./pages/MenuPage";
 
 function App() {
     const [previousDrinkList, setPreviousDrinkList] = useState([{name:"Loading Drinks..."}]);
@@ -32,6 +33,7 @@ function App() {
                 <Route path="view_ingredients" element={<ViewIngredients setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser}/>}/>
                 <Route path="account" element={<AccountPage user={user} setUser={setUser} />} />
                 <Route path="account/login" element={<LoginPage user={user} setUser={setUser} />}/>
+                <Route path="menu/:menu_id" element={<MenuPage />}/>
                 <Route path="404" element={<Page404 />} />
             </Route>
         </Routes>
