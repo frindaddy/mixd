@@ -8,6 +8,7 @@ const router = express.Router();
 const Drinks = require('../models/drinks');
 const Ingredients = require('../models/ingredients');
 const Users = require('../models/users');
+const Menus = require('../models/menus');
 const packVars = require('../package.json');
 
 const ADMIN_PASS = process.env.ADMIN_PASS || 'ADMIN';
@@ -605,6 +606,98 @@ router.post('/user_ingredients', (req, res, next) => {
 
     } else {
         res.sendStatus(400)
+    }
+});
+
+router.get('/menus', (req, res, next) => {
+    Menus.find({}, 'menu_id')
+        .then((menus) => {
+            res.json(menus.map(menu => menu.menu_id))
+        })
+        .catch(next);
+});
+
+router.get('/menu/:menu_id', (req, res, next) => {
+    if(req.params.menu_id){
+        Menus.findOne({menu_id: req.params.menu_id}, '')
+            .then((menu) => {
+                if (menu) {
+                    if(menu.drinks){
+                        Drinks.find({"uuid": {'$in':menu.drinks}}, 'uuid name url_name tags glass')
+                            .then((drinks) => {
+                                if(drinks && drinks.length >= 0){
+                                    let sorted_drinks = menu.drinks.map(drink_uuid => {
+                                        return drinks.filter(drink => drink.uuid === drink_uuid)[0];
+                                    })
+                                    res.json({menu_id: req.params.menu_id, drinkList: sorted_drinks});
+                                } else {
+                                    res.sendStatus(500);
+                                }
+                            })
+                            .catch(next);
+                    } else {
+                        res.json(menu)
+                    }
+                } else {
+                    res.sendStatus(400);
+                }
+            })
+            .catch(next);
+    }
+});
+
+router.post('/create_menu', (req, res, next) => {
+    if(!req.body.menu_id){
+        Menus.find({}, 'menu_id').then(all_menus => {
+            let used_ids = all_menus.map(menu => menu.menu_id);
+            let new_menu_id = uuid().substring(0,8);
+            while(used_ids.includes(new_menu_id)) {
+                new_menu_id = uuid().substring(0,8);
+            }
+            let drinks = [];
+            if(req.body.drinks && Object.prototype.toString.call(req.body.drinks) === '[object Array]' && req.body.drinks.length > 0){
+                drinks = req.body.drinks.filter(drink=>typeof drink === 'string');
+            }
+            Menus.create({menu_id: new_menu_id, drinks: drinks}).then(menu => {
+                res.json({menu_id: menu.menu_id, drinks: menu.drinks});
+            }).catch(()=>{res.sendStatus(500)});
+        }).catch(next);
+    } else {
+        res.sendStatus(400);
+    }
+});
+
+router.post('/modify_menu', (req, res, next) => {
+    if(req.body.menu_id && req.body.drinks){
+        Menus.findOne({menu_id: req.body.menu_id}, 'menu_id').then(menu => {
+            if(menu){
+                let drinks = [];
+                if(Object.prototype.toString.call(req.body.drinks) === '[object Array]' && req.body.drinks.length > 0){
+                    drinks = req.body.drinks.filter(drink=>typeof drink === 'string');
+                }
+                Menus.updateOne({menu_id: menu.menu_id}, {drinks: drinks}).then(response => {
+                    if(response.acknowledged){
+                        res.json({menu_id: menu.menu_id, drinks: drinks});
+                    } else {
+                        res.sendStatus(500);
+                    }
+                }).catch(()=>{res.sendStatus(500)});
+            } else {
+                res.sendStatus(400);
+            }
+        }).catch(next);
+    } else {
+        res.sendStatus(400);
+    }
+});
+
+router.delete('/menu/:menu_id', (req, res, next) => {
+    if(req.params.menu_id){
+        Menus.findOneAndDelete({ menu_id: req.params.menu_id })
+            .then((data) => {
+                res.json(data);
+            })
+            .catch(next);
     }
 });
 
