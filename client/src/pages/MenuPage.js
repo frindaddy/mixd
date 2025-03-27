@@ -13,7 +13,6 @@ const MenuPage = ({setShowLoader}) => {
         axios.get('/api/menu/'+menu_id)
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data.drinkList)
                     setMenu(res.data)
                 } else {
                     navigate('/404', {replace: true});
