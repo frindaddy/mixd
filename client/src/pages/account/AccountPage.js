@@ -1,9 +1,16 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {FaSignOutAlt, FaStar} from "react-icons/fa";
+import "../../format/Account.css";
+import MyBarTab from "./MyBarTab";
+import SettingsTab from "./SettingsTab";
+import AdminTab from "./AdminTab";
+import MenusTab from "./MenusTab";
 
 const AccountPage = ({user, setUser}) => {
 
     const navigate = useNavigate();
+    const [currentTab, setCurrentTab] = useState('myBar');
 
     useEffect(() => {
         if(user.user_id === undefined){
@@ -21,9 +28,20 @@ const AccountPage = ({user, setUser}) => {
 
     return (
         <div>
-            <h1>{'Account #'+user.user_id}</h1>
-            {user.adminKey && <p>User is an admin</p>}
-            <p style={{cursor:'pointer'}} onClick={logout}>Logout</p>
+            <FaSignOutAlt className='user_icon' onClick={logout} />
+            <h1>{'Account #'+user.user_id}{user.adminKey && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</h1>
+            <div className='account-nav'>
+                <span onClick={()=>setCurrentTab('myBar')}>My Bar</span>
+                <span onClick={()=>setCurrentTab('menus')}>Menus</span>
+                <span onClick={()=>setCurrentTab('settings')}>Account Settings</span>
+                {user.adminKey && <span onClick={()=>setCurrentTab('admin')}>Admin Controls</span>}
+            </div>
+            <div>
+                {currentTab === 'myBar' && <MyBarTab />}
+                {currentTab === 'menus' && <MenusTab />}
+                {currentTab === 'settings' && <SettingsTab />}
+                {currentTab === 'admin' && <AdminTab />}
+            </div>
         </div>
     )
 };
