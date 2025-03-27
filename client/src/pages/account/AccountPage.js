@@ -2,6 +2,9 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {FaSignOutAlt, FaStar} from "react-icons/fa";
 import "../../format/Account.css";
+import MyBarTab from "./MyBarTab";
+import SettingsTab from "./SettingsTab";
+import AdminTab from "./AdminTab";
 
 const AccountPage = ({user, setUser}) => {
 
@@ -32,9 +35,9 @@ const AccountPage = ({user, setUser}) => {
                 {user.adminKey && <span onClick={()=>setCurrentTab('admin')}>Admin Controls</span>}
             </div>
             <div>
-                {currentTab === 'myBar' && <p>My Bar</p>}
-                {currentTab === 'settings' && <p>Account Settings</p>}
-                {currentTab === 'admin' && <p>Admin Controls</p>}
+                {currentTab === 'myBar' && <MyBarTab />}
+                {currentTab === 'settings' && <SettingsTab />}
+                {currentTab === 'admin' && <AdminTab />}
             </div>
         </div>
     )
