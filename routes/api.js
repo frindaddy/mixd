@@ -622,7 +622,22 @@ router.get('/menu/:menu_id', (req, res, next) => {
         Menus.findOne({menu_id: req.params.menu_id}, '')
             .then((menu) => {
                 if (menu) {
-                    res.json(menu)
+                    if(menu.drinks){
+                        Drinks.find({"uuid": {'$in':menu.drinks}}, 'uuid name url_name tags glass')
+                            .then((drinks) => {
+                                if(drinks && drinks.length >= 0){
+                                    let sorted_drinks = menu.drinks.map(drink_uuid => {
+                                        return drinks.filter(drink => drink.uuid === drink_uuid)[0];
+                                    })
+                                    res.json({menu_id: req.params.menu_id, drinkList: sorted_drinks});
+                                } else {
+                                    res.sendStatus(500);
+                                }
+                            })
+                            .catch(next);
+                    } else {
+                        res.json(menu)
+                    }
                 } else {
                     res.sendStatus(400);
                 }
