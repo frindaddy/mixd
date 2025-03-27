@@ -174,6 +174,14 @@ async function find_on_hand_drinks(ingr_uuids, missing_ingr_tol, no_na, strict) 
     });
 }
 
+function validate_username(username) {
+    if(username.length === 0 || username.length > 15) return false;
+    if(!username.match(/^[a-zA-Z0-9._]*$/)) return false;
+    if(!username.match(/[a-zA-Z]/)) return false;
+    if(username.match(/^[._]|[.]$|[_.]_$/)) return false;
+    return true;
+}
+
 updateIngredients()
 
 router.get('/app-info', (req, res, next) => {
@@ -552,6 +560,18 @@ router.get('/users', (req, res, next) => {
             res.json(users.map(user => user.user_id))
         })
         .catch(next);
+});
+
+router.get('/check_username/:username', (req, res, next)=>{
+    if(req.params.username){
+        if(validate_username(req.params.username)){
+            Users.findOne({username: req.params.username}).then(user => {
+                res.json({taken: user !== null, valid: true});
+            }).catch(err => console.log(err));
+        } else {
+            res.json({taken: false, valid: false});
+        }
+    }
 });
 
 router.post('/create_user', verifyRequest, (req, res, next) => {
