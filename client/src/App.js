@@ -33,7 +33,7 @@ function App() {
                 <Route path="view_ingredients" element={<ViewIngredients setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser}/>}/>
                 <Route path="account" element={<AccountPage user={user} setUser={setUser} />} />
                 <Route path="account/login" element={<LoginPage user={user} setUser={setUser} />}/>
-                <Route path="menu/:menu_id" element={<MenuPage />}/>
+                <Route path="menu" element={<MenuPage />}/>
                 <Route path="404" element={<Page404 />} />
             </Route>
         </Routes>

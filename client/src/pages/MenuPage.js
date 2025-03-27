@@ -1,12 +1,12 @@
-import {useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 const MenuPage = () => {
 
-    const { menu_id } = useParams();
+    const { hash } = useLocation();
 
     return (
         <div>
             <h1>Menu</h1>
-            <p>{'ID: '+menu_id}</p>
+            <p>{'ID: '+hash}</p>
         </div>
     )
 };
