@@ -48,7 +48,7 @@ const CreateDrink = ({adminKey}) => {
                     setAllIngredients(res.data);
                 }
             }).catch((err) => console.log(err));
-    }, [uuid]);
+    }, [uuid, navigate]);
 
     const onImageSelected = (e) => {
         if(e.target.files && e.target.files[0]){
@@ -87,14 +87,14 @@ const CreateDrink = ({adminKey}) => {
         let tags = [];
         let ingredients = [];
         if (drink.tags) {
-            drink.tags.map((tag) => {
+            drink.tags.forEach((tag) => {
                 if(tag.category && tag.value){
                     tags = [...tags, tag];
                 }
             });
         }
         if (drink.ingredients) {
-            drink.ingredients.map((ingredient) => {
+            drink.ingredients.forEach((ingredient) => {
                 if(ingredient.ingredient){
                     if (typeof ingredient.amount === "string"){
                         ingredient.amount = parseFloat(ingredient.amount.replace(",", "."));
