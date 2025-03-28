@@ -232,7 +232,7 @@ const CreateDrink = ({adminKey}) => {
                 <div className="create-drink-row">
                     <input type="text" name="override_volume" placeholder="4" value={inputs.override_volume || ""} onChange={handleFormChange} />
                 </div>
-                <p style={{marginTop: "50px", marginBottom: "-35px"}}>Tags (Required):</p>
+                <p style={{marginTop: "50px", marginBottom: "10px"}}>Tags (Required):</p>
                 <div className="create-drink-row">
                     <TagEntryContainer inputs={inputs} setInputs={setInputs}/>
                 </div>
