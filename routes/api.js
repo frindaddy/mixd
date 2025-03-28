@@ -651,10 +651,10 @@ router.get('/menus', (req, res, next) => {
 
 router.get('/menus/:user_id', (req, res, next) => {
     if(req.params.user_id){
-        Menus.find({}, 'menu_id drinks')
+        Menus.find({}, 'menu_id users drinks')
             .then((menus) => {
                 let users_menus = menus.filter(menu => menu.users && menu.users.includes(req.params.user_id));
-                res.json(users_menus);
+                res.json(users_menus.map(menu => {return {menu_id: menu.menu_id, drinks: menu.drinks}}));
             })
             .catch(next);
     } else {
