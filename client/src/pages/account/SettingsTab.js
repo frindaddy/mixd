@@ -13,14 +13,20 @@ const SettingsTab = ({}) => {
         return "Username is available!";
     }
     function updateUsernameField(e){
-        setUsernameField(e.target.value);
-        if(e.target.value && e.target.value.length > 0){
-            axios.get('/api/check_username/'+e.target.value).then(res => {
-                if(res.data){
-                    setUsernameStatus(res.data);
-                }
-            });
+        if(e.target.value){
+            let sanitized_name = e.target.value.replace(/[^a-z0-9_.]/i, '');
+            setUsernameField(sanitized_name);
+            if(sanitized_name.length > 0){
+                axios.get('/api/check_username/'+sanitized_name).then(res => {
+                    if(res.data){
+                        setUsernameStatus(res.data);
+                    }
+                });
+            } else {
+                setUsernameStatus({taken: false, valid: false});
+            }
         } else {
+            setUsernameField('');
             setUsernameStatus({taken: false, valid: false});
         }
     }
@@ -28,8 +34,8 @@ const SettingsTab = ({}) => {
     return (
         <div>
             <p>Change Username:</p>
-            <input name='username' type='text' placeholder='Username' onChange={updateUsernameField} value={usernameField}/>
             {usernameField.length > 0 && <p>{usernameResponse()}</p>}
+            <input name='username' type='text' placeholder='Username' onChange={updateUsernameField} value={usernameField}/>
         </div>
     )
 };
