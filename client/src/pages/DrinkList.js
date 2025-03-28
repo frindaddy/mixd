@@ -6,7 +6,6 @@ import DrinkArray from "../components/DrinkList/DrinkArray";
 import FilterPanel from "../components/DrinkList/FilterPanel";
 import {FaFilter, FaEraser, FaLemon, FaUserCircle, FaRegUserCircle} from "react-icons/fa";
 import {useCookies} from "react-cookie";
-import AddIngredientEntry from "../components/Admin/AddIngredientEntry";
 import "../format/DrinkList.css";
 import {Link, useNavigate} from "react-router-dom";
 
@@ -101,7 +100,6 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
                     <div className="logo">mixd<DotColor /></div>
                 </div>
                 <div className="search-container">
-                    <Link to="/view_ingredients" className='ingredient-button'><FaLemon style={{cursor:"pointer"}} /></Link>
                     <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer"}} onClick={toggleFilterPanel}/></div>
                     {((tagFilterList.length + glassFilterList.length > 0) || ingrFilter[0] !== "" || userDrinksReq !== null) && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
@@ -113,8 +111,6 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
                 setGlassFilterList={setGlassFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
             </div>
             {user.adminKey && <Link to="/create_drink"><AddDrinkEntry /></Link>}
-            {user.adminKey && <hr className="list-separator"></hr>}
-            {user.adminKey && <Link to="/manage_ingredients"><AddIngredientEntry /></Link>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}}
                 drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={user.adminKey}/>
         </>

@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {FaSignOutAlt, FaStar} from "react-icons/fa";
 import "../../format/Account.css";
@@ -6,8 +6,10 @@ import MyBarTab from "./MyBarTab";
 import SettingsTab from "./SettingsTab";
 import AdminTab from "./AdminTab";
 import MenusTab from "./MenusTab";
+import ViewIngredients from "../ViewIngredients";
+import ManageIngredients from "../ManageIngredients";
 
-const AccountPage = ({user, setUser}) => {
+const AccountPage = ({user, setUser, setIngrFilter, setUserDrinksReq }) => {
 
     const navigate = useNavigate();
     const [currentTab, setCurrentTab] = useState('myBar');
@@ -37,10 +39,10 @@ const AccountPage = ({user, setUser}) => {
                 {user.adminKey && <span onClick={()=>setCurrentTab('admin')}>Admin Controls</span>}
             </div>
             <div>
-                {currentTab === 'myBar' && <MyBarTab />}
+                {currentTab === 'myBar' && <ViewIngredients setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser} />}
                 {currentTab === 'menus' && <MenusTab />}
                 {currentTab === 'settings' && <SettingsTab user={user} setUser={setUser}/>}
-                {currentTab === 'admin' && <AdminTab />}
+                {currentTab === 'admin' && <ManageIngredients adminKey={user.adminKey} />}
             </div>
         </div>
     )
