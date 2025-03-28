@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import {FaEdit, FaSearch, FaSortAmountDown} from "react-icons/fa";
 import axios from "axios";
 import IngredientListEntry from "../../components/Ingredients/IngredientListEntry";
-import "../../format/ViewIngredients.css";
+import "../../format/MyBarTab.css";
 import {useNavigate} from "react-router-dom";
 
 const MyBarTab = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
@@ -67,17 +67,20 @@ const MyBarTab = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
 
     return (
         <div>
-            <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginLeft:"-53px"}}>
-                <FaSortAmountDown className="sorted-filter-icon" style={{backgroundColor: sorted? "3B3D3F":""}} onClick={()=>{setSorted(!sorted)}}/>
-                <h1 className="all-ingredients-title">All Ingredients</h1>
+            <div>
+                <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginRight:"53px"}}>
+                    <FaSortAmountDown className="sorted-filter-icon" style={{backgroundColor: sorted? "3B3D3F":""}} onClick={()=>{setSorted(!sorted)}}/>
+                    <h1 className="ingredient-title">Ingredients</h1>
+                    <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>
+                </div>
+                {(sorted ? sortedIngredients:ingredients).map((ingredient) =>{
+                    return <div>
+                        <div style={{display: "flex", justifyContent: "center"}}>
+                            {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} onIngredientClick={onIngredientClick} userOnHand={userIngredients !== null && userIngredients.includes(ingredient.uuid)} />}
+                        </div>
+                    </div>;
+                })}
             </div>
-            {(sorted ? sortedIngredients:ingredients).map((ingredient) =>{
-                return <div>
-                    <div style={{display: "flex", justifyContent: "center"}}>
-                        {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} onIngredientClick={onIngredientClick} userOnHand={userIngredients !== null && userIngredients.includes(ingredient.uuid)} />}
-                    </div>
-                </div>;
-            })}
             <div style={{display: "flex", justifyContent: "center"}}>
                 <div>
                     {user.user_id !== undefined && <div>
@@ -100,7 +103,6 @@ const MyBarTab = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
                         </div>
                         <div>
                             <FaSearch className="sorted-filter-icon" style={{cursor:'pointer', marginTop:'15px'}} onClick={search_user_drinks}/>
-                            <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>
                         </div>
                     </div>}
                 </div>
