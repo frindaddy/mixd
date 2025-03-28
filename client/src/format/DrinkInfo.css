@@ -106,61 +106,6 @@
     animation-timing-function: linear;
 }
 
-/* BEGIN DRINK MULTIPLIER */
-
-.drink-multiplier-container {
-    display: inline-flex;
-    border: 2px solid white;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 5%;
-    margin-bottom: 1%;
-    margin-left: 5px;
-    width: auto;
-    height: 27px;
-}
-
-.drink-multiplier-container button {
-    background-color: #1D1E1F;
-    color: white;
-    box-sizing: border-box;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    cursor: pointer;
-    font-family: Roboto;
-    font-size: 20px;
-    width: 28px;
-}
-
-.multiplier-minus,
-.multiplier-plus {
-    display: flex;
-    overflow: hidden;
-    font-family: Roboto;
-    font-weight: 300;
-}
-
-.multiplier-quantity {
-    width: 20px;
-    color: white;
-    background-color: #1D1E1F;
-    text-align: center;
-    border: none;
-    font-family: Roboto;
-    font-size: 16px;
-    outline: none;
-}
-
-/* Hide the number input spin buttons */
-.multiplier-quantity::-webkit-inner-spin-button,
-.multiplier-quantity::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* END DRINK MULTIPLIER */
-
 @media screen and (max-width: 600px) {
     .description {
         margin-right: 10px;
