@@ -27,7 +27,7 @@ const AccountPage = ({user, setUser, setIngrFilter, setUserDrinksReq }) => {
     }
 
     return (
-        <div style={{paddingLeft:"2%"}}>
+        <div>
             <FaSignOutAlt className='user_icon' onClick={logout} />
             <div className="account-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.adminKey && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
             <div className='account-nav'>
@@ -39,12 +39,12 @@ const AccountPage = ({user, setUser, setIngrFilter, setUserDrinksReq }) => {
                 {user.adminKey && <div className="account-nav-break"></div>}
                 {user.adminKey && <span onClick={()=>setCurrentTab('admin')}>Admin Controls</span>}
             </div>
-            <div>
+            <>
                 {currentTab === 'myBar' && <MyBarTab setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser} />}
                 {currentTab === 'menus' && <MenusTab user={user}/>}
                 {currentTab === 'settings' && <SettingsTab user={user} setUser={setUser}/>}
                 {currentTab === 'admin' && <AdminTab adminKey={user.adminKey} />}
-            </div>
+            </>
         </div>
     )
 };
