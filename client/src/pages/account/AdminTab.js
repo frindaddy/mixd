@@ -13,7 +13,6 @@ const AdminTab = ({adminKey}) => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        document.title = 'Manage Ingredients | mixd.';
         fetchIngredients();
         axios.get('/api/users').then(res => {
             if(res.data){

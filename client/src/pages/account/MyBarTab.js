@@ -17,7 +17,6 @@ const MyBarTab = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
 
 
     useEffect(() => {
-        document.title = 'Ingredients | mixd.';
         fetchIngredients();
         if(user.user_id) get_user_ingredients();
     }, []);
