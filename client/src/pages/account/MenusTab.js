@@ -10,14 +10,14 @@ const MenusTab = ({user}) => {
             if(res.data){
                 setMenus(res.data);
             }
-        });
+        }).catch(err => console.error(err));
     }, [user.user_id]);
 
     return (
         <div>
             <p>Menus:</p>
             {menus.map(menu => {
-                return <p>{menu.menu_id}</p>
+                return <p>{menu.name || "Menu " + menu.menu_id}</p>
             })}
         </div>
     )

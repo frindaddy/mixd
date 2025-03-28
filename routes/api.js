@@ -719,14 +719,14 @@ router.post('/create_menu', (req, res, next) => {
 });
 
 router.post('/modify_menu', (req, res, next) => {
-    if(req.body.menu_id && (req.body.drinks || req.body.users)){
+    if(req.body.menu_id && (req.body.drinks || req.body.users || req.body.name)){
         Menus.findOne({menu_id: req.body.menu_id}, 'menu_id').then(menu => {
             if(menu){
                 let drinks;
                 if(req.body.drinks && Object.prototype.toString.call(req.body.drinks) === '[object Array]' && req.body.drinks.length > 0){
                     drinks = req.body.drinks.filter(drink=>typeof drink === 'string');
                 }
-                Menus.updateOne({menu_id: menu.menu_id}, {drinks: drinks, users: req.body.users}).then(response => {
+                Menus.updateOne({menu_id: menu.menu_id}, {drinks: drinks, users: req.body.users, name: req.body.name}).then(response => {
                     if(response.acknowledged){
                         res.sendStatus(200);
                     } else {
