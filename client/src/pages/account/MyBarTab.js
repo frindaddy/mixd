@@ -66,7 +66,7 @@ const MyBarTab = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
     }
 
     return (
-        <div>
+        <>
             <div>
                 <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginRight:"53px"}}>
                     <FaSortAmountDown className="sorted-filter-icon" style={{backgroundColor: sorted? "3B3D3F":""}} onClick={()=>{setSorted(!sorted)}}/>
@@ -107,7 +107,7 @@ const MyBarTab = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
                     </div>}
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
