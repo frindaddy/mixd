@@ -14,8 +14,8 @@ const MenusTab = ({user}) => {
     }, [user.user_id]);
 
     return (
-        <div>
-            <p>Menus:</p>
+        <div style={{display:"flex", justifyContent:"center"}}>
+            <div style={{fontSize:"30px", fontWeight:"300"}}>Menus</div>
             {menus.map(menu => {
                 return <p>{menu.name || "Menu " + menu.menu_id}</p>
             })}
