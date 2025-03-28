@@ -49,7 +49,6 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
     const onIngredientClick = (ingredient, onHand) => {
         if(editUserIngr) {
             axios.post('/api/user_ingredients', {user_id: user.user_id, ingr_uuid: ingredient.uuid, delete: onHand}).then(res =>{
-                console.log(res)
                 if(res.data && res.data.available_ingredients){
                     setUserIngredients(res.data.available_ingredients);
                 }
