@@ -38,7 +38,7 @@ const AccountPage = ({user, setUser, setIngrFilter, setUserDrinksReq }) => {
             </div>
             <div>
                 {currentTab === 'myBar' && <MyBarTab setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser} />}
-                {currentTab === 'menus' && <MenusTab />}
+                {currentTab === 'menus' && <MenusTab user={user}/>}
                 {currentTab === 'settings' && <SettingsTab user={user} setUser={setUser}/>}
                 {currentTab === 'admin' && <AdminTab adminKey={user.adminKey} />}
             </div>
