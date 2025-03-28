@@ -649,6 +649,19 @@ router.get('/menus', (req, res, next) => {
         .catch(next);
 });
 
+router.get('/menus/:user_id', (req, res, next) => {
+    if(req.params.user_id){
+        Menus.find({}, 'menu_id name users drinks')
+            .then((menus) => {
+                let users_menus = menus.filter(menu => menu.users && menu.users.includes(req.params.user_id));
+                res.json(users_menus.map(menu => {return {menu_id: menu.menu_id, name: menu.name, drinks: menu.drinks}}));
+            })
+            .catch(next);
+    } else {
+        res.send(400);
+    }
+});
+
 router.get('/menu/:menu_id', (req, res, next) => {
     if(req.params.menu_id){
         Menus.findOne({menu_id: req.params.menu_id}, '')
@@ -661,7 +674,7 @@ router.get('/menu/:menu_id', (req, res, next) => {
                                     let sorted_drinks = menu.drinks.map(drink_uuid => {
                                         return drinks.filter(drink => drink.uuid === drink_uuid)[0];
                                     })
-                                    res.json({menu_id: req.params.menu_id, drinkList: sorted_drinks});
+                                    res.json({menu_id: req.params.menu_id, users: menu.users, drinkList: sorted_drinks});
                                 } else {
                                     res.sendStatus(500);
                                 }
@@ -679,18 +692,24 @@ router.get('/menu/:menu_id', (req, res, next) => {
 });
 
 router.post('/create_menu', (req, res, next) => {
-    if(!req.body.menu_id){
+    if(!req.body.menu_id && req.body.user_id){
         Menus.find({}, 'menu_id').then(all_menus => {
             let used_ids = all_menus.map(menu => menu.menu_id);
             let new_menu_id = uuid().substring(0,8);
+            let attempts = 1;
             while(used_ids.includes(new_menu_id)) {
                 new_menu_id = uuid().substring(0,8);
+                if(attempts > 10){
+                    res.sendStatus(500);
+                    return;
+                }
+                attempts = attempts + 1;
             }
             let drinks = [];
             if(req.body.drinks && Object.prototype.toString.call(req.body.drinks) === '[object Array]' && req.body.drinks.length > 0){
                 drinks = req.body.drinks.filter(drink=>typeof drink === 'string');
             }
-            Menus.create({menu_id: new_menu_id, drinks: drinks}).then(menu => {
+            Menus.create({menu_id: new_menu_id, drinks: drinks, users: [req.body.user_id]}).then(menu => {
                 res.json({menu_id: menu.menu_id, drinks: menu.drinks});
             }).catch(()=>{res.sendStatus(500)});
         }).catch(next);
@@ -700,16 +719,16 @@ router.post('/create_menu', (req, res, next) => {
 });
 
 router.post('/modify_menu', (req, res, next) => {
-    if(req.body.menu_id && req.body.drinks){
+    if(req.body.menu_id && (req.body.drinks || req.body.users || req.body.name)){
         Menus.findOne({menu_id: req.body.menu_id}, 'menu_id').then(menu => {
             if(menu){
-                let drinks = [];
-                if(Object.prototype.toString.call(req.body.drinks) === '[object Array]' && req.body.drinks.length > 0){
+                let drinks;
+                if(req.body.drinks && Object.prototype.toString.call(req.body.drinks) === '[object Array]' && req.body.drinks.length > 0){
                     drinks = req.body.drinks.filter(drink=>typeof drink === 'string');
                 }
-                Menus.updateOne({menu_id: menu.menu_id}, {drinks: drinks}).then(response => {
+                Menus.updateOne({menu_id: menu.menu_id}, {drinks: drinks, users: req.body.users, name: req.body.name}).then(response => {
                     if(response.acknowledged){
-                        res.json({menu_id: menu.menu_id, drinks: drinks});
+                        res.sendStatus(200);
                     } else {
                         res.sendStatus(500);
                     }
