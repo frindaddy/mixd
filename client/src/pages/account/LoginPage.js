@@ -39,13 +39,13 @@ const LoginPage = ({user, setUser}) => {
     }
 
     return (
-        <div>
-            <div>
-                <h1>Login:</h1>
-                <input name='user_id' style={{fontSize: '16px'}} inputMode='numeric' content='text' placeholder='00000' value={userIDField||''} onChange={(e)=> setUserIDField(parseInt(e.target.value.substring(0,5)) || null)} onKeyDownCapture={(e)=>{checkEnter(e)}}></input>
-                <FaCheck style={{marginLeft: '10px', cursor:'pointer'}} onClick={()=>{submitLogin()}} />
-            </div>
+        <>
+        <h1 style={{textAlign:"center"}}>Login:</h1>
+        <div style={{display:"flex", flexWrap:"nowrap", justifyContent:"center"}}>
+            <input name='user_id' style={{fontSize: '16px'}} inputMode='numeric' content='text' placeholder='00000' value={userIDField||''} onChange={(e)=> setUserIDField(parseInt(e.target.value.substring(0,5)) || null)} onKeyDownCapture={(e)=>{checkEnter(e)}}></input>
+            <FaCheck style={{marginLeft: '10px', cursor:'pointer'}} onClick={()=>{submitLogin()}} />
         </div>
+        </>
     )
 };
 

@@ -45,12 +45,14 @@ const SettingsTab = ({user, setUser}) => {
     }
 
     return (
-        <div>
-            <p>Change Username:</p>
+        <>
+            <p style={{textAlign:"center"}}>Change Username:</p>
             {usernameField.length > 0 && <p>{usernameResponse()}</p>}
-            <input name='username' type='text' placeholder={user.username||'Username'} onChange={updateUsernameField} value={usernameField}/>
-            <FaCheck style={{cursor:'pointer', marginLeft: '10px', marginBottom: '-2px'}} onClick={submitUsername}/>
-        </div>
+            <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
+                <input name='username' type='text' placeholder={user.username||'Username'} onChange={updateUsernameField} value={usernameField}/>
+                <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={submitUsername}/>
+            </div>
+        </>
     )
 };
 

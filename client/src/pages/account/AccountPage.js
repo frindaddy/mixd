@@ -29,19 +29,22 @@ const AccountPage = ({user, setUser, setIngrFilter, setUserDrinksReq }) => {
     return (
         <div>
             <FaSignOutAlt className='user_icon' onClick={logout} />
-            <h1>{(user.username ? user.username:'Account')+' #'+user.user_id}{user.adminKey && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</h1>
+            <div className="account-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.adminKey && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
             <div className='account-nav'>
                 <span onClick={()=>setCurrentTab('myBar')}>My Bar</span>
+                <div className="account-nav-break"></div>
                 <span onClick={()=>setCurrentTab('menus')}>Menus</span>
+                <div className="account-nav-break"></div>
                 <span onClick={()=>setCurrentTab('settings')}>Account Settings</span>
+                {user.adminKey && <div className="account-nav-break"></div>}
                 {user.adminKey && <span onClick={()=>setCurrentTab('admin')}>Admin Controls</span>}
             </div>
-            <div>
+            <>
                 {currentTab === 'myBar' && <MyBarTab setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser} />}
                 {currentTab === 'menus' && <MenusTab user={user}/>}
                 {currentTab === 'settings' && <SettingsTab user={user} setUser={setUser}/>}
                 {currentTab === 'admin' && <AdminTab adminKey={user.adminKey} />}
-            </div>
+            </>
         </div>
     )
 };
