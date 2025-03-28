@@ -5,7 +5,7 @@ import IngredientListEntry from "../../components/Ingredients/IngredientListEntr
 import "../../format/ViewIngredients.css";
 import {useNavigate} from "react-router-dom";
 
-const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
+const MyBarTab = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
     const [ingredients, setIngredients] = useState([]);
     const [sortedIngredients, setSortedIngredients] = useState([]);
     const [sorted, setSorted] = useState(false);
@@ -110,4 +110,4 @@ const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
     )
 }
 
-export default ViewIngredients;
+export default MyBarTab;

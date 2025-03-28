@@ -4,7 +4,7 @@ import axios from "axios";
 import {FaPenToSquare} from "react-icons/fa6";
 import '../../format/ManageIngredients.css';
 
-const ManageIngredients = ({adminKey}) => {
+const AdminTab = ({adminKey}) => {
     const [newIngredientName, setNewIngredientName] = useState("");
     const [newIngredientABV, setNewIngredientABV] = useState("");
     const [ingredients, setIngredients] = useState([]);
@@ -190,4 +190,4 @@ const ManageIngredients = ({adminKey}) => {
     )
 }
 
-export default ManageIngredients;
+export default AdminTab;

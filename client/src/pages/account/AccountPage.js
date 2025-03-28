@@ -4,8 +4,8 @@ import {FaSignOutAlt, FaStar} from "react-icons/fa";
 import "../../format/Account.css";
 import SettingsTab from "./SettingsTab";
 import MenusTab from "./MenusTab";
-import ViewIngredients from "./ViewIngredients";
-import ManageIngredients from "./ManageIngredients";
+import MyBarTab from "./MyBarTab";
+import AdminTab from "./AdminTab";
 
 const AccountPage = ({user, setUser, setIngrFilter, setUserDrinksReq }) => {
 
@@ -37,10 +37,10 @@ const AccountPage = ({user, setUser, setIngrFilter, setUserDrinksReq }) => {
                 {user.adminKey && <span onClick={()=>setCurrentTab('admin')}>Admin Controls</span>}
             </div>
             <div>
-                {currentTab === 'myBar' && <ViewIngredients setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser} />}
+                {currentTab === 'myBar' && <MyBarTab setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser} />}
                 {currentTab === 'menus' && <MenusTab />}
                 {currentTab === 'settings' && <SettingsTab user={user} setUser={setUser}/>}
-                {currentTab === 'admin' && <ManageIngredients adminKey={user.adminKey} />}
+                {currentTab === 'admin' && <AdminTab adminKey={user.adminKey} />}
             </div>
         </div>
     )
