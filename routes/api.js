@@ -574,6 +574,18 @@ router.get('/check_username/:username', (req, res, next)=>{
     }
 });
 
+router.post('/change_username', (req, res, next) => {
+    if(req.body.user_id && req.body.username) {
+        Users.updateOne({user_id: req.body.user_id}, {username: req.body.username}).then(user => {
+            if(user && user.acknowledged){
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(400);
+            }
+        }).catch(next);
+    }
+});
+
 router.post('/create_user', verifyRequest, (req, res, next) => {
     Users.find({}, 'user_id').then(users => {
         if(users.length >= 1000){

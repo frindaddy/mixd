@@ -91,8 +91,11 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
 
     return (
         <>
-            {!user.user_id && <FaRegUserCircle className="user_icon" onClick={userIconClicked}/>}
-            {user.user_id && <FaUserCircle className="user_icon" onClick={userIconClicked}/>}
+            <div onClick={userIconClicked} style={{cursor:'pointer'}}>
+                {user.username && <p style={{position:'absolute', right: '45px', top:'-2px'}}>{user.username}</p>}
+                {!user.user_id && <FaRegUserCircle className="user_icon" />}
+                {user.user_id && <FaUserCircle className="user_icon" />}
+            </div>
             <header>
                 <div>
                     <div className="logo">mixd<DotColor /></div>

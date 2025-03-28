@@ -1,7 +1,8 @@
 import {useState} from "react";
 import axios from "axios";
+import {FaCheck} from "react-icons/fa";
 
-const SettingsTab = ({}) => {
+const SettingsTab = ({user, setUser}) => {
 
 
     const [usernameField, setUsernameField] = useState('')
@@ -23,6 +24,7 @@ const SettingsTab = ({}) => {
                     }
                 });
             } else {
+                setUsernameField('');
                 setUsernameStatus({taken: false, valid: false});
             }
         } else {
@@ -31,11 +33,23 @@ const SettingsTab = ({}) => {
         }
     }
 
+    function submitUsername(){
+        if(!usernameStatus.taken && usernameStatus.valid){
+            axios.post('/api/change_username', {user_id: user.user_id, username: usernameField}).then(res =>{
+                if(res.status === 200){
+                    setUser({...user, username: usernameField});
+                    setUsernameField('');
+                }
+            });
+        }
+    }
+
     return (
         <div>
             <p>Change Username:</p>
             {usernameField.length > 0 && <p>{usernameResponse()}</p>}
-            <input name='username' type='text' placeholder='Username' onChange={updateUsernameField} value={usernameField}/>
+            <input name='username' type='text' placeholder={user.username||'Username'} onChange={updateUsernameField} value={usernameField}/>
+            <FaCheck style={{cursor:'pointer', marginLeft: '10px', marginBottom: '-2px'}} onClick={submitUsername}/>
         </div>
     )
 };
