@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react"
 import {FaEdit, FaSearch, FaSortAmountDown} from "react-icons/fa";
 import axios from "axios";
-import IngredientListEntry from "../components/Ingredients/IngredientListEntry";
-import "../format/ViewIngredients.css";
+import IngredientListEntry from "../../components/Ingredients/IngredientListEntry";
+import "../../format/ViewIngredients.css";
 import {useNavigate} from "react-router-dom";
 
 const ViewIngredients = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {

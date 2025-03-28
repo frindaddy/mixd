@@ -2,12 +2,10 @@ import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {FaSignOutAlt, FaStar} from "react-icons/fa";
 import "../../format/Account.css";
-import MyBarTab from "./MyBarTab";
 import SettingsTab from "./SettingsTab";
-import AdminTab from "./AdminTab";
 import MenusTab from "./MenusTab";
-import ViewIngredients from "../ViewIngredients";
-import ManageIngredients from "../ManageIngredients";
+import ViewIngredients from "./ViewIngredients";
+import ManageIngredients from "./ManageIngredients";
 
 const AccountPage = ({user, setUser, setIngrFilter, setUserDrinksReq }) => {
 

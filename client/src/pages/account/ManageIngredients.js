@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import {FaPercent, FaPlus, FaTrash} from "react-icons/fa";
 import axios from "axios";
 import {FaPenToSquare} from "react-icons/fa6";
-import '../format/ManageIngredients.css';
+import '../../format/ManageIngredients.css';
 
 const ManageIngredients = ({adminKey}) => {
     const [newIngredientName, setNewIngredientName] = useState("");
