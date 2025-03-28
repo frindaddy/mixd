@@ -651,10 +651,10 @@ router.get('/menus', (req, res, next) => {
 
 router.get('/menus/:user_id', (req, res, next) => {
     if(req.params.user_id){
-        Menus.find({}, 'menu_id users drinks')
+        Menus.find({}, 'menu_id name users drinks')
             .then((menus) => {
                 let users_menus = menus.filter(menu => menu.users && menu.users.includes(req.params.user_id));
-                res.json(users_menus.map(menu => {return {menu_id: menu.menu_id, drinks: menu.drinks}}));
+                res.json(users_menus.map(menu => {return {menu_id: menu.menu_id, name: menu.name, drinks: menu.drinks}}));
             })
             .catch(next);
     } else {
@@ -696,8 +696,14 @@ router.post('/create_menu', (req, res, next) => {
         Menus.find({}, 'menu_id').then(all_menus => {
             let used_ids = all_menus.map(menu => menu.menu_id);
             let new_menu_id = uuid().substring(0,8);
+            let attempts = 1;
             while(used_ids.includes(new_menu_id)) {
                 new_menu_id = uuid().substring(0,8);
+                if(attempts > 10){
+                    res.sendStatus(500);
+                    return;
+                }
+                attempts = attempts + 1;
             }
             let drinks = [];
             if(req.body.drinks && Object.prototype.toString.call(req.body.drinks) === '[object Array]' && req.body.drinks.length > 0){
