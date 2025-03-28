@@ -1,4 +1,25 @@
+.account-name {
+    font-size: 30px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.account-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .account-nav > span {
-    margin-right: 10px;
+    font-size: 26px;
+    font-weight: 400;
     cursor: pointer;
+}
+
+.account-nav-break{
+    height: 28px;
+    margin: 2px 10px 0px 10px;
+    border: 1px solid darkgray
 }
