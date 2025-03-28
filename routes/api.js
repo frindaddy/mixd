@@ -709,8 +709,8 @@ router.post('/create_menu', (req, res, next) => {
             if(req.body.drinks && Object.prototype.toString.call(req.body.drinks) === '[object Array]' && req.body.drinks.length > 0){
                 drinks = req.body.drinks.filter(drink=>typeof drink === 'string');
             }
-            Menus.create({menu_id: new_menu_id, drinks: drinks, users: [req.body.user_id]}).then(menu => {
-                res.json({menu_id: menu.menu_id, drinks: menu.drinks});
+            Menus.create({menu_id: new_menu_id, drinks: drinks, users: [req.body.user_id], name: req.body.name}).then(menu => {
+                res.json({menu_id: menu.menu_id, drinks: menu.drinks, name: menu.name});
             }).catch(()=>{res.sendStatus(500)});
         }).catch(next);
     } else {
