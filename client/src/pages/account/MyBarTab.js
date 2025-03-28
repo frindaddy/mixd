@@ -16,12 +16,11 @@ const MyBarTab = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
 
     const navigate = useNavigate();
 
-
     useEffect(() => {
         fetchIngredients();
         if(user.user_id) get_user_ingredients();
     }, []);
-    
+
     const fetchIngredients = () => {
         axios.get('/api/count_ingredients')
             .then((res) => {
