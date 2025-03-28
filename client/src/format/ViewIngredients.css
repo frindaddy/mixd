@@ -27,10 +27,6 @@
 }
 
 @media screen and (max-width: 600px) {
-    .all-ingredients-title {
-        font-weight: 300;
-    }
-
     .ingredient-entry {
         font-size: 25px;
         margin-top: 5px;
