@@ -1,7 +1,7 @@
 import React from "react";
 import TagColors from '../definitions/TagColors.js';
 
-const DrinkTags = ({tags, glass}) => {
+const DrinkTags = ({tags}) => {
 
     return (
         <div className="tag-container">
@@ -10,7 +10,6 @@ const DrinkTags = ({tags, glass}) => {
                     return <div className="tag" style={{backgroundColor: getColor(tag)}}>{tag.value}</div>
                 })
             }
-            {glass && <div className="tag" style={{backgroundColor: getColor({category: 'glass'})}}>{glass}</div>}
         </div>
     )
 }

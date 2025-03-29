@@ -12,10 +12,9 @@ import {Link, useNavigate} from "react-router-dom";
 const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
 
     const [drinkList, setDrinkList] = useState(previousDrinkList);
-    const [glassFilterList, setGlassFilterList] = useState([]);
     const [tagFilterList, setTagFilterList] = useState([]);
     const [filterPanelShown, setfilterPanelShown] = useState(false);
-    const [cookies, setCookie] = useCookies(["tagList", "glassList"]);
+    const [cookies, setCookie] = useCookies(["tagList"]);
 
     const navigate = useNavigate();
 
@@ -76,12 +75,10 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
     }
 
     function resetAllFilters() {
-        setGlassFilterList([]);
         setTagFilterList([]);
         setIngrFilter(["", ""]);
         setUserDrinksReq(null);
         setCookie('tagList', [], {maxAge:3600});
-        setCookie('glassList', [], {maxAge:3600});
     }
 
     useEffect(() => {
@@ -102,16 +99,15 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
                 <div className="search-container">
                     <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer"}} onClick={toggleFilterPanel}/></div>
-                    {((tagFilterList.length + glassFilterList.length > 0) || ingrFilter[0] !== "" || userDrinksReq !== null) && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
+                    {((tagFilterList.length > 0) || ingrFilter[0] !== "" || userDrinksReq !== null) && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
                 </div>
             </header>
             <div className={'filter-panel'}>
                 <FilterPanel toggleFilterPanel={toggleFilterPanel} tagFilterList={tagFilterList}
-                setTagFilterList={setTagFilterList} glassFilterList={glassFilterList}
-                setGlassFilterList={setGlassFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
+                setTagFilterList={setTagFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
             </div>
             {user.adminKey && <Link to="/create_drink"><AddDrinkEntry /></Link>}
-            <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}}
+            <DrinkArray filter={{text: searchText, tags: tagFilterList}}
                 drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={user.adminKey}/>
         </>
     )

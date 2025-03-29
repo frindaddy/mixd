@@ -3,7 +3,6 @@ import "../format/DrinkMultiplier.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DrinkTags, {filterTags} from "../components/DrinkTags";
-import {getDisplayName} from "../components/Admin/GlassTypes";
 import LinkableText from "../components/DrinkInfo/LinkableText";
 import {useParams} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
@@ -79,7 +78,7 @@ const DrinkInfo = ({setShowLoader}) => {
                     <div className="info-column">
                         <div className="info-text">
                             <div className="info-title">{drink.name}</div>
-                            {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste', 'recommendation'])} glass={getDisplayName(drink.glass)}/>}
+                            {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste', 'recommendation'])} />}
                             <div style={{display: "flex"}}>
                                 {drink.etoh != null && getVolume() !== 0 && <div className="abv">{Math.round(10*drink.etoh/getVolume())/10}% ABV</div>}
                                 {(drink.volume != null || drink.override_volume != null) && <div className="volume"> / {getVolume()} oz</div>}
