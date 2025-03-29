@@ -1,4 +1,4 @@
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import DrinkArray from "../components/DrinkList/DrinkArray";
@@ -32,7 +32,7 @@ const MenuPage = ({setShowLoader}) => {
             <DrinkArray drinkList={menu.drinkList} filter={{text: "", tags: [], glasses: []}} setShowLoader={setShowLoader} menuSettings={{editMode: hash==='#edit', menu_id: menu.menu_id, menuOrder: menu.drinks, setMenuOrder: setMenuOrder}}/>
             {hash==='#edit' && <div>
                 <hr className="list-separator" />
-                <AddDrinkEntry />
+                <Link to={'/#edit_menu-'+menu.menu_id}><AddDrinkEntry /></Link>
             </div>}
         </div>
     )
