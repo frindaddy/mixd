@@ -332,6 +332,9 @@ router.post('/add_drink', verifyRequest, async (req, res, next) => {
         if (new_drink.uuid === undefined) {
             new_drink = {...req.body, uuid: uuid()}
         }
+        if (new_drink.menu_desc && new_drink.menu_desc.length > 150) {
+            new_drink = {...new_drink, menu_desc: new_drink.menu_desc.substring(0, 150)}
+        }
 
         new_drink.url_name = await generate_url_name(new_drink.name, new_drink.uuid);
 
