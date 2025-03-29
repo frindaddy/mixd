@@ -38,10 +38,36 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
         }
     }
 
-    function modifyMenu() {
-        let newDrinkOrder = [...menuSettings.menuOrder];
+    function modifyMenu(deleteDrink, moveUp, moveDown) {
+        let newDrinkOrder = [...menuSettings.menuOrder].filter((drinkUUID => !(deleteDrink && drinkUUID === drink.uuid)));
+        if(!deleteDrink){
+            let drinkIndex = newDrinkOrder.indexOf(drink.uuid);
+            if(moveUp){
+                if(drinkIndex === 0){
+                    let temp_uuid = newDrinkOrder[0]
+                    newDrinkOrder = newDrinkOrder.slice(1);
+                    newDrinkOrder.push(temp_uuid);
+                } else {
+                    let temp_uuid = newDrinkOrder[drinkIndex - 1]
+                    newDrinkOrder[drinkIndex - 1] = newDrinkOrder[drinkIndex];
+                    newDrinkOrder[drinkIndex] = temp_uuid;
+                }
+            } else if(moveDown) {
+                if(drinkIndex === newDrinkOrder.length - 1){
+                    let temp_uuid = newDrinkOrder[newDrinkOrder.length - 1]
+                    newDrinkOrder.pop();
+                    newDrinkOrder = [temp_uuid, ...newDrinkOrder];
+                } else {
+                    let temp_uuid = newDrinkOrder[drinkIndex + 1]
+                    newDrinkOrder[drinkIndex + 1] = newDrinkOrder[drinkIndex];
+                    newDrinkOrder[drinkIndex] = temp_uuid;
+                }
+            }
+        }
         axios.post('/api/modify_menu', {menu_id:menuSettings.menu_id, drinks: newDrinkOrder}).then((res)=>{
-            menuSettings.setMenuOrder(newDrinkOrder);
+            if(res.status && res.status === 200){
+                menuSettings.setMenuOrder(newDrinkOrder);
+            }
         });
     }
 
@@ -62,9 +88,9 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
                     <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
                 </div>}
                 {menuSettings && menuSettings.editMode && <div className="remove-drink">
-                    <FaArrowUp style={{cursor: "pointer", paddingRight:'8px'}}/>
-                    <FaArrowDown style={{cursor: "pointer", paddingRight:'8px'}}/>
-                    <FaTrash onClick={()=>{modifyMenu()}} style={{cursor: "pointer"}}/>
+                    <FaArrowUp onClick={()=>{modifyMenu(false, true, false)}} style={{cursor: "pointer", paddingRight:'8px'}}/>
+                    <FaArrowDown onClick={()=>{modifyMenu(false, false, true)}} style={{cursor: "pointer", paddingRight:'8px'}}/>
+                    <FaTrash onClick={()=>{modifyMenu(true, false, false)}} style={{cursor: "pointer"}}/>
                 </div>}
                 <div>
                     <Link to={'/'+drink.url_name} className="list-title" style={{cursor: "pointer"}} onClick={()=>{ setShowLoader(true)}}>{drink.name}</Link>
