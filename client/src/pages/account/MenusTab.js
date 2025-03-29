@@ -104,7 +104,7 @@ const MenusTab = ({user}) => {
                             <FaTrash style={{float: 'right'}} onClick={()=>confirmDeleteMenu(menu.menu_id, menu.name)}/>
                             <FaEdit style={{float: 'right', marginRight:'10px'}} onClick={()=> startRename(menu.name, menu_index)}/>
                         </div>}
-                        <div onClick={()=>navigate('/menu/'+menu.menu_id)}>
+                        <div onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>
                             {menu.drinks.map(drink => {
                                 let filtered_drinks = drinkList.filter(d=>d.uuid == drink)
                                 if(filtered_drinks.length === 1 && filtered_drinks[0].glass){

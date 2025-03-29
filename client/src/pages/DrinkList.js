@@ -7,7 +7,7 @@ import FilterPanel from "../components/DrinkList/FilterPanel";
 import {FaFilter, FaEraser, FaLemon, FaUserCircle, FaRegUserCircle} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import "../format/DrinkList.css";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 
 const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
 
@@ -17,6 +17,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
     const [cookies, setCookie] = useCookies(["tagList"]);
 
     const navigate = useNavigate();
+    const { hash } = useLocation();
 
     const getDrinkList = () => {
         let list_route = '/api/list/'+ingrFilter[0];
@@ -81,6 +82,14 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
         setCookie('tagList', [], {maxAge:3600});
     }
 
+    function editingMenuID(){
+        if(hash.match(/^#edit_menu-[0-9a-f]{8}$/i)){
+            return hash.substring(11);
+        } else {
+            return null;
+        }
+    }
+
     useEffect(() => {
         getDrinkList();
     }, [ingrFilter]);
@@ -108,7 +117,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
             </div>
             {user.adminKey && <Link to="/create_drink"><AddDrinkEntry /></Link>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList}}
-                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={user.adminKey}/>
+                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={user.adminKey} editMenu={editingMenuID()}/>
         </>
     )
 }

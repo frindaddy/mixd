@@ -674,7 +674,7 @@ router.get('/menu/:menu_id', (req, res, next) => {
                                     let sorted_drinks = menu.drinks.map(drink_uuid => {
                                         return drinks.filter(drink => drink.uuid === drink_uuid)[0];
                                     })
-                                    res.json({menu_id: req.params.menu_id, users: menu.users, drinkList: sorted_drinks});
+                                    res.json({menu_id: req.params.menu_id, users: menu.users, drinks: menu.drinks, drinkList: sorted_drinks});
                                 } else {
                                     res.sendStatus(500);
                                 }
@@ -725,6 +725,8 @@ router.post('/modify_menu', (req, res, next) => {
                 let drinks;
                 if(req.body.drinks && Object.prototype.toString.call(req.body.drinks) === '[object Array]' && req.body.drinks.length > 0){
                     drinks = req.body.drinks.filter(drink=>typeof drink === 'string');
+                } else if(req.body.drinks && req.body.drinks.length === 0){
+                    drinks = [];
                 }
                 Menus.updateOne({menu_id: menu.menu_id}, {drinks: drinks, users: req.body.users, name: req.body.name}).then(response => {
                     if(response.acknowledged){
@@ -733,6 +735,30 @@ router.post('/modify_menu', (req, res, next) => {
                         res.sendStatus(500);
                     }
                 }).catch(()=>{res.sendStatus(500)});
+            } else {
+                res.sendStatus(400);
+            }
+        }).catch(next);
+    } else {
+        res.sendStatus(400);
+    }
+});
+
+router.post('/add_menu_drink', (req, res, next) => {
+    if(req.body.menu_id && req.body.drink){
+        Menus.findOne({menu_id: req.body.menu_id}, 'menu_id drinks').then(menu => {
+            if(menu && menu.drinks){
+                if(menu.drinks.includes(req.body.drink)){
+                    res.sendStatus(200);
+                } else {
+                    Menus.updateOne({menu_id: menu.menu_id}, {drinks: [...menu.drinks, req.body.drink]}).then(response => {
+                        if(response.acknowledged){
+                            res.sendStatus(200);
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    }).catch(()=>{res.sendStatus(500)});
+                }
             } else {
                 res.sendStatus(400);
             }

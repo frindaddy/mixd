@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from "react"
 import DrinkTags, {filterTags} from "../DrinkTags";
-import {FaTrash, FaWrench} from "react-icons/fa";
+import {FaArrowDown, FaArrowUp, FaPlus, FaTrash, FaWrench} from "react-icons/fa";
 import axios from "axios";
 import "../../format/DrinkList.css";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
-const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader}) => {
+const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader, menuSettings, editMenu}) => {
 
     const defaultTagCategories = ['spirit', 'style', 'taste'];
     const [tagCategories, setTagCategories] = useState(defaultTagCategories);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(filteredTags) {
@@ -38,6 +40,49 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader}
         }
     }
 
+    function modifyMenu(deleteDrink, moveUp, moveDown) {
+        let newDrinkOrder = [...menuSettings.menuOrder].filter((drinkUUID => !(deleteDrink && drinkUUID === drink.uuid)));
+        if(!deleteDrink){
+            let drinkIndex = newDrinkOrder.indexOf(drink.uuid);
+            if(moveUp){
+                if(drinkIndex === 0){
+                    let temp_uuid = newDrinkOrder[0]
+                    newDrinkOrder = newDrinkOrder.slice(1);
+                    newDrinkOrder.push(temp_uuid);
+                } else {
+                    let temp_uuid = newDrinkOrder[drinkIndex - 1]
+                    newDrinkOrder[drinkIndex - 1] = newDrinkOrder[drinkIndex];
+                    newDrinkOrder[drinkIndex] = temp_uuid;
+                }
+            } else if(moveDown) {
+                if(drinkIndex === newDrinkOrder.length - 1){
+                    let temp_uuid = newDrinkOrder[newDrinkOrder.length - 1]
+                    newDrinkOrder.pop();
+                    newDrinkOrder = [temp_uuid, ...newDrinkOrder];
+                } else {
+                    let temp_uuid = newDrinkOrder[drinkIndex + 1]
+                    newDrinkOrder[drinkIndex + 1] = newDrinkOrder[drinkIndex];
+                    newDrinkOrder[drinkIndex] = temp_uuid;
+                }
+            }
+        }
+        axios.post('/api/modify_menu', {menu_id:menuSettings.menu_id, drinks: newDrinkOrder}).then((res)=>{
+            if(res.status && res.status === 200){
+                menuSettings.setMenuOrder(newDrinkOrder);
+            }
+        });
+    }
+
+    function addMenuDrink(menu_id) {
+       if(menu_id){
+           axios.post('/api/add_menu_drink', {menu_id:menu_id, drink: drink.uuid}).then((res)=>{
+               if(res.status && res.status === 200){
+                   navigate('/menu/'+menu_id+'#edit', {replace: true});
+               }
+           });
+       }
+    }
+
     return (
         <>
         <hr className="list-separator"></hr>
@@ -50,9 +95,17 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader}
             </div>
 
             <div className="list-column">
-                {adminKey && <div className="remove-drink">
+                {adminKey && !menuSettings && !editMenu && <div className="remove-drink">
                     <Link to={'/update_drink/'+drink.uuid}><FaWrench style={{cursor: "pointer", paddingRight:'8px'}}/></Link>
                     <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
+                </div>}
+                {menuSettings && menuSettings.editMode && <div className="remove-drink">
+                    <FaArrowUp onClick={()=>{modifyMenu(false, true, false)}} style={{cursor: "pointer", paddingRight:'8px'}}/>
+                    <FaArrowDown onClick={()=>{modifyMenu(false, false, true)}} style={{cursor: "pointer", paddingRight:'8px'}}/>
+                    <FaTrash onClick={()=>{modifyMenu(true, false, false)}} style={{cursor: "pointer"}}/>
+                </div>}
+                {editMenu && <div className="remove-drink">
+                    <FaPlus style={{cursor: "pointer"}} onClick={()=>{addMenuDrink(editMenu)}} />
                 </div>}
                 <div>
                     <Link to={'/'+drink.url_name} className="list-title" style={{cursor: "pointer"}} onClick={()=>{ setShowLoader(true)}}>{drink.name}</Link>
