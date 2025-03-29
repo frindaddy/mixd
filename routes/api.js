@@ -744,6 +744,30 @@ router.post('/modify_menu', (req, res, next) => {
     }
 });
 
+router.post('/add_menu_drink', (req, res, next) => {
+    if(req.body.menu_id && req.body.drink){
+        Menus.findOne({menu_id: req.body.menu_id}, 'menu_id drinks').then(menu => {
+            if(menu && menu.drinks){
+                if(menu.drinks.includes(req.body.drink)){
+                    res.sendStatus(200);
+                } else {
+                    Menus.updateOne({menu_id: menu.menu_id}, {drinks: [...menu.drinks, req.body.drink]}).then(response => {
+                        if(response.acknowledged){
+                            res.sendStatus(200);
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    }).catch(()=>{res.sendStatus(500)});
+                }
+            } else {
+                res.sendStatus(400);
+            }
+        }).catch(next);
+    } else {
+        res.sendStatus(400);
+    }
+});
+
 router.delete('/menu/:menu_id', (req, res, next) => {
     if(req.params.menu_id){
         Menus.findOneAndDelete({ menu_id: req.params.menu_id })
