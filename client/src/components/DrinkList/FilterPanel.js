@@ -51,7 +51,7 @@ const FilterPanel = ({toggleFilterPanel, tagFilterList, setTagFilterList, tagMen
                 return tag !== category + '>' + value;
             });
         } else {
-            newTagList = [...tagFilterList, category + '>' + value];
+            newTagList = [...tagFilterList.filter(tagFilter => tagFilter.split('>')[0] !== category), category + '>' + value];
         }
         setTagFilterList(newTagList);
         if(!tagMenu){
