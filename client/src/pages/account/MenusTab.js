@@ -46,6 +46,10 @@ const MenusTab = ({user}) => {
             setCreatingMenu(true);
         }
     }
+    function cancelCreate(){
+        setCreatingMenu(false);
+        setNewMenuName('');
+    }
 
     function createMenu() {
         axios.post('/api/create_menu', {user_id: user.user_id, name:newMenuName}).then((res)=>{
@@ -115,7 +119,8 @@ const MenusTab = ({user}) => {
                     {!creatingMenu && <FaPlus style={{fontSize:'40px', left:'80px', top:'80px', position:"relative"}} />}
                     {creatingMenu && <div>
                         <input name='name' style={{backgroundColor: 'darkgray', border: 'none', outline:'none', fontSize: '16px'}} value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)}/>
-                        <FaCheck onClick={createMenu}/>
+                        <FaX style={{marginRight: '10px', cursor:'pointer'}} onClick={cancelCreate}/>
+                        <FaCheck style={{cursor:'pointer'}} onClick={createMenu}/>
                     </div>}
                     <></>
                 </div>
