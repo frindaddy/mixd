@@ -48,7 +48,7 @@ const CreateDrink = ({adminKey}) => {
                     setAllIngredients(res.data);
                 }
             }).catch((err) => console.log(err));
-    }, [uuid]);
+    }, [uuid, navigate]);
 
     const onImageSelected = (e) => {
         if(e.target.files && e.target.files[0]){
@@ -87,14 +87,14 @@ const CreateDrink = ({adminKey}) => {
         let tags = [];
         let ingredients = [];
         if (drink.tags) {
-            drink.tags.map((tag) => {
+            drink.tags.forEach((tag) => {
                 if(tag.category && tag.value){
                     tags = [...tags, tag];
                 }
             });
         }
         if (drink.ingredients) {
-            drink.ingredients.map((ingredient) => {
+            drink.ingredients.forEach((ingredient) => {
                 if(ingredient.ingredient){
                     if (typeof ingredient.amount === "string"){
                         ingredient.amount = parseFloat(ingredient.amount.replace(",", "."));
@@ -236,7 +236,7 @@ const CreateDrink = ({adminKey}) => {
                 <div className="create-drink-row">
                     <input type="text" name="override_volume" placeholder="4" value={inputs.override_volume || ""} onChange={handleFormChange} />
                 </div>
-                <p style={{marginTop: "50px", marginBottom: "-35px"}}>Tags (Required):</p>
+                <p style={{marginTop: "50px", marginBottom: "10px"}}>Tags (Required):</p>
                 <div className="create-drink-row">
                     <TagEntryContainer inputs={inputs} setInputs={setInputs}/>
                 </div>

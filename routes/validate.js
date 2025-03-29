@@ -29,9 +29,9 @@ async function importObjectToModel(model, object) {
 async function check_for_admin(){
     return new Promise(resolve => {
         Users.find({}, 'user_id admin').then(users=> {
-            let admin_count = users.filter(user=> user.admin).length;
-            if(admin_count >= 1) {
-                console.log(admin_count, admin_count === 1 ? 'admin':'admins', 'found.');
+            let admins = users.filter(user=> user.admin)
+            if(admins.length >= 1) {
+                console.log(admins.length, admins.length === 1 ? 'admin':'admins', 'found.', admins.map(admin=>admin.user_id));
                 resolve();
             } else {
                 console.log('No existing admins found. Creating a new admin account...');

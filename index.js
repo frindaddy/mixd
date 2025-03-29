@@ -71,6 +71,20 @@ function start_server() {
                     return res.send(indexHTML);
                 });
             });
+        } else if(req.path !== '/menu' && req.path.split('/')[1]==='menu'){
+            if(req.path.split('/')[2].match(/^[0-9a-f]{8}$/i)){
+                readFile(path.join(__dirname, './client/build/index.html'), 'utf8', (err, indexHTML) => {
+                    if (err) {
+                        next();
+                        return;
+                    }
+                    return res.send(indexHTML);
+                });
+            } else if(is_reserved_route(req.path.substring(5))) {
+                res.redirect(req.path.substring(5));
+            } else {
+                next();
+            }
         } else {
             next();
         }
