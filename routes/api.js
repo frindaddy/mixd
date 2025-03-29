@@ -671,7 +671,7 @@ router.get('/menu/:menu_id', (req, res, next) => {
             .then((menu) => {
                 if (menu) {
                     if(menu.drinks){
-                        Drinks.find({"uuid": {'$in':menu.drinks}}, 'uuid name url_name tags glass')
+                        Drinks.find({"uuid": {'$in':menu.drinks}}, 'uuid name url_name tags menu_desc glass')
                             .then((drinks) => {
                                 if(drinks && drinks.length >= 0){
                                     let sorted_drinks = menu.drinks.map(drink_uuid => {

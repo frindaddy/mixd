@@ -5,7 +5,7 @@ import axios from "axios";
 import "../../format/DrinkList.css";
 import {Link, useNavigate} from "react-router-dom";
 
-const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader, menuSettings, editMenu}) => {
+const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader, menuSettings, editMenu, showMenuDesc}) => {
 
     const defaultTagCategories = ['spirit', 'style', 'taste'];
     const [tagCategories, setTagCategories] = useState(defaultTagCategories);
@@ -113,6 +113,7 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
                 </div>
             </div>
         </div>
+            {showMenuDesc && drink.menu_desc && <p>{drink.menu_desc}</p>}
         </>
     )
 }
