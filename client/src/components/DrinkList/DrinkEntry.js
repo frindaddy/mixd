@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react"
 import DrinkTags, {filterTags} from "../DrinkTags";
-import {FaTrash, FaWrench} from "react-icons/fa";
+import {FaArrowDown, FaArrowUp, FaTrash, FaWrench} from "react-icons/fa";
 import axios from "axios";
 import "../../format/DrinkList.css";
 import {Link} from "react-router-dom";
 
-const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader}) => {
+const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader, menuSettings}) => {
 
     const defaultTagCategories = ['spirit', 'style', 'taste'];
     const [tagCategories, setTagCategories] = useState(defaultTagCategories);
@@ -50,8 +50,13 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader}
             </div>
 
             <div className="list-column">
-                {adminKey && <div className="remove-drink">
+                {adminKey && !menuSettings && <div className="remove-drink">
                     <Link to={'/update_drink/'+drink.uuid}><FaWrench style={{cursor: "pointer", paddingRight:'8px'}}/></Link>
+                    <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
+                </div>}
+                {menuSettings && menuSettings.editMode && <div className="remove-drink">
+                    <FaArrowUp style={{cursor: "pointer", paddingRight:'8px'}}/>
+                    <FaArrowDown style={{cursor: "pointer", paddingRight:'8px'}}/>
                     <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
                 </div>}
                 <div>
