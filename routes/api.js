@@ -725,6 +725,8 @@ router.post('/modify_menu', (req, res, next) => {
                 let drinks;
                 if(req.body.drinks && Object.prototype.toString.call(req.body.drinks) === '[object Array]' && req.body.drinks.length > 0){
                     drinks = req.body.drinks.filter(drink=>typeof drink === 'string');
+                } else if(req.body.drinks && req.body.drinks.length === 0){
+                    drinks = [];
                 }
                 Menus.updateOne({menu_id: menu.menu_id}, {drinks: drinks, users: req.body.users, name: req.body.name}).then(response => {
                     if(response.acknowledged){
