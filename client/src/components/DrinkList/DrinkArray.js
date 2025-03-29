@@ -17,21 +17,13 @@ const DrinkArray = ({ filter, drinkList, adminKey, getDrinkList, setShowLoader }
     useEffect(() => {
         for (let i = 0; i < drinkList.length; i++) {
             let tagCount = 0;
-            let inFilteredGlass = false;
             if(filter.tags){
                 tagCount = countTags(drinkList[i], filter.tags);
             }
-            if(filter.glasses){
-                if(filter.glasses.includes(drinkList[i].glass)) {
-                    inFilteredGlass = true;
-                    //tagCount += 1;
-                }
-            }
             drinkList[i] = {
                 ...drinkList[i],
-                passesFilter: ((filter.tags && tagCount > 0) || !filter.tags || filter.tags.length === 0) && ((filter.glasses && inFilteredGlass) || !filter.glasses || filter.glasses.length === 0),
+                passesFilter: ((filter.tags && tagCount > 0) || !filter.tags || filter.tags.length === 0),
                 tagCount: tagCount,
-                inFilteredGlass: inFilteredGlass
             };
         }
         let unsortedList = drinkList.filter((drink) => {

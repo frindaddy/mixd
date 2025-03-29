@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import DrinkTags, {filterTags} from "../DrinkTags";
-import {FaTrash, FaWrench, FaStar, FaRegStar} from "react-icons/fa";
+import {FaTrash, FaWrench} from "react-icons/fa";
 import axios from "axios";
 import "../../format/DrinkList.css";
 import {Link} from "react-router-dom";
@@ -9,8 +9,6 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader}
 
     const defaultTagCategories = ['spirit', 'style', 'taste'];
     const [tagCategories, setTagCategories] = useState(defaultTagCategories);
-    const [starColor, setStarColor] = useState(undefined);
-    const [clientSideFeature, setClientSideFeature] = useState(false);
 
     useEffect(() => {
         if(filteredTags) {
@@ -23,23 +21,7 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader}
             });
             setTagCategories(newCategories);
         }
-        if(drink.tags){
-            let top_picks = drink.tags.filter((tag) => tag.category === 'top_pick');
-            if (top_picks.length > 0) {
-                let num_featured = top_picks.filter((tag) => tag.value === 'Featured').length;
-                if(num_featured > 0) {
-                    setClientSideFeature(true);
-                }
-                if(top_picks.length - num_featured === 0){
-                    setStarColor('white');
-                } else {
-                    setStarColor('gold');
-                }
-            } else {
-                setStarColor(undefined)
-            }
-        }
-    }, [filteredTags, drink]);
+    }, [filteredTags]);
 
     const confirmDeleteDrink = () => {
         if(window.confirm('Are you sure you want to delete \''+drink.name+'\'?') === true){
@@ -56,23 +38,6 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader}
         }
     }
 
-    async function setDrinkFeatured(newFeaturedStatus) {
-        setClientSideFeature(newFeaturedStatus);
-        setStarColor(undefined);
-        const response = await axios.post('/api/modify_tag/', {drinkUUID: drink.uuid, tag: {value: 'Featured', category: 'top_pick'}, change: newFeaturedStatus ? 'add':'remove'}, {
-                headers: {
-                    Authorization: `Bearer ${adminKey}`,
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
-        if (response.status === 200) {
-            getDrinkList();
-        } else {
-            console.error('Error setting drink tag: status '+response.status);
-        }
-    }
-
     return (
         <>
         <hr className="list-separator"></hr>
@@ -86,13 +51,8 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader}
 
             <div className="list-column">
                 {adminKey && <div className="remove-drink">
-                    {!clientSideFeature && <FaRegStar onClick={()=>{setDrinkFeatured(true)}} style={{cursor: "pointer", paddingRight:'8px'}}/>}
-                    {clientSideFeature && <FaStar onClick={()=>{setDrinkFeatured(false)}} style={{cursor: "pointer", paddingRight:'8px'}}/>}
                     <Link to={'/update_drink/'+drink.uuid}><FaWrench style={{cursor: "pointer", paddingRight:'8px'}}/></Link>
                     <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
-                </div>}
-                {starColor && !adminKey && <div className="remove-drink">
-                    <FaStar style={{color: starColor}}/>
                 </div>}
                 <div>
                     <Link to={'/'+drink.url_name} className="list-title" style={{cursor: "pointer"}} onClick={()=>{ setShowLoader(true)}}>{drink.name}</Link>
