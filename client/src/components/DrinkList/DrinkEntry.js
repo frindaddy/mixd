@@ -38,6 +38,13 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
         }
     }
 
+    function modifyMenu() {
+        let newDrinkOrder = [...menuSettings.menuOrder];
+        axios.post('/api/modify_menu', {menu_id:menuSettings.menu_id, drinks: newDrinkOrder}).then((res)=>{
+            menuSettings.setMenuOrder(newDrinkOrder);
+        });
+    }
+
     return (
         <>
         <hr className="list-separator"></hr>
@@ -57,7 +64,7 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
                 {menuSettings && menuSettings.editMode && <div className="remove-drink">
                     <FaArrowUp style={{cursor: "pointer", paddingRight:'8px'}}/>
                     <FaArrowDown style={{cursor: "pointer", paddingRight:'8px'}}/>
-                    <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
+                    <FaTrash onClick={()=>{modifyMenu()}} style={{cursor: "pointer"}}/>
                 </div>}
                 <div>
                     <Link to={'/'+drink.url_name} className="list-title" style={{cursor: "pointer"}} onClick={()=>{ setShowLoader(true)}}>{drink.name}</Link>

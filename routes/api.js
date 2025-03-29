@@ -674,7 +674,7 @@ router.get('/menu/:menu_id', (req, res, next) => {
                                     let sorted_drinks = menu.drinks.map(drink_uuid => {
                                         return drinks.filter(drink => drink.uuid === drink_uuid)[0];
                                     })
-                                    res.json({menu_id: req.params.menu_id, users: menu.users, drinkList: sorted_drinks});
+                                    res.json({menu_id: req.params.menu_id, users: menu.users, drinks: menu.drinks, drinkList: sorted_drinks});
                                 } else {
                                     res.sendStatus(500);
                                 }
