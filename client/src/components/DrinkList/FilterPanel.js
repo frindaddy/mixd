@@ -8,7 +8,7 @@ import "../../format/FilterPanel.css";
 
 const FilterPanel = ({toggleFilterPanel, tagFilterList, setTagFilterList, tagMenu, ingrFilter}) => {
 
-    const CAT_ORDER = ['spirit', 'style', 'taste', 'season','color','mix','temp','misc','top_pick'];
+    const CAT_ORDER = ['spirit', 'style', 'taste','misc'];
 
     const [allTags, setAllTags] = useState({});
     const [categoryList, setCategoryList] = useState([])
