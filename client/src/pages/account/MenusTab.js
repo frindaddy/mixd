@@ -90,42 +90,40 @@ const MenusTab = ({user}) => {
     }
 
     return (
-        <div>
-            <div>
-                {menus.map((menu, menu_index) => {
-                    return <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor:'pointer'}}>
-                        {renameIndex >= 0 && renameIndex === menu_index && <div>
-                            <input style={{width:'140px', border: 'none', outline:'none', fontSize: '16px', backgroundColor: 'darkgray'}} name='rename' value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)}/>
-                            <FaCheck style={{float:'right'}} onClick={()=>{renameMenu(menu.menu_id, menu_index)}}/>
-                            <FaX style={{marginRight: '10px', float:'right'}} onClick={cancelRename}/>
-                        </div>}
-                        {renameIndex !== menu_index && <div>
-                            <span onClick={()=>navigate('/menu/'+menu.menu_id)}>{menu.name || "Menu " + menu.menu_id}</span>
-                            <FaTrash style={{float: 'right'}} onClick={()=>confirmDeleteMenu(menu.menu_id, menu.name)}/>
-                            <FaEdit style={{float: 'right', marginRight:'10px'}} onClick={()=> startRename(menu.name, menu_index)}/>
-                        </div>}
-                        <div onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>
-                            {menu.drinks.map(drink => {
-                                let filtered_drinks = drinkList.filter(d=>d.uuid == drink)
-                                if(filtered_drinks.length === 1 && filtered_drinks[0].glass){
-                                    return <img style={{height:'65px'}} src={'/api/image?file=glassware/'+filtered_drinks[0].glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={filtered_drinks[0].glass+' glass'}/>
-                                }
-                            })}
-                        </div>
-                        {menu.drinks && menu.drinks.length === 0 && <p onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>No drinks yet!</p>}
-                    </div>
-                })}
-                <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
-                    {!creatingMenu && <FaPlus style={{fontSize:'40px', left:'80px', top:'80px', position:"relative"}} />}
-                    {creatingMenu && <div>
-                        <input name='name' style={{backgroundColor: 'darkgray', border: 'none', outline:'none', fontSize: '16px'}} value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)}/>
-                        <FaX style={{marginRight: '10px', cursor:'pointer'}} onClick={cancelCreate}/>
-                        <FaCheck style={{cursor:'pointer'}} onClick={createMenu}/>
+        <>
+            {menus.map((menu, menu_index) => {
+                return <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor:'pointer'}}>
+                    {renameIndex >= 0 && renameIndex === menu_index && <div>
+                        <input style={{width:'140px', border: 'none', outline:'none', fontSize: '16px', backgroundColor: 'darkgray'}} name='rename' value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)}/>
+                        <FaCheck style={{float:'right'}} onClick={()=>{renameMenu(menu.menu_id, menu_index)}}/>
+                        <FaX style={{marginRight: '10px', float:'right'}} onClick={cancelRename}/>
                     </div>}
-                    <></>
+                    {renameIndex !== menu_index && <div>
+                        <span onClick={()=>navigate('/menu/'+menu.menu_id)}>{menu.name || "Menu " + menu.menu_id}</span>
+                        <FaTrash style={{float: 'right'}} onClick={()=>confirmDeleteMenu(menu.menu_id, menu.name)}/>
+                        <FaEdit style={{float: 'right', marginRight:'10px'}} onClick={()=> startRename(menu.name, menu_index)}/>
+                    </div>}
+                    <div onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>
+                        {menu.drinks.map(drink => {
+                            let filtered_drinks = drinkList.filter(d=>d.uuid == drink)
+                            if(filtered_drinks.length === 1 && filtered_drinks[0].glass){
+                                return <img style={{height:'65px'}} src={'/api/image?file=glassware/'+filtered_drinks[0].glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={filtered_drinks[0].glass+' glass'}/>
+                            }
+                        })}
+                    </div>
+                    {menu.drinks && menu.drinks.length === 0 && <p onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>No drinks yet!</p>}
                 </div>
+            })}
+            <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
+                {!creatingMenu && <FaPlus style={{fontSize:'40px', left:'80px', top:'80px', position:"relative"}} />}
+                {creatingMenu && <div>
+                    <input name='name' style={{backgroundColor: 'darkgray', border: 'none', outline:'none', fontSize: '16px'}} value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)}/>
+                    <FaX style={{marginRight: '10px', cursor:'pointer'}} onClick={cancelCreate}/>
+                    <FaCheck style={{cursor:'pointer'}} onClick={createMenu}/>
+                </div>}
+                <></>
             </div>
-        </div>
+        </>
     )
 };
 
