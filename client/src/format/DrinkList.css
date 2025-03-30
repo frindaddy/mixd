@@ -4,6 +4,10 @@
     right: 10px;
 }
 
+.drinklist-glass {
+    height: 100px;
+}
+
 .filter-match-title {
     padding-left: 20px;
     padding-bottom: 10px;
@@ -40,11 +44,6 @@
     flex: 0 0 100px;
     align-items: center;
     justify-content: center;
-}
-
-.glass-container > img {
-    width: 100px;
-    height: 100px;
 }
 
 .ingredient-button {
@@ -107,6 +106,12 @@
     font-weight: 300;
     color: darkgray;
     margin-top: 2px;
+}
+
+.menu-glass {
+    height: 120px;
+    margin-top: -5px;
+    margin-bottom: -5px;
 }
 
 .search-container {

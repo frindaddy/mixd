@@ -89,8 +89,8 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
         <div className="list-entry">
             <div style={{display: "flex"}}>
                 <Link to={'/'+drink.url_name} class="glass-container clickable" onClick={()=>{ setShowLoader(true)}}>
-                    {drink.glass && <img src={'/api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}
-                    {!drink.glass && <img src={'/api/image?file=glassware/unknown.svg'} alt={'No glass listed'}/>}
+                    {drink.glass && <img src={'/api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'} className={showMenuDesc ? "menu-glass":"drinklist-glass"}/>}
+                    {!drink.glass && <img src={'/api/image?file=glassware/unknown.svg'} alt={'No glass listed'} className={showMenuDesc ? "drinklist-glass":"menu-glass"}/>}
                 </Link>
             </div>
 
