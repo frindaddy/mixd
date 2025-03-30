@@ -102,6 +102,13 @@
     -webkit-text-stroke: 2px white;
 }
 
+.menu-description {
+    font-size: 18px;
+    font-weight: 300;
+    color: darkgray;
+    margin-top: 2px;
+}
+
 .search-container {
     display: flex;
     justify-content: center;
