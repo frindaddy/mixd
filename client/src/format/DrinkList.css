@@ -21,10 +21,10 @@
 
 .filter-panel {
     display: flex;
-    flex-flow: column nowrap;
     overflow: hidden;
     transition: height 300ms ease-in-out;
     height: 0px;
+    justify-content: center;
 }
 
 .glass-container {

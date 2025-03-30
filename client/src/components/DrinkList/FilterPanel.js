@@ -89,8 +89,8 @@ const FilterPanel = ({toggleFilterPanel, tagFilterList, setTagFilterList, tagMen
                         </div>
                     </div>
                 })}
+                {!tagMenu && <div className='filter-chevron'><FaChevronUp style={{cursor:"pointer", marginBottom:"10px"}} onClick={() => {toggleFilterPanel()}}/></div>}
             </div>
-            {!tagMenu && <div className='filter-chevron'><FaChevronUp style={{cursor:"pointer", marginBottom:"10px"}} onClick={() => {toggleFilterPanel()}}/></div>}
         </>
     )
 }
