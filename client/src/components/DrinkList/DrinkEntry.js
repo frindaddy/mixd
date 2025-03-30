@@ -110,9 +110,11 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
                 <div>
                     <Link to={'/'+drink.url_name} className="list-title clickable" onClick={()=>{setShowLoader(true)}}>{drink.name}</Link>
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
-                    {showMenuDesc && drink.menu_desc && <div className="menu-description">
-                        {drink.menu_desc}
-                    </div>}
+                    {showMenuDesc && drink.menu_desc && <Link to={'/'+drink.url_name} class="clickable" onClick={()=>{setShowLoader(true)}}>
+                        <div className="menu-description">
+                            {drink.menu_desc}
+                        </div>
+                    </Link>}
                 </div>
             </div>
         </div>
