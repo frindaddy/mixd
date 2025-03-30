@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import AddDrinkEntry from "../components/Admin/AddDrinkEntry";
+import "../format/MenuPage.css";
 const MenuPage = ({setShowLoader}) => {
 
     const { menu_id } = useParams();
@@ -27,7 +28,7 @@ const MenuPage = ({setShowLoader}) => {
 
     return (
         <>
-            <h1>{menu.name || 'Menu'}</h1>
+            <h1 className="menu-title">{menu.name || 'Menu'}</h1>
             <DrinkArray drinkList={menu.drinkList} filter={{text: "", tags: [], glasses: []}} setShowLoader={setShowLoader} menuSettings={{editMode: hash==='#edit', menu_id: menu.menu_id, menuOrder: menu.drinks, setMenuOrder: setMenuOrder}} showMenuDesc={true}/>
             {hash==='#edit' && <div>
                 <hr className="list-separator" />
