@@ -112,7 +112,7 @@ const MenusTab = ({user}) => {
                                 }
                             })}
                         </div>
-                        {menu.drinks && menu.drinks.length === 0 && <p>No drinks yet!</p>}
+                        {menu.drinks && menu.drinks.length === 0 && <p onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>No drinks yet!</p>}
                     </div>
                 })}
                 <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
