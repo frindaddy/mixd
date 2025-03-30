@@ -27,8 +27,7 @@ const MenuPage = ({setShowLoader}) => {
 
     return (
         <div>
-            <h1>Menu</h1>
-            <p>{'ID: '+menu.menu_id}</p>
+            <h1>{menu.name || 'Menu'}</h1>
             <DrinkArray drinkList={menu.drinkList} filter={{text: "", tags: [], glasses: []}} setShowLoader={setShowLoader} menuSettings={{editMode: hash==='#edit', menu_id: menu.menu_id, menuOrder: menu.drinks, setMenuOrder: setMenuOrder}} showMenuDesc={true}/>
             {hash==='#edit' && <div>
                 <hr className="list-separator" />
