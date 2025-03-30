@@ -22,6 +22,11 @@ const Layout = ({showLoader, setShowLoader}) => {
         return !reserved_routes.includes(location.pathname.substring(1));
     }
 
+    function isMenuPage() {
+        let split_path = location.pathname.split('/');
+        return split_path.length > 1 && split_path[1]==='menu' && !location.hash;
+    }
+
     function backArrowClicked() {
         navigate(-1);
         navigate('/');
@@ -56,7 +61,7 @@ const Layout = ({showLoader, setShowLoader}) => {
             {displayNavBar() && <nav>
                 <div className="nav-container">
                     <div style={{display:"flex"}}>
-                        <div className="back" style={{cursor: "pointer"}} onClick={()=> backArrowClicked()}><FaChevronLeft/></div>
+                        {!isMenuPage() && <div className="back" style={{cursor: "pointer"}} onClick={()=> backArrowClicked()}><FaChevronLeft/></div>}
                         <Link to='/' className="nav-logo">mixd.</Link>
                     </div>
                     <div>

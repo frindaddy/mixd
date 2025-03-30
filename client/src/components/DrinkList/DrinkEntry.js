@@ -77,7 +77,7 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
        if(menu_id){
            axios.post('/api/add_menu_drink', {menu_id:menu_id, drink: drink.uuid}).then((res)=>{
                if(res.status && res.status === 200){
-                   navigate('/menu/'+menu_id+'#edit', {replace: true});
+                   navigate(-1, {replace: true});
                }
            });
        }
