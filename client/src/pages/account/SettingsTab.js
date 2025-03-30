@@ -47,7 +47,7 @@ const SettingsTab = ({user, setUser}) => {
     return (
         <>
             <p style={{textAlign:"center"}}>Change Username:</p>
-            {usernameField.length > 0 && <p>{usernameResponse()}</p>}
+            {usernameField.length > 0 && <p style={{textAlign:"center"}}>{usernameResponse()}</p>}
             <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
                 <input name='username' type='text' placeholder={user.username||'Username'} onChange={updateUsernameField} value={usernameField}/>
                 <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={submitUsername}/>
