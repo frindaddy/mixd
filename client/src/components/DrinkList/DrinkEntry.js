@@ -88,7 +88,7 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
         <hr className="list-separator"></hr>
         <div className="list-entry">
             <div style={{display: "flex"}}>
-                <Link to={'/'+drink.url_name} class="glass-container" style={{cursor: "pointer"}} onClick={()=>{ setShowLoader(true)}}>
+                <Link to={'/'+drink.url_name} class="glass-container clickable" onClick={()=>{ setShowLoader(true)}}>
                     {drink.glass && <img src={'/api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}
                     {!drink.glass && <img src={'/api/image?file=glassware/unknown.svg'} alt={'No glass listed'}/>}
                 </Link>
