@@ -24,7 +24,7 @@ const Layout = ({showLoader, setShowLoader}) => {
 
     function isMenuPage() {
         let split_path = location.pathname.split('/');
-        return split_path.length > 1 && split_path[1]==='menu';
+        return split_path.length > 1 && split_path[1]==='menu' && !location.hash;
     }
 
     function backArrowClicked() {
