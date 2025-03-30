@@ -26,7 +26,7 @@ const MenuPage = ({setShowLoader}) => {
     }, [menu_id, menuOrder]);
 
     return (
-        <div>
+        <>
             <h1>Menu</h1>
             <p>{'ID: '+menu.menu_id}</p>
             <DrinkArray drinkList={menu.drinkList} filter={{text: "", tags: [], glasses: []}} setShowLoader={setShowLoader} menuSettings={{editMode: hash==='#edit', menu_id: menu.menu_id, menuOrder: menu.drinks, setMenuOrder: setMenuOrder}} showMenuDesc={true}/>
@@ -34,7 +34,7 @@ const MenuPage = ({setShowLoader}) => {
                 <hr className="list-separator" />
                 <Link to={'/#edit_menu-'+menu.menu_id}><AddDrinkEntry /></Link>
             </div>}
-        </div>
+        </>
     )
 };
 
