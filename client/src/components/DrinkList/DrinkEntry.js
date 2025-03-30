@@ -108,7 +108,7 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
                     <FaPlus style={{cursor: "pointer"}} onClick={()=>{addMenuDrink(editMenu)}} />
                 </div>}
                 <div>
-                    <Link to={'/'+drink.url_name} className="list-title" style={{cursor: "pointer"}} onClick={()=>{ setShowLoader(true)}}>{drink.name}</Link>
+                    <Link to={'/'+drink.url_name} className="list-title clickable" onClick={()=>{ setShowLoader(true)}}>{drink.name}</Link>
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
                 </div>
             </div>
