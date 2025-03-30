@@ -41,15 +41,6 @@
         justify-content: left;
     }
 
-    .filter-match-title {
-        padding-left: 5px;
-        font-size: 30px;
-    }
-
-    .filter-match-none {
-        padding-left: 5px;
-    }
-
     .unselected-tag-filter {
         background-color: #000000;
     }
