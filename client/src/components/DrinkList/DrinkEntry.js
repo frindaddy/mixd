@@ -95,16 +95,16 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
             </div>
 
             <div className="list-column">
-                {adminKey && !menuSettings && !editMenu && <div className="remove-drink">
+                {adminKey && !menuSettings && !editMenu && <div className="drink-button">
                     <Link to={'/update_drink/'+drink.uuid}><FaWrench style={{cursor: "pointer", paddingRight:'8px'}}/></Link>
                     <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
                 </div>}
-                {menuSettings && menuSettings.editMode && <div className="remove-drink">
+                {menuSettings && menuSettings.editMode && <div className="drink-button">
                     <FaArrowUp onClick={()=>{modifyMenu(false, true, false)}} style={{cursor: "pointer", paddingRight:'8px'}}/>
                     <FaArrowDown onClick={()=>{modifyMenu(false, false, true)}} style={{cursor: "pointer", paddingRight:'8px'}}/>
                     <FaTrash onClick={()=>{modifyMenu(true, false, false)}} style={{cursor: "pointer"}}/>
                 </div>}
-                {editMenu && <div className="remove-drink">
+                {editMenu && <div className="drink-button">
                     <FaPlus style={{cursor: "pointer"}} onClick={()=>{addMenuDrink(editMenu)}} />
                 </div>}
                 <div>
