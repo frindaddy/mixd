@@ -34,45 +34,6 @@
     margin: 5px 0 0 10px;
 }
 
-@media screen and (max-width: 1070px) {
-    .filter-panel-container {
-        flex-direction: column;
-    }
-
-    .filter-category-container {
-        padding-left: 5px;
-        padding-right: 5px;
-    }
-
-    .filter-category-tag-container {
-        display: flex;
-        flex-flow: row wrap;
-    }
-
-    .filter-category-title {
-        margin-top: 10px;
-        margin-bottom: 2px;
-    }
-
-    @keyframes slideDown{
-        from {
-            max-height: 0;
-        }
-        to {
-            max-height: 1035px;
-        }
-    }
-    
-    @keyframes slideUp{
-        from {
-            max-height: 1035px;
-        }
-        to {
-            max-height: 0;
-        }
-    }
-}
-
 @media screen and (max-width: 600px) {
     .filter-category-container {
         display: flex;
@@ -88,9 +49,7 @@
     .filter-match-none {
         padding-left: 5px;
     }
-}
 
-@media screen and (max-width: 600px) {
     .unselected-tag-filter {
         background-color: #000000;
     }
