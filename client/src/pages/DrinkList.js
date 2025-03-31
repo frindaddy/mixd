@@ -8,6 +8,7 @@ import {FaFilter, FaEraser, FaLemon, FaUserCircle, FaRegUserCircle} from "react-
 import {useCookies} from "react-cookie";
 import "../format/DrinkList.css";
 import {Link, useLocation, useNavigate} from "react-router-dom";
+import AccountShortcut from "../components/AccountShortcut";
 
 const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
 
@@ -16,7 +17,6 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
     const [filterPanelShown, setfilterPanelShown] = useState(false);
     const [cookies, setCookie] = useCookies(["tagList"]);
 
-    const navigate = useNavigate();
     const { hash } = useLocation();
 
     const getDrinkList = () => {
@@ -71,10 +71,6 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
         });
     }
 
-    function userIconClicked() {
-        navigate('/account/login');
-    }
-
     function resetAllFilters() {
         setTagFilterList([]);
         setIngrFilter(["", ""]);
@@ -96,11 +92,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
 
     return (
         <>
-            <div onClick={userIconClicked} style={{cursor:'pointer'}}>
-                {user.username && <p style={{position:'absolute', right: '45px', top:'-2px'}}>{user.username}</p>}
-                {!user.user_id && <FaRegUserCircle className="user_icon" />}
-                {user.user_id && <FaUserCircle className="user_icon" />}
-            </div>
+            <AccountShortcut user={user}/>
             <header>
                 <div>
                     <div className="logo">mixd<DotColor /></div>
