@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import {FaRegUserCircle, FaSignOutAlt, FaUserCircle} from "react-icons/fa";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const AccountShortcut = ({user, setUser}) => {
 
