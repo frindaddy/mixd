@@ -1,9 +1,8 @@
 import React, {useEffect} from "react";
 import {Link, Outlet, useNavigate} from "react-router-dom";
-import {FaSignOutAlt, FaStar} from "react-icons/fa";
 import "../../format/Account.css";
 
-const AccountPage = ({user, setUser }) => {
+const AccountPage = ({user}) => {
 
     const navigate = useNavigate();
 
@@ -16,14 +15,10 @@ const AccountPage = ({user, setUser }) => {
     useEffect(() => {
         document.title = 'Account | mixd.';
     }, []);
-    function logout() {
-        setUser({});
-        navigate('/', {replace:true})
-    }
+
 
     return (
         <div>
-            <FaSignOutAlt className='user_icon' onClick={logout} />
             <div className='account-nav'>
                 <Link to='/account'>My Account</Link>
                 <div className="account-nav-break"></div>

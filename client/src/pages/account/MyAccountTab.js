@@ -1,12 +1,15 @@
 import React, {useState} from "react";
 import axios from "axios";
-import {FaCheck, FaStar} from "react-icons/fa";
+import {FaCheck, FaSignOutAlt, FaStar} from "react-icons/fa";
+import {useNavigate} from "react-router-dom";
 
 const MyAccountTab = ({user, setUser}) => {
 
 
     const [usernameField, setUsernameField] = useState('')
     const [usernameStatus, setUsernameStatus] = useState({taken: false, valid: false});
+
+    const navigate = useNavigate();
 
     function usernameResponse(){
         if(!usernameStatus.valid) return "Invalid username.";
@@ -44,6 +47,11 @@ const MyAccountTab = ({user, setUser}) => {
         }
     }
 
+    function logout() {
+        setUser({});
+        navigate('/', {replace:true})
+    }
+
     return (
         <>
             <br />
@@ -53,6 +61,9 @@ const MyAccountTab = ({user, setUser}) => {
             <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
                 <input name='username' type='text' placeholder={user.username||'Username'} onChange={updateUsernameField} value={usernameField}/>
                 <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={submitUsername}/>
+            </div>
+            <div style={{display:"flex", justifyContent:"center", marginTop: '20px'}}>
+                <span style={{cursor:'pointer', padding:'8px', backgroundColor:'darkred', borderRadius:'5px'}} onClick={logout} >Logout</span>
             </div>
         </>
     )
