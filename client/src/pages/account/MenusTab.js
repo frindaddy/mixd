@@ -49,6 +49,7 @@ const MenusTab = ({user}) => {
     }
     function checkEnter(e) {
         if(e.code === "Enter" || e.code === "NumpadEnter") createMenu();
+        if(e.code === "Escape") cancelCreate();
     }
 
     return (

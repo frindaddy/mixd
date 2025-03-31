@@ -35,6 +35,7 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus}) => {
 
     function checkEnter(e) {
         if(e.code === "Enter" || e.code === "NumpadEnter") renameMenu();
+        if(e.code === "Escape") cancelRename();
     }
 
     function renameMenu() {
