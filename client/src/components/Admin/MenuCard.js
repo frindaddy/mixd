@@ -12,20 +12,20 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus}) => {
 
     const navigate = useNavigate();
 
-    function confirmDeleteMenu(menuID, menuName) {
-        if(window.confirm('Are you sure you want to delete \''+(menuName || "Menu " + menuID)+'\'?') === true){
-            axios.delete('/api/menu/'+menuID)
+    function confirmDeleteMenu() {
+        if(window.confirm('Are you sure you want to delete \''+(menu.name || "Menu " + menu.menu_id)+'\'?') === true){
+            axios.delete('/api/menu/'+menu.menu_id)
                 .then((res) => {
-                    setMenus(menus.filter(menu => menu.menu_id !== menuID));
+                    setMenus(menus.filter(menu_entry => menu_entry.menu_id !== menu.menu_id));
                 }).catch((err) => console.log(err));
         } else {
-            alert('Ingredient not deleted.');
+            alert('Menu not deleted.');
         }
     }
 
-    function startRename(current_name) {
+    function startRename() {
         setCurrentlyRenaming(true);
-        setNewMenuName(current_name || '');
+        setNewMenuName(menu.name || '');
     }
 
     function cancelRename() {
@@ -33,9 +33,13 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus}) => {
         setCurrentlyRenaming(false);
     }
 
-    function renameMenu(menu_id, menu_index) {
-        if(newMenuName !== '' && menu_id){
-            axios.post('/api/modify_menu', {menu_id: menu_id, name: newMenuName}).then((res)=>{
+    function checkEnter(e) {
+        if(e.code === "Enter" || e.code === "NumpadEnter") renameMenu();
+    }
+
+    function renameMenu() {
+        if(newMenuName !== '' && menu.menu_id){
+            axios.post('/api/modify_menu', {menu_id: menu.menu_id, name: newMenuName}).then((res)=>{
                 if(res.status === 200){
                     let new_menus = [...menus];
                     new_menus[menu_index].name = newMenuName;
@@ -52,14 +56,14 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus}) => {
     return (
         <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor:'pointer'}}>
             {currentlyRenaming && <div>
-                <input style={{width:'140px', border: 'none', outline:'none', fontSize: '16px', backgroundColor: 'darkgray'}} name='rename' value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)}/>
-                <FaCheck style={{float:'right'}} onClick={()=>{renameMenu(menu.menu_id, menu_index)}}/>
+                <input style={{width:'140px', border: 'none', outline:'none', fontSize: '16px', backgroundColor: 'darkgray'}} name='rename' value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
+                <FaCheck style={{float:'right'}} onClick={renameMenu}/>
                 <FaX style={{marginRight: '10px', float:'right'}} onClick={cancelRename}/>
             </div>}
             {!currentlyRenaming && <div>
                 <span onClick={()=>navigate('/menu/'+menu.menu_id)}>{menu.name || "Menu " + menu.menu_id}</span>
                 <FaTrash style={{float: 'right'}} onClick={()=>confirmDeleteMenu(menu.menu_id, menu.name)}/>
-                <FaEdit style={{float: 'right', marginRight:'10px'}} onClick={()=> startRename(menu.name)}/>
+                <FaEdit style={{float: 'right', marginRight:'10px'}} onClick={startRename}/>
             </div>}
             <div onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>
                 {menu.drinks.map(drink => {

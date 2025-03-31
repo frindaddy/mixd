@@ -47,6 +47,9 @@ const MenusTab = ({user}) => {
             }
         })
     }
+    function checkEnter(e) {
+        if(e.code === "Enter" || e.code === "NumpadEnter") createMenu();
+    }
 
     return (
         <div>
@@ -57,7 +60,7 @@ const MenusTab = ({user}) => {
                 <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
                     {!creatingMenu && <FaPlus style={{fontSize:'40px', left:'80px', top:'80px', position:"relative"}} />}
                     {creatingMenu && <div>
-                        <input name='name' style={{backgroundColor: 'darkgray', border: 'none', outline:'none', fontSize: '16px'}} value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)}/>
+                        <input name='name' style={{backgroundColor: 'darkgray', border: 'none', outline:'none', fontSize: '16px'}} value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
                         <FaX style={{marginRight: '10px', cursor:'pointer'}} onClick={cancelCreate}/>
                         <FaCheck style={{cursor:'pointer'}} onClick={createMenu}/>
                     </div>}
