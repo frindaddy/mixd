@@ -1,8 +1,8 @@
 import React, {useState} from "react"
-import {FaRegUserCircle, FaUserCircle} from "react-icons/fa";
+import {FaRegUserCircle, FaSignOutAlt, FaUserCircle} from "react-icons/fa";
 import {Link, useNavigate} from "react-router-dom";
 
-const AccountShortcut = ({user}) => {
+const AccountShortcut = ({user, setUser}) => {
 
     const [showDropdown, setShowDropdown] = useState(false);
 
@@ -21,6 +21,11 @@ const AccountShortcut = ({user}) => {
         navigate(route);
     }
 
+    function logout() {
+        setUser({});
+        navigate('/', {replace:true})
+    }
+
     return (
         <div className='account-shortcut'>
             <div onClick={userIconClicked} style={{cursor:'pointer'}}>
@@ -36,6 +41,12 @@ const AccountShortcut = ({user}) => {
                 <span onClick={()=>{goTo('/account/menus')}}>My Menus</span>
                 {user.adminKey && <hr />}
                 {user.adminKey && <span onClick={()=>{goTo('/account/admin')}}>Admin Controls</span>}
+                <hr />
+                <div onClick={logout}>
+                    <span>Logout</span>
+                    <FaSignOutAlt style={{marginLeft:'10px', marginBottom: '-2px'}}/>
+                </div>
+
             </div>}
         </div>
     )

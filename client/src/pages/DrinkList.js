@@ -10,7 +10,7 @@ import "../format/DrinkList.css";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import AccountShortcut from "../components/AccountShortcut";
 
-const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
+const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
 
     const [drinkList, setDrinkList] = useState(previousDrinkList);
     const [tagFilterList, setTagFilterList] = useState([]);
@@ -92,7 +92,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, previousDrin
 
     return (
         <>
-            <AccountShortcut user={user}/>
+            <AccountShortcut user={user} setUser={setUser}/>
             <header>
                 <div>
                     <div className="logo">mixd<DotColor /></div>
