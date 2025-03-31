@@ -54,6 +54,7 @@ const MyAccountTab = ({user, setUser}) => {
 
     return (
         <>
+            <h1>My Account</h1>
             <br />
             <div className="account-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.adminKey && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
             <p style={{textAlign:"center"}}>Change Username:</p>

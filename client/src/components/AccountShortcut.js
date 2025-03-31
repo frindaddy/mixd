@@ -16,21 +16,26 @@ const AccountShortcut = ({user}) => {
         }
     }
 
+    function goTo(route) {
+        setShowDropdown(false);
+        navigate(route);
+    }
+
     return (
         <div className='account-shortcut'>
             <div onClick={userIconClicked} style={{cursor:'pointer'}}>
                 {user.username && <span style={{position:'absolute', right: '40px', top:'4px'}}>{user.username}</span>}
                 {!user.user_id && <FaRegUserCircle className="user_icon" />}
                 {user.user_id && <FaUserCircle className="user_icon" />}
-
             </div>
-            <div className='dropdown-triangle' />
             {showDropdown && <div className='account-dropdown'>
-                <Link to='/account'>My Account</Link>
+                <span onClick={()=>{goTo('/account')}}>My Account</span>
                 <hr />
-                <Link to='/account/bar'>My Bar</Link>
+                <span onClick={()=>{goTo('/account/bar')}}>My Bar</span>
                 <hr />
-                <Link to='/account/menu'>My Menus</Link>
+                <span onClick={()=>{goTo('/account/menus')}}>My Menus</span>
+                {user.adminKey && <hr />}
+                {user.adminKey && <span onClick={()=>{goTo('/account/admin')}}>Admin Controls</span>}
             </div>}
         </div>
     )

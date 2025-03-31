@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
-import {Link, Outlet, useNavigate} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import "../../format/Account.css";
+import AccountShortcut from "../../components/AccountShortcut";
 
 const AccountPage = ({user}) => {
 
@@ -19,15 +20,7 @@ const AccountPage = ({user}) => {
 
     return (
         <div>
-            <div className='account-nav'>
-                <Link to='/account'>My Account</Link>
-                <div className="account-nav-break"></div>
-                <Link to='/account/bar'>My Bar</Link>
-                <div className="account-nav-break"></div>
-                <Link to='/account/menus'>Menus</Link>
-                {user.adminKey && <div className="account-nav-break"></div>}
-                {user.adminKey && <Link to='/account/admin'>Admin Controls</Link>}
-            </div>
+            <AccountShortcut user={user} />
             <Outlet />
         </div>
     )

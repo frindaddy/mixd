@@ -91,6 +91,7 @@ const MenusTab = ({user}) => {
 
     return (
         <>
+            <h1>My Menus</h1>
             {menus.map((menu, menu_index) => {
                 return <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor:'pointer'}}>
                     {renameIndex >= 0 && renameIndex === menu_index && <div>
