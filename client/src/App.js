@@ -26,12 +26,12 @@ function App() {
     return (
     <BrowserRouter>
         <Routes>
-            <Route path="/" element={<Layout showLoader={showLoader} setShowLoader={setShowLoader}/>}>
+            <Route path="/" element={<Layout showLoader={showLoader} setShowLoader={setShowLoader} user={user} setUser={setUser}/>}>
                 <Route index element={<DrinkList setShowLoader={setShowLoader} searchText={searchText} setSearchText={setSearchText} user={user} setUser={setUser} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList} ingrFilter={ingrFilter} setIngrFilter={setIngrFilter} userDrinksReq={userDrinksReq} setUserDrinksReq={setUserDrinksReq} />}/>
                 <Route path=":drink_identifier" element={<DrinkInfo setShowLoader={setShowLoader}/>}/>
                 <Route path="create_drink" element={<CreateDrink adminKey={user.adminKey}/>}/>
                 <Route path="update_drink/:uuid" element={<CreateDrink adminKey={user.adminKey}/>}/>
-                <Route path="account" element={<AccountPage user={user} setUser={setUser} />} >
+                <Route path="account" element={<AccountPage user={user}/>} >
                     <Route index element={<MyAccountTab user={user} setUser={setUser}/>}></Route>
                     <Route path="bar" element={<MyBarTab setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser} />}></Route>
                     <Route path="menus" element={<MenusTab user={user}/>}></Route>

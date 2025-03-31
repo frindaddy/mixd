@@ -3,7 +3,7 @@ import {Outlet, useNavigate} from "react-router-dom";
 import "../../format/Account.css";
 import AccountShortcut from "../../components/AccountShortcut";
 
-const AccountPage = ({user, setUser}) => {
+const AccountPage = ({user}) => {
 
     const navigate = useNavigate();
 
@@ -20,7 +20,6 @@ const AccountPage = ({user, setUser}) => {
 
     return (
         <div>
-            <AccountShortcut user={user} setUser={setUser}/>
             <Outlet />
         </div>
     )
