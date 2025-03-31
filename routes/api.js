@@ -558,7 +558,7 @@ router.get('/user_drinks/:user_id', (req, res, next) => {
 });
 
 router.get('/users', (req, res, next) => {
-    Users.find({}, 'user_id username')
+    Users.find({}, 'user_id username admin')
         .then((users) => {
             res.json(users);
         })
@@ -580,6 +580,18 @@ router.get('/check_username/:username', (req, res, next)=>{
 router.post('/change_username', (req, res, next) => {
     if(req.body.user_id && req.body.username) {
         Users.updateOne({user_id: req.body.user_id}, {username: req.body.username}).then(user => {
+            if(user && user.acknowledged){
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(400);
+            }
+        }).catch(next);
+    }
+});
+
+router.post('/make_admin', verifyRequest, (req, res, next) => {
+    if(req.body.user_id) {
+        Users.updateOne({user_id: req.body.user_id}, {admin: req.body.admin}).then(user => {
             if(user && user.acknowledged){
                 res.sendStatus(200);
             } else {

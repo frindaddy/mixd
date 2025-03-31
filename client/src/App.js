@@ -39,7 +39,7 @@ function App() {
                     <Route path="menus" element={<MenusTab user={user}/>}></Route>
                     <Route path="ingredients" element={<ViewIngredientsTab setIngrFilter={setIngrFilter} />}></Route>
                     <Route path="edit_ingredients" element={<ManageIngredientsTab adminKey={user.adminKey} />}></Route>
-                    <Route path="users" element={<ManageUsersTab adminKey={user.adminKey} />}></Route>
+                    <Route path="users" element={<ManageUsersTab adminKey={user.adminKey} user={user}/>}></Route>
                 </Route>
                 <Route path="account/login" element={<LoginPage user={user} setUser={setUser} />}/>
                 <Route path="menu/:menu_id" element={<MenuPage setShowLoader={setShowLoader}/>}/>
