@@ -1,18 +1,16 @@
 import React from "react"
 import {FaPlus} from "react-icons/fa";
-import "../../format/DrinkList.css";
+import "../../format/DrinkEntry.css";
 
 const AddDrinkEntry = ({}) => {
 
     return (
-        <div className="list-entry" style={{cursor: "pointer"}}>
+        <div className="drink-entry" style={{cursor: "pointer"}}>
             <div className="glass-container">
                 <FaPlus style={{margin: '30px', fontSize:'30px'}}/>
             </div>
-            <div className="list-column">
-                <div>
-                    <p className="list-title">Add New Drink</p>
-                </div>
+            <div className="drink-entry-info">
+                <p className="drink-entry-title">Add New Drink</p>
             </div>
         </div>
     )
