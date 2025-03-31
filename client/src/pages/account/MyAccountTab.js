@@ -63,7 +63,10 @@ const MyAccountTab = ({user, setUser}) => {
                 <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={submitUsername}/>
             </div>
             <div style={{display:"flex", justifyContent:"center", marginTop: '20px'}}>
-                <span style={{cursor:'pointer', padding:'8px', backgroundColor:'darkred', borderRadius:'5px'}} onClick={logout} >Logout</span>
+                <div style={{cursor:'pointer', padding:'8px', backgroundColor:'darkred', borderRadius:'5px'}} onClick={logout}>
+                    <span>Logout</span>
+                    <FaSignOutAlt style={{marginLeft:'10px', marginBottom: '-2px'}}/>
+                </div>
             </div>
         </>
     )
