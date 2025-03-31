@@ -49,7 +49,19 @@
     text-align: right;
 }
 
+.shortcut-username{
+    position: absolute;
+    right: 40px;
+    top:4px;
+}
+
 .user_icon {
     font-size: 25px;
     cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+    .shortcut-username{
+        display: none;
+    }
 }
