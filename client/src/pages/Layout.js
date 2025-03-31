@@ -66,8 +66,8 @@ const Layout = ({showLoader, setShowLoader, user, setUser}) => {
                         <Link to='/' className="nav-logo">mixd.</Link>
                     </div>
                     <div>
-                        {isDrinkPage() && <IoShareOutline className="share-button" onClick={()=>{shareButton()}} />}
-                        {!isDrinkPage() && <AccountShortcut user={user} setUser={setUser}/>}
+                        {(isDrinkPage() || isMenuPage()) && <IoShareOutline className="share-button" onClick={()=>{shareButton()}} />}
+                        {!isDrinkPage() && !isMenuPage() && <AccountShortcut user={user} setUser={setUser}/>}
                     </div>
                 </div>
             </nav>}
