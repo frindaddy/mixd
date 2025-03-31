@@ -154,6 +154,7 @@ const AdminTab = ({adminKey}) => {
 
     return (
         <div>
+            <h1>Admin Controls</h1>
             <h1 className="manage-ingredients-title">Manage Ingredients</h1>
             {errorMsg && errorMsg !== '' && <p style={{color:"red"}}>{"ERROR: "+errorMsg}</p>}
             <p style={{display:"flex", justifyContent:"center", marginTop:"-10px", marginBottom:"-10px"}}>Add Ingredient:</p>

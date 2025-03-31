@@ -5,8 +5,9 @@ import {FaChevronLeft} from "react-icons/fa";
 import Shaker from "../components/DrinkInfo/cocktail_shaker.svg";
 import {IoShareOutline} from "react-icons/io5";
 import '../format/Navbar.css';
+import AccountShortcut from "../components/AccountShortcut";
 
-const Layout = ({showLoader, setShowLoader}) => {
+const Layout = ({showLoader, setShowLoader, user, setUser}) => {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Layout = ({showLoader, setShowLoader}) => {
 
     function isDrinkPage(){
         let reserved_routes = ['api', 'static', '404', 'create_drink', 'update_drink', 'account', 'menu'];
-        return !reserved_routes.includes(location.pathname.substring(1));
+        return !reserved_routes.includes(location.pathname.split('/')[1]);
     }
 
     function isMenuPage() {
@@ -66,6 +67,7 @@ const Layout = ({showLoader, setShowLoader}) => {
                     </div>
                     <div>
                         {isDrinkPage() && <IoShareOutline className="share-button" onClick={()=>{shareButton()}} />}
+                        {!isDrinkPage() && <AccountShortcut user={user} setUser={setUser}/>}
                     </div>
                 </div>
             </nav>}

@@ -12,7 +12,7 @@ import AccountPage from "./pages/account/AccountPage";
 import MenuPage from "./pages/MenuPage";
 import MyBarTab from "./pages/account/MyBarTab";
 import MenusTab from "./pages/account/MenusTab";
-import SettingsTab from "./pages/account/SettingsTab";
+import MyAccountTab from "./pages/account/MyAccountTab";
 import AdminTab from "./pages/account/AdminTab";
 
 function App() {
@@ -26,15 +26,15 @@ function App() {
     return (
     <BrowserRouter>
         <Routes>
-            <Route path="/" element={<Layout showLoader={showLoader} setShowLoader={setShowLoader}/>}>
-                <Route index element={<DrinkList setShowLoader={setShowLoader} searchText={searchText} setSearchText={setSearchText} user={user} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList} ingrFilter={ingrFilter} setIngrFilter={setIngrFilter} userDrinksReq={userDrinksReq} setUserDrinksReq={setUserDrinksReq} />}/>
+            <Route path="/" element={<Layout showLoader={showLoader} setShowLoader={setShowLoader} user={user} setUser={setUser}/>}>
+                <Route index element={<DrinkList setShowLoader={setShowLoader} searchText={searchText} setSearchText={setSearchText} user={user} setUser={setUser} previousDrinkList={previousDrinkList} setPreviousDrinkList={setPreviousDrinkList} ingrFilter={ingrFilter} setIngrFilter={setIngrFilter} userDrinksReq={userDrinksReq} setUserDrinksReq={setUserDrinksReq} />}/>
                 <Route path=":drink_identifier" element={<DrinkInfo setShowLoader={setShowLoader}/>}/>
                 <Route path="create_drink" element={<CreateDrink adminKey={user.adminKey}/>}/>
                 <Route path="update_drink/:uuid" element={<CreateDrink adminKey={user.adminKey}/>}/>
-                <Route path="account" element={<AccountPage user={user} setUser={setUser} />} >
+                <Route path="account" element={<AccountPage user={user}/>} >
+                    <Route index element={<MyAccountTab user={user} setUser={setUser}/>}></Route>
                     <Route path="bar" element={<MyBarTab setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser} />}></Route>
                     <Route path="menus" element={<MenusTab user={user}/>}></Route>
-                    <Route path="settings" element={<SettingsTab user={user} setUser={setUser}/>}></Route>
                     <Route path="admin" element={<AdminTab adminKey={user.adminKey} />}></Route>
                 </Route>
                 <Route path="account/login" element={<LoginPage user={user} setUser={setUser} />}/>

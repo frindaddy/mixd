@@ -1,12 +1,15 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
-import {FaCheck} from "react-icons/fa";
+import {FaCheck, FaSignOutAlt, FaStar} from "react-icons/fa";
+import {useNavigate} from "react-router-dom";
 
-const SettingsTab = ({user, setUser}) => {
+const MyAccountTab = ({user, setUser}) => {
 
 
     const [usernameField, setUsernameField] = useState('')
     const [usernameStatus, setUsernameStatus] = useState({taken: false, valid: false});
+
+    const navigate = useNavigate();
 
     function usernameResponse(){
         if(!usernameStatus.valid) return "Invalid username.";
@@ -44,16 +47,30 @@ const SettingsTab = ({user, setUser}) => {
         }
     }
 
+    function logout() {
+        setUser({});
+        navigate('/', {replace:true})
+    }
+
     return (
         <>
+            <h1>My Account</h1>
+            <br />
+            <div className="account-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.adminKey && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
             <p style={{textAlign:"center"}}>Change Username:</p>
             {usernameField.length > 0 && <p style={{textAlign:"center"}}>{usernameResponse()}</p>}
             <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
                 <input name='username' type='text' placeholder={user.username||'Username'} onChange={updateUsernameField} value={usernameField}/>
                 <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={submitUsername}/>
             </div>
+            <div style={{display:"flex", justifyContent:"center", marginTop: '20px'}}>
+                <div style={{cursor:'pointer', padding:'8px', backgroundColor:'darkred', borderRadius:'5px'}} onClick={logout}>
+                    <span>Logout</span>
+                    <FaSignOutAlt style={{marginLeft:'10px', marginBottom: '-2px'}}/>
+                </div>
+            </div>
         </>
     )
 };
 
-export default SettingsTab;
+export default MyAccountTab;
