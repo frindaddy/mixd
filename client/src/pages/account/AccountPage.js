@@ -24,13 +24,12 @@ const AccountPage = ({user, setUser }) => {
     return (
         <div>
             <FaSignOutAlt className='user_icon' onClick={logout} />
-            <div className="account-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.adminKey && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
             <div className='account-nav'>
+                <Link to='/account'>My Account</Link>
+                <div className="account-nav-break"></div>
                 <Link to='/account/bar'>My Bar</Link>
                 <div className="account-nav-break"></div>
                 <Link to='/account/menus'>Menus</Link>
-                <div className="account-nav-break"></div>
-                <Link to='/account/settings'>Account Settings</Link>
                 {user.adminKey && <div className="account-nav-break"></div>}
                 {user.adminKey && <Link to='/account/admin'>Admin Controls</Link>}
             </div>

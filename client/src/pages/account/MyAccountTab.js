@@ -1,8 +1,8 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
-import {FaCheck} from "react-icons/fa";
+import {FaCheck, FaStar} from "react-icons/fa";
 
-const SettingsTab = ({user, setUser}) => {
+const MyAccountTab = ({user, setUser}) => {
 
 
     const [usernameField, setUsernameField] = useState('')
@@ -46,6 +46,8 @@ const SettingsTab = ({user, setUser}) => {
 
     return (
         <>
+            <br />
+            <div className="account-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.adminKey && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
             <p style={{textAlign:"center"}}>Change Username:</p>
             {usernameField.length > 0 && <p style={{textAlign:"center"}}>{usernameResponse()}</p>}
             <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
@@ -56,4 +58,4 @@ const SettingsTab = ({user, setUser}) => {
     )
 };
 
-export default SettingsTab;
+export default MyAccountTab;

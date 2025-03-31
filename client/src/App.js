@@ -12,7 +12,7 @@ import AccountPage from "./pages/account/AccountPage";
 import MenuPage from "./pages/MenuPage";
 import MyBarTab from "./pages/account/MyBarTab";
 import MenusTab from "./pages/account/MenusTab";
-import SettingsTab from "./pages/account/SettingsTab";
+import MyAccountTab from "./pages/account/MyAccountTab";
 import AdminTab from "./pages/account/AdminTab";
 
 function App() {
@@ -32,9 +32,9 @@ function App() {
                 <Route path="create_drink" element={<CreateDrink adminKey={user.adminKey}/>}/>
                 <Route path="update_drink/:uuid" element={<CreateDrink adminKey={user.adminKey}/>}/>
                 <Route path="account" element={<AccountPage user={user} setUser={setUser} />} >
+                    <Route index element={<MyAccountTab user={user} setUser={setUser}/>}></Route>
                     <Route path="bar" element={<MyBarTab setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser} />}></Route>
                     <Route path="menus" element={<MenusTab user={user}/>}></Route>
-                    <Route path="settings" element={<SettingsTab user={user} setUser={setUser}/>}></Route>
                     <Route path="admin" element={<AdminTab adminKey={user.adminKey} />}></Route>
                 </Route>
                 <Route path="account/login" element={<LoginPage user={user} setUser={setUser} />}/>
