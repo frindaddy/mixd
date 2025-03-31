@@ -1,18 +1,15 @@
 import React, {useEffect, useState} from "react"
-import {FaEdit, FaSearch, FaSortAmountDown} from "react-icons/fa";
+import {FaEdit, FaSearch} from "react-icons/fa";
 import axios from "axios";
 import IngredientListEntry from "../../components/Ingredients/IngredientListEntry";
 import "../../format/MyBarTab.css";
 import {useNavigate} from "react-router-dom";
 
-const MyBarTab = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
+const MyBarTab = ({setUserDrinksReq, user}) => {
     const [ingredients, setIngredients] = useState([]);
-    const [sortedIngredients, setSortedIngredients] = useState([]);
-    const [sorted, setSorted] = useState(false);
     const [userIngredients, setUserIngredients] = useState(null);
     const [editUserIngr, setEditUserIngr] = useState(false);
     const [searchSettings, setSearchSettings] = useState({tol: 0, no_na: false, strict: false});
-    const [sortSetting, setSortSetting] = useState(0)
 
     const navigate = useNavigate();
 
@@ -26,12 +23,6 @@ const MyBarTab = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
             .then((res) => {
                 if (res.data) {
                     setIngredients(res.data);
-                    const clone = res.data.map( x => { return {...x}} )
-                    setSortedIngredients(clone.sort((a, b) => {
-                        if(a.count > b.count) return -1;
-                        if(a.count < b.count) return 1;
-                        return 0;
-                    }));
                 }
             }).catch((err) => console.log(err));
     }
@@ -52,9 +43,6 @@ const MyBarTab = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
                     setUserIngredients(res.data.available_ingredients);
                 }
             });
-        } else {
-            setIngrFilter([ingredient.uuid, ingredient.name])
-            navigate('/');
         }
     };
 
@@ -67,22 +55,12 @@ const MyBarTab = ({setIngrFilter, setUserDrinksReq, user, setUser}) => {
 
     return (
         <>
-            <h1>My Bar</h1>
             <div>
                 <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginRight:"53px"}}>
-                    <FaSortAmountDown className="sorted-filter-icon" style={{backgroundColor: sorted? "3B3D3F":""}} onClick={()=>{setSorted(!sorted)}}/>
-                    <h1 className="ingredient-title">Ingredients</h1>
                     <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>
+                    <h1 className="ingredient-title">My Bar</h1>
                 </div>
-                <div style={{display:"flex", justifyContent:"center"}}>
-                    <p>Sort by:</p>
-                    <select onChange={(e)=> setSortSetting(e.target.value)}>
-                        <option value={0}>Alphabetical</option>
-                        <option value={1}>Most used</option>
-                        <option value={2}>My ingredients</option>
-                    </select>
-                </div>
-                {(sorted ? sortedIngredients:ingredients).map((ingredient) =>{
+                {ingredients.map((ingredient) =>{
                     return <div>
                         <div style={{display: "flex", justifyContent: "center"}}>
                             {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} onIngredientClick={onIngredientClick} userOnHand={userIngredients !== null && userIngredients.includes(ingredient.uuid)} />}
