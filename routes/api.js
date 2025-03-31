@@ -558,9 +558,9 @@ router.get('/user_drinks/:user_id', (req, res, next) => {
 });
 
 router.get('/users', (req, res, next) => {
-    Users.find({}, 'user_id')
+    Users.find({}, 'user_id username')
         .then((users) => {
-            res.json(users.map(user => user.user_id))
+            res.json(users);
         })
         .catch(next);
 });

@@ -16,7 +16,6 @@ const AdminTab = ({adminKey}) => {
     }, []);
 
     function create_user() {
-        setUsers([...users, 'Creating user...']);
         axios.post('/api/create_user', {}, {
                 headers: {
                     Authorization: `Bearer ${adminKey}`,
@@ -25,23 +24,18 @@ const AdminTab = ({adminKey}) => {
             }
         ).then(res => {
             if(res.data && res.data.user_id){
-                let new_users = [...users]
-                new_users[new_users.length - 1] = res.data.user_id
-                setUsers(new_users);
+                setUsers([...users, {user_id: res.data.user_id}]);
             }
         }).catch((err) => {
-            let new_users = [...users]
-            new_users.pop();
-            setUsers(new_users);
             setErrorMsg('Failed to create user. Internal server error '+err.response.status);
         });
     }
 
-    function confirmDeleteUser(userID) {
-        if(window.confirm('Are you sure you want to delete user \''+userID+'\'?') === true){
-            axios.delete('/api/user/'+userID, {headers:{Authorization: `Bearer ${adminKey}`}})
+    function confirmDeleteUser(user) {
+        if(window.confirm('Are you sure you want to delete user '+user.user_id + (user.username ? (' ('+user.username+')'):'')+'?') === true){
+            axios.delete('/api/user/'+user.user_id, {headers:{Authorization: `Bearer ${adminKey}`}})
                 .then(() => {
-                    setUsers(users.filter(user => user !== userID));
+                    setUsers(users.filter(user_entry => user_entry.user_id !== user.user_id));
                 }).catch((err) => {
                 setErrorMsg('Failed to delete user. Internal server error '+err.response.status);
             });
@@ -56,8 +50,8 @@ const AdminTab = ({adminKey}) => {
             {users.map((user) =>{
                 return <div>
                     <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-                        <span className="manage-ingredients-entry">{user}</span>
-                        {typeof user === "number" && <FaTrash style={{marginLeft:'10px', cursor:'pointer'}} onClick={()=>{confirmDeleteUser(user)}}/>}
+                        <span className="manage-ingredients-entry">{user.user_id + (user.username ? (' ('+user.username+')'):'')}</span>
+                        {typeof user.user_id === "number" && <FaTrash style={{marginLeft:'10px', cursor:'pointer'}} onClick={()=>{confirmDeleteUser(user)}}/>}
                     </div>
                 </div>
             })}
