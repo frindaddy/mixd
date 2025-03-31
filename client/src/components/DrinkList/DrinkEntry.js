@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import DrinkTags, {filterTags} from "../DrinkTags";
 import {FaArrowDown, FaArrowUp, FaPlus, FaTrash, FaWrench} from "react-icons/fa";
 import axios from "axios";
-import "../../format/DrinkList.css";
+import "../../format/DrinkEntry.css";
 import {Link, useNavigate} from "react-router-dom";
 
 const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader, menuSettings, editMenu, showMenuDesc}) => {
