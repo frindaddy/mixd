@@ -41,12 +41,6 @@
     justify-content: center;
 }
 
-.drink-entry:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 .list-separator {
     border-top: 2px solid darkgray;
     border-bottom: 0px;
