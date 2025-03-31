@@ -4,6 +4,7 @@ import axios from "axios";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import AddDrinkEntry from "../components/Admin/AddDrinkEntry";
 import "../format/MenuPage.css";
+import DoneEntry from "../components/Admin/DoneEntry";
 const MenuPage = ({setShowLoader}) => {
 
     const { menu_id } = useParams();
@@ -33,6 +34,8 @@ const MenuPage = ({setShowLoader}) => {
             {hash==='#edit' && <div>
                 <hr className="list-separator" />
                 <Link to={'/#edit_menu-'+menu.menu_id}><AddDrinkEntry /></Link>
+                <hr className="list-separator" />
+                <div onClick={()=>{navigate('/menu/'+menu.menu_id, {replace: true})}}><DoneEntry /></div>
             </div>}
         </>
     )

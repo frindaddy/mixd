@@ -1,16 +1,11 @@
-import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import React, {useEffect} from "react";
+import {Link, Outlet, useNavigate} from "react-router-dom";
 import {FaSignOutAlt, FaStar} from "react-icons/fa";
 import "../../format/Account.css";
-import SettingsTab from "./SettingsTab";
-import MenusTab from "./MenusTab";
-import MyBarTab from "./MyBarTab";
-import AdminTab from "./AdminTab";
 
-const AccountPage = ({user, setUser, setIngrFilter, setUserDrinksReq }) => {
+const AccountPage = ({user, setUser }) => {
 
     const navigate = useNavigate();
-    const [currentTab, setCurrentTab] = useState('myBar');
 
     useEffect(() => {
         if(user.user_id === undefined){
@@ -31,20 +26,15 @@ const AccountPage = ({user, setUser, setIngrFilter, setUserDrinksReq }) => {
             <FaSignOutAlt className='user_icon' onClick={logout} />
             <div className="account-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.adminKey && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
             <div className='account-nav'>
-                <span onClick={()=>setCurrentTab('myBar')}>My Bar</span>
+                <Link to='/account/bar'>My Bar</Link>
                 <div className="account-nav-break"></div>
-                <span onClick={()=>setCurrentTab('menus')}>Menus</span>
+                <Link to='/account/menus'>Menus</Link>
                 <div className="account-nav-break"></div>
-                <span onClick={()=>setCurrentTab('settings')}>Account Settings</span>
+                <Link to='/account/settings'>Account Settings</Link>
                 {user.adminKey && <div className="account-nav-break"></div>}
-                {user.adminKey && <span onClick={()=>setCurrentTab('admin')}>Admin Controls</span>}
+                {user.adminKey && <Link to='/account/admin'>Admin Controls</Link>}
             </div>
-            <>
-                {currentTab === 'myBar' && <MyBarTab setIngrFilter={setIngrFilter} setUserDrinksReq={setUserDrinksReq} user={user} setUser={setUser} />}
-                {currentTab === 'menus' && <MenusTab user={user}/>}
-                {currentTab === 'settings' && <SettingsTab user={user} setUser={setUser}/>}
-                {currentTab === 'admin' && <AdminTab adminKey={user.adminKey} />}
-            </>
+            <Outlet />
         </div>
     )
 };

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import DrinkTags, {filterTags} from "../DrinkTags";
 import {FaArrowDown, FaArrowUp, FaPlus, FaTrash, FaWrench} from "react-icons/fa";
 import axios from "axios";
-import "../../format/DrinkList.css";
+import "../../format/DrinkEntry.css";
 import {Link, useNavigate} from "react-router-dom";
 
 const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader, menuSettings, editMenu, showMenuDesc}) => {
@@ -77,7 +77,7 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
        if(menu_id){
            axios.post('/api/add_menu_drink', {menu_id:menu_id, drink: drink.uuid}).then((res)=>{
                if(res.status && res.status === 200){
-                   navigate('/menu/'+menu_id+'#edit', {replace: true});
+                   navigate(-1, {replace: true});
                }
            });
        }
@@ -86,15 +86,19 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
     return (
         <>
         <hr className="list-separator"></hr>
-        <div className="list-entry">
-            <div style={{display:"flex"}}>
-                <Link to={'/'+drink.url_name} class="glass-container clickable" onClick={()=>{setShowLoader(true)}}>
+        <div className="drink-entry">
+            <Link to={'/'+drink.url_name} style={{display:"flex", width:"100%"}} onClick={()=>{setShowLoader(true)}}>
+                <div className="glass-container clickable">
                     {drink.glass && <img src={'/api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'} className={showMenuDesc ? "menu-glass":"drinklist-glass"}/>}
                     {!drink.glass && <img src={'/api/image?file=glassware/unknown.svg'} alt={'No glass listed'} className={showMenuDesc ? "drinklist-glass":"menu-glass"}/>}
-                </Link>
-            </div>
-
-            <div className="list-column">
+                </div>
+                <div className="drink-entry-info">
+                    <div className="drink-entry-title clickable">{drink.name}</div>
+                    {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
+                    {showMenuDesc && drink.menu_desc && <div className="menu-description">{drink.menu_desc}</div>}
+                </div>
+            </Link>
+            <div className="drink-button-panel">
                 {adminKey && !menuSettings && !editMenu && <div className="drink-button">
                     <Link to={'/update_drink/'+drink.uuid}><FaWrench style={{cursor: "pointer", paddingRight:'8px'}}/></Link>
                     <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
@@ -107,13 +111,6 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader,
                 {editMenu && <div className="drink-button">
                     <FaPlus style={{cursor: "pointer"}} onClick={()=>{addMenuDrink(editMenu)}} />
                 </div>}
-                <div>
-                    <Link to={'/'+drink.url_name} className="list-title clickable" onClick={()=>{setShowLoader(true)}}>{drink.name}</Link>
-                    {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
-                    {showMenuDesc && drink.menu_desc && <div className="menu-description">
-                        {drink.menu_desc}
-                    </div>}
-                </div>
             </div>
         </div>
         </>
