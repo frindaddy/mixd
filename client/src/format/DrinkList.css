@@ -46,11 +46,6 @@
     justify-content: center;
 }
 
-.ingredient-button {
-    float: right;
-    margin: 5px 10px 0 0;
-}
-
 .list-entry {
     position: relative;
     display: flex;
@@ -142,15 +137,6 @@
 }
 
 @media screen and (max-width: 600px) {
-    .entry-title {
-        font-family: Roboto;
-        font-weight: 300;
-        font-size: 30px;
-        margin-top: 0px;
-        margin-bottom: 2px;
-        max-width: 1100px;
-    }
-
     .filter-match-title {
         padding-left: 5px;
     }
