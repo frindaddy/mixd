@@ -1,24 +1,18 @@
 import React, {useEffect, useState} from "react"
-import {FaPercent, FaPlus, FaTrash} from "react-icons/fa";
+import {FaPercent, FaTrash} from "react-icons/fa";
 import axios from "axios";
 import {FaPenToSquare} from "react-icons/fa6";
 import '../../format/ManageIngredients.css';
 
-const AdminTab = ({adminKey}) => {
+const ManageIngredientsTab = ({adminKey}) => {
     const [newIngredientName, setNewIngredientName] = useState("");
     const [newIngredientABV, setNewIngredientABV] = useState("");
     const [ingredients, setIngredients] = useState([]);
     const [unusedIngredients, setUnusedIngredients] = useState([]);
     const [errorMsg, setErrorMsg] = useState('');
-    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         fetchIngredients();
-        axios.get('/api/users').then(res => {
-            if(res.data){
-                setUsers(res.data);
-            }
-        }).catch((err) => console.log(err));
     }, []);
 
     const fetchIngredients = () => {
@@ -117,44 +111,8 @@ const AdminTab = ({adminKey}) => {
         }
     }
 
-    function create_user() {
-        setUsers([...users, 'Creating user...']);
-        axios.post('/api/create_user', {}, {
-                headers: {
-                    Authorization: `Bearer ${adminKey}`,
-                    'Content-Type': 'application/json'
-                }
-            }
-        ).then(res => {
-            if(res.data && res.data.user_id){
-                let new_users = [...users]
-                new_users[new_users.length - 1] = res.data.user_id
-                setUsers(new_users);
-            }
-        }).catch((err) => {
-            let new_users = [...users]
-            new_users.pop();
-            setUsers(new_users);
-            setErrorMsg('Failed to create user. Internal server error '+err.response.status);
-        });
-    }
-
-    function confirmDeleteUser(userID) {
-        if(window.confirm('Are you sure you want to delete user \''+userID+'\'?') === true){
-            axios.delete('/api/user/'+userID, {headers:{Authorization: `Bearer ${adminKey}`}})
-                .then(() => {
-                    setUsers(users.filter(user => user !== userID));
-                }).catch((err) => {
-                setErrorMsg('Failed to delete user. Internal server error '+err.response.status);
-            });
-        } else {
-            alert('User not deleted.');
-        }
-    }
-
     return (
         <div>
-            <h1>Admin Controls</h1>
             <h1 className="manage-ingredients-title">Manage Ingredients</h1>
             {errorMsg && errorMsg !== '' && <p style={{color:"red"}}>{"ERROR: "+errorMsg}</p>}
             <p style={{display:"flex", justifyContent:"center", marginTop:"-10px", marginBottom:"-10px"}}>Add Ingredient:</p>
@@ -176,18 +134,8 @@ const AdminTab = ({adminKey}) => {
                     </div>
                 </div>
             })}
-            <h1 className="manage-ingredients-title" style={{marginTop:"20px", marginBottom:"-10px"}}>Manage Users</h1>
-            {users.map((user) =>{
-                return <div>
-                    <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-                        <span className="manage-ingredients-entry">{user}</span>
-                        {typeof user === "number" && <FaTrash style={{marginLeft:'10px', cursor:'pointer'}} onClick={()=>{confirmDeleteUser(user)}}/>}
-                    </div>
-                </div>
-            })}
-            <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginTop:"10px"}}><FaPlus style={{cursor:'pointer'}} onClick={create_user}/></div>
         </div>
     )
 }
 
-export default AdminTab;
+export default ManageIngredientsTab;
