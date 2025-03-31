@@ -24,6 +24,7 @@ const AccountShortcut = ({user, setUser}) => {
     function logout() {
         setUser({});
         navigate('/', {replace:true})
+        setShowDropdown(false);
     }
 
     return (
