@@ -57,7 +57,7 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus}) => {
     return (
         <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor:'pointer'}}>
             {currentlyRenaming && <div>
-                <input style={{width:'140px', border: 'none', outline:'none', fontSize: '16px', backgroundColor: 'darkgray'}} name='rename' value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
+                <input autoFocus style={{width:'140px', border: 'none', outline:'none', fontSize: '16px', backgroundColor: 'darkgray'}} name='rename' value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
                 <FaCheck style={{float:'right'}} onClick={renameMenu}/>
                 <FaX style={{marginRight: '10px', float:'right'}} onClick={cancelRename}/>
             </div>}
