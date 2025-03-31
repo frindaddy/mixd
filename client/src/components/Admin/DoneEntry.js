@@ -1,21 +1,19 @@
 import React from "react"
 import {FaCheck} from "react-icons/fa";
-import "../../format/DrinkList.css";
+import "../../format/DrinkEntry.css";
 
-const DoneEntry = ({}) => {
+const AddDrinkEntry = ({}) => {
 
     return (
-        <div className="list-entry" style={{cursor: "pointer"}}>
+        <div className="drink-entry" style={{cursor: "pointer"}}>
             <div className="glass-container">
                 <FaCheck style={{margin: '30px', fontSize:'30px'}}/>
             </div>
-            <div className="list-column">
-                <div>
-                    <p className="list-title">Done</p>
-                </div>
+            <div className="drink-entry-info">
+                <p className="drink-entry-title">Done</p>
             </div>
         </div>
     )
 }
 
-export default DoneEntry;
+export default AddDrinkEntry;
