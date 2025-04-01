@@ -72,7 +72,8 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
                     </div>;
                 })}
             </div>
-            <div style={{display: "flex", justifyContent: "center"}}>
+            <hr />
+            <div style={{display: "flex"}}>
                 <div>
                     {user.user_id !== undefined && <div>
                         <br />
