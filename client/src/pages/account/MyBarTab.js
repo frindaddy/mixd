@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from "react"
-import {FaEdit, FaSearch} from "react-icons/fa";
+import {FaSearch} from "react-icons/fa";
 import axios from "axios";
-import IngredientListEntry from "../../components/Ingredients/IngredientListEntry";
 import "../../format/MyBarTab.css";
 import {useNavigate} from "react-router-dom";
+import IngredientCategories from "../../definitions/IngredientCategories";
 
 const MyBarTab = ({setUserDrinksReq, user}) => {
     const [ingredients, setIngredients] = useState([]);
     const [userIngredients, setUserIngredients] = useState(null);
-    const [editUserIngr, setEditUserIngr] = useState(false);
     const [searchSettings, setSearchSettings] = useState({tol: 0, no_na: false, strict: false});
 
     const navigate = useNavigate();
@@ -19,7 +18,7 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
     }, []);
 
     const fetchIngredients = () => {
-        axios.get('/api/count_ingredients')
+        axios.get('/api/get_ingredients')
             .then((res) => {
                 if (res.data) {
                     setIngredients(res.data);
@@ -37,13 +36,11 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
     }
 
     const onIngredientClick = (ingredient, onHand) => {
-        if(editUserIngr) {
-            axios.post('/api/user_ingredients', {user_id: user.user_id, ingr_uuid: ingredient.uuid, delete: onHand}).then(res =>{
-                if(res.data && res.data.available_ingredients){
-                    setUserIngredients(res.data.available_ingredients);
-                }
-            });
-        }
+        axios.post('/api/user_ingredients', {user_id: user.user_id, ingr_uuid: ingredient.uuid, delete: onHand}).then(res =>{
+            if(res.data && res.data.available_ingredients){
+                setUserIngredients(res.data.available_ingredients);
+            }
+        });
     };
 
     function search_user_drinks(){
@@ -56,19 +53,27 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
     return (
         <>
             <div>
-                <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginRight:"53px"}}>
-                    <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>
+                <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
                     <h1 className="ingredient-title">My Bar</h1>
                 </div>
-                {ingredients.map((ingredient) =>{
+                {IngredientCategories.map((category) =>{
+                    let category_ingr = ingredients.filter(ingr => ingr.category === category.name);
+                    if(category_ingr.length === 0) return <></>
                     return <div>
-                        <div style={{display: "flex", justifyContent: "center"}}>
-                            {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} onIngredientClick={onIngredientClick} userOnHand={userIngredients !== null && userIngredients.includes(ingredient.uuid)} />}
+                        <h2>{category.header}</h2>
+                        <div className="tag-container">
+                            {category_ingr.map(ingredient => {
+                                let onHand = userIngredients !== null && userIngredients.includes(ingredient.uuid);
+                                return <div className={"tag clickable unselectable"+(onHand ? '':' unselected-tag-filter')}
+                                            style={onHand ? {backgroundColor: 'green'}:{}}
+                                            onClick={()=>onIngredientClick(ingredient, onHand)}>{ingredient.name}</div>
+                            })}
                         </div>
                     </div>;
                 })}
             </div>
-            <div style={{display: "flex", justifyContent: "center"}}>
+            <hr />
+            <div style={{display: "flex"}}>
                 <div>
                     {user.user_id !== undefined && <div>
                         <br />
