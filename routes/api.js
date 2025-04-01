@@ -429,11 +429,8 @@ router.post('/add_ingredient', verifyRequest, (req, res, next) => {
 });
 
 router.post('/update_ingredient', verifyRequest, (req, res, next) => {
-
-    if (req.body.uuid && (req.body.name || req.body.abv !== undefined)) {
-        let update = req.body.name ? {name: req.body.name}:{abv: Math.abs(req.body.abv)}
-        if (req.body.name && req.body.abv !== undefined) update = {name: req.body.name, abv: Math.abs(req.body.abv)}
-        Ingredients.findOneAndUpdate({uuid: req.body.uuid}, update)
+    if (req.body.uuid && (req.body.name || req.body.abv !== undefined || req.body.category)) {
+        Ingredients.findOneAndUpdate({uuid: req.body.uuid}, {name: req.body.name, category: req.body.category, abv: req.body.abv !== undefined ? Math.abs(req.body.abv) : null})
             .then((data) => {
                 res.json(data);
                 updateIngredients();
