@@ -417,7 +417,7 @@ router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
 
 router.post('/add_ingredient', verifyRequest, (req, res, next) => {
     if (req.body.name && req.body.abv !== undefined) {
-        Ingredients.create({uuid: uuid(), name: req.body.name, abv: Math.abs(req.body.abv)})
+        Ingredients.create({uuid: uuid(), name: req.body.name, abv: Math.abs(req.body.abv), category: req.body.category})
             .then((data) => {
                 res.json(data);
                 updateIngredients();
@@ -430,7 +430,7 @@ router.post('/add_ingredient', verifyRequest, (req, res, next) => {
 
 router.post('/update_ingredient', verifyRequest, (req, res, next) => {
     if (req.body.uuid && (req.body.name || req.body.abv !== undefined || req.body.category)) {
-        Ingredients.findOneAndUpdate({uuid: req.body.uuid}, {name: req.body.name, category: req.body.category, abv: req.body.abv !== undefined ? Math.abs(req.body.abv) : null})
+        Ingredients.findOneAndUpdate({uuid: req.body.uuid}, {name: req.body.name, category: req.body.category, abv: req.body.abv !== undefined ? Math.abs(req.body.abv) : undefined})
             .then((data) => {
                 res.json(data);
                 updateIngredients();
