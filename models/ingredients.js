@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const IngredientSchema = new Schema({
     uuid: String,
     name: String,
-    abv: Number
+    abv: Number,
+    category: String
 });
 
 const Ingredients = mongoose.model('ingredient', IngredientSchema);
