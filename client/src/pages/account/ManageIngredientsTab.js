@@ -3,6 +3,7 @@ import {FaPercent, FaTag, FaTrash} from "react-icons/fa";
 import axios from "axios";
 import {FaPenToSquare} from "react-icons/fa6";
 import '../../format/ManageIngredients.css';
+import IngredientCategories from "../../definitions/IngredientCategories";
 
 const ManageIngredientsTab = ({adminKey}) => {
     const [newIngredientName, setNewIngredientName] = useState("");
@@ -142,12 +143,9 @@ const ManageIngredientsTab = ({adminKey}) => {
                        onChange={e => setNewIngredientABV(e.target.value)}/>
                 <select onChange={(e)=>setNewIngredientCategory(e.target.value)}>
                     <option value='none' disabled={true} selected={newIngredientCategory === ''}>None</option>
-                    <option value='spirit' selected={newIngredientCategory === 'spirit'}>Spirit</option>
-                    <option value='liqueur' selected={newIngredientCategory === 'liqueur'}>Liqueur</option>
-                    <option value='bitters' selected={newIngredientCategory === 'bitters'}>Bitters</option>
-                    <option value='mixer' selected={newIngredientCategory === 'mixer'}>Mixer</option>
-                    <option value='syrup' selected={newIngredientCategory === 'syrup'}>Syrup</option>
-                    <option value='misc' selected={newIngredientCategory === 'misc'}>Misc.</option>
+                    {IngredientCategories.map(category => {
+                        return <option value={category.name} selected={newIngredientCategory === category.name}>{category.localization}</option>
+                    })}
                 </select>
                 <button onClick={()=>{postIngredient(newIngredientName, newIngredientABV)}}>Add Ingredient</button>
             </div>
