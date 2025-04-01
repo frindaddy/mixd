@@ -61,10 +61,12 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
                     <h1 className="ingredient-title">My Bar</h1>
                 </div>
                 {IngredientCategories.map((category) =>{
+                    let category_ingr = ingredients.filter(ingr => ingr.category === category.name);
+                    if(category_ingr.length === 0) return <></>
                     return <div>
                         <h2>{category.localization}</h2>
                         <div className="tag-container">
-                            {ingredients.filter(ingr => ingr.category === category.name).map(ingredient => {
+                            {category_ingr.map(ingredient => {
                                 let onHand = userIngredients !== null && userIngredients.includes(ingredient.uuid);
                                 return <div className={"tag clickable unselectable"+(onHand ? '':' unselected-tag-filter')}
                                             style={onHand ? {backgroundColor: 'green'}:{}}>{ingredient.name}</div>
