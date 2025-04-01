@@ -103,6 +103,7 @@ const ManageIngredientsTab = ({adminKey}) => {
 
     async function postIngredient(ingredientName, abv, category) {
         abv = validateABV(abv)
+        if(category === "" || category === undefined) category = 'misc';
         const response = await axios.post('/api/add_ingredient', {name: ingredientName, abv: abv, category: category}, {
                 headers: {
                     Authorization: `Bearer ${adminKey}`,
@@ -147,7 +148,7 @@ const ManageIngredientsTab = ({adminKey}) => {
                         return <option value={category.name} selected={newIngredientCategory === category.name}>{category.localization}</option>
                     })}
                 </select>
-                <button onClick={()=>{postIngredient(newIngredientName, newIngredientABV)}}>Add Ingredient</button>
+                <button onClick={()=>{postIngredient(newIngredientName, newIngredientABV, newIngredientCategory)}}>Add Ingredient</button>
             </div>
             <h1 className="manage-ingredients-title" style={{marginTop:"20px", marginBottom:"-10px"}}>Current Ingredients:</h1>
             {ingredients.map((ingredient) =>{
