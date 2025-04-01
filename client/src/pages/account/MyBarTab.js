@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react"
 import {FaEdit, FaSearch} from "react-icons/fa";
 import axios from "axios";
-import IngredientListEntry from "../../components/Ingredients/IngredientListEntry";
 import "../../format/MyBarTab.css";
 import {useNavigate} from "react-router-dom";
+import IngredientCategories from "../../definitions/IngredientCategories";
 
 const MyBarTab = ({setUserDrinksReq, user}) => {
     const [ingredients, setIngredients] = useState([]);
@@ -19,7 +19,7 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
     }, []);
 
     const fetchIngredients = () => {
-        axios.get('/api/count_ingredients')
+        axios.get('/api/get_ingredients')
             .then((res) => {
                 if (res.data) {
                     setIngredients(res.data);
@@ -52,7 +52,7 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
             navigate('/');
         }
     }
-
+//ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} onIngredientClick={onIngredientClick} userOnHand={userIngredients !== null && userIngredients.includes(ingredient.uuid)} />
     return (
         <>
             <div>
@@ -60,10 +60,15 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
                     <FaEdit className="sorted-filter-icon" style={{backgroundColor: editUserIngr? "3B3D3F":"", cursor:'pointer'}} onClick={()=>{setEditUserIngr(!editUserIngr)}}/>
                     <h1 className="ingredient-title">My Bar</h1>
                 </div>
-                {ingredients.map((ingredient) =>{
+                {IngredientCategories.map((category) =>{
                     return <div>
-                        <div style={{display: "flex", justifyContent: "center"}}>
-                            {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} onIngredientClick={onIngredientClick} userOnHand={userIngredients !== null && userIngredients.includes(ingredient.uuid)} />}
+                        <h2>{category.localization}</h2>
+                        <div className="tag-container">
+                            {ingredients.filter(ingr => ingr.category === category.name).map(ingredient => {
+                                let onHand = userIngredients !== null && userIngredients.includes(ingredient.uuid);
+                                return <div className={"tag clickable unselectable"+(onHand ? '':' unselected-tag-filter')}
+                                            style={onHand ? {backgroundColor: 'green'}:{}}>{ingredient.name}</div>
+                            })}
                         </div>
                     </div>;
                 })}
