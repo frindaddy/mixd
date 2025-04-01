@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react"
-import {FaPercent, FaTrash} from "react-icons/fa";
+import {FaPercent, FaTag, FaTrash} from "react-icons/fa";
 import axios from "axios";
 import {FaPenToSquare} from "react-icons/fa6";
 import '../../format/ManageIngredients.css';
+import IngredientCategories from "../../definitions/IngredientCategories";
 
 const ManageIngredientsTab = ({adminKey}) => {
     const [newIngredientName, setNewIngredientName] = useState("");
     const [newIngredientABV, setNewIngredientABV] = useState("");
+    const [newIngredientCategory, setNewIngredientCategory] = useState("");
     const [ingredients, setIngredients] = useState([]);
     const [unusedIngredients, setUnusedIngredients] = useState([]);
     const [errorMsg, setErrorMsg] = useState('');
@@ -81,9 +83,28 @@ const ManageIngredientsTab = ({adminKey}) => {
         }
     }
 
-    async function postIngredient(ingredientName, abv) {
+    async function changeCategory(uuid, category) {
+        if(category !== ""){
+            const response = await axios.post('/api/update_ingredient', {uuid: uuid, category: category}, {
+                    headers: {
+                        Authorization: `Bearer ${adminKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            if(response.status !== 200) {
+                setErrorMsg('Failed to update ingredient. Internal server error '+response.status);
+            } else {
+                setErrorMsg('');
+                fetchIngredients();
+            }
+        }
+    }
+
+    async function postIngredient(ingredientName, abv, category) {
         abv = validateABV(abv)
-        const response = await axios.post('/api/add_ingredient', {name: ingredientName, abv: abv}, {
+        if(category === "" || category === undefined) category = 'misc';
+        const response = await axios.post('/api/add_ingredient', {name: ingredientName, abv: abv, category: category}, {
                 headers: {
                     Authorization: `Bearer ${adminKey}`,
                     'Content-Type': 'application/json'
@@ -121,15 +142,22 @@ const ManageIngredientsTab = ({adminKey}) => {
                        onChange={e => setNewIngredientName(e.target.value)}/>
                 <input type="number" style={{width:"40px"}} name="ingredientABV" placeholder="0" value={newIngredientABV || ""}
                        onChange={e => setNewIngredientABV(e.target.value)}/>
-                <button onClick={()=>{postIngredient(newIngredientName, newIngredientABV)}}>Add Ingredient</button>
+                <select onChange={(e)=>setNewIngredientCategory(e.target.value)}>
+                    <option value='none' disabled={true} selected={newIngredientCategory === ''}>None</option>
+                    {IngredientCategories.map(category => {
+                        return <option value={category.name} selected={newIngredientCategory === category.name}>{category.localization}</option>
+                    })}
+                </select>
+                <button onClick={()=>{postIngredient(newIngredientName, newIngredientABV, newIngredientCategory)}}>Add Ingredient</button>
             </div>
             <h1 className="manage-ingredients-title" style={{marginTop:"20px", marginBottom:"-10px"}}>Current Ingredients:</h1>
             {ingredients.map((ingredient) =>{
                 return <div>
                     <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-                        <span className="manage-ingredients-entry" style={{color: unusedIngredients.includes(ingredient.uuid) ? "red":"white"}}>{ingredient.name + ' ('+ingredient.abv+'%)'}</span>
+                        <span className="manage-ingredients-entry" style={{color: unusedIngredients.includes(ingredient.uuid) ? "red":"white"}}>{ingredient.name + ' ('+ingredient.abv+'%)'+ ' ('+ingredient.category+')'}</span>
                         <FaPenToSquare className="edit-ingredient" onClick={()=>{renameIngredient(ingredient.uuid, prompt("Rename '"+ingredient.name+"' to:", ingredient.name))}}/>
                         <FaPercent className="edit-ingredient" onClick={()=>{changeABV(ingredient.uuid, prompt("Change abv of '"+ingredient.name+"' to:", ingredient.abv?ingredient.abv:0))}}/>
+                        <FaTag className="edit-ingredient" onClick={()=>{changeCategory(ingredient.uuid, newIngredientCategory)}} />
                         {unusedIngredients.includes(ingredient.uuid) && <FaTrash className="edit-ingredient" onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}}/>}
                     </div>
                 </div>
