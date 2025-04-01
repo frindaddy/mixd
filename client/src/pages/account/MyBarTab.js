@@ -53,7 +53,7 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
     return (
         <>
             <div>
-                <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginRight:"53px"}}>
+                <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
                     <h1 className="ingredient-title">My Bar</h1>
                 </div>
                 {IngredientCategories.map((category) =>{
