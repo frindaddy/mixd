@@ -455,7 +455,7 @@ router.delete('/ingredient/:uuid', verifyRequest, (req, res, next) => {
 });
 
 router.get('/get_ingredients', (req, res, next) => {
-    Ingredients.find({}, 'uuid name abv').sort({name:1})
+    Ingredients.find({}, 'uuid name abv category').sort({name:1})
         .then((data) => res.json(data))
         .catch(next);
 });
