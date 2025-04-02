@@ -6,7 +6,6 @@ import FilterPanel from "../components/DrinkList/FilterPanel";
 import {FaFilter, FaEraser} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import "../format/DrinkList.css";
-import {useLocation} from "react-router-dom";
 import AccountShortcut from "../components/AccountShortcut";
 
 const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
@@ -15,8 +14,6 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
     const [tagFilterList, setTagFilterList] = useState([]);
     const [filterPanelShown, setfilterPanelShown] = useState(false);
     const [cookies, setCookie] = useCookies(["tagList"]);
-
-    const { hash } = useLocation();
 
     const getDrinkList = () => {
         let list_route = '/api/list/'+ingrFilter[0];
@@ -77,14 +74,6 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
         setCookie('tagList', [], {maxAge:3600});
     }
 
-    function editingMenuID(){
-        if(hash.match(/^#edit_menu-[0-9a-f]{8}$/i)){
-            return hash.substring(11);
-        } else {
-            return null;
-        }
-    }
-
     useEffect(() => {
         getDrinkList();
     }, [ingrFilter]);
@@ -107,7 +96,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
                 setTagFilterList={setTagFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
             </div>
             <DrinkArray filter={{text: searchText, tags: tagFilterList}}
-                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} editMenu={editingMenuID()}/>
+                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
         </>
     )
 }
