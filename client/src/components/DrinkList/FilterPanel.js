@@ -83,7 +83,8 @@ const FilterPanel = ({toggleFilterPanel, tagFilterList, setTagFilterList, tagMen
                                         <div onClick={()=>{onTagClick(cat, tagName)}}
                                              className={'tag clickable unselectable ' + (selected ? '':'unselected-tag-filter')}
                                              style={selected ? {backgroundColor: getColor({category: cat, value: tagName})}: {}}>{tagName}</div>
-                                    </div>)
+                                    </div>
+                                )
                             })}
                         </div>
                     </div>
