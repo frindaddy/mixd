@@ -3,6 +3,7 @@ import axios from "axios";
 import {FaCheck, FaSignOutAlt, FaStar} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 import "../../format/MyAccountTab.css";
+import "../../format/Tabs.css";
 
 const MyAccountTab = ({user, setUser}) => {
 
@@ -55,8 +56,7 @@ const MyAccountTab = ({user, setUser}) => {
 
     return (
         <>
-            <h1>My Account</h1>
-            <br />
+            <h1 className="tab-title">My Account</h1>
             <div className="account-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.adminKey && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
             <p style={{textAlign:"center"}}>Change Username:</p>
             <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
