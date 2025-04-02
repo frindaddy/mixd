@@ -36,7 +36,7 @@ const AccountShortcut = ({user, setUser}) => {
                 {user.user_id && <FaUserCircle className="user_icon" />}
             </div>
             {showDropdown && <div className='account-dropdown'>
-                <span onClick={()=>{goTo('/account')}}>My Account</span>
+                <span onClick={()=>{goTo('/account')}} style={{marginTop:"-5px"}}>My Account</span>
                 <hr />
                 <span onClick={()=>{goTo('/account/bar')}}>My Bar</span>
                 <hr />
@@ -53,7 +53,7 @@ const AccountShortcut = ({user, setUser}) => {
                 </>}
 
                 <hr />
-                <div onClick={logout}>
+                <div onClick={logout} style={{display:"flex", justifyContent:"right", marginBottom:"-5px"}}>
                     <span>Logout</span>
                     <FaSignOutAlt style={{marginLeft:'10px', marginBottom: '-2px'}}/>
                 </div>
