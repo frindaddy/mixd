@@ -1,0 +1,8 @@
+.tab-title {
+    font-weight: 400;
+    font-size: 35px;
+    display: block;
+    margin-inline: auto;
+    width: max-content;
+    margin-bottom: 2%;
+}
