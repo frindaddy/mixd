@@ -315,36 +315,24 @@ router.get('/search', async (req, res, next) => {
 });
 
 router.get('/tags', (req, res, next) => {
-    Drinks.find({}, 'tags glass')
-        .then((data) => {
-            let tags = {};
-            let tagList = [];
-            let categories = [];
-            let glasses = [];
-            data.forEach((drink) => {
-                if (drink.glass) {
-                    glasses.push(drink.glass);
-                }
-                if (drink.tags){
-                    drink.tags.forEach((drinkTag)=>{
-                        tagList.push(drinkTag);
-                        categories.push(drinkTag.category)
-                    });
-                }
-            });
-            categories = Array.from(new Set(categories)).sort();
-            categories.forEach((cat) => {
-                let catTags = [];
-                tagList.forEach((drinkTag) => {
-                   if(drinkTag.category === cat) {
-                       catTags.push(drinkTag.value);
-                   }
-                });
-                tags = {...tags, [cat]:Array.from(new Set(catTags)).sort()};
-            });
-            res.json({tags: tags, glasses: Array.from(new Set(glasses)).sort()});
-        })
-        .catch(next);
+    Drinks.aggregate([
+        {$unwind: '$tags'},
+        {$group: {
+            _id: {
+                category: '$tags.category',
+                value: '$tags.value'
+            }
+        }},
+        {$project: {
+            category: '$_id.category',
+            value: '$_id.value',
+            _id: 0
+        }}
+    ]).then(data => {
+        if(data){
+            res.json(data);
+        }
+    })
 });
 
 router.get('/image', (req, res, next) => {
