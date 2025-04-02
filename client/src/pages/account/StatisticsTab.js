@@ -29,10 +29,8 @@ const StatisticsTab = ({}) => {
     };
 
     return (
-        <div>
-            <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-                <h1 className="ingredient-title">Ingredient Usage</h1>
-            </div>
+        <>
+            <h1 className="tab-title">Ingredient Usage</h1>
             {IngredientCategories.map(category => {
                 let category_ingr = ingredients.filter(ingr => ingr.category === category.name);
                 if(category_ingr.length === 0) return <></>
@@ -47,7 +45,7 @@ const StatisticsTab = ({}) => {
                     })}
                 </div>
             })}
-        </div>
+        </>
     )
 }
 
