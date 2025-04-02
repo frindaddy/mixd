@@ -149,31 +149,6 @@ function updateABVforIngredient(ingr_uuid) {
     })
 }
 
-async function find_on_hand_drinks(ingr_uuids, missing_ingr_tol, no_na, strict) {
-    return new Promise(resolve => {
-        if(ingr_uuids.length === 0 || missing_ingr_tol < 0) resolve([[]]);
-        Drinks.find({'ingredients.0': {"$exists":true}}, 'uuid ingredients').sort({name:1}).then(drinks => {
-            let results = drinks.map(drink => {
-                return {
-                    uuid: drink.uuid,
-                    num_missing_ingr: drink.ingredients.filter(ingr => {
-                        if(no_na) {
-                            return (ingredients[ingr.ingredient] && ingredients[ingr.ingredient].abv > 0) && !ingr_uuids.includes(ingr.ingredient)
-                        } else {
-                            return !ingr_uuids.includes(ingr.ingredient)
-                        }
-                    }).length
-                };
-            });
-            if(strict){
-                resolve(results.filter(result => result.num_missing_ingr == missing_ingr_tol).map(result => result.uuid));
-            } else {
-                resolve(results.filter(result => result.num_missing_ingr <= missing_ingr_tol).sort((a,b)=> a.num_missing_ingr-b.num_missing_ingr).map(result => result.uuid));
-            }
-        })
-    });
-}
-
 function validate_username(username) {
     if(username.length === 0 || username.length > 15) return false;
     if(!username.match(/^[a-zA-Z0-9._]*$/)) return false;
@@ -623,34 +598,6 @@ router.get('/account/:user_id', (req, res, next) => {
             .then((user_data) => {
                 if(user_data){
                     res.json({user_id: req.params.user_id, username: user_data.username, adminKey: user_data.admin ? adminKey : undefined});
-                } else {
-                    res.sendStatus(400);
-                }
-            })
-            .catch(next);
-    }
-});
-
-router.get('/user_drinks/:user_id', (req, res, next) => {
-    if(req.params.user_id){
-        let tol = req.query.tol || 0;
-        //grouped searches are not currently allowed
-        let no_na = req.query.no_na ==='true' || false;
-        let strict = req.query.strict ==='true' || false;
-        Users.findOne({user_id: req.params.user_id}, 'available_ingredients')
-            .then(async (ingredientData) => {
-                if (ingredientData) {
-                    let drink_uuids = await find_on_hand_drinks(ingredientData.available_ingredients, tol, no_na, strict);
-                    Drinks.find({"uuid": {'$in':drink_uuids}}, 'uuid name url_name tags glass').then(drinks => {
-                        if(drinks && drinks.length >= 0){
-                            let sorted_drinks = drink_uuids.map(drink_uuid => {
-                                return drinks.filter(drink => drink.uuid === drink_uuid)[0];
-                            })
-                            res.json(sorted_drinks);
-                        } else {
-                            res.sendStatus(500);
-                        }
-                    })
                 } else {
                     res.sendStatus(400);
                 }
