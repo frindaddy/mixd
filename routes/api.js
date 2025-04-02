@@ -240,11 +240,103 @@ router.get('/list/:ingr_uuid', (req, res, next) => {
     }
 });
 
-router.get('/search', (req, res, next) => {
-    let db_query = req.query.searchText ? {name: {$regex: req.query.searchText.trim(), $options: 'i'}} : {};
-    Drinks.find(db_query, 'uuid name url_name tags glass').sort({name:1})
-        .then((data) => res.json(data))
-        .catch(next);
+router.get('/search', async (req, res, next) => {
+    let pipeline = [];
+
+    let myBarAggregate;
+    if(req.query.user_id){
+        let tol = parseInt(req.query.tol) || 0;
+        let user_data = await Users.findOne({user_id: req.query.user_id}, 'available_ingredients')
+        if(user_data.available_ingredients){
+            myBarAggregate = await Drinks.aggregate([
+                {$project: {
+                    uuid: '$uuid',
+                    ingredients: '$ingredients',
+                    totalIngredients: {$size: '$ingredients'}
+                }},
+                {$unwind: '$ingredients'},
+                {$match: {'ingredients.ingredient': {$in:user_data.available_ingredients}}},
+                {$group: {
+                    _id: {
+                        uuid: '$uuid',
+                        totalIngredients: '$totalIngredients'
+                    },
+                    count: {$sum: 1}
+                }},
+                {$project: {
+                    uuid: '$_id.uuid',
+                    matched: '$count',
+                    missing: {$subtract: ['$_id.totalIngredients', '$count']},
+                    _id: 0
+                }},
+                {$match: {missing: req.query.strict === 'true' ? tol:{$lte: tol}}},
+                {$sort: {missingIngredients: 1, matchedIngredients: -1}}
+            ])
+        }
+    }
+
+    if(myBarAggregate) {
+        pipeline = [{$match: {uuid: {$in: myBarAggregate.map(result => result.uuid)}}}];
+    }
+
+    if(req.query.searchText) {
+        pipeline.push({$match: {'name': {$regex: req.query.searchText.trim(), $options: 'i'}}})
+    }
+
+    if(req.query.ingredient){
+        pipeline = pipeline.concat([
+            {$unwind: '$ingredients'},
+            {$match: {'ingredients.ingredient': req.query.ingredient}},
+            {$group: {
+                _id: {
+                    uuid: '$uuid',
+                    tags: '$tags'
+                }
+            }},
+            {$project: {
+                uuid: '$_id.uuid',
+                tags: '$_id.tags',
+                _id: 0
+            }}
+        ]);
+    }
+    if(req.query.tags){
+        pipeline = pipeline.concat([
+            {$unwind: "$tags"},
+            {$project: {
+                uuid: '$uuid',
+                tag: {
+                    category: '$tags.category',
+                    value: '$tags.value'
+                }
+            }},
+            {$match: {'tag': {$in:req.query.tags}}},
+            {$group: {
+                _id: {
+                    uuid: '$uuid',
+                },
+                count: {$sum: 1}
+            }},
+            {$project: {
+                uuid: '$_id.uuid',
+                ingredients: '$_id.ingredients',
+                tagCount: '$count',
+                _id: 0
+            }}
+        ]);
+    }
+
+    if(pipeline.length > 0){
+        Drinks.aggregate(pipeline).then(pipeline_res => {
+            Drinks.find({uuid: {$in: pipeline_res.map(drink=>drink.uuid)}}, 'uuid name url_name tags glass').sort({name:1})
+                .then((data) => res.json(data))
+                .catch(next);
+        })
+    } else {
+        Drinks.find({}, 'uuid name url_name tags glass').sort({name:1})
+            .then((data) => res.json(data))
+            .catch(next);
+    }
 });
 
 router.get('/tags', (req, res, next) => {
