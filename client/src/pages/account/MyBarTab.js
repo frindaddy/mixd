@@ -54,7 +54,7 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
         <>
             <div>
                 <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-                    <h1 className="ingredient-title">My Bar</h1>
+                    <h1 className="tab-title">My Bar</h1>
                 </div>
                 {IngredientCategories.map((category) =>{
                     let category_ingr = ingredients.filter(ingr => ingr.category === category.name);
