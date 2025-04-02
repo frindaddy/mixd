@@ -8,20 +8,23 @@ import {useCookies} from "react-cookie";
 import "../format/DrinkList.css";
 import AccountShortcut from "../components/AccountShortcut";
 
-const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
+const DrinkList = ({setShowLoader, searchParams, setSearchParams, user, setUser}) => {
 
-    const [drinkList, setDrinkList] = useState(previousDrinkList);
-    const [tagFilterList, setTagFilterList] = useState([]);
-    const [filterPanelShown, setfilterPanelShown] = useState(false);
-    const [cookies, setCookie] = useCookies(["tagList"]);
+    const [drinkList, setDrinkList] = useState([]);
+    const [filterPanelShown, setFilterPanelShown] = useState(false);
     const [timeoutID, setTimeoutID] = useState(null);
 
-    const getDrinkList = () => {
-        axios.get('/api/search', {params : {searchText: searchText}})
+    function updateSearchParams(key, value){
+        let temp = searchParams;
+        temp[key] = value;
+        setSearchParams(temp);
+    }
+
+    function getDrinkList() {
+        axios.get('/api/search', {params : searchParams})
             .then((res) => {
                 if (res.data) {
                     setDrinkList(res.data);
-                    setPreviousDrinkList(res.data);
                 }
             }).catch((err) => console.log(err));
     }
@@ -29,21 +32,20 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
     function onSearchType(e) {
         if(timeoutID) clearTimeout(timeoutID);
         setTimeoutID(setTimeout(submitSearch, 500));
-        setSearchText(e.target.value)
+        updateSearchParams('searchText', e.target.value);
     }
     function submitSearch(){
         setTimeoutID(null);
-        console.log('Searching...')
         getDrinkList();
     }
 
-    const toggleFilterPanel = () => {
+    function toggleFilterPanel(){
         if(!filterPanelShown){
             expandFilterPanel();
-            setfilterPanelShown(true);
+            setFilterPanelShown(true);
         } else {
             collapseFilterPanel();
-            setfilterPanelShown(false);
+            setFilterPanelShown(false);
         }
     }
 
@@ -68,17 +70,6 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
         });
     }
 
-    function resetAllFilters() {
-        setTagFilterList([]);
-        setIngrFilter(["", ""]);
-        setUserDrinksReq(null);
-        setCookie('tagList', [], {maxAge:3600});
-    }
-
-    useEffect(() => {
-        getDrinkList();
-    }, [ingrFilter]);
-
     return (
         <>
             <AccountShortcut user={user} setUser={setUser}/>
@@ -88,16 +79,15 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
                 </div>
                 <div className="search-container">
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/></div>
-                    <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {onSearchType(e)}}/>
+                    <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchParams.searchText} onChange={(e) => {onSearchType(e)}}/>
                     <div className='filter-toggle'><FaSearch  style={{cursor:"pointer"}} onClick={getDrinkList}/></div>
-                    {((tagFilterList.length > 0) || ingrFilter[0] !== "" || userDrinksReq !== null) && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
+                    {searchParams !== {} && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={()=> {setSearchParams({})}} /></div>}
                 </div>
             </header>
             <div className={'filter-panel'}>
-                <FilterPanel toggleFilterPanel={toggleFilterPanel} tagFilterList={tagFilterList}
-                setTagFilterList={setTagFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
+                <FilterPanel toggleFilterPanel={toggleFilterPanel} searchParams={searchParams} updateSearchParams={updateSearchParams}/>
             </div>
-            <DrinkArray filter={{text: '', tags: tagFilterList}}
+            <DrinkArray filter={{text: '', tags: []}}
                 drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
         </>
     )
