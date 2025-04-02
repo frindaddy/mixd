@@ -5,7 +5,7 @@ import IngredientListEntry from "../../components/Ingredients/IngredientListEntr
 import "../../format/MyBarTab.css";
 import {useNavigate} from "react-router-dom";
 
-const StatisticsTab = ({setIngrFilter}) => {
+const StatisticsTab = ({}) => {
     const [ingredients, setIngredients] = useState([]);
 
     const navigate = useNavigate();
@@ -24,7 +24,7 @@ const StatisticsTab = ({setIngrFilter}) => {
     }
 
     const onIngredientClick = (ingredient) => {
-        setIngrFilter([ingredient.uuid, ingredient.name])
+        console.log(ingredient);
         navigate('/');
     };
 
