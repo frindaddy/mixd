@@ -327,7 +327,8 @@ router.get('/tags', (req, res, next) => {
             category: '$_id.category',
             value: '$_id.value',
             _id: 0
-        }}
+        }},
+        {$sort: {value: 1}}
     ]).then(data => {
         if(data){
             res.json(data);

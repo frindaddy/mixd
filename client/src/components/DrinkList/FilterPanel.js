@@ -8,19 +8,19 @@ import "../../format/FilterPanel.css";
 const FilterPanel = ({toggleFilterPanel, searchParams, updateSearchParams}) => {
 
     const [allTags, setAllTags] = useState([]);
+    const [localSelectedTags, setLocalSelectedTags] = useState([]);
 
     useEffect(() => {
         axios.get('/api/tags/')
             .then((res) => {
                 if (res.data) {
                     setAllTags(res.data);
-                    console.log(res.data);
                 }
             }).catch((err) => console.log(err));
     }, []);
 
     function isTagSelected(category, value) {
-        return searchParams.tags && searchParams.tags.includes({category: category, value: value});
+        return searchParams.tags && searchParams.tags.filter(tag => tag.category === category && tag.value === value).length > 0;
     }
 
     const onTagClick = (category, value) => {
@@ -30,9 +30,14 @@ const FilterPanel = ({toggleFilterPanel, searchParams, updateSearchParams}) => {
                 return tag.category !== category && tag.value !== value;
             });
         } else {
-            newTagList = [...searchParams.tags.filter(tagFilter => tagFilter.category !== category), {category: category, value: value}];
+            if(searchParams.tags){
+                newTagList = [...searchParams.tags.filter(tagFilter => tagFilter.category !== category), {category: category, value: value}];
+            } else {
+                newTagList = [{category: category, value: value}]
+            }
         }
         updateSearchParams('tags', newTagList);
+        setLocalSelectedTags(newTagList);
     }
 
     return (
