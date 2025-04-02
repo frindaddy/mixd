@@ -1,0 +1,36 @@
+.account-dropdown{
+    background-color: gray;
+    position: relative;
+    top: 5px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.account-dropdown > hr{
+    margin: 5px;
+    width:100%;
+    border-top: 1px solid white;
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
+.account-shortcut{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-align: right;
+    z-index: 3;
+}
+
+.shortcut-username{
+    position: absolute;
+    right: 40px;
+    top:4px;
+}
+
+.user_icon {
+    font-size: 25px;
+    cursor: pointer;
+}
