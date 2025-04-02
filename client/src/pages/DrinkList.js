@@ -16,18 +16,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
     const [cookies, setCookie] = useCookies(["tagList"]);
 
     const getDrinkList = () => {
-        let list_route = '/api/list/'+ingrFilter[0];
-        if(userDrinksReq && userDrinksReq.user_id){
-          list_route = '/api/user_drinks/'+userDrinksReq.user_id
-            if(userDrinksReq.tol){
-                list_route = list_route + '?tol='+userDrinksReq.tol;
-                if(userDrinksReq.no_na) list_route = list_route + '&no_na=true';
-                if(userDrinksReq.strict) list_route = list_route + '&strict=true';
-            } else if (userDrinksReq.no_na) {
-                list_route = list_route + '?no_na=true';
-            }
-        }
-        axios.get(list_route)
+        axios.get('/api/search', {params : {searchText: searchText}})
             .then((res) => {
                 if (res.data) {
                     setDrinkList(res.data);
@@ -96,7 +85,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
                 <FilterPanel toggleFilterPanel={toggleFilterPanel} tagFilterList={tagFilterList}
                 setTagFilterList={setTagFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
             </div>
-            <DrinkArray filter={{text: searchText, tags: tagFilterList}}
+            <DrinkArray filter={{text: '', tags: tagFilterList}}
                 drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
         </>
     )
