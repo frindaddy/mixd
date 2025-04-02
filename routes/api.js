@@ -240,6 +240,13 @@ router.get('/list/:ingr_uuid', (req, res, next) => {
     }
 });
 
+router.get('/search', (req, res, next) => {
+    let db_query = req.query.searchText ? {name: {$regex: req.query.searchText.trim(), $options: 'i'}} : {};
+    Drinks.find(db_query, 'uuid name url_name tags glass').sort({name:1})
+        .then((data) => res.json(data))
+        .catch(next);
+});
+
 router.get('/tags', (req, res, next) => {
     Drinks.find({}, 'tags glass')
         .then((data) => {
