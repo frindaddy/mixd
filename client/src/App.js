@@ -15,7 +15,7 @@ import MenusTab from "./pages/account/MenusTab";
 import MyAccountTab from "./pages/account/MyAccountTab";
 import ManageIngredientsTab from "./pages/account/ManageIngredientsTab";
 import ManageUsersTab from "./pages/account/ManageUsersTab";
-import ViewIngredientsTab from "./pages/account/ViewIngredientsTab";
+import StatisticsTab from "./pages/account/StatisticsTab";
 
 function App() {
     const [previousDrinkList, setPreviousDrinkList] = useState([{name:"Loading Drinks..."}]);
@@ -37,7 +37,7 @@ function App() {
                     <Route index element={<MyAccountTab user={user} setUser={setUser}/>}></Route>
                     <Route path="bar" element={<MyBarTab setUserDrinksReq={setUserDrinksReq} user={user} />}></Route>
                     <Route path="menus" element={<MenusTab user={user}/>}></Route>
-                    <Route path="ingredients" element={<ViewIngredientsTab setIngrFilter={setIngrFilter} />}></Route>
+                    <Route path="statistics" element={<StatisticsTab />}></Route>
                     <Route path="edit_ingredients" element={<ManageIngredientsTab adminKey={user.adminKey} />}></Route>
                     <Route path="users" element={<ManageUsersTab adminKey={user.adminKey} user={user}/>}></Route>
                 </Route>

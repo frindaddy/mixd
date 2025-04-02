@@ -462,7 +462,7 @@ router.get('/get_ingredients', (req, res, next) => {
 
 router.get('/count_ingredients/', (req, res, next) => {
     let ingredients = []
-    Ingredients.find({}, 'uuid name').sort({name:1})
+    Ingredients.find({}, 'uuid name category').sort({name:1})
         .then((ingredientData) => {
             Drinks.find({}, 'ingredients').then((drinkData) => {
                 ingredientData.forEach((ingredientResult) => {
@@ -472,9 +472,15 @@ router.get('/count_ingredients/', (req, res, next) => {
                     ingredients.push({
                         uuid: ingredientResult.uuid,
                         name: ingredientResult.name,
+                        category: ingredientResult.category,
                         count: drinks.length
                     })
                 })
+                ingredients.sort((a, b) => {
+                    if(a.count > b.count) return -1;
+                    if(a.count < b.count) return 1;
+                    return 0;
+                });
                 res.json(ingredients)
             })
         })
