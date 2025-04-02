@@ -1,4 +1,4 @@
-.account-dropdown{
+.account-dropdown {
     background-color: gray;
     position: relative;
     top: 5px;
@@ -7,7 +7,7 @@
     border-radius: 5px;
 }
 
-.account-dropdown > hr{
+.account-dropdown > hr {
     margin: 5px;
     width:100%;
     border-top: 1px solid white;
@@ -16,7 +16,7 @@
     border-right: 0;
 }
 
-.account-shortcut{
+.account-shortcut {
     position: absolute;
     z-index: 3;
     right: 10px;
@@ -30,7 +30,7 @@
     align-items: center;
 }
 
-.shortcut-username{
+.shortcut-username {
     margin-right: 10px;
     font-weight: 300;
     font-size: 20px;
