@@ -40,7 +40,7 @@ function App() {
                     <Route path="menus" element={<MenusTab user={user}/>}></Route>
                     <Route path="statistics" element={<StatisticsTab />}></Route>
                     <Route path="edit_ingredients" element={<ManageIngredientsTab adminKey={user.adminKey} />}></Route>
-                    <Route path="edit_drinks" element={<ManageDrinksTab adminKey={user.adminKey} />}></Route>
+                    <Route path="edit_drinks" element={<ManageDrinksTab user={user} setShowLoader={setShowLoader}/>}></Route>
                     <Route path="users" element={<ManageUsersTab adminKey={user.adminKey} user={user}/>}></Route>
                 </Route>
                 <Route path="account/login" element={<LoginPage user={user} setUser={setUser} />}/>
