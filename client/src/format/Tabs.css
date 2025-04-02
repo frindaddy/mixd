@@ -1,17 +1,13 @@
 .tab-title {
     font-weight: 400;
     font-size: 35px;
-    display: block;
-    margin-inline: auto;
-    width: max-content;
+    text-align: center;
     margin-bottom: 2%;
 }
 
 .tab-subtitle {
     font-weight: 300;
     font-size: 30px;
-    display: block;
-    margin-inline: auto;
-    width: max-content;
+    text-align: center;
     margin-bottom: 10px;
 }
