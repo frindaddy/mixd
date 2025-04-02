@@ -472,6 +472,7 @@ router.get('/count_ingredients/', (req, res, next) => {
                     ingredients.push({
                         uuid: ingredientResult.uuid,
                         name: ingredientResult.name,
+                        category: ingredientResult.category,
                         count: drinks.length
                     })
                 })
