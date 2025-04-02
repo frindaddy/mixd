@@ -52,24 +52,22 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
 
     return (
         <>
-            <div>
-                <h1 className="tab-title">My Bar</h1>
-                {IngredientCategories.map((category) =>{
-                    let category_ingr = ingredients.filter(ingr => ingr.category === category.name);
-                    if(category_ingr.length === 0) return <></>
-                    return <div>
-                        <h2>{category.header}</h2>
-                        <div className="tag-container">
-                            {category_ingr.map(ingredient => {
-                                let onHand = userIngredients !== null && userIngredients.includes(ingredient.uuid);
-                                return <div className={"tag clickable unselectable"+(onHand ? '':' unselected-tag-filter')}
-                                            style={onHand ? {backgroundColor: 'green'}:{}}
-                                            onClick={()=>onIngredientClick(ingredient, onHand)}>{ingredient.name}</div>
-                            })}
-                        </div>
+            <h1 className="tab-title">My Bar</h1>
+            {IngredientCategories.map((category) =>{
+                let category_ingr = ingredients.filter(ingr => ingr.category === category.name);
+                if(category_ingr.length === 0) return <></>
+                return <div>
+                    <h2>{category.header}</h2>
+                    <div className="tag-container">
+                        {category_ingr.map(ingredient => {
+                            let onHand = userIngredients !== null && userIngredients.includes(ingredient.uuid);
+                            return <div className={"tag clickable unselectable"+(onHand ? '':' unselected-tag-filter')}
+                                        style={onHand ? {backgroundColor: 'green'}:{}}
+                                        onClick={()=>onIngredientClick(ingredient, onHand)}>{ingredient.name}</div>
+                        })}
                     </div>
-                })}
-            </div>
+                </div>
+            })}
             <hr />
             <div style={{display: "flex"}}>
                 <div>
