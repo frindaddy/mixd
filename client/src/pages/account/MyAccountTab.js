@@ -58,12 +58,12 @@ const MyAccountTab = ({user, setUser}) => {
         <>
             <h1 className="tab-title">My Account</h1>
             <div className="account-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.adminKey && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
-            <p style={{textAlign:"center"}}>Change Username:</p>
+            <p style={{textAlign:"center", fontWeight:"300"}}>Change Username:</p>
             <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
                 <input name='username' type='text' placeholder={user.username||'Username'} onChange={updateUsernameField} value={usernameField}/>
                 <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={submitUsername}/>
             </div>
-            {usernameField.length > 0 && <p style={{textAlign:"center"}}>{usernameResponse()}</p>}
+            {usernameField.length > 0 && <p style={{textAlign:"center", fontWeight:"300"}}>{usernameResponse()}</p>}
             <div style={{display:"flex", justifyContent:"center", marginTop: '20px'}}>
                 <div style={{cursor:'pointer', padding:'8px', backgroundColor:'darkred', borderRadius:'5px'}} onClick={logout}>
                     <span>Logout</span>
