@@ -69,7 +69,7 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
                                             onClick={()=>onIngredientClick(ingredient, onHand)}>{ingredient.name}</div>
                             })}
                         </div>
-                    </div>;
+                    </div>
                 })}
             </div>
             <hr />
