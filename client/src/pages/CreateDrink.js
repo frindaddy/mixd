@@ -134,7 +134,7 @@ const CreateDrink = ({adminKey}) => {
         if(response.status !== 200) {
             setErrorMsg('Failed to add drink. Internal server error '+response.status);
         } else {
-            navigate('/', { replace: true });
+            navigate('/account/edit_drinks', { replace: true });
         }
     }
     async function deleteDrink(sameImage, drinkID) {

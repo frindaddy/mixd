@@ -33,7 +33,7 @@ const MenuPage = ({setShowLoader}) => {
             <DrinkArray drinkList={menu.drinkList} filter={{text: "", tags: [], glasses: []}} setShowLoader={setShowLoader} menuSettings={{editMode: hash==='#edit', menu_id: menu.menu_id, menuOrder: menu.drinks, setMenuOrder: setMenuOrder}} showMenuDesc={true}/>
             {hash==='#edit' && <div>
                 <hr className="list-separator" />
-                <Link to={'/#edit_menu-'+menu.menu_id}><AddDrinkEntry /></Link>
+                <Link to={'/account/edit_drinks/#edit_menu-'+menu.menu_id}><AddDrinkEntry /></Link>
                 <hr className="list-separator" />
                 <div onClick={()=>{navigate('/menu/'+menu.menu_id, {replace: true})}}><DoneEntry /></div>
             </div>}
