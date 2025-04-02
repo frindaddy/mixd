@@ -14,6 +14,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
     const [tagFilterList, setTagFilterList] = useState([]);
     const [filterPanelShown, setfilterPanelShown] = useState(false);
     const [cookies, setCookie] = useCookies(["tagList"]);
+    const [timeoutID, setTimeoutID] = useState(null);
 
     const getDrinkList = () => {
         axios.get('/api/search', {params : {searchText: searchText}})
@@ -23,6 +24,17 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
                     setPreviousDrinkList(res.data);
                 }
             }).catch((err) => console.log(err));
+    }
+
+    function onSearchType(e) {
+        if(timeoutID) clearTimeout(timeoutID);
+        setTimeoutID(setTimeout(submitSearch, 500));
+        setSearchText(e.target.value)
+    }
+    function submitSearch(){
+        setTimeoutID(null);
+        console.log('Searching...')
+        getDrinkList();
     }
 
     const toggleFilterPanel = () => {
@@ -76,7 +88,7 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
                 </div>
                 <div className="search-container">
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/></div>
-                    <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
+                    <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {onSearchType(e)}}/>
                     <div className='filter-toggle'><FaSearch  style={{cursor:"pointer"}} onClick={getDrinkList}/></div>
                     {((tagFilterList.length > 0) || ingrFilter[0] !== "" || userDrinksReq !== null) && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
                 </div>
