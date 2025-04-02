@@ -7,14 +7,14 @@ import "../../format/FilterPanel.css";
 
 const FilterPanel = ({toggleFilterPanel, searchParams, updateSearchParams}) => {
 
-    const [allTags, setAllTags] = useState({});
+    const [allTags, setAllTags] = useState([]);
 
     useEffect(() => {
         axios.get('/api/tags/')
             .then((res) => {
                 if (res.data) {
-                    setAllTags(res.data.tags);
-                    console.log(res.data.tags);
+                    setAllTags(res.data);
+                    console.log(res.data);
                 }
             }).catch((err) => console.log(err));
     }, []);
@@ -42,13 +42,13 @@ const FilterPanel = ({toggleFilterPanel, searchParams, updateSearchParams}) => {
                     return <div className="filter-category-container">
                         <p className="filter-category-title">{cat.localization}</p>
                         <div className="filter-category-tag-container">
-                            {[].map((tagName)=>{
-                                let selected = isTagSelected(cat.name, tagName);
+                            {allTags.filter(tag=>tag.category === cat.name).map((tag)=>{
+                                let selected = isTagSelected(cat.name, tag.value);
                                 return (
                                     <div className="tag-container">
-                                        <div onClick={()=>{onTagClick(cat.name, tagName)}}
+                                        <div onClick={()=>{onTagClick(cat.name, tag.value)}}
                                              className={'tag clickable unselectable ' + (selected ? '':'unselected-tag-filter')}
-                                             style={selected ? {backgroundColor: getColor({category: cat.name, value: tagName})}: {}}>{tagName}</div>
+                                             style={selected ? {backgroundColor: getColor({category: cat.name, value: tag.value})}: {}}>{tag.value}</div>
                                     </div>
                                 )
                             })}
