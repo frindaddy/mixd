@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import {FaCheck, FaSignOutAlt, FaStar} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
+import "../../format/MyAccountTab.css";
 
 const MyAccountTab = ({user, setUser}) => {
 
