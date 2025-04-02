@@ -30,8 +30,8 @@ const AccountShortcut = ({user, setUser}) => {
 
     return (
         <div className='account-shortcut'>
-            <div onClick={userIconClicked} style={{cursor:'pointer'}}>
-                {user.username && <span className='shortcut-username'>{user.username}</span>}
+            <div onClick={userIconClicked} className="shortcut-nav-container">
+                {user.username && <div className='shortcut-username'>{user.username}</div>}
                 {!user.user_id && <FaRegUserCircle className="user_icon" />}
                 {user.user_id && <FaUserCircle className="user_icon" />}
             </div>
