@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react"
-import {FaSortAmountDown} from "react-icons/fa";
 import axios from "axios";
 import IngredientListEntry from "../../components/Ingredients/IngredientListEntry";
 import "../../format/MyBarTab.css";
@@ -32,7 +31,7 @@ const StatisticsTab = ({}) => {
         <>
             <div>
                 <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-                    <h1 className="ingredient-title">Ingredients</h1>
+                    <h1 className="ingredient-title">Ingredient Usage</h1>
                 </div>
                 {ingredients.map((ingredient) =>{
                     return <div>
