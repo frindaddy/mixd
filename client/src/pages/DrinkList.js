@@ -3,7 +3,7 @@ import axios from 'axios';
 import DotColor from "../components/DotColor";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import FilterPanel from "../components/DrinkList/FilterPanel";
-import {FaFilter, FaEraser} from "react-icons/fa";
+import {FaFilter, FaEraser, FaSearch} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import "../format/DrinkList.css";
 import AccountShortcut from "../components/AccountShortcut";
@@ -86,8 +86,9 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
                     <div className="logo">mixd<DotColor /></div>
                 </div>
                 <div className="search-container">
+                    <div className='filter-toggle'><FaFilter style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/></div>
                     <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
-                    <div className='filter-toggle'><FaFilter style={{cursor:"pointer"}} onClick={toggleFilterPanel}/></div>
+                    <div className='filter-toggle'><FaSearch  style={{cursor:"pointer"}} onClick={getDrinkList}/></div>
                     {((tagFilterList.length > 0) || ingrFilter[0] !== "" || userDrinksReq !== null) && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
                 </div>
             </header>
