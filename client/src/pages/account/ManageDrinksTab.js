@@ -40,7 +40,7 @@ const ManageDrinksTab = ({setShowLoader, user}) => {
                 <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
             </div>
             {user.adminKey && !editingMenuID() && <Link to="/create_drink"><AddDrinkEntry /></Link>}
-            <DrinkArray filter={{text: searchText, tags: [], glasses: []}}
+            <DrinkArray filter={{text: searchText, tags: []}}
                         drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={user.adminKey} editMenu={editingMenuID()}/>
         </>
     )

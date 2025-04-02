@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import AddDrinkEntry from "../components/Admin/AddDrinkEntry";
 import DotColor from "../components/DotColor";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import FilterPanel from "../components/DrinkList/FilterPanel";
-import {FaFilter, FaEraser, FaLemon, FaUserCircle, FaRegUserCircle} from "react-icons/fa";
+import {FaFilter, FaEraser} from "react-icons/fa";
 import {useCookies} from "react-cookie";
 import "../format/DrinkList.css";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import AccountShortcut from "../components/AccountShortcut";
 
 const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
@@ -107,9 +106,8 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
                 <FilterPanel toggleFilterPanel={toggleFilterPanel} tagFilterList={tagFilterList}
                 setTagFilterList={setTagFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
             </div>
-            {user.adminKey && <Link to="/create_drink"><AddDrinkEntry /></Link>}
             <DrinkArray filter={{text: searchText, tags: tagFilterList}}
-                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={user.adminKey} editMenu={editingMenuID()}/>
+                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} editMenu={editingMenuID()}/>
         </>
     )
 }
