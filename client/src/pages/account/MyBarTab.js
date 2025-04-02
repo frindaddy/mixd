@@ -76,7 +76,7 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
             <div style={{display: "flex"}}>
                 <div>
                     {user.user_id !== undefined && <div>
-                        <br />
+                        <h3>Advanced Search</h3>
                         <div>
                             <span>Allowed Missing Ingredients:  </span>
                             <select onChange={(e)=> setSearchSettings({...searchSettings, tol: e.target.value})}>
@@ -86,7 +86,7 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
                             </select>
                         </div>
                         <div>
-                            <span>Ignore NA Ingredients:  </span>
+                            <span>Ignore Non-Alcoholic Ingredients:  </span>
                             <input type='checkbox' checked={searchSettings.no_na} onChange={(e)=> setSearchSettings({...searchSettings, no_na: e.target.checked})}></input>
                         </div>
                         <div>
