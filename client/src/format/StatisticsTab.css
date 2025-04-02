@@ -1,0 +1,23 @@
+.ingredient-usage-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.ingredient-category-container {
+    width: 300px;
+    margin-bottom: 25px;
+}
+
+.ingredient-category-title {
+    font-weight: 400;
+    font-size: 25px;
+    text-align: center;
+    margin: 0px 0px 5px 0px;
+}
+
+.ingredient {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}

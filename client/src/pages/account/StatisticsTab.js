@@ -30,21 +30,24 @@ const StatisticsTab = ({}) => {
 
     return (
         <>
-            <h1 className="tab-title">Ingredient Usage</h1>
-            {IngredientCategories.map(category => {
-                let category_ingr = ingredients.filter(ingr => ingr.category === category.name);
-                if(category_ingr.length === 0) return <></>
-                return <div style={{paddingLeft: "10px", paddingRight: "10px"}}>
-                    <h3 style={{display: "flex", justifyContent: "center", marginBottom: '2px'}}>{category.header}</h3>
-                    {category_ingr.map((ingredient) =>{
-                        return <div>
-                            <div style={{display: "flex", justifyContent: "center"}}>
-                                {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} onIngredientClick={onIngredientClick} />}
-                            </div>
-                        </div>;
-                    })}
-                </div>
-            })}
+            <h1 className="tab-title">Statistics</h1>
+            <h2 className="tab-subtitle">Ingredient Usage</h2>
+            <div className="ingredient-usage-container">
+                {IngredientCategories.map(category => {
+                    let category_ingr = ingredients.filter(ingr => ingr.category === category.name);
+                    if(category_ingr.length === 0) return <></>
+                    return <div className="ingredient-category-container">
+                        <h3 className="ingredient-category-title">{category.header}</h3>
+                        {category_ingr.map((ingredient) =>{
+                            return <div>
+                                <div className="ingredient">
+                                    {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} onIngredientClick={onIngredientClick} />}
+                                </div>
+                            </div>;
+                        })}
+                    </div>
+                })}
+            </div>
         </>
     )
 }

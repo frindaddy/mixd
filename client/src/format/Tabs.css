@@ -6,3 +6,12 @@
     width: max-content;
     margin-bottom: 2%;
 }
+
+.tab-subtitle {
+    font-weight: 300;
+    font-size: 30px;
+    display: block;
+    margin-inline: auto;
+    width: max-content;
+    margin-bottom: 10px;
+}

@@ -1,0 +1,13 @@
+.ingredient-entry {
+    padding: 0px;
+    margin: 2px 0px 0px 0px;
+    font-size: 19px;
+    font-weight: 300;
+}
+
+.ingredient-use-count {
+    padding-top: 6px;
+    margin: 0px 0px 0px 5px;
+    font-size: 14px;
+    font-weight: 300;
+}

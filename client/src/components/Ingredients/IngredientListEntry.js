@@ -1,4 +1,4 @@
-import "../../format/MyBarTab.css";
+import "../../format/IngredientListEntry.css";
 
 const IngredientListEntry = ({ingredient, onIngredientClick}) => {
 
