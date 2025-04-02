@@ -4,8 +4,8 @@ const IngredientListEntry = ({ingredient, onIngredientClick}) => {
 
     return (
         <>
-            <p className="ingredient-entry" onClick={()=>{onIngredientClick(ingredient)}} style={{cursor: "pointer"}}>{ingredient.name}</p>
-            <p className="ingredient-use-count">({ingredient.count} {ingredient.count > 1 ? "uses":"use"})</p>
+            <span className="ingredient-entry" onClick={()=>{onIngredientClick(ingredient)}} style={{cursor: "pointer"}}>{ingredient.name}</span>
+            <span className="ingredient-use-count">({ingredient.count} {ingredient.count > 1 ? "uses":"use"})</span>
         </>
     )
 }
