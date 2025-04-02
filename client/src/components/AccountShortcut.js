@@ -44,6 +44,8 @@ const AccountShortcut = ({user, setUser}) => {
                 <span onClick={()=>{goTo('/account/statistics')}}>Statistics</span>
                 {user.adminKey && <>
                     <hr />
+                    <span onClick={()=>{goTo('/account/edit_drinks')}}>Manage Drinks</span>
+                    <hr />
                     <span onClick={()=>{goTo('/account/edit_ingredients')}}>Manage Ingredients</span>
                     <hr />
                     <span onClick={()=>{goTo('/account/users')}}>Manage Users</span>
