@@ -57,7 +57,7 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
                 let category_ingr = ingredients.filter(ingr => ingr.category === category.name);
                 if(category_ingr.length === 0) return <></>
                 return <div>
-                    <h2>{category.header}</h2>
+                    <p className="filter-category-title">{category.header}</p>
                     <div className="tag-container">
                         {category_ingr.map(ingredient => {
                             let onHand = userIngredients !== null && userIngredients.includes(ingredient.uuid);
