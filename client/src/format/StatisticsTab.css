@@ -21,3 +21,13 @@
     flex-flow: row wrap;
     justify-content: center;
 }
+
+@media screen and (max-width: 600px) {
+    .ingredient-category-container {
+        width: 100%;
+    }
+
+    .ingredient-category-title {
+        font-size: 28px;
+    }
+}

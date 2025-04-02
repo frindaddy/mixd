@@ -12,3 +12,13 @@
     font-size: 14px;
     font-weight: 300;
 }
+
+@media screen and (max-width: 600px) {
+    .ingredient-entry {
+        font-size: 26px;
+    }
+
+    .ingredient-use-count {
+        font-size: 21px;
+    }
+}
