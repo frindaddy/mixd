@@ -13,6 +13,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
     const [filterPanelShown, setFilterPanelShown] = useState(false);
     const [timeoutID, setTimeoutID] = useState(null);
     const [featuredMenuName, setFeaturedMenuName] = useState('');
+    const [listLoaded, setListLoaded] = useState(false);
 
     useEffect(() => {
         getDrinkList();
@@ -25,6 +26,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
                     if (res.data) {
                         setFeaturedMenuName('');
                         setDrinkList(res.data);
+                        setListLoaded(true);
                     }
                 }).catch((err) => console.log(err));
         } else {
@@ -33,6 +35,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
                     if (res.data) {
                         setFeaturedMenuName(res.data.name);
                         setDrinkList(res.data.drinkList);
+                        setListLoaded(true);
                     }
                 }).catch((err) => console.log(err));
         }
@@ -97,9 +100,11 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
             <div className={'filter-panel'}>
                 <FilterPanel toggleFilterPanel={toggleFilterPanel} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags}/>
             </div>
-            {featuredMenuName !== '' && <h1>{featuredMenuName}</h1>}
-            {featuredMenuName === '' && <h1>Search Results</h1>}
-            <DrinkArray drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
+            {listLoaded && <>
+                {featuredMenuName !== '' && <h1>{featuredMenuName}</h1>}
+                {featuredMenuName === '' && <h1>Search Results</h1>}
+                <DrinkArray drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
+            </>}
         </>
     )
 }
