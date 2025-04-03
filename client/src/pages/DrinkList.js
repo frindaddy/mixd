@@ -43,7 +43,6 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
                     }
                 }).catch((err) => console.log(err));
         }
-
     }
 
     function toggleFilterPanel(){
