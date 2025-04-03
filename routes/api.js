@@ -483,6 +483,7 @@ router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
                 if (!req.query.saveImg && fs.existsSync(drinkImage)){
                     fs.unlink(drinkImage, (e)=>{e && console.error(e)});
                 }
+                remove_drink_from_menus(req.params.uuid);
                 return res.json(data);
             })
             .catch(next);
