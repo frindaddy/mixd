@@ -32,7 +32,7 @@ const ManageUsersTab = ({adminKey, user}) => {
                 setUsers([...users, {user_id: res.data.user_id}]);
             }
         }).catch((err) => {
-            setErrorMsg('Failed to create user. Internal server error '+err.response.status);
+            setErrorMsg('Failed to create user. Internal server error '+err.response.status+'.');
         });
     }
 
@@ -42,7 +42,7 @@ const ManageUsersTab = ({adminKey, user}) => {
                 .then(() => {
                     setUsers(users.filter(user_entry => user_entry.user_id !== userToDelete.user_id));
                 }).catch((err) => {
-                setErrorMsg('Failed to delete user. Internal server error '+err.response.status);
+                setErrorMsg('Failed to delete user. Internal server error '+err.response.status+'.');
             });
         } else {
             alert('User not deleted.');
@@ -64,7 +64,7 @@ const ManageUsersTab = ({adminKey, user}) => {
                     console.log(res);
                 }
             }).catch((err) => {
-                setErrorMsg('Failed to edit user. Internal server error '+err.response.status);
+                setErrorMsg('Failed to edit user. Internal server error '+err.response.status+'.');
             });
         } else {
             setErrorMsg('You cannot demote yourself.')
