@@ -718,7 +718,7 @@ router.get('/menus/:user_id', (req, res, next) => {
 router.get('/menu/:menu_id', (req, res, next) => {
     if(req.params.menu_id){
         let menuFilter = {menu_id: req.params.menu_id}
-        if(req.params.menu_id === 'featured') menuFilter = {}
+        if(req.params.menu_id === 'featured') menuFilter = {featured: true}
         Menus.findOne(menuFilter, '')
             .then((menu) => {
                 if (menu) {
@@ -739,7 +739,11 @@ router.get('/menu/:menu_id', (req, res, next) => {
                         res.json(menu)
                     }
                 } else {
-                    res.sendStatus(400);
+                    if(req.params.menu_id === 'featured'){
+                        res.json({});
+                    } else {
+                        res.sendStatus(400);
+                    }
                 }
             })
             .catch(next);
