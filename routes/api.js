@@ -695,9 +695,9 @@ router.post('/user_ingredients', (req, res, next) => {
 });
 
 router.get('/menus', (req, res, next) => {
-    Menus.find({}, 'menu_id')
+    Menus.find({}, 'menu_id name users featured').sort({name: 1})
         .then((menus) => {
-            res.json(menus.map(menu => menu.menu_id))
+            res.json(menus)
         })
         .catch(next);
 });
@@ -718,7 +718,7 @@ router.get('/menus/:user_id', (req, res, next) => {
 router.get('/menu/:menu_id', (req, res, next) => {
     if(req.params.menu_id){
         let menuFilter = {menu_id: req.params.menu_id}
-        if(req.params.menu_id === 'featured') menuFilter = {}
+        if(req.params.menu_id === 'featured') menuFilter = {featured: true}
         Menus.findOne(menuFilter, '')
             .then((menu) => {
                 if (menu) {
@@ -739,7 +739,11 @@ router.get('/menu/:menu_id', (req, res, next) => {
                         res.json(menu)
                     }
                 } else {
-                    res.sendStatus(400);
+                    if(req.params.menu_id === 'featured'){
+                        res.json({});
+                    } else {
+                        res.sendStatus(400);
+                    }
                 }
             })
             .catch(next);
@@ -799,6 +803,30 @@ router.post('/modify_menu', (req, res, next) => {
     }
 });
 
+router.post('/feature_menu', (req, res, next) => {
+    if(req.body.menu_id){
+        Menus.updateMany({featured: true}, {featured: false}).then(response => {
+            if(response.acknowledged){
+                if(req.body.remove !== true){
+                    Menus.updateOne({menu_id: req.body.menu_id}, {featured: true}).then(response => {
+                        if(response.acknowledged){
+                            res.sendStatus(200);
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    }).catch(()=>{res.sendStatus(500)});
+                } else {
+                    res.sendStatus(200);
+                }
+            } else {
+                res.sendStatus(500);
+            }
+        }).catch(next);
+    } else {
+        res.sendStatus(400);
+    }
+});
+
 router.post('/add_menu_drink', (req, res, next) => {
     if(req.body.menu_id && req.body.drink){
         Menus.findOne({menu_id: req.body.menu_id}, 'menu_id drinks').then(menu => {
@@ -830,6 +858,15 @@ router.delete('/menu/:menu_id', (req, res, next) => {
                 res.json(data);
             })
             .catch(next);
+    }
+});
+
+router.delete('/menu_forced/:menu_id',verifyRequest, (req, res, next) => {
+    if(req.params.menu_id){
+        Menus.findOneAndDelete({ menu_id: req.params.menu_id })
+            .then((data) => {
+                res.json(data);
+            }).catch(next);
     }
 });
 
