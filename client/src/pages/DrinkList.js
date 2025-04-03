@@ -20,6 +20,10 @@ const DrinkList = ({setShowLoader, searchParams, setSearchParams, user, setUser}
         setSearchParams(temp);
     }
 
+    useEffect(() => {
+        getDrinkList();
+    }, []);
+
     function getDrinkList() {
         axios.get('/api/search', {params : searchParams})
             .then((res) => {
