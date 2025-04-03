@@ -29,7 +29,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
                     }
                 }).catch((err) => console.log(err));
         } else {
-            axios.get('/api/menu')
+            axios.get('/api/menu/featured')
                 .then((res) => {
                     if (res.data) {
                         setFeaturedMenuName(res.data.name);
