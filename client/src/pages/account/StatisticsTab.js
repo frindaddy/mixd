@@ -32,6 +32,7 @@ const StatisticsTab = ({}) => {
         <>
             <h1 className="tab-title">Statistics</h1>
             <h2 className="tab-subtitle">Ingredient Usage</h2>
+            <p className="ingredient-sort-instructions">Click on an ingredient to show all drinks using that ingredient!</p>
             <div className="ingredient-usage-container">
                 {IngredientCategories.map(category => {
                     let category_ingr = ingredients.filter(ingr => ingr.category === category.name);

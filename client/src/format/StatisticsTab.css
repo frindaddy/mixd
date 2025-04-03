@@ -16,6 +16,14 @@
     justify-content: center;
 }
 
+.ingredient-sort-instructions {
+    font-weight: 300;
+    font-size: 18px;
+    color: darkgray;    
+    text-align: center;
+    margin: 0 0 15px 0;
+}
+
 .ingredient-usage-container {
     display: flex;
     flex-flow: row wrap;
@@ -29,5 +37,9 @@
 
     .ingredient-category-title {
         font-size: 28px;
+    }
+
+    .ingredient-sort-instructions {
+        margin-bottom: 10px;
     }
 }
