@@ -8,24 +8,18 @@ import {useCookies} from "react-cookie";
 import "../format/DrinkList.css";
 import AccountShortcut from "../components/AccountShortcut";
 
-const DrinkList = ({setShowLoader, searchParams, setSearchParams, user, setUser}) => {
+const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, searchIngredient, setSearchIngredient, searchTags, setSearchTags}) => {
 
     const [drinkList, setDrinkList] = useState([]);
     const [filterPanelShown, setFilterPanelShown] = useState(false);
     const [timeoutID, setTimeoutID] = useState(null);
 
-    function updateSearchParams(key, value){
-        let temp = searchParams;
-        temp[key] = value;
-        setSearchParams(temp);
-    }
-
     useEffect(() => {
         getDrinkList();
-    }, []);
+    }, [searchIngredient, searchTags]);
 
     function getDrinkList() {
-        axios.get('/api/search', {params : searchParams})
+        axios.get('/api/search', {params : {searchText: searchText, tags: searchTags, ingredient: searchIngredient}})
             .then((res) => {
                 if (res.data) {
                     setDrinkList(res.data);
@@ -36,7 +30,7 @@ const DrinkList = ({setShowLoader, searchParams, setSearchParams, user, setUser}
     function onSearchType(e) {
         if(timeoutID) clearTimeout(timeoutID);
         setTimeoutID(setTimeout(submitSearch, 500));
-        updateSearchParams('searchText', e.target.value);
+        setSearchText(e.target.value);
     }
     function submitSearch(){
         setTimeoutID(null);
@@ -74,6 +68,16 @@ const DrinkList = ({setShowLoader, searchParams, setSearchParams, user, setUser}
         });
     }
 
+    function clearSearchParams() {
+        setSearchText('');
+        setSearchTags([]);
+        setSearchIngredient('');
+    }
+
+    function showEraser(){
+        return searchText !== '' || searchTags.length > 0 || searchIngredient !=='';
+    }
+
     return (
         <>
             <AccountShortcut user={user} setUser={setUser}/>
@@ -83,13 +87,13 @@ const DrinkList = ({setShowLoader, searchParams, setSearchParams, user, setUser}
                 </div>
                 <div className="search-container">
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/></div>
-                    <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchParams.searchText} onChange={(e) => {onSearchType(e)}}/>
+                    <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {onSearchType(e)}}/>
                     <div className='filter-toggle'><FaSearch  style={{cursor:"pointer"}} onClick={getDrinkList}/></div>
-                    {searchParams !== {} && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={()=> {setSearchParams({})}} /></div>}
+                    {showEraser() && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams} /></div>}
                 </div>
             </header>
             <div className={'filter-panel'}>
-                <FilterPanel toggleFilterPanel={toggleFilterPanel} searchParams={searchParams} updateSearchParams={updateSearchParams}/>
+                <FilterPanel toggleFilterPanel={toggleFilterPanel} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags}/>
             </div>
             <DrinkArray filter={{text: '', tags: []}}
                 drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />

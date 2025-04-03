@@ -19,10 +19,9 @@ import StatisticsTab from "./pages/account/StatisticsTab";
 import ManageDrinksTab from "./pages/account/ManageDrinksTab";
 
 function App() {
-    const [previousDrinkList, setPreviousDrinkList] = useState([{name:"Loading Drinks..."}]);
-    const [searchParams, setSearchParams] = useState({});
-    const [searchText, setSearchText] = useState("");
-    const [ingrFilter, setIngrFilter] = useState(["",""]);
+    const [searchText, setSearchText] = useState('');
+    const [searchTags, setSearchTags] = useState([]);
+    const [searchIngredient, setSearchIngredient] = useState('');
     const [userDrinksReq, setUserDrinksReq] = useState(null);
     const [user, setUser] = useState({});
     const [showLoader, setShowLoader] = useState(false);
@@ -31,7 +30,7 @@ function App() {
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<Layout showLoader={showLoader} setShowLoader={setShowLoader} user={user} setUser={setUser}/>}>
-                <Route index element={<DrinkList setShowLoader={setShowLoader} searchParams={searchParams} setSearchParams={setSearchParams} user={user} setUser={setUser} />}/>
+                <Route index element={<DrinkList setShowLoader={setShowLoader} searchText={searchText} setSearchText={setSearchText} user={user} setUser={setUser} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags}/>}/>
                 <Route path=":drink_identifier" element={<DrinkInfo setShowLoader={setShowLoader}/>}/>
                 <Route path="create_drink" element={<CreateDrink adminKey={user.adminKey}/>}/>
                 <Route path="update_drink/:uuid" element={<CreateDrink adminKey={user.adminKey}/>}/>

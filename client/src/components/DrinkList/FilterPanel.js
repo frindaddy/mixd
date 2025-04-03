@@ -6,12 +6,10 @@ import TagCategories from "../../definitions/TagCategories";
 import "../../format/FilterPanel.css";
 import IngredientCategories from "../../definitions/IngredientCategories";
 
-const FilterPanel = ({toggleFilterPanel, searchParams, updateSearchParams}) => {
+const FilterPanel = ({toggleFilterPanel, searchIngredient, setSearchIngredient, searchTags, setSearchTags}) => {
 
     const [allTags, setAllTags] = useState([]);
     const [ingredients, setIngredients] = useState([]);
-    const [localSelectedTags, setLocalSelectedTags] = useState([]);
-    const [localIngredient, setLocalIngredient] = useState('');
 
     useEffect(() => {
         axios.get('/api/tags/')
@@ -29,33 +27,30 @@ const FilterPanel = ({toggleFilterPanel, searchParams, updateSearchParams}) => {
     }, []);
 
     function isTagSelected(category, value) {
-        return searchParams.tags && searchParams.tags.filter(tag => tag.category === category && tag.value === value).length > 0;
+        return searchTags && searchTags.filter(tag => tag.category === category && tag.value === value).length > 0;
     }
 
     const onTagClick = (category, value) => {
         let newTagList = [];
         if(isTagSelected(category, value)){
-            newTagList = searchParams.tags.filter((tag)=> {
+            newTagList = searchTags.filter((tag)=> {
                 return tag.category !== category && tag.value !== value;
             });
         } else {
-            if(searchParams.tags){
-                newTagList = [...searchParams.tags.filter(tagFilter => tagFilter.category !== category), {category: category, value: value}];
+            if(searchTags){
+                newTagList = [...searchTags.filter(tagFilter => tagFilter.category !== category), {category: category, value: value}];
             } else {
                 newTagList = [{category: category, value: value}]
             }
         }
-        updateSearchParams('tags', newTagList);
-        setLocalSelectedTags(newTagList);
+        setSearchTags(newTagList);
     }
 
     function onIngrClick(ingr_uuid){
-        if(searchParams.ingredient === ingr_uuid){
-            updateSearchParams('ingredient', undefined);
-            setLocalIngredient('');
+        if(searchIngredient === ingr_uuid){
+            setSearchIngredient('');
         } else {
-            updateSearchParams('ingredient', ingr_uuid);
-            setLocalIngredient(ingr_uuid);
+            setSearchIngredient(ingr_uuid);
         }
     }
 
@@ -85,7 +80,7 @@ const FilterPanel = ({toggleFilterPanel, searchParams, updateSearchParams}) => {
                         <p className="filter-category-title">{cat.header}</p>
                         <div className="filter-category-tag-container">
                             {ingredients.filter(ingr=>ingr.category === cat.name).map((ingr)=>{
-                                let selected = searchParams.ingredient === ingr.uuid;
+                                let selected = searchIngredient === ingr.uuid;
                                 return (
                                     <div className="tag-container">
                                         <div onClick={()=>{onIngrClick(ingr.uuid)}}
