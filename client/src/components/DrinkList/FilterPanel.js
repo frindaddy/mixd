@@ -18,10 +18,10 @@ const FilterPanel = ({toggleFilterPanel, searchIngredient, setSearchIngredient, 
                     setAllTags(res.data);
                 }
             }).catch((err) => console.log(err));
-        axios.get('/api/get_ingredients')
+        axios.get('/api/count_ingredients')
             .then((res) => {
                 if (res.data) {
-                    setIngredients(res.data);
+                    setIngredients(res.data.filter(ingr => ingr.count > 0));
                 }
             }).catch((err) => console.log(err));
     }, []);
