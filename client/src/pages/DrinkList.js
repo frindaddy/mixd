@@ -20,7 +20,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
 
     function getDrinkList() {
         if(showEraser()){
-            axios.get('/api/search', {params : {searchText: searchText, tags: searchTags, ingredient: searchIngredient, user_id: myBarSearch.user_id, tol: myBarSearch.tol, strict: myBarSearch.strict}})
+            axios.get('/api/search', {params : {searchText: searchText, tags: searchTags, ingredient: searchIngredient, user_id: myBarSearch.user_id, tol: myBarSearch.tol, strict: myBarSearch.strict, no_na: myBarSearch.no_na}})
                 .then((res) => {
                     if (res.data) {
                         setFeaturedMenuName('');
