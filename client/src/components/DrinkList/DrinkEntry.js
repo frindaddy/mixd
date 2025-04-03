@@ -1,29 +1,14 @@
-import React, {useEffect, useState} from "react"
 import DrinkTags, {filterTags} from "../DrinkTags";
 import {FaArrowDown, FaArrowUp, FaPlus, FaTrash, FaWrench} from "react-icons/fa";
 import axios from "axios";
 import "../../format/DrinkEntry.css";
 import {Link, useNavigate} from "react-router-dom";
 
-const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader, menuSettings, editMenu, showMenuDesc}) => {
+const DrinkEntry = ({drink, getDrinkList, adminKey, setShowLoader, menuSettings, editMenu, showMenuDesc}) => {
 
-    const defaultTagCategories = ['spirit', 'style', 'taste'];
-    const [tagCategories, setTagCategories] = useState(defaultTagCategories);
+    const tagCategories = ['spirit', 'style', 'taste'];
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if(filteredTags) {
-            let newCategories = defaultTagCategories;
-            filteredTags.forEach((tag)=>{
-                let cat = tag.split('>')[0];
-                if (!defaultTagCategories.includes(cat) && !newCategories.includes(cat)) {
-                    newCategories = [...newCategories, cat];
-                }
-            });
-            setTagCategories(newCategories);
-        }
-    }, [filteredTags]);
 
     const confirmDeleteDrink = () => {
         if(window.confirm('Are you sure you want to delete \''+drink.name+'\'?') === true){

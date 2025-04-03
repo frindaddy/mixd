@@ -149,31 +149,6 @@ function updateABVforIngredient(ingr_uuid) {
     })
 }
 
-async function find_on_hand_drinks(ingr_uuids, missing_ingr_tol, no_na, strict) {
-    return new Promise(resolve => {
-        if(ingr_uuids.length === 0 || missing_ingr_tol < 0) resolve([[]]);
-        Drinks.find({'ingredients.0': {"$exists":true}}, 'uuid ingredients').sort({name:1}).then(drinks => {
-            let results = drinks.map(drink => {
-                return {
-                    uuid: drink.uuid,
-                    num_missing_ingr: drink.ingredients.filter(ingr => {
-                        if(no_na) {
-                            return (ingredients[ingr.ingredient] && ingredients[ingr.ingredient].abv > 0) && !ingr_uuids.includes(ingr.ingredient)
-                        } else {
-                            return !ingr_uuids.includes(ingr.ingredient)
-                        }
-                    }).length
-                };
-            });
-            if(strict){
-                resolve(results.filter(result => result.num_missing_ingr == missing_ingr_tol).map(result => result.uuid));
-            } else {
-                resolve(results.filter(result => result.num_missing_ingr <= missing_ingr_tol).sort((a,b)=> a.num_missing_ingr-b.num_missing_ingr).map(result => result.uuid));
-            }
-        })
-    });
-}
-
 function validate_username(username) {
     if(username.length === 0 || username.length > 15) return false;
     if(!username.match(/^[a-zA-Z0-9._]*$/)) return false;
@@ -240,37 +215,125 @@ router.get('/list/:ingr_uuid', (req, res, next) => {
     }
 });
 
-router.get('/tags', (req, res, next) => {
-    Drinks.find({}, 'tags glass')
-        .then((data) => {
-            let tags = {};
-            let tagList = [];
-            let categories = [];
-            let glasses = [];
-            data.forEach((drink) => {
-                if (drink.glass) {
-                    glasses.push(drink.glass);
+router.get('/search', async (req, res, next) => {
+    let pipeline = [];
+
+    let myBarAggregate;
+    if(req.query.user_id){
+        let tol = parseInt(req.query.tol) || 0;
+        let user_data = await Users.findOne({user_id: req.query.user_id}, 'available_ingredients')
+        if(user_data.available_ingredients){
+            myBarAggregate = await Drinks.aggregate([
+                {$project: {
+                    uuid: '$uuid',
+                    ingredients: '$ingredients',
+                    totalIngredients: {$size: '$ingredients'}
+                }},
+                {$unwind: '$ingredients'},
+                {$match: {'ingredients.ingredient': {$in:user_data.available_ingredients}}},
+                {$group: {
+                    _id: {
+                        uuid: '$uuid',
+                        totalIngredients: '$totalIngredients'
+                    },
+                    count: {$sum: 1}
+                }},
+                {$project: {
+                    uuid: '$_id.uuid',
+                    matched: '$count',
+                    missing: {$subtract: ['$_id.totalIngredients', '$count']},
+                    _id: 0
+                }},
+                {$match: {missing: req.query.strict === 'true' ? tol:{$lte: tol}}},
+                {$sort: {missingIngredients: 1, matchedIngredients: -1}}
+            ])
+        }
+    }
+
+    if(myBarAggregate) {
+        pipeline = [{$match: {uuid: {$in: myBarAggregate.map(result => result.uuid)}}}];
+    }
+
+    if(req.query.searchText && req.query.searchText !=='') {
+        pipeline.push({$match: {'name': {$regex: req.query.searchText.trim(), $options: 'i'}}})
+    }
+
+    if(req.query.ingredient && req.query.ingredient !==''){
+        pipeline = pipeline.concat([
+            {$unwind: '$ingredients'},
+            {$match: {'ingredients.ingredient': req.query.ingredient}},
+            {$group: {
+                _id: {
+                    uuid: '$uuid',
+                    tags: '$tags'
                 }
-                if (drink.tags){
-                    drink.tags.forEach((drinkTag)=>{
-                        tagList.push(drinkTag);
-                        categories.push(drinkTag.category)
-                    });
+            }},
+            {$project: {
+                uuid: '$_id.uuid',
+                tags: '$_id.tags',
+                _id: 0
+            }}
+        ]);
+    }
+    if(req.query.tags){
+        pipeline = pipeline.concat([
+            {$unwind: "$tags"},
+            {$project: {
+                uuid: '$uuid',
+                tag: {
+                    category: '$tags.category',
+                    value: '$tags.value'
                 }
-            });
-            categories = Array.from(new Set(categories)).sort();
-            categories.forEach((cat) => {
-                let catTags = [];
-                tagList.forEach((drinkTag) => {
-                   if(drinkTag.category === cat) {
-                       catTags.push(drinkTag.value);
-                   }
-                });
-                tags = {...tags, [cat]:Array.from(new Set(catTags)).sort()};
-            });
-            res.json({tags: tags, glasses: Array.from(new Set(glasses)).sort()});
+            }},
+            {$match: {'tag': {$in:req.query.tags}}},
+            {$group: {
+                _id: {
+                    uuid: '$uuid',
+                },
+                count: {$sum: 1}
+            }},
+            {$project: {
+                uuid: '$_id.uuid',
+                ingredients: '$_id.ingredients',
+                tagCount: '$count',
+                _id: 0
+            }}
+        ]);
+    }
+
+    if(pipeline.length > 0){
+        Drinks.aggregate(pipeline).then(pipeline_res => {
+            Drinks.find({uuid: {$in: pipeline_res.map(drink=>drink.uuid)}}, 'uuid name url_name tags glass').sort({name:1})
+                .then((data) => res.json(data))
+                .catch(next);
         })
-        .catch(next);
+    } else {
+        Drinks.find({}, 'uuid name url_name tags glass').sort({name:1})
+            .then((data) => res.json(data))
+            .catch(next);
+    }
+});
+
+router.get('/tags', (req, res, next) => {
+    Drinks.aggregate([
+        {$unwind: '$tags'},
+        {$group: {
+            _id: {
+                category: '$tags.category',
+                value: '$tags.value'
+            }
+        }},
+        {$project: {
+            category: '$_id.category',
+            value: '$_id.value',
+            _id: 0
+        }},
+        {$sort: {value: 1}}
+    ]).then(data => {
+        if(data){
+            res.json(data);
+        }
+    })
 });
 
 router.get('/image', (req, res, next) => {
@@ -532,34 +595,6 @@ router.get('/account/:user_id', (req, res, next) => {
     }
 });
 
-router.get('/user_drinks/:user_id', (req, res, next) => {
-    if(req.params.user_id){
-        let tol = req.query.tol || 0;
-        //grouped searches are not currently allowed
-        let no_na = req.query.no_na ==='true' || false;
-        let strict = req.query.strict ==='true' || false;
-        Users.findOne({user_id: req.params.user_id}, 'available_ingredients')
-            .then(async (ingredientData) => {
-                if (ingredientData) {
-                    let drink_uuids = await find_on_hand_drinks(ingredientData.available_ingredients, tol, no_na, strict);
-                    Drinks.find({"uuid": {'$in':drink_uuids}}, 'uuid name url_name tags glass').then(drinks => {
-                        if(drinks && drinks.length >= 0){
-                            let sorted_drinks = drink_uuids.map(drink_uuid => {
-                                return drinks.filter(drink => drink.uuid === drink_uuid)[0];
-                            })
-                            res.json(sorted_drinks);
-                        } else {
-                            res.sendStatus(500);
-                        }
-                    })
-                } else {
-                    res.sendStatus(400);
-                }
-            })
-            .catch(next);
-    }
-});
-
 router.get('/users', (req, res, next) => {
     Users.find({}, 'user_id username admin')
         .then((users) => {
@@ -682,7 +717,9 @@ router.get('/menus/:user_id', (req, res, next) => {
 
 router.get('/menu/:menu_id', (req, res, next) => {
     if(req.params.menu_id){
-        Menus.findOne({menu_id: req.params.menu_id}, '')
+        let menuFilter = {menu_id: req.params.menu_id}
+        if(req.params.menu_id === 'featured') menuFilter = {}
+        Menus.findOne(menuFilter, '')
             .then((menu) => {
                 if (menu) {
                     if(menu.drinks){

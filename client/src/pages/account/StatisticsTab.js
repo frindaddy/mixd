@@ -6,7 +6,7 @@ import "../../format/Tabs.css";
 import {useNavigate} from "react-router-dom";
 import IngredientCategories from "../../definitions/IngredientCategories";
 
-const StatisticsTab = ({}) => {
+const StatisticsTab = ({setSearchIngredient}) => {
     const [ingredients, setIngredients] = useState([]);
 
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ const StatisticsTab = ({}) => {
     }
 
     const onIngredientClick = (ingredient) => {
-        console.log(ingredient);
+        setSearchIngredient(ingredient.uuid);
         navigate('/');
     };
 
