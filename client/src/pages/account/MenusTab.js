@@ -53,22 +53,20 @@ const MenusTab = ({user}) => {
     }
 
     return (
-        <div>
-            <div>
-                {menus.map((menu, menu_index) => {
-                    return <MenuCard menu={menu} menu_index={menu_index} drinkList={drinkList} menus={menus} setMenus={setMenus} />
-                })}
-                <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
-                    {!creatingMenu && <FaPlus style={{fontSize:'40px', left:'80px', top:'80px', position:"relative"}} />}
-                    {creatingMenu && <div>
-                        <input autoFocus name='name' style={{backgroundColor: 'darkgray', border: 'none', outline:'none', fontSize: '16px'}} value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
-                        <FaX style={{marginRight: '10px', cursor:'pointer'}} onClick={cancelCreate}/>
-                        <FaCheck style={{cursor:'pointer'}} onClick={createMenu}/>
-                    </div>}
-                    <></>
-                </div>
+        <>
+            {menus.map((menu, menu_index) => {
+                return <MenuCard menu={menu} menu_index={menu_index} drinkList={drinkList} menus={menus} setMenus={setMenus} />
+            })}
+            <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
+                {!creatingMenu && <FaPlus style={{fontSize:'40px', left:'80px', top:'80px', position:"relative"}} />}
+                {creatingMenu && <div>
+                    <input autoFocus name='name' style={{backgroundColor: 'darkgray', border: 'none', outline:'none', fontSize: '16px'}} value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
+                    <FaX style={{marginRight: '10px', cursor:'pointer'}} onClick={cancelCreate}/>
+                    <FaCheck style={{cursor:'pointer'}} onClick={createMenu}/>
+                </div>}
+                <></>
             </div>
-        </div>
+        </>
     )
 };
 
