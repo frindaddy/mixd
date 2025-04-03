@@ -22,7 +22,7 @@ function App() {
     const [searchText, setSearchText] = useState('');
     const [searchTags, setSearchTags] = useState([]);
     const [searchIngredient, setSearchIngredient] = useState('');
-    const [userDrinksReq, setUserDrinksReq] = useState(null);
+    const [myBarSearch, setMyBarSearch] = useState({});
     const [user, setUser] = useState({});
     const [showLoader, setShowLoader] = useState(false);
 
@@ -30,13 +30,13 @@ function App() {
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<Layout showLoader={showLoader} setShowLoader={setShowLoader} user={user} setUser={setUser}/>}>
-                <Route index element={<DrinkList setShowLoader={setShowLoader} searchText={searchText} setSearchText={setSearchText} user={user} setUser={setUser} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags}/>}/>
+                <Route index element={<DrinkList setShowLoader={setShowLoader} searchText={searchText} setSearchText={setSearchText} user={user} setUser={setUser} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch}/>}/>
                 <Route path=":drink_identifier" element={<DrinkInfo setShowLoader={setShowLoader}/>}/>
                 <Route path="create_drink" element={<CreateDrink adminKey={user.adminKey}/>}/>
                 <Route path="update_drink/:uuid" element={<CreateDrink adminKey={user.adminKey}/>}/>
                 <Route path="account" element={<AccountPage user={user}/>} >
                     <Route index element={<MyAccountTab user={user} setUser={setUser}/>}></Route>
-                    <Route path="bar" element={<MyBarTab setUserDrinksReq={setUserDrinksReq} user={user} />}></Route>
+                    <Route path="bar" element={<MyBarTab setMyBarSearch={setMyBarSearch} user={user} />}></Route>
                     <Route path="menus" element={<MenusTab user={user}/>}></Route>
                     <Route path="statistics" element={<StatisticsTab setSearchIngredient={setSearchIngredient}/>}></Route>
                     <Route path="edit_ingredients" element={<ManageIngredientsTab adminKey={user.adminKey} />}></Route>

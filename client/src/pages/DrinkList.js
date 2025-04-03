@@ -7,7 +7,7 @@ import {FaFilter, FaEraser, FaSearch} from "react-icons/fa";
 import "../format/DrinkList.css";
 import AccountShortcut from "../components/AccountShortcut";
 
-const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, searchIngredient, setSearchIngredient, searchTags, setSearchTags}) => {
+const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, searchIngredient, setSearchIngredient, searchTags, setSearchTags, myBarSearch, setMyBarSearch}) => {
 
     const [drinkList, setDrinkList] = useState([]);
     const [filterPanelShown, setFilterPanelShown] = useState(false);
@@ -21,7 +21,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
 
     function getDrinkList() {
         if(showEraser()){
-            axios.get('/api/search', {params : {searchText: searchText, tags: searchTags, ingredient: searchIngredient}})
+            axios.get('/api/search', {params : {searchText: searchText, tags: searchTags, ingredient: searchIngredient, user_id: myBarSearch.user_id, tol: myBarSearch.tol, strict: myBarSearch.strict}})
                 .then((res) => {
                     if (res.data) {
                         setFeaturedMenuName('');
@@ -77,10 +77,11 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
         setSearchText('');
         setSearchTags([]);
         setSearchIngredient('');
+        setMyBarSearch({});
     }
 
     function showEraser(){
-        return (searchText && searchText !== '') || searchTags.length > 0 || searchIngredient !=='';
+        return (searchText && searchText !== '') || searchTags.length > 0 || searchIngredient !=='' || myBarSearch.user_id;
     }
 
     return (
