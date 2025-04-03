@@ -13,18 +13,31 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
     const [drinkList, setDrinkList] = useState([]);
     const [filterPanelShown, setFilterPanelShown] = useState(false);
     const [timeoutID, setTimeoutID] = useState(null);
+    const [featuredMenuName, setFeaturedMenuName] = useState('');
 
     useEffect(() => {
         getDrinkList();
     }, [searchIngredient, searchTags]);
 
     function getDrinkList() {
-        axios.get('/api/search', {params : {searchText: searchText, tags: searchTags, ingredient: searchIngredient}})
-            .then((res) => {
-                if (res.data) {
-                    setDrinkList(res.data);
-                }
-            }).catch((err) => console.log(err));
+        if(showEraser()){
+            axios.get('/api/search', {params : {searchText: searchText, tags: searchTags, ingredient: searchIngredient}})
+                .then((res) => {
+                    if (res.data) {
+                        setFeaturedMenuName('');
+                        setDrinkList(res.data);
+                    }
+                }).catch((err) => console.log(err));
+        } else {
+            axios.get('/api/menu')
+                .then((res) => {
+                    if (res.data) {
+                        setFeaturedMenuName(res.data.name);
+                        setDrinkList(res.data.drinkList);
+                    }
+                }).catch((err) => console.log(err));
+        }
+
     }
 
     function onSearchType(e) {
@@ -95,6 +108,8 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
             <div className={'filter-panel'}>
                 <FilterPanel toggleFilterPanel={toggleFilterPanel} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags}/>
             </div>
+            {!showEraser() && featuredMenuName !== '' && <h1>{featuredMenuName}</h1>}
+            {showEraser() && <h1>Search Results</h1>}
             <DrinkArray filter={{text: '', tags: []}}
                 drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
         </>
