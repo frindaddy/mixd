@@ -38,7 +38,7 @@ function App() {
                     <Route index element={<MyAccountTab user={user} setUser={setUser}/>}></Route>
                     <Route path="bar" element={<MyBarTab setUserDrinksReq={setUserDrinksReq} user={user} />}></Route>
                     <Route path="menus" element={<MenusTab user={user}/>}></Route>
-                    <Route path="statistics" element={<StatisticsTab />}></Route>
+                    <Route path="statistics" element={<StatisticsTab setSearchIngredient={setSearchIngredient}/>}></Route>
                     <Route path="edit_ingredients" element={<ManageIngredientsTab adminKey={user.adminKey} />}></Route>
                     <Route path="edit_drinks" element={<ManageDrinksTab user={user} setShowLoader={setShowLoader}/>}></Route>
                     <Route path="users" element={<ManageUsersTab adminKey={user.adminKey} user={user}/>}></Route>
