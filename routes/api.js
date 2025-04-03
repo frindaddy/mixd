@@ -695,7 +695,7 @@ router.post('/user_ingredients', (req, res, next) => {
 });
 
 router.get('/menus', (req, res, next) => {
-    Menus.find({}, 'menu_id name users').sort({name: 1})
+    Menus.find({}, 'menu_id name users featured').sort({name: 1})
         .then((menus) => {
             res.json(menus)
         })
@@ -792,6 +792,30 @@ router.post('/modify_menu', (req, res, next) => {
                 }).catch(()=>{res.sendStatus(500)});
             } else {
                 res.sendStatus(400);
+            }
+        }).catch(next);
+    } else {
+        res.sendStatus(400);
+    }
+});
+
+router.post('/feature_menu', (req, res, next) => {
+    if(req.body.menu_id){
+        Menus.updateMany({featured: true}, {featured: false}).then(response => {
+            if(response.acknowledged){
+                if(req.body.remove !== true){
+                    Menus.updateOne({menu_id: req.body.menu_id}, {featured: true}).then(response => {
+                        if(response.acknowledged){
+                            res.sendStatus(200);
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    }).catch(()=>{res.sendStatus(500)});
+                } else {
+                    res.sendStatus(200);
+                }
+            } else {
+                res.sendStatus(500);
             }
         }).catch(next);
     } else {
