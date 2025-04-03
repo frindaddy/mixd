@@ -134,7 +134,7 @@ const ManageIngredientsTab = ({adminKey}) => {
     }
 
     return (
-        <div>
+        <>
             <h1 className="tab-title">Manage Ingredients</h1>
             {errorMsg && errorMsg !== '' && <p style={{color:"red"}}>{"ERROR: "+errorMsg}</p>}
             <p style={{textAlign:"center", fontSize:"20px", fontWeight:"300", marginBottom:"-5px"}}>Add Ingredient:</p>
@@ -153,17 +153,15 @@ const ManageIngredientsTab = ({adminKey}) => {
             </div>
             <h1 className="tab-subtitle">Current Ingredients:</h1>
             {ingredients.map((ingredient) =>{
-                return <div>
-                    <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-                        <span className="manage-ingredients-entry" style={{color: unusedIngredients.includes(ingredient.uuid) ? "red":"white"}}>{ingredient.name + ' ('+ingredient.abv+'%)'+ ' ('+ingredient.category+')'}</span>
-                        <FaPenToSquare className="edit-ingredient" onClick={()=>{renameIngredient(ingredient.uuid, prompt("Rename '"+ingredient.name+"' to:", ingredient.name))}}/>
-                        <FaPercent className="edit-ingredient" onClick={()=>{changeABV(ingredient.uuid, prompt("Change abv of '"+ingredient.name+"' to:", ingredient.abv?ingredient.abv:0))}}/>
-                        <FaTag className="edit-ingredient" onClick={()=>{changeCategory(ingredient.uuid, newIngredientCategory)}} />
-                        {unusedIngredients.includes(ingredient.uuid) && <FaTrash className="edit-ingredient" onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}}/>}
-                    </div>
+                return <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
+                    <span className="manage-ingredients-entry" style={{color: unusedIngredients.includes(ingredient.uuid) ? "red":"white"}}>{ingredient.name + ' ('+ingredient.abv+'%)'+ ' ('+ingredient.category+')'}</span>
+                    <FaPenToSquare className="edit-ingredient" onClick={()=>{renameIngredient(ingredient.uuid, prompt("Rename '"+ingredient.name+"' to:", ingredient.name))}}/>
+                    <FaPercent className="edit-ingredient" onClick={()=>{changeABV(ingredient.uuid, prompt("Change abv of '"+ingredient.name+"' to:", ingredient.abv?ingredient.abv:0))}}/>
+                    <FaTag className="edit-ingredient" onClick={()=>{changeCategory(ingredient.uuid, newIngredientCategory)}} />
+                    {unusedIngredients.includes(ingredient.uuid) && <FaTrash className="edit-ingredient" onClick={()=>{confirmDeleteIngredient(ingredient.uuid, ingredient.name)}}/>}
                 </div>
             })}
-        </div>
+        </>
     )
 }
 
