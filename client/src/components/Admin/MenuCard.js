@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import {FaCheck, FaEdit, FaTrash} from "react-icons/fa";
-import "../../format/DrinkList.css";
+import "../../format/MenuCard.css";
 import {FaX} from "react-icons/fa6";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
