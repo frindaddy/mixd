@@ -254,11 +254,11 @@ router.get('/search', async (req, res, next) => {
         pipeline = [{$match: {uuid: {$in: myBarAggregate.map(result => result.uuid)}}}];
     }
 
-    if(req.query.searchText) {
+    if(req.query.searchText && req.query.searchText !=='') {
         pipeline.push({$match: {'name': {$regex: req.query.searchText.trim(), $options: 'i'}}})
     }
 
-    if(req.query.ingredient){
+    if(req.query.ingredient && req.query.ingredient !==''){
         pipeline = pipeline.concat([
             {$unwind: '$ingredients'},
             {$match: {'ingredients.ingredient': req.query.ingredient}},
