@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {FaPlus, FaRegStar, FaStar, FaTrash} from "react-icons/fa";
 import axios from "axios";
-import '../../format/ManageIngredients.css';
+import '../../format/Tabs.css';
 
 const ManageUsersTab = ({adminKey, user}) => {
     const [errorMsg, setErrorMsg] = useState('');
@@ -73,8 +73,8 @@ const ManageUsersTab = ({adminKey, user}) => {
 
     return (
         <>
-            <h1 className="manage-ingredients-title" style={{marginTop:"20px", marginBottom:"-10px"}}>Manage Users</h1>
-            {errorMsg && <p>{errorMsg}</p>}
+            <h1 className="tab-title">Manage Users</h1>
+            {errorMsg && <p style={{textAlign:"center", fontWeight:"300"}}>{errorMsg}</p>}
             {users.map((userEntry) =>{
                 return <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
                     <span className="manage-ingredients-entry">{userEntry.user_id + (userEntry.username ? (' ('+userEntry.username+')'):'')}</span>
