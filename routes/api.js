@@ -149,6 +149,17 @@ function updateABVforIngredient(ingr_uuid) {
     })
 }
 
+function remove_drink_from_menus(drinkUUID) {
+    Menus.aggregate([{$match: {$expr: {$in: [drinkUUID, '$drinks']}}},
+        {$project: {_id: 0, menu_id: '$menu_id', drinks: {$filter : {input: "$drinks", cond: {$ne: ["$$this", drinkUUID]}}}}}
+    ]).then(menus => {
+        menus.forEach(menu =>{
+            Menus.updateOne({menu_id: menu.menu_id}, {drinks: menu.drinks}).then((res)=>{
+                if(!res.acknowledged) console.error(res);
+            })
+        })
+    });
+}
 function validate_username(username) {
     if(username.length === 0 || username.length > 15) return false;
     if(!username.match(/^[a-zA-Z0-9._]*$/)) return false;
@@ -472,6 +483,7 @@ router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
                 if (!req.query.saveImg && fs.existsSync(drinkImage)){
                     fs.unlink(drinkImage, (e)=>{e && console.error(e)});
                 }
+                remove_drink_from_menus(req.params.uuid);
                 return res.json(data);
             })
             .catch(next);
