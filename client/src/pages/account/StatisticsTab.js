@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react"
 import axios from "axios";
 import IngredientListEntry from "../../components/Ingredients/IngredientListEntry";
 import "../../format/StatisticsTab.css";
+import "../../format/Tabs.css";
 import {useNavigate} from "react-router-dom";
 import IngredientCategories from "../../definitions/IngredientCategories";
 
