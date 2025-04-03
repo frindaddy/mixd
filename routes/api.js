@@ -695,9 +695,9 @@ router.post('/user_ingredients', (req, res, next) => {
 });
 
 router.get('/menus', (req, res, next) => {
-    Menus.find({}, 'menu_id')
+    Menus.find({}, 'menu_id name users').sort({name: 1})
         .then((menus) => {
-            res.json(menus.map(menu => menu.menu_id))
+            res.json(menus)
         })
         .catch(next);
 });
