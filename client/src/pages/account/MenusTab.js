@@ -55,6 +55,7 @@ const MenusTab = ({user}) => {
 
     return (
         <>
+            <h1 className="tab-title">My Menus</h1>
             {menus.map((menu, menu_index) => {
                 return <MenuCard menu={menu} menu_index={menu_index} drinkList={drinkList} menus={menus} setMenus={setMenus} />
             })}
