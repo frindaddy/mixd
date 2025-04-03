@@ -66,7 +66,6 @@ const MenusTab = ({user}) => {
                     <FaX style={{marginRight: '10px', cursor:'pointer'}} onClick={cancelCreate}/>
                     <FaCheck style={{cursor:'pointer'}} onClick={createMenu}/>
                 </div>}
-                <></>
             </div>
         </>
     )
