@@ -861,4 +861,14 @@ router.delete('/menu/:menu_id', (req, res, next) => {
     }
 });
 
+router.delete('/menu_forced/:menu_id',verifyRequest, (req, res, next) => {
+    if(req.params.menu_id){
+        Menus.findOneAndDelete({ menu_id: req.params.menu_id })
+            .then((data) => {
+                res.json(data);
+            })
+            .catch(next);
+    }
+});
+
 module.exports = router;
