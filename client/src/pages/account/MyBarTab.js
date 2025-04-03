@@ -5,7 +5,7 @@ import "../../format/MyBarTab.css";
 import {useNavigate} from "react-router-dom";
 import IngredientCategories from "../../definitions/IngredientCategories";
 
-const MyBarTab = ({setUserDrinksReq, user}) => {
+const MyBarTab = ({setMyBarSearch, user}) => {
     const [ingredients, setIngredients] = useState([]);
     const [userIngredients, setUserIngredients] = useState(null);
     const [searchSettings, setSearchSettings] = useState({tol: 0, no_na: false, strict: false});
@@ -45,7 +45,17 @@ const MyBarTab = ({setUserDrinksReq, user}) => {
 
     function search_user_drinks(){
         if(searchSettings.user_id){
-            setUserDrinksReq(searchSettings);
+            let final_settings = {...searchSettings}
+            if(searchSettings.tol === 0 && !searchSettings.strict) {
+                if(searchSettings.no_na){
+                    final_settings.mode = 'no_na'
+                } else {
+                    final_settings.mode = 'onHand'
+                }
+            } else {
+                final_settings.mode = 'advanced'
+            }
+            setMyBarSearch(final_settings);
             navigate('/');
         }
     }

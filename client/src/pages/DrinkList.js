@@ -3,46 +3,51 @@ import axios from 'axios';
 import DotColor from "../components/DotColor";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import FilterPanel from "../components/DrinkList/FilterPanel";
-import {FaFilter, FaEraser} from "react-icons/fa";
-import {useCookies} from "react-cookie";
+import {FaFilter, FaEraser, FaSearch} from "react-icons/fa";
 import "../format/DrinkList.css";
 import AccountShortcut from "../components/AccountShortcut";
 
-const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
+const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, searchIngredient, setSearchIngredient, searchTags, setSearchTags, myBarSearch, setMyBarSearch}) => {
 
-    const [drinkList, setDrinkList] = useState(previousDrinkList);
-    const [tagFilterList, setTagFilterList] = useState([]);
-    const [filterPanelShown, setfilterPanelShown] = useState(false);
-    const [cookies, setCookie] = useCookies(["tagList"]);
+    const [drinkList, setDrinkList] = useState([]);
+    const [filterPanelShown, setFilterPanelShown] = useState(false);
+    const [featuredMenuName, setFeaturedMenuName] = useState('');
+    const [listLoaded, setListLoaded] = useState(false);
 
-    const getDrinkList = () => {
-        let list_route = '/api/list/'+ingrFilter[0];
-        if(userDrinksReq && userDrinksReq.user_id){
-          list_route = '/api/user_drinks/'+userDrinksReq.user_id
-            if(userDrinksReq.tol){
-                list_route = list_route + '?tol='+userDrinksReq.tol;
-                if(userDrinksReq.no_na) list_route = list_route + '&no_na=true';
-                if(userDrinksReq.strict) list_route = list_route + '&strict=true';
-            } else if (userDrinksReq.no_na) {
-                list_route = list_route + '?no_na=true';
-            }
+    useEffect(() => {
+        getDrinkList();
+    }, [searchText, searchIngredient, searchTags, myBarSearch]);
+
+    function getDrinkList() {
+        if(showEraser()){
+            axios.get('/api/search', {params : {searchText: searchText, tags: searchTags, ingredient: searchIngredient, user_id: myBarSearch.user_id, tol: myBarSearch.tol, strict: myBarSearch.strict, no_na: myBarSearch.no_na}})
+                .then((res) => {
+                    if (res.data) {
+                        setFeaturedMenuName('');
+                        setDrinkList(res.data);
+                        setListLoaded(true);
+                    }
+                }).catch((err) => console.log(err));
+        } else {
+            axios.get('/api/menu/featured')
+                .then((res) => {
+                    if (res.data) {
+                        setFeaturedMenuName(res.data.name);
+                        setDrinkList(res.data.drinkList);
+                        setListLoaded(true);
+                    }
+                }).catch((err) => console.log(err));
         }
-        axios.get(list_route)
-            .then((res) => {
-                if (res.data) {
-                    setDrinkList(res.data);
-                    setPreviousDrinkList(res.data);
-                }
-            }).catch((err) => console.log(err));
+
     }
 
-    const toggleFilterPanel = () => {
+    function toggleFilterPanel(){
         if(!filterPanelShown){
             expandFilterPanel();
-            setfilterPanelShown(true);
+            setFilterPanelShown(true);
         } else {
             collapseFilterPanel();
-            setfilterPanelShown(false);
+            setFilterPanelShown(false);
         }
     }
 
@@ -67,16 +72,16 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
         });
     }
 
-    function resetAllFilters() {
-        setTagFilterList([]);
-        setIngrFilter(["", ""]);
-        setUserDrinksReq(null);
-        setCookie('tagList', [], {maxAge:3600});
+    function clearSearchParams() {
+        setSearchText('');
+        setSearchTags([]);
+        setSearchIngredient('');
+        setMyBarSearch({});
     }
 
-    useEffect(() => {
-        getDrinkList();
-    }, [ingrFilter]);
+    function showEraser(){
+        return (searchText && searchText !== '') || searchTags.length > 0 || searchIngredient !=='' || myBarSearch.user_id;
+    }
 
     return (
         <>
@@ -86,17 +91,20 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, user, setUser, pre
                     <div className="logo">mixd<DotColor /></div>
                 </div>
                 <div className="search-container">
-                    <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
-                    <div className='filter-toggle'><FaFilter style={{cursor:"pointer"}} onClick={toggleFilterPanel}/></div>
-                    {((tagFilterList.length > 0) || ingrFilter[0] !== "" || userDrinksReq !== null) && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
+                    <div className='filter-toggle'><FaFilter style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/></div>
+                    <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
+                    <div className='filter-toggle'><FaSearch  style={{cursor:"pointer"}} onClick={getDrinkList}/></div>
+                    {showEraser() && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams} /></div>}
                 </div>
             </header>
             <div className={'filter-panel'}>
-                <FilterPanel toggleFilterPanel={toggleFilterPanel} tagFilterList={tagFilterList}
-                setTagFilterList={setTagFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
+                <FilterPanel toggleFilterPanel={toggleFilterPanel} user={user} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch}/>
             </div>
-            <DrinkArray filter={{text: searchText, tags: tagFilterList}}
-                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
+            {listLoaded && <>
+                {featuredMenuName !== '' && <h1>{featuredMenuName}</h1>}
+                {featuredMenuName === '' && <h1>Search Results</h1>}
+                <DrinkArray drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
+            </>}
         </>
     )
 }

@@ -2,94 +2,121 @@ import React, {useEffect, useState} from "react"
 import axios from "axios";
 import {getColor} from "../DrinkTags";
 import {FaChevronUp} from "react-icons/fa";
-import {useCookies} from "react-cookie";
 import TagCategories from "../../definitions/TagCategories";
 import "../../format/FilterPanel.css";
+import IngredientCategories from "../../definitions/IngredientCategories";
 
-const FilterPanel = ({toggleFilterPanel, tagFilterList, setTagFilterList, tagMenu, ingrFilter}) => {
+const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngredient, searchTags, setSearchTags, myBarSearch, setMyBarSearch}) => {
 
-    const CAT_ORDER = ['spirit', 'style', 'taste','misc'];
-
-    const [allTags, setAllTags] = useState({});
-    const [categoryList, setCategoryList] = useState([])
-    const [cookies, setCookie] = useCookies(["tagList"]);
-
-    function populateCategoryList(tags) {
-        setCategoryList(Object.keys(tags).sort((a, b)=>{
-            let indexA = CAT_ORDER.indexOf(a);
-            let indexB = CAT_ORDER.indexOf(b);
-            // If category is not in sort list then send to the end
-            if (indexA < 0) return 1;
-            if (indexB < 0) return -1;
-            // Sort in order of sort list (CAT_LIST)
-            if(indexA < indexB) return -1;
-            if(indexA > indexB) return 1;
-            // If a & b are the same return the original order
-            return 0;
-        }));
-    }
+    const [allTags, setAllTags] = useState([]);
+    const [ingredients, setIngredients] = useState([]);
 
     useEffect(() => {
         axios.get('/api/tags/')
             .then((res) => {
                 if (res.data) {
-                    setAllTags(res.data.tags);
-                    populateCategoryList(res.data.tags)
+                    setAllTags(res.data);
                 }
             }).catch((err) => console.log(err));
-        if(!tagMenu){
-            if(cookies['tagList']){
-                setTagFilterList(cookies['tagList']);
-            }
-        }
+        axios.get('/api/count_ingredients')
+            .then((res) => {
+                if (res.data) {
+                    setIngredients(res.data.filter(ingr => ingr.count > 0));
+                }
+            }).catch((err) => console.log(err));
     }, []);
+
+    function isTagSelected(category, value) {
+        return searchTags && searchTags.filter(tag => tag.category === category && tag.value === value).length > 0;
+    }
 
     const onTagClick = (category, value) => {
         let newTagList = [];
-        if(tagFilterList.includes(category + '>' + value)){
-            newTagList = tagFilterList.filter((tag)=> {
-                return tag !== category + '>' + value;
+        if(isTagSelected(category, value)){
+            newTagList = searchTags.filter((tag)=> {
+                return tag.category !== category && tag.value !== value;
             });
         } else {
-            newTagList = [...tagFilterList.filter(tagFilter => tagFilter.split('>')[0] !== category), category + '>' + value];
+            if(searchTags){
+                newTagList = [...searchTags.filter(tagFilter => tagFilter.category !== category), {category: category, value: value}];
+            } else {
+                newTagList = [{category: category, value: value}]
+            }
         }
-        setTagFilterList(newTagList);
-        if(!tagMenu){
-            setCookie('tagList', newTagList, {maxAge:3600});
+        setSearchTags(newTagList);
+    }
+
+    function changeMyBarMode(clickedMode){
+        if(myBarSearch.mode === clickedMode){
+            setMyBarSearch({});
+        } else if(clickedMode === 'onHand') {
+            setMyBarSearch({user_id: user.user_id, tol: 0, no_na: false, strict: false, mode: 'onHand'});
+        } else if(clickedMode === 'no_na') {
+            setMyBarSearch({user_id: user.user_id, tol: 0, no_na: true, strict: false, mode: 'no_na'});
         }
     }
 
-    const getCategoryLocalization = (categoryName) => {
-        let search = TagCategories.filter((category) => category.name === categoryName);
-        if(search.length > 0){
-            return search[0].localization;
+    function onIngrClick(ingr_uuid){
+        if(searchIngredient === ingr_uuid){
+            setSearchIngredient('');
         } else {
-            return 'Unknown category \''+categoryName+'\'';
+            setSearchIngredient(ingr_uuid);
         }
     }
 
     return (
         <>
-            {ingrFilter && ingrFilter[0] !=="" && <span style={{display:"flex", justifyContent: "center", fontStyle:"italic"}}>{'Only showing drinks using '+ingrFilter[1]}</span>}
             <div className="filter-panel-container">
-                {categoryList.map((cat)=>{
+                {TagCategories.map((cat)=>{
                     return <div className="filter-category-container">
-                        <p className="filter-category-title">{getCategoryLocalization(cat)}</p>
+                        <p className="filter-category-title">{cat.localization}</p>
                         <div className="filter-category-tag-container">
-                            {allTags[cat].map((tagName)=>{
-                                let selected = tagFilterList.includes(cat+'>'+tagName);
+                            {allTags.filter(tag=>tag.category === cat.name).map((tag)=>{
+                                let selected = isTagSelected(cat.name, tag.value);
                                 return (
                                     <div className="tag-container">
-                                        <div onClick={()=>{onTagClick(cat, tagName)}}
+                                        <div onClick={()=>{onTagClick(cat.name, tag.value)}}
                                              className={'tag clickable unselectable ' + (selected ? '':'unselected-tag-filter')}
-                                             style={selected ? {backgroundColor: getColor({category: cat, value: tagName})}: {}}>{tagName}</div>
+                                             style={selected ? {backgroundColor: getColor({category: cat.name, value: tag.value})}: {}}>{tag.value}</div>
                                     </div>
                                 )
                             })}
                         </div>
                     </div>
                 })}
-                {!tagMenu && <div className='filter-chevron'><FaChevronUp style={{cursor:"pointer", marginBottom:"10px"}} onClick={() => {toggleFilterPanel()}}/></div>}
+                {user.user_id && <div className="filter-category-container">
+                    <p className="filter-category-title">My Bar</p>
+                    <div className="tag-container">
+                        <div onClick={()=> changeMyBarMode('onHand')}
+                             className={'tag clickable unselectable ' + (myBarSearch.mode==='onHand' ? '':'unselected-tag-filter')}
+                             style={{backgroundColor: myBarSearch.mode==='onHand' ? 'green': ''}}>On Hand</div>
+                        <div onClick={()=> changeMyBarMode('no_na')}
+                            className={'tag clickable unselectable ' + (myBarSearch.mode==='no_na' ? '':'unselected-tag-filter')}
+                            style={{backgroundColor: myBarSearch.mode==='no_na' ? 'green': ''}}>Liquor On Hand</div>
+                        {myBarSearch.mode==='advanced' && <div onClick={()=> changeMyBarMode('advanced')}
+                            className={'tag clickable unselectable'}
+                            style={{backgroundColor: 'green'}}>Advanced Search</div>}
+                    </div>
+                </div>}
+                <br />
+                {IngredientCategories.map((cat)=>{
+                    return <div className="filter-category-container">
+                        <p className="filter-category-title">{cat.header}</p>
+                        <div className="filter-category-tag-container">
+                            {ingredients.filter(ingr=>ingr.category === cat.name).map((ingr)=>{
+                                let selected = searchIngredient === ingr.uuid;
+                                return (
+                                    <div className="tag-container">
+                                        <div onClick={()=>{onIngrClick(ingr.uuid)}}
+                                             className={'tag clickable unselectable ' + (selected ? '':'unselected-tag-filter')}
+                                             style={selected ? {backgroundColor: 'green'}: {}}>{ingr.name}</div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                })}
+                {<div className='filter-chevron'><FaChevronUp style={{cursor:"pointer", marginBottom:"10px"}} onClick={() => {toggleFilterPanel()}}/></div>}
             </div>
         </>
     )
