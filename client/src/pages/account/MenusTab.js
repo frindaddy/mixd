@@ -3,6 +3,7 @@ import axios from "axios";
 import {FaCheck, FaPlus} from "react-icons/fa";
 import {FaX} from "react-icons/fa6";
 import MenuCard from "../../components/Admin/MenuCard";
+import "../../format/MenusTab.css"
 
 const MenusTab = ({user}) => {
 
