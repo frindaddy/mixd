@@ -4,7 +4,6 @@ import DotColor from "../components/DotColor";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import FilterPanel from "../components/DrinkList/FilterPanel";
 import {FaFilter, FaEraser, FaSearch} from "react-icons/fa";
-import {useCookies} from "react-cookie";
 import "../format/DrinkList.css";
 import AccountShortcut from "../components/AccountShortcut";
 
