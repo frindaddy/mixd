@@ -32,8 +32,13 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
             axios.get('/api/menu/featured')
                 .then((res) => {
                     if (res.data) {
-                        setFeaturedMenuName(res.data.name);
-                        setDrinkList(res.data.drinkList);
+                        if(res.data.menu_id) {
+                            setFeaturedMenuName(res.data.name);
+                            setDrinkList(res.data.drinkList);
+                        } else {
+                            setFeaturedMenuName('No featured menu');
+                            setDrinkList([]);
+                        }
                         setListLoaded(true);
                     }
                 }).catch((err) => console.log(err));
