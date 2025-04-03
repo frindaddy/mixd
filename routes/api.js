@@ -866,8 +866,7 @@ router.delete('/menu_forced/:menu_id',verifyRequest, (req, res, next) => {
         Menus.findOneAndDelete({ menu_id: req.params.menu_id })
             .then((data) => {
                 res.json(data);
-            })
-            .catch(next);
+            }).catch(next);
     }
 });
 
