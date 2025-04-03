@@ -16,7 +16,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
 
     useEffect(() => {
         getDrinkList();
-    }, [searchIngredient, searchTags]);
+    }, [searchText, searchIngredient, searchTags]);
 
     function getDrinkList() {
         if(showEraser()){
@@ -37,16 +37,6 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
                 }).catch((err) => console.log(err));
         }
 
-    }
-
-    function onSearchType(e) {
-        if(timeoutID) clearTimeout(timeoutID);
-        setTimeoutID(setTimeout(submitSearch, 500));
-        setSearchText(e.target.value);
-    }
-    function submitSearch(){
-        setTimeoutID(null);
-        getDrinkList();
     }
 
     function toggleFilterPanel(){
@@ -87,7 +77,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
     }
 
     function showEraser(){
-        return searchText !== '' || searchTags.length > 0 || searchIngredient !=='';
+        return (searchText && searchText !== '') || searchTags.length > 0 || searchIngredient !=='';
     }
 
     return (
@@ -99,7 +89,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
                 </div>
                 <div className="search-container">
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/></div>
-                    <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder="Search..." value={searchText} onChange={(e) => {onSearchType(e)}}/>
+                    <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'><FaSearch  style={{cursor:"pointer"}} onClick={getDrinkList}/></div>
                     {showEraser() && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams} /></div>}
                 </div>
@@ -107,8 +97,8 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
             <div className={'filter-panel'}>
                 <FilterPanel toggleFilterPanel={toggleFilterPanel} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags}/>
             </div>
-            {!showEraser() && featuredMenuName !== '' && <h1>{featuredMenuName}</h1>}
-            {showEraser() && <h1>Search Results</h1>}
+            {featuredMenuName !== '' && <h1>{featuredMenuName}</h1>}
+            {featuredMenuName === '' && <h1>Search Results</h1>}
             <DrinkArray drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
         </>
     )
