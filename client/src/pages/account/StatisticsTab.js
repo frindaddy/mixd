@@ -41,8 +41,8 @@ const StatisticsTab = ({}) => {
                     return <div className="ingredient-category-container">
                         <h3 className="ingredient-category-title">{category.header}</h3>
                         {category_ingr.map((ingredient) =>{
-                            return <div className="ingredient-list-entry-container">
-                                {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} onIngredientClick={onIngredientClick} />}
+                            return <div>
+                                {ingredient.count > 0 && <IngredientListEntry ingredient={ingredient} onIngredientClick={onIngredientClick}/>}
                             </div>;
                         })}
                     </div>
