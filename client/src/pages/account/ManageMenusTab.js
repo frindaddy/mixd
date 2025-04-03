@@ -43,7 +43,18 @@ const ManageMenusTab = ({adminKey, user}) => {
             setErrorMsg('Failed to edit menu. Internal server error '+err.response.status);
         });
     }
-//(userEntry.username ? (' ('+userEntry.username+')'):'')
+
+    function getUsername(menu_users) {
+        if(menu_users && menu_users.length >= 1) {
+            let user_search = users.filter(user => user.user_id == menu_users[0]);
+            if(user_search.length >= 1) {
+                if(user_search[0].username) return user_search[0].username;
+            }
+            return menu_users[0];
+        }
+        return null;
+    }
+
     return (
         <div>
             <h1 className="manage-ingredients-title" style={{marginTop:"20px", marginBottom:"-10px"}}>Manage Menus</h1>
@@ -51,7 +62,8 @@ const ManageMenusTab = ({adminKey, user}) => {
             {menus.map((menuEntry) =>{
                 return <div>
                     <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-                        <span className="manage-ingredients-entry">{menuEntry.menu_id}</span>
+                        <span className="manage-ingredients-entry">{menuEntry.name || menuEntry.menu_id}</span>
+                        <span style={{fontSize: '14px', marginLeft: '5px'}} className="manage-ingredients-entry">{getUsername(menuEntry.users)}</span>
                         {menuEntry.featured && <FaStar style={{cursor:'pointer', marginLeft:'8px'}} onClick={()=>{setFeatured(menuEntry.menu_id, true)}}/>}
                         {!menuEntry.featured && <FaRegStar style={{cursor:'pointer', marginLeft:'8px'}} onClick={()=>{setFeatured(menuEntry.menu_id, false)}}/>}
                     </div>
