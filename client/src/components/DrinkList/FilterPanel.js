@@ -6,7 +6,7 @@ import TagCategories from "../../definitions/TagCategories";
 import "../../format/FilterPanel.css";
 import IngredientCategories from "../../definitions/IngredientCategories";
 
-const FilterPanel = ({toggleFilterPanel, searchIngredient, setSearchIngredient, searchTags, setSearchTags}) => {
+const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngredient, searchTags, setSearchTags, myBarSearch, setMyBarSearch}) => {
 
     const [allTags, setAllTags] = useState([]);
     const [ingredients, setIngredients] = useState([]);
@@ -46,6 +46,16 @@ const FilterPanel = ({toggleFilterPanel, searchIngredient, setSearchIngredient, 
         setSearchTags(newTagList);
     }
 
+    function changeMyBarMode(clickedMode){
+        if(myBarSearch.mode === clickedMode){
+            setMyBarSearch({});
+        } else if(clickedMode === 'onHand') {
+            setMyBarSearch({user_id: user.user_id, tol: 0, no_na: false, strict: false, mode: 'onHand'});
+        } else if(clickedMode === 'no_na') {
+            setMyBarSearch({user_id: user.user_id, tol: 0, no_na: true, strict: false, mode: 'no_na'});
+        }
+    }
+
     function onIngrClick(ingr_uuid){
         if(searchIngredient === ingr_uuid){
             setSearchIngredient('');
@@ -74,6 +84,20 @@ const FilterPanel = ({toggleFilterPanel, searchIngredient, setSearchIngredient, 
                         </div>
                     </div>
                 })}
+                {user.user_id && <div className="filter-category-container">
+                    <p className="filter-category-title">My Bar</p>
+                    <div className="tag-container">
+                        <div onClick={()=> changeMyBarMode('onHand')}
+                             className={'tag clickable unselectable ' + (myBarSearch.mode==='onHand' ? '':'unselected-tag-filter')}
+                             style={{backgroundColor: myBarSearch.mode==='onHand' ? 'green': ''}}>On Hand</div>
+                        <div onClick={()=> changeMyBarMode('no_na')}
+                            className={'tag clickable unselectable ' + (myBarSearch.mode==='no_na' ? '':'unselected-tag-filter')}
+                            style={{backgroundColor: myBarSearch.mode==='no_na' ? 'green': ''}}>Liquor On Hand</div>
+                        {myBarSearch.mode==='advanced' && <div onClick={()=> changeMyBarMode('advanced')}
+                            className={'tag clickable unselectable'}
+                            style={{backgroundColor: 'green'}}>Advanced Search</div>}
+                    </div>
+                </div>}
                 <br />
                 {IngredientCategories.map((cat)=>{
                     return <div className="filter-category-container">

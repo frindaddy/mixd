@@ -45,7 +45,17 @@ const MyBarTab = ({setMyBarSearch, user}) => {
 
     function search_user_drinks(){
         if(searchSettings.user_id){
-            setMyBarSearch(searchSettings);
+            let final_settings = {...searchSettings}
+            if(searchSettings.tol === 0 && !searchSettings.strict) {
+                if(searchSettings.no_na){
+                    final_settings.mode = 'no_na'
+                } else {
+                    final_settings.mode = 'onHand'
+                }
+            } else {
+                final_settings.mode = 'advanced'
+            }
+            setMyBarSearch(final_settings);
             navigate('/');
         }
     }

@@ -16,7 +16,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
 
     useEffect(() => {
         getDrinkList();
-    }, [searchText, searchIngredient, searchTags]);
+    }, [searchText, searchIngredient, searchTags, myBarSearch]);
 
     function getDrinkList() {
         if(showEraser()){
@@ -98,7 +98,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
                 </div>
             </header>
             <div className={'filter-panel'}>
-                <FilterPanel toggleFilterPanel={toggleFilterPanel} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags}/>
+                <FilterPanel toggleFilterPanel={toggleFilterPanel} user={user} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch}/>
             </div>
             {listLoaded && <>
                 {featuredMenuName !== '' && <h1>{featuredMenuName}</h1>}
