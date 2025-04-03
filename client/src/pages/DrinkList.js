@@ -109,8 +109,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
             </div>
             {!showEraser() && featuredMenuName !== '' && <h1>{featuredMenuName}</h1>}
             {showEraser() && <h1>Search Results</h1>}
-            <DrinkArray filter={{text: '', tags: []}}
-                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
+            <DrinkArray drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
         </>
     )
 }
