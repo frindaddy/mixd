@@ -53,8 +53,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
 
     function expandFilterPanel() {
         const filterPanel = document.querySelector(".filter-panel");
-        var panelHeight = filterPanel.scrollHeight;
-        filterPanel.style.height = panelHeight + 'px';
+        filterPanel.style.height = filterPanel.scrollHeight + 'px';
         filterPanel.addEventListener('transitioned', function () {
             filterPanel.removeEventListener('transitioned');
             filterPanel.style.height = null;
@@ -63,9 +62,8 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
 
     function collapseFilterPanel() {
         const filterPanel = document.querySelector(".filter-panel")
-        var panelHeight = filterPanel.scrollHeight
         requestAnimationFrame(function () {
-            filterPanel.style.height = panelHeight + 'px';
+            filterPanel.style.height = filterPanel.scrollHeight + 'px';
             requestAnimationFrame(function () {
                 filterPanel.style.height = 0 + 'px';
             })

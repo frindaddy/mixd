@@ -15,7 +15,7 @@ const MyBarTab = ({setMyBarSearch, user}) => {
     useEffect(() => {
         fetchIngredients();
         if(user.user_id) get_user_ingredients();
-    }, []);
+    }, [user.user_id]);
 
     const fetchIngredients = () => {
         axios.get('/api/get_ingredients')
