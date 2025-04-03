@@ -11,7 +11,6 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
 
     const [drinkList, setDrinkList] = useState([]);
     const [filterPanelShown, setFilterPanelShown] = useState(false);
-    const [timeoutID, setTimeoutID] = useState(null);
     const [featuredMenuName, setFeaturedMenuName] = useState('');
     const [listLoaded, setListLoaded] = useState(false);
 
