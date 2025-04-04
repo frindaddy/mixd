@@ -16,6 +16,7 @@ const IMAGE_DIR = process.env.IMAGE_DIR || '';
 const BACKUP_DIR = process.env.BACKUP_DIR || '/root/backups/';
 
 const {RESERVED_ROUTES} = require("../constants");
+const Security = require("../security");
 
 const adminKey = uuid();
 
