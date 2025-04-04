@@ -282,11 +282,13 @@ router.get('/search', async (req, res, next) => {
             {$group: {
                 _id: {
                     uuid: '$uuid',
+                    name: '$name',
                     tags: '$tags'
                 }
             }},
             {$project: {
                 uuid: '$_id.uuid',
+                name: '$_id.name',
                 tags: '$_id.tags',
                 _id: 0
             }}
@@ -298,6 +300,7 @@ router.get('/search', async (req, res, next) => {
             {$unwind: "$tags"},
             {$project: {
                 uuid: '$uuid',
+                name: '$name',
                 tag: {
                     category: '$tags.category',
                     value: '$tags.value'
@@ -307,22 +310,32 @@ router.get('/search', async (req, res, next) => {
             {$group: {
                 _id: {
                     uuid: '$uuid',
+                    name: '$name',
                 },
                 count: {$sum: 1}
             }},
             {$project: {
                 uuid: '$_id.uuid',
+                name: '$_id.name',
                 ingredients: '$_id.ingredients',
                 tagCount: '$count',
                 _id: 0
-            }}
+            }},
+            {$sort: {tagCount: -1, name: 1}}
         ]);
+    } else {
+        pipeline.push({$sort: {name: 1}});
     }
 
     if(pipeline.length > 0){
         Drinks.aggregate(pipeline).then(pipeline_res => {
-            Drinks.find({uuid: {$in: pipeline_res.map(drink=>drink.uuid)}}, 'uuid name url_name tags glass').sort({name:1})
-                .then((data) => res.json(data))
+            let pipeline_uuids = pipeline_res.map(drink=>drink.uuid);
+            Drinks.find({uuid: {$in: pipeline_uuids}}, 'uuid name url_name tags glass').then((data) => {
+                data.sort((a, b) => {
+                    return pipeline_uuids.indexOf(a.uuid) - pipeline_uuids.indexOf(b.uuid);
+                })
+                res.json(data);
+            })
                 .catch(next);
         })
     } else {
