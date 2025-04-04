@@ -620,14 +620,30 @@ router.get('/user_ingredients/:user_id', (req, res, next) => {
     }
 });
 
-router.get('/account/:user_id', (req, res, next) => {
-    if(req.params.user_id){
-        Users.findOne({user_id: req.params.user_id}, 'username admin')
+router.post('/login', (req, res, next) => {
+    if(req.body.accountIdentifier){
+        let query = {username: req.body.accountIdentifier}
+        if(req.body.accountIdentifier.length === 5){
+            let checkInt = parseInt(req.body.accountIdentifier);
+            if(checkInt && checkInt >= 10000 && checkInt < 100000){
+                query = {user_id: checkInt}
+            }
+        }
+        Users.findOne(query, 'username user_id admin pin')
             .then((user_data) => {
                 if(user_data){
-                    res.json({user_id: req.params.user_id, username: user_data.username, adminKey: user_data.admin ? adminKey : undefined});
+                    let response = {user_id: user_data.user_id, username: user_data.username, adminKey: user_data.admin ? adminKey : undefined}
+                    if(user_data.pin){
+                        if(req.body.pin === user_data.pin){
+                            res.json(response);
+                        } else {
+                            res.sendStatus(403)
+                        }
+                    } else {
+                        res.json(response)
+                    }
                 } else {
-                    res.sendStatus(400);
+                    res.sendStatus(403);
                 }
             })
             .catch(next);
@@ -666,6 +682,20 @@ router.post('/change_username', (req, res, next) => {
     }
 });
 
+router.post('/change_pin', (req, res, next) => {
+    if(req.body.user_id && req.body.pin && req.body.pin >= 1000 && req.body.pin < 100000) {
+        Users.updateOne({user_id: req.body.user_id}, {pin: req.body.pin}).then(user => {
+            if(user && user.acknowledged){
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(400);
+            }
+        }).catch(next);
+    } else {
+        res.sendStatus(400);
+    }
+});
+
 router.post('/make_admin', verifyRequest, (req, res, next) => {
     if(req.body.user_id) {
         Users.updateOne({user_id: req.body.user_id}, {admin: req.body.admin}).then(user => {
@@ -699,7 +729,17 @@ router.delete('/user/:user_id', verifyRequest, (req, res, next) => {
     if(req.params.user_id){
         Users.findOneAndDelete({ user_id: req.params.user_id })
             .then((data) => {
-                res.json(data);
+                res.sendStatus(200);
+            })
+            .catch(next);
+    }
+});
+
+router.delete('/pin/:user_id', verifyRequest, (req, res, next) => {
+    if(req.params.user_id){
+        Users.updateOne({ user_id: req.params.user_id }, {$unset: {pin: ""}})
+            .then((data) => {
+                res.sendStatus(200);
             })
             .catch(next);
     }
