@@ -7,7 +7,7 @@ import {FaFilter, FaEraser, FaSearch} from "react-icons/fa";
 import "../format/DrinkList.css";
 import AccountShortcut from "../components/AccountShortcut";
 
-const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, searchIngredient, setSearchIngredient, searchTags, setSearchTags, myBarSearch, setMyBarSearch}) => {
+const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, searchIngredient, setSearchIngredient, searchTags, setSearchTags, myBarSearch, setMyBarSearch, removeCookie}) => {
 
     const [drinkList, setDrinkList] = useState([]);
     const [filterPanelShown, setFilterPanelShown] = useState(false);
@@ -87,7 +87,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
 
     return (
         <>
-            <AccountShortcut user={user} setUser={setUser}/>
+            <AccountShortcut user={user} setUser={setUser} removeCookie={removeCookie}/>
             <header>
                 <div>
                     <div className="logo">mixd<DotColor /></div>

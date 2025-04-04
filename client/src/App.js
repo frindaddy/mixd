@@ -39,7 +39,7 @@ function App() {
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<Layout showLoader={showLoader} setShowLoader={setShowLoader} user={user} setUser={setUser} removeCookie={removeCookie} />}>
-                <Route index element={<DrinkList setShowLoader={setShowLoader} searchText={searchText} setSearchText={setSearchText} user={user} setUser={setUser} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch}/>}/>
+                <Route index element={<DrinkList setShowLoader={setShowLoader} searchText={searchText} setSearchText={setSearchText} user={user} setUser={setUser} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch} removeCookie={removeCookie}/>}/>
                 <Route path=":drink_identifier" element={<DrinkInfo setShowLoader={setShowLoader}/>}/>
                 <Route path="create_drink" element={<CreateDrink adminKey={user.token}/>}/>
                 <Route path="update_drink/:uuid" element={<CreateDrink adminKey={user.token}/>}/>
