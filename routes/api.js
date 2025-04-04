@@ -857,11 +857,17 @@ router.post('/create_menu', validateUserToken, (req, res, next) => {
     }
 });
 
-router.post('/rename_menu', validateUserToken, (req, res, next) => {
-    if(req.body.menu_id && req.body.name){
+router.post('/modify_menu', validateUserToken, (req, res, next) => {
+    if(req.body.menu_id && (req.body.drinks || req.body.name)){
         Menus.findOne({menu_id: req.body.menu_id, $expr: {$in: [req.validated_user, '$users']}}, 'menu_id').then(menu => {
             if(menu){
-                Menus.updateOne({menu_id: menu.menu_id}, {name: req.body.name}).then(response => {
+                let drinks;
+                if(req.body.drinks && Object.prototype.toString.call(req.body.drinks) === '[object Array]' && req.body.drinks.length > 0){
+                    drinks = req.body.drinks.filter(drink=>typeof drink === 'string');
+                } else if(req.body.drinks && req.body.drinks.length === 0){
+                    drinks = [];
+                }
+                Menus.updateOne({menu_id: menu.menu_id}, {drinks: drinks, name: req.body.name}).then(response => {
                     if(response.acknowledged){
                         res.sendStatus(200);
                     } else {
