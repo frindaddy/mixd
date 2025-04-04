@@ -36,7 +36,7 @@ const MyBarTab = ({setMyBarSearch, user}) => {
     }
 
     const onIngredientClick = (ingredient, onHand) => {
-        axios.post('/api/user_ingredients', {user_id: user.user_id, ingr_uuid: ingredient.uuid, delete: onHand}).then(res =>{
+        axios.post('/api/user_ingredients', {user_id: user.user_id, ingr_uuid: ingredient.uuid, delete: onHand}, {headers:{Authorization: `Bearer ${user.token}`}}).then(res =>{
             if(res.data && res.data.available_ingredients){
                 setUserIngredients(res.data.available_ingredients);
             }

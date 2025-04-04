@@ -39,7 +39,7 @@ const MyAccountTab = ({user, setUser}) => {
 
     function submitUsername(){
         if(!usernameStatus.taken && usernameStatus.valid){
-            axios.post('/api/change_username', {user_id: user.user_id, username: usernameField}).then(res =>{
+            axios.post('/api/change_username', {user_id: user.user_id, username: usernameField}, {headers:{Authorization: `Bearer ${user.token}`}}).then(res =>{
                 if(res.status === 200){
                     setUser({...user, username: usernameField});
                     setUsernameField('');
@@ -49,7 +49,7 @@ const MyAccountTab = ({user, setUser}) => {
     }
 
     function changePin(){
-        axios.post('/api/change_pin', {user_id: user.user_id, pin: pinField}).then(res =>{
+        axios.post('/api/change_pin', {user_id: user.user_id, pin: pinField}, {headers:{Authorization: `Bearer ${user.token}`}}).then(res =>{
             if(res.status === 200){
                 setPinField(null);
                 alert('PIN Updated!');

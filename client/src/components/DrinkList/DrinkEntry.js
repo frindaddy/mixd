@@ -60,7 +60,7 @@ const DrinkEntry = ({user, drink, getDrinkList, adminKey, setShowLoader, menuSet
 
     function addMenuDrink(menu_id) {
        if(menu_id){
-           axios.post('/api/add_menu_drink', {menu_id:menu_id, drink: drink.uuid}).then((res)=>{
+           axios.post('/api/add_menu_drink', {menu_id:menu_id, drink: drink.uuid}, {headers:{Authorization: `Bearer ${user.token}`}}).then((res)=>{
                if(res.status && res.status === 200){
                    navigate(-1, {replace: true});
                }
