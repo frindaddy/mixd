@@ -184,7 +184,6 @@ const CreateDrink = ({adminKey}) => {
         <div>
             {loadedDrinkData && <div className="create-drink" style={{flexDirection: "column", width: "100%"}}>
                 <h1 className="create-drink-title">{uuid === undefined ? 'Add New Drink':'Update Existing Drink'}</h1>
-                {errorMsg && <p style={{color:"red"}}>{"ERROR: "+errorMsg}</p>}
 
                 <div className="create-drink-image">
                     <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
@@ -243,6 +242,7 @@ const CreateDrink = ({adminKey}) => {
                 <div className="create-drink-row">
                     <button onClick={()=>{uuid === undefined ? createDrink(false):updateDrink()}}>{uuid === undefined ? 'Add New Drink':'Update Drink'}</button>
                 </div>
+                {errorMsg && <p style={{color:"red", marginBottom:"5px"}}>{"ERROR: "+errorMsg}</p>}
             </div>}
         </div>
     )
