@@ -40,7 +40,7 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus, user}) => {
 
     function renameMenu() {
         if(newMenuName !== '' && menu.menu_id){
-            axios.post('/api/rename_menu', {menu_id: menu.menu_id, name: newMenuName}, {headers:{Authorization: `Bearer ${user.token}`}}).then((res)=>{
+            axios.post('/api/modify_menu', {menu_id: menu.menu_id, name: newMenuName}, {headers:{Authorization: `Bearer ${user.token}`}}).then((res)=>{
                 if(res.status === 200){
                     let new_menus = [...menus];
                     new_menus[menu_index].name = newMenuName;
