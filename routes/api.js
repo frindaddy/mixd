@@ -16,7 +16,7 @@ const BACKUP_DIR = process.env.BACKUP_DIR || '/root/backups/';
 
 const {RESERVED_ROUTES} = require("../constants");
 require("../security");
-const {issueUserToken} = require("../security");
+const {issueUserToken, validateUserToken, validateAdminToken} = require("../security");
 
 const adminKey = uuid();
 
@@ -407,7 +407,7 @@ router.get('/image', (req, res, next) => {
         next()
 });*/
 
-router.post('/image', verifyRequest, async (req, res, next) => {
+router.post('/image', validateAdminToken, async (req, res, next) => {
     uploadImage(req, res, (err) => {
         if (err) {
             console.error(err);
@@ -423,7 +423,7 @@ router.post('/image', verifyRequest, async (req, res, next) => {
     });
 });
 
-router.post('/add_drink', verifyRequest, async (req, res, next) => {
+router.post('/add_drink', validateAdminToken, async (req, res, next) => {
     if (req.body.name) {
 
         //Clean up database data
@@ -454,7 +454,7 @@ router.post('/add_drink', verifyRequest, async (req, res, next) => {
     }
 });
 
-router.post('/modify_tag/', verifyRequest, (req, res, next) => {
+router.post('/modify_tag/', validateAdminToken, (req, res, next) => {
     if (req.body) {
         switch (req.body.change) {
             case 'add':
@@ -503,7 +503,7 @@ router.delete('*', (req, res, next) => {
     next()
 });
 
-router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
+router.delete('/drink/:uuid', validateAdminToken, (req, res, next) => {
     if(req.params.uuid){
         Drinks.findOneAndDelete({ uuid: req.params.uuid })
             .then((data) => {
@@ -518,7 +518,7 @@ router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
     }
 });
 
-router.post('/add_ingredient', verifyRequest, (req, res, next) => {
+router.post('/add_ingredient', validateAdminToken, (req, res, next) => {
     if (req.body.name && req.body.abv !== undefined && req.body.category !== '') {
         Ingredients.create({uuid: uuid(), name: req.body.name, abv: Math.abs(req.body.abv), category: req.body.category})
             .then((data) => {
@@ -531,7 +531,7 @@ router.post('/add_ingredient', verifyRequest, (req, res, next) => {
     }
 });
 
-router.post('/update_ingredient', verifyRequest, (req, res, next) => {
+router.post('/update_ingredient', validateAdminToken, (req, res, next) => {
     if (req.body.uuid && (req.body.name || req.body.abv !== undefined || req.body.category) && req.body.category !== '') {
         Ingredients.findOneAndUpdate({uuid: req.body.uuid}, {name: req.body.name, category: req.body.category, abv: req.body.abv !== undefined ? Math.abs(req.body.abv) : undefined})
             .then((data) => {
@@ -545,7 +545,7 @@ router.post('/update_ingredient', verifyRequest, (req, res, next) => {
     }
 });
 
-router.delete('/ingredient/:uuid', verifyRequest, (req, res, next) => {
+router.delete('/ingredient/:uuid', validateAdminToken, (req, res, next) => {
     if(req.params.uuid){
         Ingredients.findOneAndDelete({ uuid: req.params.uuid })
             .then((data) => {
@@ -671,7 +671,7 @@ router.get('/check_username/:username', (req, res, next)=>{
     }
 });
 
-router.post('/change_username', (req, res, next) => {
+router.post('/change_username',(req, res, next) => {
     if(req.body.user_id && req.body.username) {
         Users.updateOne({user_id: req.body.user_id}, {username: req.body.username}).then(user => {
             if(user && user.acknowledged){
@@ -697,7 +697,7 @@ router.post('/change_pin', (req, res, next) => {
     }
 });
 
-router.post('/make_admin', verifyRequest, (req, res, next) => {
+router.post('/make_admin', validateAdminToken, (req, res, next) => {
     if(req.body.user_id) {
         Users.updateOne({user_id: req.body.user_id}, {admin: req.body.admin}).then(user => {
             if(user && user.acknowledged){
@@ -709,7 +709,7 @@ router.post('/make_admin', verifyRequest, (req, res, next) => {
     }
 });
 
-router.post('/create_user', verifyRequest, (req, res, next) => {
+router.post('/create_user', validateAdminToken, (req, res, next) => {
     Users.find({}, 'user_id').then(users => {
         if(users.length >= 1000){
             res.sendStatus(503);
@@ -726,7 +726,7 @@ router.post('/create_user', verifyRequest, (req, res, next) => {
     }).catch(next);
 });
 
-router.delete('/user/:user_id', verifyRequest, (req, res, next) => {
+router.delete('/user/:user_id', validateAdminToken, (req, res, next) => {
     if(req.params.user_id){
         Users.findOneAndDelete({ user_id: req.params.user_id })
             .then((data) => {
@@ -736,7 +736,7 @@ router.delete('/user/:user_id', verifyRequest, (req, res, next) => {
     }
 });
 
-router.delete('/pin/:user_id', verifyRequest, (req, res, next) => {
+router.delete('/pin/:user_id', validateAdminToken, (req, res, next) => {
     if(req.params.user_id){
         Users.updateOne({ user_id: req.params.user_id }, {$unset: {pin: ""}})
             .then((data) => {
@@ -883,7 +883,7 @@ router.post('/modify_menu', (req, res, next) => {
     }
 });
 
-router.post('/feature_menu', (req, res, next) => {
+router.post('/feature_menu', validateAdminToken, (req, res, next) => {
     if(req.body.menu_id){
         Menus.updateMany({featured: true}, {featured: false}).then(response => {
             if(response.acknowledged){
@@ -941,7 +941,7 @@ router.delete('/menu/:menu_id', (req, res, next) => {
     }
 });
 
-router.delete('/menu_forced/:menu_id',verifyRequest, (req, res, next) => {
+router.delete('/menu_forced/:menu_id', validateAdminToken, (req, res, next) => {
     if(req.params.menu_id){
         Menus.findOneAndDelete({ menu_id: req.params.menu_id })
             .then((data) => {

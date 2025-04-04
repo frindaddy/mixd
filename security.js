@@ -22,3 +22,17 @@ export function validateUserToken(req, res, next) {
         res.sendStatus(401);
     }
 }
+
+export function validateAdminToken(req, res, next) {
+    if (req.headers.authorization) {
+        let bearerToken = req.headers.authorization.split(' ')[1];
+        if(user_tokens[bearerToken] && user_tokens[bearerToken].expiration > Date.now() && user_tokens[bearerToken].admin){
+            req.validated_user = user_tokens[bearerToken].user_id;
+            next();
+        } else {
+            res.sendStatus(403);
+        }
+    } else {
+        res.sendStatus(401);
+    }
+}
