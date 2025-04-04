@@ -51,7 +51,7 @@ const DrinkEntry = ({user, drink, getDrinkList, adminKey, setShowLoader, menuSet
                 }
             }
         }
-        axios.post('/api/modify_menu', {menu_id:menuSettings.menu_id, drinks: newDrinkOrder}).then((res)=>{
+        axios.post('/api/modify_menu', {menu_id:menuSettings.menu_id, drinks: newDrinkOrder}, {headers:{Authorization: `Bearer ${user.token}`}}).then((res)=>{
             if(res.status && res.status === 200){
                 menuSettings.setMenuOrder(newDrinkOrder);
             }
