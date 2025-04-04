@@ -257,12 +257,11 @@ router.get('/search', async (req, res, next) => {
                 }},
                 {$project: {
                     uuid: '$_id.uuid',
-                    matched: '$count',
                     missing: {$subtract: ['$_id.totalIngredients', '$count']},
                     _id: 0
                 }},
                 {$match: {missing: req.query.strict === 'true' ? tol:{$lte: tol}}},
-                {$sort: {missingIngredients: 1, matchedIngredients: -1}}
+                {$sort: {missing: 1}}
             ])
         }
     }
@@ -331,9 +330,20 @@ router.get('/search', async (req, res, next) => {
         Drinks.aggregate(pipeline).then(pipeline_res => {
             let pipeline_uuids = pipeline_res.map(drink=>drink.uuid);
             Drinks.find({uuid: {$in: pipeline_uuids}}, 'uuid name url_name tags glass').then((data) => {
-                data.sort((a, b) => {
-                    return pipeline_uuids.indexOf(a.uuid) - pipeline_uuids.indexOf(b.uuid);
-                })
+                if(myBarAggregate){
+                    let missing_ingr = {}
+                    myBarAggregate.forEach(drink => missing_ingr[drink.uuid] = drink.missing);
+                    data.sort((a, b) => {
+                        let ingr_rank = missing_ingr[a.uuid] - missing_ingr[b.uuid];
+                        if(ingr_rank === 0) {
+                            return pipeline_uuids.indexOf(a.uuid) - pipeline_uuids.indexOf(b.uuid);
+                        } else {
+                            return ingr_rank;
+                        }
+                    });
+                } else {
+                    data.sort((a, b) => pipeline_uuids.indexOf(a.uuid) - pipeline_uuids.indexOf(b.uuid));
+                }
                 res.json(data);
             })
                 .catch(next);
