@@ -489,7 +489,7 @@ router.post('/update_drink/:id', verifyRequest, (req, res, next) => {
     }
 });**/
 
-router.delete('*', (req, res, next) => {
+/*router.delete('*', (req, res, next) => {
     if(!process.env.BACKUP_DISABLED) {
         Drinks.find({})
             .then((data) => fs.writeFile(BACKUP_DIR + 'drinkbackup' + Date.now() + '.json', JSON.stringify(data), (err) => {
@@ -501,7 +501,7 @@ router.delete('*', (req, res, next) => {
             }))
     }
     next()
-});
+});*/
 
 router.delete('/drink/:uuid', validateAdminToken, (req, res, next) => {
     if(req.params.uuid){
