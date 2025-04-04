@@ -17,6 +17,7 @@ import ManageIngredientsTab from "./pages/account/ManageIngredientsTab";
 import ManageUsersTab from "./pages/account/ManageUsersTab";
 import StatisticsTab from "./pages/account/StatisticsTab";
 import ManageDrinksTab from "./pages/account/ManageDrinksTab";
+import ManageMenusTab from "./pages/account/ManageMenusTab";
 
 function App() {
     const [searchText, setSearchText] = useState('');
@@ -41,6 +42,7 @@ function App() {
                     <Route path="statistics" element={<StatisticsTab setSearchIngredient={setSearchIngredient}/>}></Route>
                     <Route path="edit_ingredients" element={<ManageIngredientsTab adminKey={user.adminKey} />}></Route>
                     <Route path="edit_drinks" element={<ManageDrinksTab user={user} setShowLoader={setShowLoader}/>}></Route>
+                    <Route path="edit_menus" element={<ManageMenusTab adminKey={user.adminKey} user={user}/>}></Route>
                     <Route path="users" element={<ManageUsersTab adminKey={user.adminKey} user={user}/>}></Route>
                 </Route>
                 <Route path="account/login" element={<LoginPage user={user} setUser={setUser} />}/>
