@@ -19,7 +19,8 @@ const {RESERVED_ROUTES} = require("../constants");
 
 const adminKey = uuid();
 
-var ingredients = {};
+let ingredients = {};
+let na_ingredients = [];
 
 function sanitize_drink_name(name) {
     return name
@@ -102,9 +103,11 @@ const compressDrinkImg = async(req, imageUUID) =>{
 
 const updateIngredients = async() => {
     ingredients = {}
+    na_ingredients = []
     Ingredients.find({}, 'uuid name abv').sort({name:1})
         .then((data) => {
             data.forEach((ingredient)=>{
+                if(ingredient.abv === 0) na_ingredients.push(ingredient.uuid);
                 ingredients[ingredient.uuid] = {name: ingredient.name, abv: ingredient.abv};
             })
         })
@@ -228,11 +231,14 @@ router.get('/list/:ingr_uuid', (req, res, next) => {
 
 router.get('/search', async (req, res, next) => {
     let pipeline = [];
-
     let myBarAggregate;
     if(req.query.user_id){
         let tol = parseInt(req.query.tol) || 0;
         let user_data = await Users.findOne({user_id: req.query.user_id}, 'available_ingredients')
+        let available_ingredients = user_data.available_ingredients;
+        if(req.query.no_na === 'true'){
+            available_ingredients = available_ingredients.concat(na_ingredients);
+        }
         if(user_data.available_ingredients){
             myBarAggregate = await Drinks.aggregate([
                 {$project: {
@@ -241,7 +247,7 @@ router.get('/search', async (req, res, next) => {
                     totalIngredients: {$size: '$ingredients'}
                 }},
                 {$unwind: '$ingredients'},
-                {$match: {'ingredients.ingredient': {$in:user_data.available_ingredients}}},
+                {$match: {'ingredients.ingredient': {$in: available_ingredients}}},
                 {$group: {
                     _id: {
                         uuid: '$uuid',
@@ -286,6 +292,7 @@ router.get('/search', async (req, res, next) => {
             }}
         ]);
     }
+
     if(req.query.tags){
         pipeline = pipeline.concat([
             {$unwind: "$tags"},
