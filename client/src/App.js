@@ -46,7 +46,7 @@ function App() {
                     <Route path="users" element={<ManageUsersTab adminKey={user.token} user={user}/>}></Route>
                 </Route>
                 <Route path="account/login" element={<LoginPage user={user} setUser={setUser} />}/>
-                <Route path="menu/:menu_id" element={<MenuPage setShowLoader={setShowLoader}/>}/>
+                <Route path="menu/:menu_id" element={<MenuPage setShowLoader={setShowLoader} user={user}/>}/>
                 <Route path="404" element={<Page404 />} />
             </Route>
         </Routes>
