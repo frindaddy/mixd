@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {FaPlus, FaRegStar, FaStar, FaTrash} from "react-icons/fa";
 import axios from "axios";
-import '../../format/ManageIngredients.css';
+import '../../format/ManageIngredientsTab.css';
 
 const ManageMenusTab = ({adminKey, user}) => {
     const [errorMsg, setErrorMsg] = useState('');
