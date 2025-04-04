@@ -4,7 +4,7 @@ export function issueUserToken(user_id, new_token, isAdmin) {
     for (let key in user_tokens) {
         if(user_tokens[key].expiration < Date.now() || user_tokens[key].user_id === user_id) delete user_tokens[key];
     }
-    user_tokens[new_token] = {user_id: user_id, admin: adminToken, expiration: Date.now() + 24*3600*1000}
+    user_tokens[new_token] = {user_id: user_id, admin: isAdmin, expiration: Date.now() + 24*3600*1000}
     return new_token;
 }
 

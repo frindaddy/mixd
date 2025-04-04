@@ -633,7 +633,7 @@ router.post('/login', (req, res, next) => {
         Users.findOne(query, 'username user_id admin pin')
             .then((user_data) => {
                 if(user_data){
-                    let response = {user_id: user_data.user_id, username: user_data.username, token: issueUserToken(user_data.user_id, uuid(), user_data.admin || false), adminKey: user_data.admin ? adminKey : undefined}
+                    let response = {user_id: user_data.user_id, username: user_data.username, token: issueUserToken(user_data.user_id, uuid(), user_data.admin || false)}
                     if(user_data.pin){
                         if(req.body.pin === user_data.pin){
                             res.json(response);
