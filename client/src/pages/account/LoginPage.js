@@ -5,6 +5,7 @@ import axios from "axios";
 
 const LoginPage = ({user, setUser}) => {
 
+    const [invalidLogin, setInvalidLogin] = useState(false);
     const [accountIdentifier, setAccountIdentifier] = useState('');
     const [pin, setPin] = useState(null);
     const navigate = useNavigate();
@@ -35,8 +36,9 @@ const LoginPage = ({user, setUser}) => {
                     setUser(res.data);
                 }
             }).catch((err) => {
-                if(err.response.status === 400){
-                    setAccountIdentifier('');
+                if(err.response.status === 403){
+                    setInvalidLogin(true);
+                    setPin(null);
                 } else {
                     console.log(err)
                 }
@@ -47,11 +49,12 @@ const LoginPage = ({user, setUser}) => {
     return (
         <>
         <h1 style={{textAlign:"center"}}>Bartender Login:</h1>
+        {invalidLogin && <p style={{color: 'red', textAlign:"center"}}>User and PIN combination not recognized.</p>}
         <div style={{display:"flex", flexWrap:"nowrap", justifyContent:"center"}}>
             <input autoFocus name='username' style={{fontSize: '16px'}} enterKeyHint='next' content='text' placeholder='Username or ID' value={accountIdentifier||''} onChange={(e)=> setAccountIdentifier(e.target.value)} onKeyDownCapture={(e)=>{checkEnter(e, focusPin)}}></input>
         </div>
         <div style={{display:"flex", flexWrap:"nowrap", justifyContent:"center", marginTop: '10px'}}>
-            <input ref={pinRef} name='pin' style={{fontSize: '16px'}} inputMode='numeric' content='text' placeholder='Pin' value={pin||''} onBlur={(e)=> submitLogin()} onChange={(e)=> setPin(parseInt(e.target.value.substring(0,6)) || null)} onKeyDownCapture={(e)=>{checkEnter(e, submitLogin)}}></input>
+            <input ref={pinRef} name='pin' style={{fontSize: '16px'}} inputMode='numeric' content='text' placeholder='PIN' value={pin||''} onBlur={(e)=> submitLogin()} onChange={(e)=> setPin(parseInt(e.target.value.substring(0,6)) || null)} onKeyDownCapture={(e)=>{checkEnter(e, submitLogin)}}></input>
         </div>
         <div style={{display:"flex", flexWrap:"nowrap", justifyContent:"center", marginTop: '10px'}}>
             <div style={{cursor:'pointer', padding:'8px', backgroundColor:'darkred', borderRadius:'5px'}} onClick={submitLogin}>

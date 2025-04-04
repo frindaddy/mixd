@@ -643,7 +643,7 @@ router.post('/login', (req, res, next) => {
                         res.json(response)
                     }
                 } else {
-                    res.sendStatus(400);
+                    res.sendStatus(403);
                 }
             })
             .catch(next);
