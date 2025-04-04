@@ -15,7 +15,6 @@ const IMAGE_DIR = process.env.IMAGE_DIR || '';
 const BACKUP_DIR = process.env.BACKUP_DIR || '/root/backups/';
 
 const {RESERVED_ROUTES} = require("../constants");
-require("../security");
 const {issueUserToken, validateUserToken, validateAdminToken} = require("../security");
 
 const adminKey = uuid();
@@ -214,21 +213,6 @@ router.get('/list', (req, res, next) => {
         .then((data) => res.json(data))
         .catch(next);
 });
-
-/*router.get('/list/:ingr_uuid', (req, res, next) => {
-    if(req.params.ingr_uuid){
-        Drinks.find({}, 'uuid name url_name tags glass ingredients').sort({name:1})
-            .then((data) => {
-                let filteredDrinks = data.filter((drink) => {
-                    return drink.ingredients.filter((ingredient) => ingredient.ingredient === req.params.ingr_uuid).length > 0
-                }).map(drink => {return {uuid: drink.uuid, name: drink.name, url_name: drink.url_name, tags: drink.tags, glass: drink.glass}})
-                res.json(filteredDrinks)
-            })
-            .catch(next);
-    } else {
-        res.sendStatus(400);
-    }
-});*/
 
 router.get('/search', async (req, res, next) => {
     let pipeline = [];
@@ -477,17 +461,6 @@ router.post('/modify_tag/', validateAdminToken, (req, res, next) => {
         res.sendStatus(400);
     }
 });
-/** Unused and deprecated
-router.post('/update_drink/:id', verifyRequest, (req, res, next) => {
-    if (req.params.id && req.body) {
-        console.log(req.body);
-        Drinks.updateOne({_id: req.params.id}, req.body)
-            .then((data) => res.json(data))
-            .catch(next);
-    } else {
-        res.sendStatus(400);
-    }
-});**/
 
 /*router.delete('*', (req, res, next) => {
     if(!process.env.BACKUP_DISABLED) {
