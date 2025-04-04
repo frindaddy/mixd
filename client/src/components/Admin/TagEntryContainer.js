@@ -25,12 +25,12 @@ const TagEntryContainer = ({inputs, setInputs}) => {
         return selTags.concat(trimmedCustomTags)
     }
 
-    const updateSelectedTags = (selTags) => {
+    function updateSelectedTags(selTags) {
         setSelectedTags(selTags);
         setInputs(values => ({...values, tags: mergeTags(selTags, customTags)}));
     }
 
-    const updateCustomTags = (new_customTags) => {
+    function updateCustomTags(new_customTags) {
         setCustomTags(new_customTags);
         setInputs(values => ({...values, tags: mergeTags(selectedTags, new_customTags)}));
     }
