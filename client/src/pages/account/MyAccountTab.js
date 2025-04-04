@@ -80,6 +80,7 @@ const MyAccountTab = ({user, setUser}) => {
                 <input name='pin' type='numeric' placeholder='New PIN' onChange={(e)=>{setPinField(parseInt(e.target.value.substring(0,6)) || null)}} value={pinField || ''}/>
                 <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={changePin}/>
             </div>
+            <p style={{textAlign:"center"}}>PINs are stored without encryption! Do not use a sensitive PIN!</p>
             <div style={{display:"flex", justifyContent:"center", marginTop: '20px'}}>
                 <div style={{cursor:'pointer', padding:'8px', backgroundColor:'darkred', borderRadius:'5px'}} onClick={logout}>
                     <span>Logout</span>
