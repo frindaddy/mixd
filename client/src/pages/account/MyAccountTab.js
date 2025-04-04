@@ -6,7 +6,8 @@ import {useNavigate} from "react-router-dom";
 const MyAccountTab = ({user, setUser}) => {
 
 
-    const [usernameField, setUsernameField] = useState('')
+    const [usernameField, setUsernameField] = useState('');
+    const [pinField, setPinField] = useState(null);
     const [usernameStatus, setUsernameStatus] = useState({taken: false, valid: false});
 
     const navigate = useNavigate();
@@ -47,6 +48,17 @@ const MyAccountTab = ({user, setUser}) => {
         }
     }
 
+    function changePin(){
+        axios.post('/api/change_pin', {user_id: user.user_id, pin: pinField}).then(res =>{
+            if(res.status === 200){
+                setPinField(null);
+                alert('PIN Updated!');
+            }
+        }).catch(e => {
+            alert('Failed to update PIN. PIN unchanged.');
+        });
+    }
+
     function logout() {
         setUser({});
         navigate('/', {replace:true})
@@ -62,6 +74,11 @@ const MyAccountTab = ({user, setUser}) => {
             <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
                 <input name='username' type='text' placeholder={user.username||'Username'} onChange={updateUsernameField} value={usernameField}/>
                 <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={submitUsername}/>
+            </div>
+            <p style={{textAlign:"center"}}>Change PIN:</p>
+            <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
+                <input name='pin' type='numeric' placeholder='New PIN' onChange={(e)=>{setPinField(parseInt(e.target.value.substring(0,6)) || null)}} value={pinField || ''}/>
+                <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={changePin}/>
             </div>
             <div style={{display:"flex", justifyContent:"center", marginTop: '20px'}}>
                 <div style={{cursor:'pointer', padding:'8px', backgroundColor:'darkred', borderRadius:'5px'}} onClick={logout}>

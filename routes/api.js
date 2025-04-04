@@ -629,7 +629,7 @@ router.post('/login', (req, res, next) => {
                 query = {user_id: checkInt}
             }
         }
-        Users.findOne(query, 'username user_id admin')
+        Users.findOne(query, 'username user_id admin pin')
             .then((user_data) => {
                 if(user_data){
                     let response = {user_id: user_data.user_id, username: user_data.username, adminKey: user_data.admin ? adminKey : undefined}
@@ -679,6 +679,20 @@ router.post('/change_username', (req, res, next) => {
                 res.sendStatus(400);
             }
         }).catch(next);
+    }
+});
+
+router.post('/change_pin', (req, res, next) => {
+    if(req.body.user_id && req.body.pin && req.body.pin >= 1000 && req.body.pin < 100000) {
+        Users.updateOne({user_id: req.body.user_id}, {pin: req.body.pin}).then(user => {
+            if(user && user.acknowledged){
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(400);
+            }
+        }).catch(next);
+    } else {
+        res.sendStatus(400);
     }
 });
 
