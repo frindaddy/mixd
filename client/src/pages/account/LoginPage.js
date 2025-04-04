@@ -47,7 +47,7 @@ const LoginPage = ({user, setUser}) => {
 
     return (
         <>
-        <h1 style={{textAlign:"center"}}>Login:</h1>
+        <h1 style={{textAlign:"center"}}>Bartender Login:</h1>
         <div style={{display:"flex", flexWrap:"nowrap", justifyContent:"center"}}>
             <input autoFocus name='username' style={{fontSize: '16px'}} enterKeyHint='next' content='text' placeholder='Username or ID' value={accountIdentifier||''} onChange={(e)=> setAccountIdentifier(e.target.value)} onKeyDownCapture={(e)=>{checkEnter(e, focusPin)}}></input>
         </div>
