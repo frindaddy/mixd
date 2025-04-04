@@ -326,9 +326,7 @@ router.get('/search', async (req, res, next) => {
                 .catch(next);
         })
     } else {
-        Drinks.find({}, 'uuid name url_name tags glass').sort({name:1})
-            .then((data) => res.json(data))
-            .catch(next);
+        res.json([]);
     }
 });
 
