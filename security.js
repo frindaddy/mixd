@@ -11,10 +11,17 @@ export function issueUserToken(user_id, new_token, isAdmin) {
 export function validateUserToken(req, res, next) {
     if (req.headers.authorization) {
         let bearerToken = req.headers.authorization.split(' ')[1];
-        if(user_tokens[bearerToken] && user_tokens[bearerToken].expiration > Date.now()){
-            req.validated_user = user_tokens[bearerToken].user_id;
-            req.is_admin = user_tokens[bearerToken].admin;
-            next();
+        if(user_tokens[bearerToken] && user_tokens[bearerToken].expiration > Date.now() && user_tokens[bearerToken].user_id){
+            if(req.body.user_id){
+                if(user_tokens[bearerToken].user_id === req.body.user_id){
+                    next();
+                } else {
+                    res.sendStatus(403);
+                }
+            } else {
+                req.validated_user = user_tokens[bearerToken].user_id;
+                next();
+            }
         } else {
             res.sendStatus(403);
         }

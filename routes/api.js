@@ -671,7 +671,7 @@ router.get('/check_username/:username', (req, res, next)=>{
     }
 });
 
-router.post('/change_username',(req, res, next) => {
+router.post('/change_username', validateUserToken, (req, res, next) => {
     if(req.body.user_id && req.body.username) {
         Users.updateOne({user_id: req.body.user_id}, {username: req.body.username}).then(user => {
             if(user && user.acknowledged){
@@ -683,7 +683,7 @@ router.post('/change_username',(req, res, next) => {
     }
 });
 
-router.post('/change_pin', (req, res, next) => {
+router.post('/change_pin', validateUserToken, (req, res, next) => {
     if(req.body.user_id && req.body.pin && req.body.pin >= 1000 && req.body.pin < 100000) {
         Users.updateOne({user_id: req.body.user_id}, {pin: req.body.pin}).then(user => {
             if(user && user.acknowledged){
@@ -746,7 +746,7 @@ router.delete('/pin/:user_id', validateAdminToken, (req, res, next) => {
     }
 });
 
-router.post('/user_ingredients', (req, res, next) => {
+router.post('/user_ingredients', validateUserToken, (req, res, next) => {
     if(req.body.user_id && req.body.ingr_uuid && req.body.ingr_uuid.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i)){
         Users.findOne({user_id: req.body.user_id}, 'available_ingredients')
             .then((ingredientData) => {
@@ -830,7 +830,7 @@ router.get('/menu/:menu_id', (req, res, next) => {
     }
 });
 
-router.post('/create_menu', (req, res, next) => {
+router.post('/create_menu', validateUserToken, (req, res, next) => {
     if(!req.body.menu_id && req.body.user_id){
         Menus.find({}, 'menu_id').then(all_menus => {
             let used_ids = all_menus.map(menu => menu.menu_id);
@@ -857,17 +857,11 @@ router.post('/create_menu', (req, res, next) => {
     }
 });
 
-router.post('/modify_menu', (req, res, next) => {
-    if(req.body.menu_id && (req.body.drinks || req.body.users || req.body.name)){
-        Menus.findOne({menu_id: req.body.menu_id}, 'menu_id').then(menu => {
+router.post('/rename_menu', validateUserToken, (req, res, next) => {
+    if(req.body.menu_id && req.body.name){
+        Menus.findOne({menu_id: req.body.menu_id, $expr: {$in: [req.validated_user, '$users']}}, 'menu_id').then(menu => {
             if(menu){
-                let drinks;
-                if(req.body.drinks && Object.prototype.toString.call(req.body.drinks) === '[object Array]' && req.body.drinks.length > 0){
-                    drinks = req.body.drinks.filter(drink=>typeof drink === 'string');
-                } else if(req.body.drinks && req.body.drinks.length === 0){
-                    drinks = [];
-                }
-                Menus.updateOne({menu_id: menu.menu_id}, {drinks: drinks, users: req.body.users, name: req.body.name}).then(response => {
+                Menus.updateOne({menu_id: menu.menu_id}, {name: req.body.name}).then(response => {
                     if(response.acknowledged){
                         res.sendStatus(200);
                     } else {
@@ -907,9 +901,9 @@ router.post('/feature_menu', validateAdminToken, (req, res, next) => {
     }
 });
 
-router.post('/add_menu_drink', (req, res, next) => {
+router.post('/add_menu_drink', validateUserToken, (req, res, next) => {
     if(req.body.menu_id && req.body.drink){
-        Menus.findOne({menu_id: req.body.menu_id}, 'menu_id drinks').then(menu => {
+        Menus.findOne({menu_id: req.body.menu_id, $expr: {$in: [req.validated_user, '$users']}}, 'menu_id drinks').then(menu => {
             if(menu && menu.drinks){
                 if(menu.drinks.includes(req.body.drink)){
                     res.sendStatus(200);
@@ -931,9 +925,9 @@ router.post('/add_menu_drink', (req, res, next) => {
     }
 });
 
-router.delete('/menu/:menu_id', (req, res, next) => {
+router.delete('/menu/:menu_id', validateUserToken, (req, res, next) => {
     if(req.params.menu_id){
-        Menus.findOneAndDelete({ menu_id: req.params.menu_id })
+        Menus.findOneAndDelete({menu_id: req.params.menu_id, $expr: {$in: [req.validated_user, '$users']}})
             .then((data) => {
                 res.json(data);
             })
