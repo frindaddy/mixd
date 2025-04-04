@@ -90,13 +90,13 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
             <AccountShortcut user={user} setUser={setUser}/>
             <header>
                 <div>
-                    <div className="logo">mixd<DotColor /></div>
+                    <div className="logo">mixd<DotColor/></div>
                 </div>
                 <div className="search-container">
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/></div>
                     <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'><FaSearch  style={{cursor:"pointer"}} onClick={getDrinkList}/></div>
-                    {showEraser() && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams} /></div>}
+                    {showEraser() && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams}/></div>}
                 </div>
             </header>
             <div className={'filter-panel'}>
@@ -105,7 +105,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
             {listLoaded && <>
                 {featuredMenuName !== '' && <h1 className="menu-title">{featuredMenuName}</h1>}
                 {featuredMenuName === '' && <h1 className="menu-title">Search Results</h1>}
-                <DrinkArray drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
+                <DrinkArray drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader}/>
             </>}
         </>
     )
