@@ -103,8 +103,8 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
                 <FilterPanel toggleFilterPanel={toggleFilterPanel} user={user} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch}/>
             </div>
             {listLoaded && <>
-                {featuredMenuName !== '' && <h1>{featuredMenuName}</h1>}
-                {featuredMenuName === '' && <h1>Search Results</h1>}
+                {featuredMenuName !== '' && <h1 className="menu-title">{featuredMenuName}</h1>}
+                {featuredMenuName === '' && <h1 className="menu-title">Search Results</h1>}
                 <DrinkArray drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
             </>}
         </>
