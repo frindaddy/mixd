@@ -1,12 +1,15 @@
-import {FaCheck} from "react-icons/fa";
-import React, {useEffect, useState} from "react";
+import {FaCheck, FaSignOutAlt} from "react-icons/fa";
+import React, {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 const LoginPage = ({user, setUser}) => {
 
-    const [userIDField, setUserIDField] = useState(null);
+    const [accountIdentifier, setAccountIdentifier] = useState('');
+    const [pin, setPin] = useState(null);
     const navigate = useNavigate();
+    const pinRef = useRef(null);
+
 
     useEffect(() => {
         if(user.user_id){
@@ -18,19 +21,23 @@ const LoginPage = ({user, setUser}) => {
         document.title = 'Login | mixd.';
     }, []);
 
-    function checkEnter(e) {
-        if(e.code === "Enter" || e.code === "NumpadEnter") submitLogin();
+    function checkEnter(e, funcCall) {
+        if(e.code === "Enter" || e.code === "NumpadEnter") funcCall();
+    }
+
+    function focusPin() {
+        pinRef.current.focus();
     }
 
     function submitLogin() {
-        if(userIDField && typeof userIDField === "number" && userIDField > 10000) {
-            axios.get('/api/account/'+userIDField).then(res =>{
+        if(accountIdentifier !== '') {
+            axios.get('/api/account/'+accountIdentifier).then(res =>{
                 if(res.data && res.data.user_id) {
                     setUser(res.data);
                 }
             }).catch((err) => {
                 if(err.response.status === 400){
-                    setUserIDField(null);
+                    setAccountIdentifier('');
                 } else {
                     console.log(err)
                 }
@@ -42,8 +49,15 @@ const LoginPage = ({user, setUser}) => {
         <>
         <h1 style={{textAlign:"center"}}>Login:</h1>
         <div style={{display:"flex", flexWrap:"nowrap", justifyContent:"center"}}>
-            <input name='user_id' style={{fontSize: '16px'}} inputMode='numeric' content='text' placeholder='00000' value={userIDField||''} onChange={(e)=> setUserIDField(parseInt(e.target.value.substring(0,5)) || null)} onKeyDownCapture={(e)=>{checkEnter(e)}}></input>
-            <FaCheck style={{marginLeft: '10px', cursor:'pointer'}} onClick={()=>{submitLogin()}} />
+            <input autoFocus name='username' style={{fontSize: '16px'}} enterKeyHint='next' content='text' placeholder='Username or ID' value={accountIdentifier||''} onChange={(e)=> setAccountIdentifier(e.target.value)} onKeyDownCapture={(e)=>{checkEnter(e, focusPin)}}></input>
+        </div>
+        <div style={{display:"flex", flexWrap:"nowrap", justifyContent:"center", marginTop: '10px'}}>
+            <input ref={pinRef} name='pin' style={{fontSize: '16px'}} inputMode='numeric' content='text' placeholder='Pin' value={pin||''} onBlur={(e)=> submitLogin()} onChange={(e)=> setPin(parseInt(e.target.value.substring(0,6)) || null)} onKeyDownCapture={(e)=>{checkEnter(e, submitLogin)}}></input>
+        </div>
+        <div style={{display:"flex", flexWrap:"nowrap", justifyContent:"center", marginTop: '10px'}}>
+            <div style={{cursor:'pointer', padding:'8px', backgroundColor:'darkred', borderRadius:'5px'}} onClick={submitLogin}>
+                <span>Login</span>
+            </div>
         </div>
         </>
     )
