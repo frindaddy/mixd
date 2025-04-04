@@ -62,7 +62,7 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus}) => {
                 <FaX style={{marginRight: '10px', float:'right'}} onClick={cancelRename}/>
             </div>}
             {!currentlyRenaming && <div>
-                <span onClick={()=>navigate('/menu/'+menu.menu_id)}>{menu.name || "Menu " + menu.menu_id}</span>
+                <span onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>{menu.name || "Menu " + menu.menu_id}</span>
                 <FaTrash style={{float: 'right'}} onClick={()=>confirmDeleteMenu(menu.menu_id, menu.name)}/>
                 <FaEdit style={{float: 'right', marginRight:'10px'}} onClick={startRename}/>
             </div>}
