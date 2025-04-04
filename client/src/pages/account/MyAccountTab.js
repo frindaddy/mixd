@@ -77,13 +77,13 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
                 <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={submitUsername}/>
             </div>
             {usernameField.length > 0 && <p style={{textAlign:"center", fontWeight:"300"}}>{usernameResponse()}</p>}
-            <p style={{textAlign:"center"}}>Change PIN:</p>
+            <p style={{textAlign:"center", fontWeight:"300"}}>Change PIN:</p>
             <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
                 <input name='pin' type='numeric' placeholder='New PIN' onChange={(e)=>{setPinField(parseInt(e.target.value.substring(0,6)) || null)}} value={pinField || ''}/>
                 <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={changePin}/>
             </div>
-            <p style={{textAlign:"center"}}>PINs are stored without encryption! Do not use a sensitive PIN!</p>
-            <div style={{display:"flex", justifyContent:"center", marginTop: '20px'}}>
+            <p style={{textAlign:"center", fontWeight:"300", color:"#c0392b"}}>PINs are stored without encryption! Do not use a sensitive PIN!</p>
+            <div style={{display:"flex", justifyContent:"center"}}>
                 <div style={{cursor:'pointer', padding:'8px', backgroundColor:'darkred', borderRadius:'5px'}} onClick={logout}>
                     <span>Logout</span>
                     <FaSignOutAlt style={{marginLeft:'10px', marginBottom: '-2px'}}/>
