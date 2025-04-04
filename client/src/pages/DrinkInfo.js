@@ -68,11 +68,11 @@ const DrinkInfo = ({setShowLoader}) => {
         <div>
             {drinkFailed && <p style={{textAlign: "center"}}>Invalid drink ID. This drink does not exist.</p>}
             {!drinkFailed && drinkLoaded && <div>
-                <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} onLoad={onImageLoad} style={{display: "none"}}/>
+                <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/'+(drink.glass || 'unknown')+'.svg'} alt={drink.name} onLoad={onImageLoad} style={{display: "none"}}/>
                 {imageLoaded && <div className="info-row">
                     <div className="info-column">
                         <div className="drink-image">
-                            <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
+                            <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/'+(drink.glass || 'unknown')+'.svg'} alt={drink.name} />
                         </div>
                     </div>
                     <div className="info-column">
