@@ -3,6 +3,7 @@ import TagEntry from "./TagEntry";
 import {FaPlus} from "react-icons/fa";
 import FilterPanel from "../DrinkList/FilterPanel";
 import "../../format/CreateDrink.css";
+import DrinkTagSelector from "./DrinkTagSelector";
 
 const TagEntryContainer = ({inputs, setInputs}) => {
 
@@ -48,7 +49,7 @@ const TagEntryContainer = ({inputs, setInputs}) => {
 
     return (
         <div>
-            <FilterPanel setShowFilterPanel={undefined} tagFilterList={tagSelectedList} setTagFilterList={updateSelectedTags} glassFilterList={null} setGlassFilterList={null} tagMenu={true}/>
+            <DrinkTagSelector tagSelectedList={tagSelectedList} setTagSelectedList={setTagSelectedList} />
             <div className="create-drink-row">Add new tag:</div>
             <div className="create-drink-row">
                 <div>
