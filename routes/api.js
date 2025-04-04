@@ -385,7 +385,7 @@ router.get('/image', (req, res, next) => {
     }
 });
 
-router.post('*', (req, res, next) => {
+/*router.post('*', (req, res, next) => {
     if(!process.env.BACKUP_DISABLED || process.env.BACKUP_DISABLED==='false' || process.env.BACKUP_DISABLED==='False'){
         let all_dbs = {}
         Drinks.find({})
@@ -405,7 +405,7 @@ router.post('*', (req, res, next) => {
             })
     }
         next()
-});
+});*/
 
 router.post('/image', verifyRequest, async (req, res, next) => {
     uploadImage(req, res, (err) => {
