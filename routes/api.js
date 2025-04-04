@@ -11,7 +11,6 @@ const Users = require('../models/users');
 const Menus = require('../models/menus');
 const packVars = require('../package.json');
 
-const ADMIN_PASS = process.env.ADMIN_PASS || 'ADMIN';
 const IMAGE_DIR = process.env.IMAGE_DIR || '';
 const BACKUP_DIR = process.env.BACKUP_DIR || '/root/backups/';
 
