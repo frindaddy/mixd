@@ -5,7 +5,7 @@ import DrinkArray from "../components/DrinkList/DrinkArray";
 import AddDrinkEntry from "../components/Admin/AddDrinkEntry";
 import "../format/MenuPage.css";
 import DoneEntry from "../components/Admin/DoneEntry";
-const MenuPage = ({setShowLoader}) => {
+const MenuPage = ({setShowLoader, user}) => {
 
     const { menu_id } = useParams();
     const { hash } = useLocation();
@@ -30,7 +30,7 @@ const MenuPage = ({setShowLoader}) => {
     return (
         <>
             <h1 className="menu-title">{menu.name || 'Menu'}</h1>
-            <DrinkArray drinkList={menu.drinkList} filter={{text: "", tags: []}} setShowLoader={setShowLoader} menuSettings={{editMode: hash==='#edit', menu_id: menu.menu_id, menuOrder: menu.drinks, setMenuOrder: setMenuOrder}} showMenuDesc={true}/>
+            <DrinkArray drinkList={menu.drinkList} filter={{text: "", tags: []}} setShowLoader={setShowLoader} menuSettings={{editMode: hash==='#edit', menu_id: menu.menu_id, menuOrder: menu.drinks, setMenuOrder: setMenuOrder}} showMenuDesc={true} user={user}/>
             {hash==='#edit' && <div>
                 <hr className="list-separator" />
                 <Link to={'/account/edit_drinks/#edit_menu-'+menu.menu_id}><AddDrinkEntry /></Link>

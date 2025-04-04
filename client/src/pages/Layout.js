@@ -7,7 +7,7 @@ import {IoShareOutline} from "react-icons/io5";
 import '../format/Navbar.css';
 import AccountShortcut from "../components/AccountShortcut";
 
-const Layout = ({showLoader, setShowLoader, user, setUser}) => {
+const Layout = ({showLoader, setShowLoader, user, setUser, removeCookie}) => {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -67,7 +67,7 @@ const Layout = ({showLoader, setShowLoader, user, setUser}) => {
                     </div>
                     <div>
                         {(isDrinkPage() || isMenuPage()) && <IoShareOutline className="share-button" onClick={()=>{shareButton()}} />}
-                        {!isDrinkPage() && !isMenuPage() && <AccountShortcut user={user} setUser={setUser}/>}
+                        {!isDrinkPage() && !isMenuPage() && <AccountShortcut user={user} setUser={setUser} removeCookie={removeCookie}/>}
                     </div>
                 </div>
             </nav>}

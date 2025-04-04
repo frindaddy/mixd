@@ -5,7 +5,7 @@ import {FaX} from "react-icons/fa6";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
-const MenuCard = ({menu, menu_index, drinkList, menus, setMenus}) => {
+const MenuCard = ({menu, menu_index, drinkList, menus, setMenus, user}) => {
 
     const [newMenuName, setNewMenuName] = useState('');
     const [currentlyRenaming, setCurrentlyRenaming] = useState(false);
@@ -14,7 +14,7 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus}) => {
 
     function confirmDeleteMenu() {
         if(window.confirm('Are you sure you want to delete \''+(menu.name || "Menu " + menu.menu_id)+'\'?') === true){
-            axios.delete('/api/menu/'+menu.menu_id)
+            axios.delete('/api/menu/'+menu.menu_id, {headers:{Authorization: `Bearer ${user.token}`}})
                 .then((res) => {
                     setMenus(menus.filter(menu_entry => menu_entry.menu_id !== menu.menu_id));
                 }).catch((err) => console.log(err));
@@ -40,7 +40,7 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus}) => {
 
     function renameMenu() {
         if(newMenuName !== '' && menu.menu_id){
-            axios.post('/api/modify_menu', {menu_id: menu.menu_id, name: newMenuName}).then((res)=>{
+            axios.post('/api/modify_menu', {menu_id: menu.menu_id, name: newMenuName}, {headers:{Authorization: `Bearer ${user.token}`}}).then((res)=>{
                 if(res.status === 200){
                     let new_menus = [...menus];
                     new_menus[menu_index].name = newMenuName;

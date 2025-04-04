@@ -22,6 +22,7 @@ const CreateDrink = ({adminKey}) => {
     const [loadedDrinkData, setLoadedDrinkData] = useState(false);
 
     useEffect(() => {
+        if(!adminKey) navigate('/', {replace: true});
         document.title = (uuid ? 'Update':'Create')+' Drink | mixd.';
         setLoadedDrinkData(false);
         if (uuid){

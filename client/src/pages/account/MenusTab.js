@@ -39,7 +39,7 @@ const MenusTab = ({user}) => {
     }
 
     function createMenu() {
-        axios.post('/api/create_menu', {user_id: user.user_id, name:newMenuName}).then((res)=>{
+        axios.post('/api/create_menu', {user_id: user.user_id, name:newMenuName}, {headers:{Authorization: `Bearer ${user.token}`}}).then((res)=>{
             if(res.data){
                 let new_menus= [...menus, {menu_id: res.data.menu_id, name:newMenuName, drinks:[]}];
                 setMenus(new_menus);
@@ -58,7 +58,7 @@ const MenusTab = ({user}) => {
             <h1 className="tab-title">My Menus</h1>
             <div style={{display:"flex", flexFlow:"row wrap", justifyContent:"center"}}>
                 {menus.map((menu, menu_index) => {
-                    return <MenuCard menu={menu} menu_index={menu_index} drinkList={drinkList} menus={menus} setMenus={setMenus} />
+                    return <MenuCard menu={menu} menu_index={menu_index} drinkList={drinkList} menus={menus} setMenus={setMenus} user={user}/>
                 })}
                 <div className="create-menu-card" style={{cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
                     {!creatingMenu && <FaPlus style={{fontSize:'40px', left:"40%", top:"40%", position:"relative"}} />}

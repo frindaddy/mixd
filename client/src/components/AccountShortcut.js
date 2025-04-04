@@ -3,7 +3,7 @@ import {FaRegUserCircle, FaSignOutAlt, FaUserCircle} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 import "../format/AccountShortcut.css"
 
-const AccountShortcut = ({user, setUser}) => {
+const AccountShortcut = ({user, setUser, removeCookie}) => {
 
     const [showDropdown, setShowDropdown] = useState(false);
 
@@ -24,6 +24,7 @@ const AccountShortcut = ({user, setUser}) => {
 
     function logout() {
         setUser({});
+        removeCookie('user');
         navigate('/', {replace:true})
         setShowDropdown(false);
     }
@@ -43,7 +44,7 @@ const AccountShortcut = ({user, setUser}) => {
                 <span onClick={()=>{goTo('/account/menus')}}>My Menus</span>
                 <hr />
                 <span onClick={()=>{goTo('/account/statistics')}}>Statistics</span>
-                {user.adminKey && <>
+                {user.isAdmin && <>
                     <hr />
                     <span onClick={()=>{goTo('/account/edit_drinks')}}>Manage Drinks</span>
                     <hr />
