@@ -1,0 +1,23 @@
+.create-menu-card {
+    float: left;
+    height: 200px;
+    min-width: 200px;
+    background-color: gray;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.create-menu-title-input {
+    background-color: darkgray;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 140px;
+}
+
+.create-menu-title-button {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 16px;
+}

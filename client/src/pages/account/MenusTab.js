@@ -56,16 +56,18 @@ const MenusTab = ({user}) => {
     return (
         <>
             <h1 className="tab-title">My Menus</h1>
-            {menus.map((menu, menu_index) => {
-                return <MenuCard menu={menu} menu_index={menu_index} drinkList={drinkList} menus={menus} setMenus={setMenus} />
-            })}
-            <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
-                {!creatingMenu && <FaPlus style={{fontSize:'40px', left:'80px', top:'80px', position:"relative"}} />}
-                {creatingMenu && <div>
-                    <input autoFocus name='name' style={{backgroundColor: 'darkgray', border: 'none', outline:'none', fontSize: '16px'}} value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
-                    <FaX style={{marginRight: '10px', cursor:'pointer'}} onClick={cancelCreate}/>
-                    <FaCheck style={{cursor:'pointer'}} onClick={createMenu}/>
-                </div>}
+            <div style={{display:"flex", flexFlow:"row wrap", justifyContent:"center"}}>
+                {menus.map((menu, menu_index) => {
+                    return <MenuCard menu={menu} menu_index={menu_index} drinkList={drinkList} menus={menus} setMenus={setMenus} />
+                })}
+                <div className="create-menu-card" style={{cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
+                    {!creatingMenu && <FaPlus style={{fontSize:'40px', left:"40%", top:"40%", position:"relative"}} />}
+                    {creatingMenu && <div style={{display:"flex", alignItems:"center"}}>
+                        <input autoFocus name='name' className="create-menu-title-input" value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
+                        <FaX className="create-menu-title-button" onClick={cancelCreate}/>
+                        <FaCheck className="create-menu-title-button" onClick={createMenu}/>
+                    </div>}
+                </div>
             </div>
         </>
     )
