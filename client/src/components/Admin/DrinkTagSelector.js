@@ -4,7 +4,7 @@ import {getColor} from "../DrinkTags";
 import TagCategories from "../../definitions/TagCategories";
 import "../../format/FilterPanel.css";
 
-const DrinkTagSelector = ({tagSelectedList, setTagSelectedList}) => {
+const DrinkTagSelector = ({selectedTags, updateSelectedTags}) => {
 
     const [allTags, setAllTags] = useState([]);
 
@@ -18,23 +18,23 @@ const DrinkTagSelector = ({tagSelectedList, setTagSelectedList}) => {
     }, []);
 
     function isTagSelected(category, value) {
-        return tagSelectedList && tagSelectedList.filter(tag => tag.category === category && tag.value === value).length > 0;
+        return selectedTags && selectedTags.filter(tag => tag.category === category && tag.value === value).length > 0;
     }
 
     const onTagClick = (category, value) => {
         let newTagList = [];
         if(isTagSelected(category, value)){
-            newTagList = tagSelectedList.filter((tag)=> {
+            newTagList = selectedTags.filter((tag)=> {
                 return !(tag.category === category && tag.value === value);
             });
         } else {
-            if(tagSelectedList){
-                newTagList = [...tagSelectedList, {category: category, value: value}];
+            if(selectedTags){
+                newTagList = [...selectedTags, {category: category, value: value}];
             } else {
                 newTagList = [{category: category, value: value}]
             }
         }
-        setTagSelectedList(newTagList);
+        updateSelectedTags(newTagList);
     }
 
     return (
