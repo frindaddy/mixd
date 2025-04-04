@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import {FaPlus, FaRegStar, FaStar, FaTrash} from "react-icons/fa";
+import {FaKey, FaPlus, FaRegStar, FaStar, FaTrash} from "react-icons/fa";
 import axios from "axios";
 import '../../format/ManageIngredients.css';
 
@@ -49,6 +49,19 @@ const ManageUsersTab = ({adminKey, user}) => {
         }
     }
 
+    function confirmResetPin(userToDelete) {
+        if(window.confirm('Are you sure you want to reset the PIN for user '+userToDelete.user_id + (userToDelete.username ? (' ('+userToDelete.username+')'):'')+'?') === true){
+            axios.delete('/api/pin/'+userToDelete.user_id, {headers:{Authorization: `Bearer ${adminKey}`}})
+                .then(() => {
+                    alert(userToDelete.user_id + (userToDelete.username ? (' ('+userToDelete.username+')'):'')+' PIN reset.');
+                }).catch((err) => {
+                setErrorMsg('Failed to update PIN. Internal server error '+err.response.status);
+            });
+        } else {
+            alert('User PIN unchanged.');
+        }
+    }
+
     function changeAdmin(editUser, newStatus) {
         if(editUser.user_id+'' !== user.user_id+''){
             axios.post('/api/make_admin', {user_id: editUser.user_id, admin: newStatus}, {
@@ -81,7 +94,8 @@ const ManageUsersTab = ({adminKey, user}) => {
                         <span className="manage-ingredients-entry">{userEntry.user_id + (userEntry.username ? (' ('+userEntry.username+')'):'')}</span>
                         {userEntry.admin && <FaStar style={{cursor:'pointer', marginLeft:'8px'}} onClick={()=>{changeAdmin(userEntry, false)}}/>}
                         {!userEntry.admin && <FaRegStar style={{cursor:'pointer', marginLeft:'8px'}} onClick={()=>{changeAdmin(userEntry, true)}}/>}
-                        {typeof userEntry.user_id === "number" && <FaTrash style={{marginLeft:'10px', cursor:'pointer'}} onClick={()=>{confirmDeleteUser(userEntry)}}/>}
+                        <FaTrash style={{marginLeft:'10px', cursor:'pointer'}} onClick={()=>{confirmDeleteUser(userEntry)}}/>
+                        <FaKey style={{marginLeft:'10px', cursor:'pointer'}} onClick={()=>{confirmResetPin(userEntry)}}/>
                     </div>
                 </div>
             })}

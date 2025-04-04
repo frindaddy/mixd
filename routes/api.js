@@ -729,7 +729,17 @@ router.delete('/user/:user_id', verifyRequest, (req, res, next) => {
     if(req.params.user_id){
         Users.findOneAndDelete({ user_id: req.params.user_id })
             .then((data) => {
-                res.json(data);
+                res.sendStatus(200);
+            })
+            .catch(next);
+    }
+});
+
+router.delete('/pin/:user_id', verifyRequest, (req, res, next) => {
+    if(req.params.user_id){
+        Users.updateOne({ user_id: req.params.user_id }, {$unset: {pin: ""}})
+            .then((data) => {
+                res.sendStatus(200);
             })
             .catch(next);
     }
