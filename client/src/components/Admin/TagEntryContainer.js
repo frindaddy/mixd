@@ -22,7 +22,7 @@ const TagEntryContainer = ({inputs, setInputs}) => {
         let trimmedCustomTags = customTags.filter(tag => {
             return !selTags.map(tag => tag.category + '>' + tag.value).includes(tag.category + '>' + tag.value)
         });
-        return selTags.concat(trimmedCustomTags)
+        return selTags.concat(trimmedCustomTags).filter(tag => tag.category && tag.value)
     }
 
     function updateSelectedTags(selTags) {
