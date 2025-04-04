@@ -100,7 +100,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
                 </div>
             </header>
             <div className={'filter-panel'}>
-                <FilterPanel toggleFilterPanel={toggleFilterPanel} user={user} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch}/>
+                <FilterPanel expandFilterPanel={expandFilterPanel} toggleFilterPanel={toggleFilterPanel} user={user} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch}/>
             </div>
             {listLoaded && <>
                 {featuredMenuName !== '' && <h1 className="menu-title">{featuredMenuName}</h1>}
