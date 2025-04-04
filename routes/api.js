@@ -621,11 +621,18 @@ router.get('/user_ingredients/:user_id', (req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
-    if(req.body.accountIdenitfier){
-        Users.findOne({$or: [{user_id: parseInt(req.body.accountIdenitfier)}, {username: req.body.accountIdenitfier}]}, 'username admin')
+    if(req.body.accountIdentifier){
+        let query = {username: req.body.accountIdentifier}
+        if(req.body.accountIdentifier.length === 5){
+            let checkInt = parseInt(req.body.accountIdentifier);
+            if(checkInt && checkInt >= 10000 && checkInt < 100000){
+                query = {user_id: checkInt}
+            }
+        }
+        Users.findOne(query, 'username user_id admin')
             .then((user_data) => {
                 if(user_data){
-                    let response = {user_id: req.params.user_id, username: user_data.username, adminKey: user_data.admin ? adminKey : undefined}
+                    let response = {user_id: user_data.user_id, username: user_data.username, adminKey: user_data.admin ? adminKey : undefined}
                     if(user_data.pin){
                         if(req.body.pin === user_data.pin){
                             res.json(response);

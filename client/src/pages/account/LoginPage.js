@@ -10,7 +10,6 @@ const LoginPage = ({user, setUser}) => {
     const navigate = useNavigate();
     const pinRef = useRef(null);
 
-
     useEffect(() => {
         if(user.user_id){
             navigate('/', {replace:true});
@@ -31,7 +30,7 @@ const LoginPage = ({user, setUser}) => {
 
     function submitLogin() {
         if(accountIdentifier !== '') {
-            axios.get('/api/account/'+accountIdentifier).then(res =>{
+            axios.post('/api/login', {accountIdentifier: accountIdentifier, pin: pin}).then(res =>{
                 if(res.data && res.data.user_id) {
                     setUser(res.data);
                 }
