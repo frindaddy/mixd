@@ -345,8 +345,7 @@ router.get('/search', async (req, res, next) => {
                     data.sort((a, b) => pipeline_uuids.indexOf(a.uuid) - pipeline_uuids.indexOf(b.uuid));
                 }
                 res.json(data);
-            })
-                .catch(next);
+            }).catch(next);
         })
     } else {
         res.json([]);
