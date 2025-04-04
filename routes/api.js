@@ -209,13 +209,13 @@ router.get('/drink/:identifier', (req, res, next) => {
     }
 });
 
-/*router.get('/list', (req, res, next) => {
+router.get('/list', (req, res, next) => {
     Drinks.find({}, 'uuid name url_name tags glass').sort({name:1})
         .then((data) => res.json(data))
         .catch(next);
 });
 
-router.get('/list/:ingr_uuid', (req, res, next) => {
+/*router.get('/list/:ingr_uuid', (req, res, next) => {
     if(req.params.ingr_uuid){
         Drinks.find({}, 'uuid name url_name tags glass ingredients').sort({name:1})
             .then((data) => {
