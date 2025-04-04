@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
-const LoginPage = ({user, setUser}) => {
+const LoginPage = ({user, setUser, setCookie}) => {
 
     const [invalidLogin, setInvalidLogin] = useState(false);
     const [accountIdentifier, setAccountIdentifier] = useState('');
@@ -33,6 +33,7 @@ const LoginPage = ({user, setUser}) => {
             axios.post('/api/login', {accountIdentifier: accountIdentifier, pin: pin}).then(res =>{
                 if(res.data && res.data.user_id) {
                     setUser(res.data);
+                    setCookie('user', res.data, {path: '/', expires: new Date(Date.now()+(23.75*3600*1000))});
                 }
             }).catch((err) => {
                 if(err.response.status === 403){

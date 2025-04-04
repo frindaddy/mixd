@@ -3,7 +3,7 @@ import axios from "axios";
 import {FaCheck, FaSignOutAlt, FaStar} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 
-const MyAccountTab = ({user, setUser}) => {
+const MyAccountTab = ({user, setUser, removeCookie}) => {
 
 
     const [usernameField, setUsernameField] = useState('');
@@ -39,7 +39,7 @@ const MyAccountTab = ({user, setUser}) => {
 
     function submitUsername(){
         if(!usernameStatus.taken && usernameStatus.valid){
-            axios.post('/api/change_username', {user_id: user.user_id, username: usernameField}).then(res =>{
+            axios.post('/api/change_username', {user_id: user.user_id, username: usernameField}, {headers:{Authorization: `Bearer ${user.token}`}}).then(res =>{
                 if(res.status === 200){
                     setUser({...user, username: usernameField});
                     setUsernameField('');
@@ -49,7 +49,7 @@ const MyAccountTab = ({user, setUser}) => {
     }
 
     function changePin(){
-        axios.post('/api/change_pin', {user_id: user.user_id, pin: pinField}).then(res =>{
+        axios.post('/api/change_pin', {user_id: user.user_id, pin: pinField}, {headers:{Authorization: `Bearer ${user.token}`}}).then(res =>{
             if(res.status === 200){
                 setPinField(null);
                 alert('PIN Updated!');
@@ -61,6 +61,7 @@ const MyAccountTab = ({user, setUser}) => {
 
     function logout() {
         setUser({});
+        removeCookie('user');
         navigate('/', {replace:true})
     }
 
@@ -68,7 +69,7 @@ const MyAccountTab = ({user, setUser}) => {
         <>
             <h1>My Account</h1>
             <br />
-            <div className="account-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.adminKey && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
+            <div className="account-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.isAdmin && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
             <p style={{textAlign:"center"}}>Change Username:</p>
             {usernameField.length > 0 && <p style={{textAlign:"center"}}>{usernameResponse()}</p>}
             <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>

@@ -11,11 +11,11 @@ const Users = require('../models/users');
 const Menus = require('../models/menus');
 const packVars = require('../package.json');
 
-const ADMIN_PASS = process.env.ADMIN_PASS || 'ADMIN';
 const IMAGE_DIR = process.env.IMAGE_DIR || '';
 const BACKUP_DIR = process.env.BACKUP_DIR || '/root/backups/';
 
 const {RESERVED_ROUTES} = require("../constants");
+const {issueUserToken, validateUserToken, validateAdminToken} = require("../security");
 
 const adminKey = uuid();
 
@@ -214,21 +214,6 @@ router.get('/list', (req, res, next) => {
         .catch(next);
 });
 
-router.get('/list/:ingr_uuid', (req, res, next) => {
-    if(req.params.ingr_uuid){
-        Drinks.find({}, 'uuid name url_name tags glass ingredients').sort({name:1})
-            .then((data) => {
-                let filteredDrinks = data.filter((drink) => {
-                    return drink.ingredients.filter((ingredient) => ingredient.ingredient === req.params.ingr_uuid).length > 0
-                }).map(drink => {return {uuid: drink.uuid, name: drink.name, url_name: drink.url_name, tags: drink.tags, glass: drink.glass}})
-                res.json(filteredDrinks)
-            })
-            .catch(next);
-    } else {
-        res.sendStatus(400);
-    }
-});
-
 router.get('/search', async (req, res, next) => {
     let pipeline = [];
     let myBarAggregate;
@@ -384,7 +369,7 @@ router.get('/image', (req, res, next) => {
     }
 });
 
-router.post('*', (req, res, next) => {
+/*router.post('*', (req, res, next) => {
     if(!process.env.BACKUP_DISABLED || process.env.BACKUP_DISABLED==='false' || process.env.BACKUP_DISABLED==='False'){
         let all_dbs = {}
         Drinks.find({})
@@ -404,9 +389,9 @@ router.post('*', (req, res, next) => {
             })
     }
         next()
-});
+});*/
 
-router.post('/image', verifyRequest, async (req, res, next) => {
+router.post('/image', validateAdminToken, async (req, res, next) => {
     uploadImage(req, res, (err) => {
         if (err) {
             console.error(err);
@@ -422,7 +407,7 @@ router.post('/image', verifyRequest, async (req, res, next) => {
     });
 });
 
-router.post('/add_drink', verifyRequest, async (req, res, next) => {
+router.post('/add_drink', validateAdminToken, async (req, res, next) => {
     if (req.body.name) {
 
         //Clean up database data
@@ -453,7 +438,7 @@ router.post('/add_drink', verifyRequest, async (req, res, next) => {
     }
 });
 
-router.post('/modify_tag/', verifyRequest, (req, res, next) => {
+router.post('/modify_tag/', validateAdminToken, (req, res, next) => {
     if (req.body) {
         switch (req.body.change) {
             case 'add':
@@ -476,19 +461,8 @@ router.post('/modify_tag/', verifyRequest, (req, res, next) => {
         res.sendStatus(400);
     }
 });
-/** Unused and deprecated
-router.post('/update_drink/:id', verifyRequest, (req, res, next) => {
-    if (req.params.id && req.body) {
-        console.log(req.body);
-        Drinks.updateOne({_id: req.params.id}, req.body)
-            .then((data) => res.json(data))
-            .catch(next);
-    } else {
-        res.sendStatus(400);
-    }
-});**/
 
-router.delete('*', (req, res, next) => {
+/*router.delete('*', (req, res, next) => {
     if(!process.env.BACKUP_DISABLED) {
         Drinks.find({})
             .then((data) => fs.writeFile(BACKUP_DIR + 'drinkbackup' + Date.now() + '.json', JSON.stringify(data), (err) => {
@@ -500,9 +474,9 @@ router.delete('*', (req, res, next) => {
             }))
     }
     next()
-});
+});*/
 
-router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
+router.delete('/drink/:uuid', validateAdminToken, (req, res, next) => {
     if(req.params.uuid){
         Drinks.findOneAndDelete({ uuid: req.params.uuid })
             .then((data) => {
@@ -517,7 +491,7 @@ router.delete('/drink/:uuid', verifyRequest, (req, res, next) => {
     }
 });
 
-router.post('/add_ingredient', verifyRequest, (req, res, next) => {
+router.post('/add_ingredient', validateAdminToken, (req, res, next) => {
     if (req.body.name && req.body.abv !== undefined && req.body.category !== '') {
         Ingredients.create({uuid: uuid(), name: req.body.name, abv: Math.abs(req.body.abv), category: req.body.category})
             .then((data) => {
@@ -530,7 +504,7 @@ router.post('/add_ingredient', verifyRequest, (req, res, next) => {
     }
 });
 
-router.post('/update_ingredient', verifyRequest, (req, res, next) => {
+router.post('/update_ingredient', validateAdminToken, (req, res, next) => {
     if (req.body.uuid && (req.body.name || req.body.abv !== undefined || req.body.category) && req.body.category !== '') {
         Ingredients.findOneAndUpdate({uuid: req.body.uuid}, {name: req.body.name, category: req.body.category, abv: req.body.abv !== undefined ? Math.abs(req.body.abv) : undefined})
             .then((data) => {
@@ -544,7 +518,7 @@ router.post('/update_ingredient', verifyRequest, (req, res, next) => {
     }
 });
 
-router.delete('/ingredient/:uuid', verifyRequest, (req, res, next) => {
+router.delete('/ingredient/:uuid', validateAdminToken, (req, res, next) => {
     if(req.params.uuid){
         Ingredients.findOneAndDelete({ uuid: req.params.uuid })
             .then((data) => {
@@ -632,7 +606,7 @@ router.post('/login', (req, res, next) => {
         Users.findOne(query, 'username user_id admin pin')
             .then((user_data) => {
                 if(user_data){
-                    let response = {user_id: user_data.user_id, username: user_data.username, adminKey: user_data.admin ? adminKey : undefined}
+                    let response = {user_id: user_data.user_id, username: user_data.username, token: issueUserToken(user_data.user_id, uuid(), user_data.admin || false), isAdmin: user_data.admin || false}
                     if(user_data.pin){
                         if(req.body.pin === user_data.pin){
                             res.json(response);
@@ -670,7 +644,7 @@ router.get('/check_username/:username', (req, res, next)=>{
     }
 });
 
-router.post('/change_username', (req, res, next) => {
+router.post('/change_username', validateUserToken, (req, res, next) => {
     if(req.body.user_id && req.body.username) {
         Users.updateOne({user_id: req.body.user_id}, {username: req.body.username}).then(user => {
             if(user && user.acknowledged){
@@ -682,7 +656,7 @@ router.post('/change_username', (req, res, next) => {
     }
 });
 
-router.post('/change_pin', (req, res, next) => {
+router.post('/change_pin', validateUserToken, (req, res, next) => {
     if(req.body.user_id && req.body.pin && req.body.pin >= 1000 && req.body.pin < 100000) {
         Users.updateOne({user_id: req.body.user_id}, {pin: req.body.pin}).then(user => {
             if(user && user.acknowledged){
@@ -696,7 +670,7 @@ router.post('/change_pin', (req, res, next) => {
     }
 });
 
-router.post('/make_admin', verifyRequest, (req, res, next) => {
+router.post('/make_admin', validateAdminToken, (req, res, next) => {
     if(req.body.user_id) {
         Users.updateOne({user_id: req.body.user_id}, {admin: req.body.admin}).then(user => {
             if(user && user.acknowledged){
@@ -708,7 +682,7 @@ router.post('/make_admin', verifyRequest, (req, res, next) => {
     }
 });
 
-router.post('/create_user', verifyRequest, (req, res, next) => {
+router.post('/create_user', validateAdminToken, (req, res, next) => {
     Users.find({}, 'user_id').then(users => {
         if(users.length >= 1000){
             res.sendStatus(503);
@@ -725,7 +699,7 @@ router.post('/create_user', verifyRequest, (req, res, next) => {
     }).catch(next);
 });
 
-router.delete('/user/:user_id', verifyRequest, (req, res, next) => {
+router.delete('/user/:user_id', validateAdminToken, (req, res, next) => {
     if(req.params.user_id){
         Users.findOneAndDelete({ user_id: req.params.user_id })
             .then((data) => {
@@ -735,7 +709,7 @@ router.delete('/user/:user_id', verifyRequest, (req, res, next) => {
     }
 });
 
-router.delete('/pin/:user_id', verifyRequest, (req, res, next) => {
+router.delete('/pin/:user_id', validateAdminToken, (req, res, next) => {
     if(req.params.user_id){
         Users.updateOne({ user_id: req.params.user_id }, {$unset: {pin: ""}})
             .then((data) => {
@@ -745,7 +719,7 @@ router.delete('/pin/:user_id', verifyRequest, (req, res, next) => {
     }
 });
 
-router.post('/user_ingredients', (req, res, next) => {
+router.post('/user_ingredients', validateUserToken, (req, res, next) => {
     if(req.body.user_id && req.body.ingr_uuid && req.body.ingr_uuid.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i)){
         Users.findOne({user_id: req.body.user_id}, 'available_ingredients')
             .then((ingredientData) => {
@@ -829,7 +803,7 @@ router.get('/menu/:menu_id', (req, res, next) => {
     }
 });
 
-router.post('/create_menu', (req, res, next) => {
+router.post('/create_menu', validateUserToken, (req, res, next) => {
     if(!req.body.menu_id && req.body.user_id){
         Menus.find({}, 'menu_id').then(all_menus => {
             let used_ids = all_menus.map(menu => menu.menu_id);
@@ -856,9 +830,9 @@ router.post('/create_menu', (req, res, next) => {
     }
 });
 
-router.post('/modify_menu', (req, res, next) => {
-    if(req.body.menu_id && (req.body.drinks || req.body.users || req.body.name)){
-        Menus.findOne({menu_id: req.body.menu_id}, 'menu_id').then(menu => {
+router.post('/modify_menu', validateUserToken, (req, res, next) => {
+    if(req.body.menu_id && (req.body.drinks || req.body.name)){
+        Menus.findOne({menu_id: req.body.menu_id, $expr: {$in: [req.validated_user, '$users']}}, 'menu_id').then(menu => {
             if(menu){
                 let drinks;
                 if(req.body.drinks && Object.prototype.toString.call(req.body.drinks) === '[object Array]' && req.body.drinks.length > 0){
@@ -866,7 +840,7 @@ router.post('/modify_menu', (req, res, next) => {
                 } else if(req.body.drinks && req.body.drinks.length === 0){
                     drinks = [];
                 }
-                Menus.updateOne({menu_id: menu.menu_id}, {drinks: drinks, users: req.body.users, name: req.body.name}).then(response => {
+                Menus.updateOne({menu_id: menu.menu_id}, {drinks: drinks, name: req.body.name}).then(response => {
                     if(response.acknowledged){
                         res.sendStatus(200);
                     } else {
@@ -882,7 +856,7 @@ router.post('/modify_menu', (req, res, next) => {
     }
 });
 
-router.post('/feature_menu', (req, res, next) => {
+router.post('/feature_menu', validateAdminToken, (req, res, next) => {
     if(req.body.menu_id){
         Menus.updateMany({featured: true}, {featured: false}).then(response => {
             if(response.acknowledged){
@@ -906,9 +880,9 @@ router.post('/feature_menu', (req, res, next) => {
     }
 });
 
-router.post('/add_menu_drink', (req, res, next) => {
+router.post('/add_menu_drink', validateUserToken, (req, res, next) => {
     if(req.body.menu_id && req.body.drink){
-        Menus.findOne({menu_id: req.body.menu_id}, 'menu_id drinks').then(menu => {
+        Menus.findOne({menu_id: req.body.menu_id, $expr: {$in: [req.validated_user, '$users']}}, 'menu_id drinks').then(menu => {
             if(menu && menu.drinks){
                 if(menu.drinks.includes(req.body.drink)){
                     res.sendStatus(200);
@@ -930,9 +904,9 @@ router.post('/add_menu_drink', (req, res, next) => {
     }
 });
 
-router.delete('/menu/:menu_id', (req, res, next) => {
+router.delete('/menu/:menu_id', validateUserToken, (req, res, next) => {
     if(req.params.menu_id){
-        Menus.findOneAndDelete({ menu_id: req.params.menu_id })
+        Menus.findOneAndDelete({menu_id: req.params.menu_id, $expr: {$in: [req.validated_user, '$users']}})
             .then((data) => {
                 res.json(data);
             })
@@ -940,7 +914,7 @@ router.delete('/menu/:menu_id', (req, res, next) => {
     }
 });
 
-router.delete('/menu_forced/:menu_id',verifyRequest, (req, res, next) => {
+router.delete('/menu_forced/:menu_id', validateAdminToken, (req, res, next) => {
     if(req.params.menu_id){
         Menus.findOneAndDelete({ menu_id: req.params.menu_id })
             .then((data) => {

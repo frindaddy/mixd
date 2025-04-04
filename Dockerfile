@@ -14,6 +14,7 @@ COPY models ./models/
 COPY routes ./routes/
 COPY index.js ./
 COPY constants.js ./
+COPY security.js ./
 
 EXPOSE 5000
 

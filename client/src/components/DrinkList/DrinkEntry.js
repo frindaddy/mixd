@@ -4,7 +4,7 @@ import axios from "axios";
 import "../../format/DrinkEntry.css";
 import {Link, useNavigate} from "react-router-dom";
 
-const DrinkEntry = ({drink, getDrinkList, adminKey, setShowLoader, menuSettings, editMenu, showMenuDesc}) => {
+const DrinkEntry = ({user, drink, getDrinkList, adminKey, setShowLoader, menuSettings, editMenu, showMenuDesc}) => {
 
     const tagCategories = ['spirit', 'style', 'taste'];
 
@@ -51,7 +51,7 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, setShowLoader, menuSettings,
                 }
             }
         }
-        axios.post('/api/modify_menu', {menu_id:menuSettings.menu_id, drinks: newDrinkOrder}).then((res)=>{
+        axios.post('/api/modify_menu', {menu_id:menuSettings.menu_id, drinks: newDrinkOrder}, {headers:{Authorization: `Bearer ${user.token}`}}).then((res)=>{
             if(res.status && res.status === 200){
                 menuSettings.setMenuOrder(newDrinkOrder);
             }
@@ -60,7 +60,7 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, setShowLoader, menuSettings,
 
     function addMenuDrink(menu_id) {
        if(menu_id){
-           axios.post('/api/add_menu_drink', {menu_id:menu_id, drink: drink.uuid}).then((res)=>{
+           axios.post('/api/add_menu_drink', {menu_id:menu_id, drink: drink.uuid}, {headers:{Authorization: `Bearer ${user.token}`}}).then((res)=>{
                if(res.status && res.status === 200){
                    navigate(-1, {replace: true});
                }
@@ -84,7 +84,7 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, setShowLoader, menuSettings,
                 </div>
             </Link>
             <div className="drink-button-panel">
-                {adminKey && !menuSettings && !editMenu && <div className="drink-button">
+                {user && user.isAdmin && !menuSettings && !editMenu && <div className="drink-button">
                     <Link to={'/update_drink/'+drink.uuid}><FaWrench style={{cursor: "pointer", paddingRight:'8px'}}/></Link>
                     <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
                 </div>}

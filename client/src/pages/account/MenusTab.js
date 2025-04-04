@@ -38,7 +38,7 @@ const MenusTab = ({user}) => {
     }
 
     function createMenu() {
-        axios.post('/api/create_menu', {user_id: user.user_id, name:newMenuName}).then((res)=>{
+        axios.post('/api/create_menu', {user_id: user.user_id, name:newMenuName}, {headers:{Authorization: `Bearer ${user.token}`}}).then((res)=>{
             if(res.data){
                 let new_menus= [...menus, {menu_id: res.data.menu_id, name:newMenuName, drinks:[]}];
                 setMenus(new_menus);
@@ -56,7 +56,7 @@ const MenusTab = ({user}) => {
         <div>
             <div>
                 {menus.map((menu, menu_index) => {
-                    return <MenuCard menu={menu} menu_index={menu_index} drinkList={drinkList} menus={menus} setMenus={setMenus} />
+                    return <MenuCard menu={menu} menu_index={menu_index} drinkList={drinkList} menus={menus} setMenus={setMenus} user={user}/>
                 })}
                 <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
                     {!creatingMenu && <FaPlus style={{fontSize:'40px', left:'80px', top:'80px', position:"relative"}} />}
