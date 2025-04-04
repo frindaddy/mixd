@@ -4,7 +4,7 @@ import axios from "axios";
 import "../../format/DrinkEntry.css";
 import {Link, useNavigate} from "react-router-dom";
 
-const DrinkEntry = ({drink, getDrinkList, adminKey, setShowLoader, menuSettings, editMenu, showMenuDesc}) => {
+const DrinkEntry = ({user, drink, getDrinkList, adminKey, setShowLoader, menuSettings, editMenu, showMenuDesc}) => {
 
     const tagCategories = ['spirit', 'style', 'taste'];
 
@@ -84,7 +84,7 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, setShowLoader, menuSettings,
                 </div>
             </Link>
             <div className="drink-button-panel">
-                {adminKey && !menuSettings && !editMenu && <div className="drink-button">
+                {user && user.isAdmin && !menuSettings && !editMenu && <div className="drink-button">
                     <Link to={'/update_drink/'+drink.uuid}><FaWrench style={{cursor: "pointer", paddingRight:'8px'}}/></Link>
                     <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
                 </div>}
