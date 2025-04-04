@@ -18,14 +18,21 @@ const TagEntryContainer = ({inputs, setInputs}) => {
         }
     }, [inputs]);
 
+    function mergeTags(selTags, customTags) {
+        let trimmedCustomTags = customTags.filter(tag => {
+            return !selTags.map(tag => tag.category + '>' + tag.value).includes(tag.category + '>' + tag.value)
+        });
+        return selTags.concat(trimmedCustomTags)
+    }
+
     const updateSelectedTags = (selTags) => {
         setSelectedTags(selTags);
-        setInputs(values => ({...values, tags: {...selTags, ...customTags}}));
+        setInputs(values => ({...values, tags: mergeTags(selTags, customTags)}));
     }
 
     const updateCustomTags = (new_customTags) => {
         setCustomTags(new_customTags);
-        setInputs(values => ({...values, tags: {...setSelectedTags, ...new_customTags}}));
+        setInputs(values => ({...values, tags: mergeTags(selectedTags, new_customTags)}));
     }
 
     return (
