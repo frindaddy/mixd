@@ -15,7 +15,8 @@ const IMAGE_DIR = process.env.IMAGE_DIR || '';
 const BACKUP_DIR = process.env.BACKUP_DIR || '/root/backups/';
 
 const {RESERVED_ROUTES} = require("../constants");
-const Security = require("../security");
+require("../security");
+const {issueUserToken} = require("../security");
 
 const adminKey = uuid();
 
@@ -632,7 +633,7 @@ router.post('/login', (req, res, next) => {
         Users.findOne(query, 'username user_id admin pin')
             .then((user_data) => {
                 if(user_data){
-                    let response = {user_id: user_data.user_id, username: user_data.username, adminKey: user_data.admin ? adminKey : undefined}
+                    let response = {user_id: user_data.user_id, username: user_data.username, token: issueUserToken(user_data.user_id, uuid()),adminKey: user_data.admin ? adminKey : undefined}
                     if(user_data.pin){
                         if(req.body.pin === user_data.pin){
                             res.json(response);
