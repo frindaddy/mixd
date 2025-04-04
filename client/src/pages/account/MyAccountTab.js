@@ -3,7 +3,7 @@ import axios from "axios";
 import {FaCheck, FaSignOutAlt, FaStar} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 
-const MyAccountTab = ({user, setUser}) => {
+const MyAccountTab = ({user, setUser, removeCookie}) => {
 
 
     const [usernameField, setUsernameField] = useState('');
@@ -61,6 +61,7 @@ const MyAccountTab = ({user, setUser}) => {
 
     function logout() {
         setUser({});
+        removeCookie('user');
         navigate('/', {replace:true})
     }
 

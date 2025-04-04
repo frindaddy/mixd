@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import {FaRegUserCircle, FaSignOutAlt, FaUserCircle} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 
-const AccountShortcut = ({user, setUser}) => {
+const AccountShortcut = ({user, setUser, removeCookie}) => {
 
     const [showDropdown, setShowDropdown] = useState(false);
 
@@ -23,6 +23,7 @@ const AccountShortcut = ({user, setUser}) => {
 
     function logout() {
         setUser({});
+        removeCookie('user');
         navigate('/', {replace:true})
         setShowDropdown(false);
     }
