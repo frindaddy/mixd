@@ -65,7 +65,7 @@ function start_server() {
                         indexHTML = indexHTML.replace('title>mixd.</title', 'title>'+drink.name+' | mixd.</title');
                         if(drink.image && drink.image !== ''){
                             indexHTML = indexHTML
-                                .replace('/logo512.png', '/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg')
+                                .replace('/logo512.png', '/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/'+(drink.glass || 'unknown')+'.svg')
                         }
                     }
                     return res.send(indexHTML);
