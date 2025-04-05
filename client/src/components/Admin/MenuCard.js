@@ -55,16 +55,16 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus, user}) => {
     }
 
     return (
-        <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor:'pointer'}}>
+        <div className="menu-card">
             {currentlyRenaming && <div>
-                <input autoFocus style={{width:'140px', border: 'none', outline:'none', fontSize: '16px', backgroundColor: 'darkgray'}} name='rename' value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
-                <FaCheck style={{float:'right'}} onClick={renameMenu}/>
-                <FaX style={{marginRight: '10px', float:'right'}} onClick={cancelRename}/>
+                <input autoFocus className="menu-card-title-input" name='rename' value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
+                <FaCheck className="menu-card-title-button" onClick={renameMenu}/>
+                <FaX className="menu-card-title-button" onClick={cancelRename}/>
             </div>}
-            {!currentlyRenaming && <div>
-                <span onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>{menu.name || "Menu " + menu.menu_id}</span>
-                <FaTrash style={{float: 'right'}} onClick={()=>confirmDeleteMenu(menu.menu_id, menu.name)}/>
-                <FaEdit style={{float: 'right', marginRight:'10px'}} onClick={startRename}/>
+            {!currentlyRenaming && <div style={{display:"flex", flexFlow:"row wrap"}}>
+                <span className="menu-card-title" onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>{menu.name || "Menu " + menu.menu_id}</span>
+                <FaTrash className="menu-card-title-button" onClick={()=>confirmDeleteMenu(menu.menu_id, menu.name)}/>
+                <FaEdit className="menu-card-title-button" onClick={startRename}/>
             </div>}
             <div onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>
                 {menu.drinks.map(drink => {
