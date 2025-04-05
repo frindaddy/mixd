@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import "../../format/DrinkList.css";
+import "../../format/Tabs.css";
 import {Link, useLocation} from "react-router-dom";
 import AddDrinkEntry from "../../components/Admin/AddDrinkEntry";
 import DrinkArray from "../../components/DrinkList/DrinkArray";
@@ -35,7 +36,7 @@ const ManageDrinksTab = ({setShowLoader, user}) => {
 
     return (
         <>
-            <h1 style={{display:"flex", justifyContent:"center"}}>{editingMenuID() ? "Add Drink to Menu":"Manage Drinks"}</h1>
+            <h1 className="tab-title">{editingMenuID() ? "Add Drink to Menu":"Manage Drinks"}</h1>
             <div className="search-container">
                 <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
             </div>
