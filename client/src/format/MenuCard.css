@@ -1,7 +1,7 @@
 .menu-card {
     background-color: rgba(255, 255, 255, 0.15);
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     padding: 10px;
     margin: 10px;
     border-radius: 10px;
@@ -9,10 +9,18 @@
 }
 
 .menu-card-title {
-    width: 145px;
+    font-weight: 400;
+    font-size: 20px;
+    width: 240px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.menu-card-title-container {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
 }
 
 .menu-card-title-input {
@@ -20,8 +28,8 @@
     border: none;
     border-radius: 5px;
     outline: none;
-    font-size: 16px;
-    width: 140px;
+    font-size: 19px;
+    width: 240px;
 }
 
 .menu-card-title-button {

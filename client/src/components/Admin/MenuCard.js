@@ -56,12 +56,12 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus, user}) => {
 
     return (
         <div className="menu-card">
-            {currentlyRenaming && <div>
+            {currentlyRenaming && <div className="menu-card-title-container">
                 <input autoFocus className="menu-card-title-input" name='rename' value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
                 <FaCheck className="menu-card-title-button" onClick={renameMenu}/>
                 <FaX className="menu-card-title-button" onClick={cancelRename}/>
             </div>}
-            {!currentlyRenaming && <div style={{display:"flex", flexFlow:"row wrap"}}>
+            {!currentlyRenaming && <div className="menu-card-title-container">
                 <span className="menu-card-title" onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>{menu.name || "Menu " + menu.menu_id}</span>
                 <FaTrash className="menu-card-title-button" onClick={()=>confirmDeleteMenu(menu.menu_id, menu.name)}/>
                 <FaEdit className="menu-card-title-button" onClick={startRename}/>
