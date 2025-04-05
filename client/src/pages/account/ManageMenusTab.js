@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react"
 import {FaPlus, FaRegStar, FaStar, FaTrash} from "react-icons/fa";
 import axios from "axios";
 import '../../format/ManageIngredientsTab.css';
+import '../../format/Tabs.css';
 
 const ManageMenusTab = ({adminKey, user}) => {
     const [errorMsg, setErrorMsg] = useState('');
@@ -70,7 +71,7 @@ const ManageMenusTab = ({adminKey, user}) => {
 
     return (
         <div>
-            <h1 className="manage-ingredients-title" style={{marginTop:"20px", marginBottom:"-10px"}}>Manage Menus</h1>
+            <h1 className="tab-title">Manage Menus</h1>
             {errorMsg && <p>{errorMsg}</p>}
             {menus.map((menuEntry) =>{
                 return <div>
