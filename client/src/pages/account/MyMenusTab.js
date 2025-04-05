@@ -3,7 +3,7 @@ import axios from "axios";
 import {FaCheck, FaPlus} from "react-icons/fa";
 import {FaX} from "react-icons/fa6";
 import MenuCard from "../../components/Admin/MenuCard";
-import "../../format/MyMenusTab.css"
+import "../../format/MenuCard.css"
 import "../../format/Tabs.css"
 
 const MenusTab = ({user}) => {
@@ -61,12 +61,12 @@ const MenusTab = ({user}) => {
                 {menus.map((menu, menu_index) => {
                     return <MenuCard menu={menu} menu_index={menu_index} drinkList={drinkList} menus={menus} setMenus={setMenus} user={user}/>
                 })}
-                <div className="create-menu-card" style={{cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
+                <div className="menu-card" style={{cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
                     {!creatingMenu && <FaPlus style={{fontSize:'40px', left:"40%", top:"40%", position:"relative"}} />}
                     {creatingMenu && <div style={{display:"flex", alignItems:"center"}}>
-                        <input autoFocus name='name' className="create-menu-title-input" value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
-                        <FaX className="create-menu-title-button" onClick={cancelCreate}/>
-                        <FaCheck className="create-menu-title-button" onClick={createMenu}/>
+                        <input autoFocus name='name' className="menu-card-title-input" value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
+                        <FaX className="menu-card-title-button" onClick={cancelCreate}/>
+                        <FaCheck className="menu-card-title-button" onClick={createMenu}/>
                     </div>}
                 </div>
             </div>
