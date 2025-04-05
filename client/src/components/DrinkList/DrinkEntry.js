@@ -4,7 +4,7 @@ import axios from "axios";
 import "../../format/DrinkEntry.css";
 import {Link, useNavigate} from "react-router-dom";
 
-const DrinkEntry = ({user, drink, getDrinkList, adminKey, setShowLoader, menuSettings, editMenu, showMenuDesc}) => {
+const DrinkEntry = ({user, drink, getDrinkList, adminKey, setShowLoader, menuSettings, editMenu, isMenu: isMenu}) => {
 
     const tagCategories = ['spirit', 'style', 'taste'];
 
@@ -74,13 +74,13 @@ const DrinkEntry = ({user, drink, getDrinkList, adminKey, setShowLoader, menuSet
         <div className="drink-entry">
             <Link to={'/'+drink.url_name} style={{display:"flex", width:"100%"}} onClick={()=>{setShowLoader(true)}}>
                 <div className="glass-container clickable">
-                    {drink.glass && <img src={'/api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'} className={showMenuDesc ? "menu-glass":"drinklist-glass"}/>}
-                    {!drink.glass && <img src={'/api/image?file=glassware/unknown.svg'} alt={'No glass listed'} className={showMenuDesc ? "drinklist-glass":"menu-glass"}/>}
+                    {drink.glass && <img src={'/api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'} className={isMenu ? "menu-glass":"drinklist-glass"}/>}
+                    {!drink.glass && <img src={'/api/image?file=glassware/unknown.svg'} alt={'No glass listed'} className={isMenu ? "drinklist-glass":"menu-glass"}/>}
                 </div>
                 <div className="drink-entry-info">
                     <div className="drink-entry-title clickable">{drink.name}</div>
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
-                    {showMenuDesc && drink.menu_desc && <div className="menu-description">{drink.menu_desc}</div>}
+                    {isMenu && drink.menu_desc && <div className="menu-description">{drink.menu_desc}</div>}
                 </div>
             </Link>
             <div className="drink-button-panel">

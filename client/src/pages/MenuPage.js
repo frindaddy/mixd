@@ -30,7 +30,7 @@ const MenuPage = ({setShowLoader, user}) => {
     return (
         <>
             <h1 className="menu-title">{menu.name || 'Menu'}</h1>
-            <DrinkArray drinkList={menu.drinkList} filter={{text: "", tags: []}} setShowLoader={setShowLoader} menuSettings={{editMode: hash==='#edit', menu_id: menu.menu_id, menuOrder: menu.drinks, setMenuOrder: setMenuOrder}} showMenuDesc={true} user={user}/>
+            <DrinkArray drinkList={menu.drinkList} filter={{text: "", tags: []}} setShowLoader={setShowLoader} menuSettings={{editMode: hash==='#edit', menu_id: menu.menu_id, menuOrder: menu.drinks, setMenuOrder: setMenuOrder}} isMenu={true} user={user}/>
             {hash==='#edit' && <div>
                 <hr className="list-separator" />
                 <Link to={'/account/edit_drinks/#edit_menu-'+menu.menu_id}><AddDrinkEntry /></Link>
