@@ -1,0 +1,46 @@
+.adv-search-checkbox {
+    appearance: none;
+    background-color: #1D1E1F;
+    color: currentColor;
+    width: 15px;
+    height: 15px;
+    border: 1px solid white;
+    border-radius: 5px;
+    display: grid;
+    place-content: center;
+  }
+
+.adv-search-checkbox::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    transform: scale(0);
+    transition: 70ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--form-control-color);
+    background-color: white;
+}
+
+.adv-search-checkbox:checked::before {
+    transform: scale(1);
+}
+
+.adv-search-dropdown {
+    border-color: white;
+    border-radius: 5px;
+    background-color: #1D1E1F;
+    color: white;
+    margin-left: 5px;
+}
+
+.search-button {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    font-weight: 300;
+    width: 100px;
+    padding: 5px;
+    background-color: darkred;
+    border-radius: 5px;
+    margin: 5px 0 0 0;
+}
