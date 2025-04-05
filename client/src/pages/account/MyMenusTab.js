@@ -65,8 +65,8 @@ const MenusTab = ({user}) => {
                     {!creatingMenu && <FaPlus style={{fontSize:'40px', left:"40%", top:"40%", position:"relative"}} />}
                     {creatingMenu && <div style={{display:"flex", alignItems:"center"}}>
                         <input autoFocus name='name' className="menu-card-title-input" value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
-                        <FaX className="menu-card-title-button" onClick={cancelCreate}/>
                         <FaCheck className="menu-card-title-button" onClick={createMenu}/>
+                        <FaX className="menu-card-title-button" onClick={cancelCreate}/>
                     </div>}
                 </div>
             </div>
