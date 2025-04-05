@@ -1,0 +1,21 @@
+.menu-card-drink-entry-glass {
+    height: 50px;
+    margin: -5px 0 -5px 0;
+}
+
+.menu-card-drink-entry-info {
+    align-content: center;
+}
+
+.menu-card-drink-entry-title {
+    font-weight: 300;
+    font-size: 18px;
+    margin: -2px 0 0 0;
+}
+
+.menu-card-drink-entry-tag {
+    height: 8px;
+    width: 8px;
+    border-radius: 10px;
+    margin-right: 5px;
+}

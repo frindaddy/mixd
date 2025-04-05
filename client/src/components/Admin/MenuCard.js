@@ -1,5 +1,6 @@
 import React, {useState} from "react"
 import {FaCheck, FaEdit, FaTrash} from "react-icons/fa";
+import MenuCardDrinkEntry from "./MenuCardDrinkEntry";
 import "../../format/MenuCard.css";
 import {FaX} from "react-icons/fa6";
 import axios from "axios";
@@ -67,14 +68,25 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus, user}) => {
                 <FaEdit className="menu-card-title-button" onClick={startRename}/>
             </div>}
             <div onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>
-                {menu.drinks.map(drink => {
+                {menu.drinks.map((drink, i) => {
                     let filtered_drinks = drinkList.filter(d=>d.uuid === drink)
-                    if(filtered_drinks.length === 1 && filtered_drinks[0].glass){
-                        return <img style={{height:'65px'}} src={'/api/image?file=glassware/'+filtered_drinks[0].glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={filtered_drinks[0].glass+' glass'}/>
+                    if(filtered_drinks.length === 1 && i <= 3 && filtered_drinks[0]){
+                        return <MenuCardDrinkEntry drink={filtered_drinks[0]}/>
+                    }
+                    else if(filtered_drinks.length === 1 && i === 4 && filtered_drinks[0]){
+                        return(
+                            <>
+                                <hr></hr>
+                                <div className="menu-card-elipses">...</div>
+                            </>
+                        )
+                    }
+                    else{
+                        return
                     }
                 })}
             </div>
-            {menu.drinks && menu.drinks.length === 0 && <p onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>No drinks yet!</p>}
+            {menu.drinks && menu.drinks.length === 0 && <p style={{textAlign:"center", fontWeight:"300"}} onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>No drinks yet!</p>}
         </div>
     )
 }
