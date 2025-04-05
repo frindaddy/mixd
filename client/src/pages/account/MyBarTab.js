@@ -78,7 +78,7 @@ const MyBarTab = ({setMyBarSearch, user}) => {
                     </div>
                 </div>
             })}
-            <hr />
+            <hr style={{marginRight:"2%"}} />
             <div style={{display: "flex"}}>
                 <div>
                     {user.user_id !== undefined && <div>
