@@ -1,6 +1,7 @@
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import Logo from "../components/Logo";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import AddDrinkEntry from "../components/Admin/AddDrinkEntry";
 import "../format/MenuPage.css";
@@ -29,6 +30,9 @@ const MenuPage = ({setShowLoader, user}) => {
 
     return (
         <>
+            <Link to='/'>
+                <Logo/>
+            </Link>
             <h1 className="menu-title">{menu.name || 'Menu'}</h1>
             <DrinkArray drinkList={menu.drinkList} filter={{text: "", tags: []}} setShowLoader={setShowLoader} menuSettings={{editMode: hash==='#edit', menu_id: menu.menu_id, menuOrder: menu.drinks, setMenuOrder: setMenuOrder}} isMenu={true} user={user}/>
             {hash==='#edit' && <div>
