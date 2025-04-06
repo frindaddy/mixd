@@ -80,7 +80,7 @@ const MyBarTab = ({setMyBarSearch, user}) => {
             })}
             {user.user_id !== undefined && <div style={{display: "flex", flexFlow:"column nowrap", alignItems:"center"}}>
                 <h2 className="tab-subtitle">Advanced Search</h2>
-                <div style={{display: "flex", fontWeight:"300", marginBottom:"10px"}}>
+                <div className="adv-search-row">
                     <span>Allowed Missing Ingredients:</span>
                     <select className="adv-search-dropdown" onChange={(e)=> setSearchSettings({...searchSettings, tol: e.target.value})}>
                         {[0,1,2,3,4,5].map(index=> {
@@ -88,11 +88,11 @@ const MyBarTab = ({setMyBarSearch, user}) => {
                         })}
                     </select>
                 </div>
-                <div style={{display: "flex", fontWeight:"300", marginBottom:"10px"}}>
+                <div className="adv-search-row">
                     <span>Ignore Non-Alcoholic Ingredients:</span>
                     <input className="adv-search-checkbox" type='checkbox' checked={searchSettings.no_na} onChange={(e)=> setSearchSettings({...searchSettings, no_na: e.target.checked})}></input>
                 </div>
-                <div style={{display: "flex", fontWeight:"300", marginBottom:"10px"}}>
+                <div className="adv-search-row">
                     <span>Exact Search:</span>
                     <input className="adv-search-checkbox" type='checkbox' checked={searchSettings.strict} onChange={(e)=> setSearchSettings({...searchSettings, strict: e.target.checked})}></input>
                 </div>
