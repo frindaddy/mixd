@@ -85,12 +85,12 @@ const DrinkEntry = ({user, drink, getDrinkList, adminKey, setShowLoader, menuSet
             </Link>
             {user && user.isAdmin && !menuSettings && !editMenu && <div className="drink-button-panel">
                 <Link to={'/update_drink/'+drink.uuid}><FaWrench style={{cursor: "pointer"}}/></Link>
-                <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer", paddingTop:'8px'}}/>
+                <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer", paddingTop:'10px'}}/>
             </div>}
             {menuSettings && menuSettings.editMode && <div className="drink-button-panel">
                 <FaArrowUp onClick={()=>{modifyMenu(false, true, false)}} style={{cursor: "pointer"}}/>
-                <FaArrowDown onClick={()=>{modifyMenu(false, false, true)}} style={{cursor: "pointer", paddingTop:'8px'}}/>
-                <FaTrash onClick={()=>{modifyMenu(true, false, false)}} style={{cursor: "pointer", paddingTop:'8px'}}/>
+                <FaArrowDown onClick={()=>{modifyMenu(false, false, true)}} style={{cursor: "pointer", paddingTop:'10px'}}/>
+                <FaTrash onClick={()=>{modifyMenu(true, false, false)}} style={{cursor: "pointer", paddingTop:'10px'}}/>
             </div>}
             {editMenu && <div className="drink-button-panel">
                 <FaPlus style={{cursor: "pointer"}} onClick={()=>{addMenuDrink(editMenu)}} />
