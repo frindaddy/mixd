@@ -76,7 +76,7 @@
     margin-left: 5px;
     margin-top: 0px;
     margin-bottom: 3%;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 300;
     text-align: justify;
     text-justify: auto;
@@ -109,7 +109,7 @@
 .menu-desc {
     margin-top: 10px;
     font-weight: 300;
-    font-size: 20px;
+    font-size: 18px;
     color: darkgray;
 }
 
@@ -133,7 +133,7 @@
     .instructions {
         margin-right: 10px;
         margin-bottom: 15px;
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .info-column {
