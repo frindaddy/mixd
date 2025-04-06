@@ -1,3 +1,30 @@
+.drink-tags-filter-panel {
+    display: flex;
+    overflow: hidden;
+    transition: height 300ms ease-in-out;
+    height: 0px;
+    justify-content: center;
+}
+
+.ingredients-filter-panel {
+    display: flex;
+    overflow: hidden;
+    transition: height 300ms ease-in-out;
+    height: 0px;
+    justify-content: center;
+}
+
+.filter-chevron {
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+}
+
+.filter-eraser {
+    float: right;
+    margin: 5px 0 0 10px;
+}
+
 .filter-match-title {
     padding-left: 20px;
     padding-bottom: 10px;
@@ -19,12 +46,15 @@
     border-top: 2px solid darkgray;
 }
 
-.filter-panel {
+.filter-panel-navbar {
     display: flex;
-    overflow: hidden;
-    transition: height 300ms ease-in-out;
-    height: 0px;
+    flex-flow: column nowrap;
     justify-content: center;
+    font-size: 28px;
+    font-weight: 300;
+    margin-left: 10px;
+    user-select: none;
+    cursor: pointer;
 }
 
 .search-container {

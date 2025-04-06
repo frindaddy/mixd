@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Logo from "../components/Logo";
 import DrinkArray from "../components/DrinkList/DrinkArray";
-import FilterPanel from "../components/DrinkList/FilterPanel";
-import {FaFilter, FaEraser, FaSearch} from "react-icons/fa";
+import DrinkTagsFilterPanel from "../components/DrinkList/DrinkTagsFilterPanel";
+import IngredientsFilterPanel from "../components/DrinkList/IngredientsFilterPanel";
+import {FaFilter, FaEraser, FaSearch, FaChevronUp} from "react-icons/fa";
 import "../format/DrinkList.css";
 import AccountShortcut from "../components/AccountShortcut";
 
@@ -11,6 +12,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
 
     const [drinkList, setDrinkList] = useState([]);
     const [filterPanelShown, setFilterPanelShown] = useState(false);
+    const [filterPanelPage, setFilterPanelPage] = useState('drinkTags');
     const [featuredMenuName, setFeaturedMenuName] = useState('');
     const [listLoaded, setListLoaded] = useState(false);
 
@@ -47,29 +49,56 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
 
     function toggleFilterPanel(){
         if(!filterPanelShown){
-            expandFilterPanel();
+            if(filterPanelPage === 'drinkTags'){
+                expandDrinkTagsPanel();
+            } else if(filterPanelPage === 'ingredients'){
+                expandIngredientsPanel();
+            }
             setFilterPanelShown(true);
         } else {
-            collapseFilterPanel();
+            if(filterPanelPage === 'drinkTags'){
+                collapseDrinkTagsFilterPanel();
+            } else if(filterPanelPage === 'ingredients'){
+                collapseIngredientsFilterPanel();
+            }
             setFilterPanelShown(false);
         }
     }
 
-    function expandFilterPanel() {
-        const filterPanel = document.querySelector(".filter-panel");
-        filterPanel.style.height = filterPanel.scrollHeight + 'px';
-        filterPanel.addEventListener('transitioned', function () {
-            filterPanel.removeEventListener('transitioned');
-            filterPanel.style.height = null;
+    function expandDrinkTagsPanel() {
+        const drinkTagsFilterPanel = document.querySelector(".drink-tags-filter-panel");
+        drinkTagsFilterPanel.style.height = drinkTagsFilterPanel.scrollHeight + 'px';
+        drinkTagsFilterPanel.addEventListener('transitioned', function () {
+            drinkTagsFilterPanel.removeEventListener('transitioned');
+            drinkTagsFilterPanel.style.height = null;
         });
     }
 
-    function collapseFilterPanel() {
-        const filterPanel = document.querySelector(".filter-panel")
+    function expandIngredientsPanel() {
+        const ingredientsFilterPanel = document.querySelector(".ingredients-filter-panel");
+        ingredientsFilterPanel.style.height = ingredientsFilterPanel.scrollHeight + 'px';
+        ingredientsFilterPanel.addEventListener('transitioned', function () {
+            ingredientsFilterPanel.removeEventListener('transitioned');
+            ingredientsFilterPanel.style.height = null;
+        });
+    }
+
+    function collapseDrinkTagsFilterPanel() {
+        const drinkTagsFilterPanel = document.querySelector(".drink-tags-filter-panel")
         requestAnimationFrame(function () {
-            filterPanel.style.height = filterPanel.scrollHeight + 'px';
+            drinkTagsFilterPanel.style.height = drinkTagsFilterPanel.scrollHeight + 'px';
             requestAnimationFrame(function () {
-                filterPanel.style.height = 0 + 'px';
+                drinkTagsFilterPanel.style.height = 0 + 'px';
+            })
+        });
+    }
+
+    function collapseIngredientsFilterPanel() {
+        const ingredientsFilterPanel = document.querySelector(".ingredients-filter-panel")
+        requestAnimationFrame(function () {
+            ingredientsFilterPanel.style.height = ingredientsFilterPanel.scrollHeight + 'px';
+            requestAnimationFrame(function () {
+                ingredientsFilterPanel.style.height = 0 + 'px';
             })
         });
     }
@@ -97,9 +126,24 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
                     {showEraser() && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams}/></div>}
                 </div>
             </header>
-            <div className={'filter-panel'}>
-                <FilterPanel expandFilterPanel={expandFilterPanel} toggleFilterPanel={toggleFilterPanel} user={user} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch}/>
-            </div>
+            {filterPanelPage === 'drinkTags' && <div className={'drink-tags-filter-panel'}>
+                <div className="filter-panel-navbar">
+                    <span onClick={()=>{setFilterPanelPage('drinkTags'); expandDrinkTagsPanel()}}>Drink Tags</span>
+                    <div className="filter-panel-navbar-separator"/>
+                    <span onClick={()=>{setFilterPanelPage('ingredients'); expandIngredientsPanel()}}>Ingredients</span>
+                </div>
+                <DrinkTagsFilterPanel user={user} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch}/>
+                <div className='filter-chevron'><FaChevronUp style={{cursor:"pointer", marginBottom:"10px"}} onClick={() => {toggleFilterPanel()}}/></div>
+            </div>}
+            {filterPanelPage === 'ingredients' && <div className={'ingredients-filter-panel'}>
+                <div className="filter-panel-navbar">
+                    <span onClick={()=>{setFilterPanelPage('drinkTags'); expandDrinkTagsPanel()}}>Drink Tags</span>
+                    <div className="filter-panel-navbar-separator"/>
+                    <span onClick={()=>{setFilterPanelPage('ingredients'); expandIngredientsPanel()}}>Ingredients</span>
+                </div>
+                <IngredientsFilterPanel searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient}/>
+                <div className='filter-chevron'><FaChevronUp style={{cursor:"pointer", marginBottom:"10px"}} onClick={() => {toggleFilterPanel()}}/></div>
+            </div>}
             {listLoaded && <>
                 {featuredMenuName !== '' && <h1 className="menu-title">{featuredMenuName}</h1>}
                 {featuredMenuName === '' && <h1 className="menu-title">Search Results</h1>}

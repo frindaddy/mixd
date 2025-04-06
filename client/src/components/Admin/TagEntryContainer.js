@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import TagEntry from "./TagEntry";
 import {FaPlus} from "react-icons/fa";
-import FilterPanel from "../DrinkList/FilterPanel";
+import FilterPanel from "../DrinkList/DrinkTagsFilterPanel";
 import "../../format/CreateDrink.css";
 import DrinkTagSelector from "./DrinkTagSelector";
 

@@ -20,12 +20,6 @@
     margin-bottom: 2px;
 }
 
-.filter-chevron {
-    display: flex;
-    justify-content: center;
-    padding: 8px;
-}
-
 .filter-eraser {
     float: right;
     margin: 5px 0 0 10px;
