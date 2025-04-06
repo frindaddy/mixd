@@ -1,3 +1,11 @@
+.account-input {
+    border-color: white;
+    border-radius: 10px;
+    background-color: #1D1E1F;
+    color: white;
+    padding-left: 5px;
+}
+
 .account-name {
     font-size: 28px;
     font-weight: 300;
