@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import {FaCheck, FaEdit, FaTrash} from "react-icons/fa";
 import MenuCardDrinkEntry from "./MenuCardDrinkEntry";
 import "../../format/MenuCard.css";
-import {FaX} from "react-icons/fa6";
+import {FaXmark} from "react-icons/fa6";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
@@ -60,7 +60,7 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus, user}) => {
             {currentlyRenaming && <div className="menu-card-title-container">
                 <input autoFocus className="menu-card-title-input" name='rename' value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
                 <FaCheck className="menu-card-title-button" onClick={renameMenu}/>
-                <FaX className="menu-card-title-button" onClick={cancelRename}/>
+                <FaXmark className="menu-card-title-button" style={{fontSize:"20px"}} onClick={cancelRename}/>
             </div>}
             {!currentlyRenaming && <div className="menu-card-title-container">
                 <span className="menu-card-title" onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>{menu.name || "Menu " + menu.menu_id}</span>
