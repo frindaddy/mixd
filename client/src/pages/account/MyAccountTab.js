@@ -51,14 +51,18 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
     }
 
     function changePin(){
-        axios.post('/api/change_pin', {user_id: user.user_id, pin: pinField}, {headers:{Authorization: `Bearer ${user.token}`}}).then(res =>{
-            if(res.status === 200){
-                setPinField(null);
-                alert('PIN Updated!');
-            }
-        }).catch(e => {
-            alert('Failed to update PIN. PIN unchanged.');
-        });
+        if((pinField >= 1000) && (pinField <= 999999)) {
+            axios.post('/api/change_pin', {user_id: user.user_id, pin: pinField}, {headers:{Authorization: `Bearer ${user.token}`}}).then(res =>{
+                if(res.status === 200){
+                    setPinField(null);
+                    alert('PIN Updated!');
+                }
+            }).catch(e => {
+                alert('Failed to update PIN. PIN unchanged.');
+            });
+        } else {
+            alert('Failed to update PIN. PIN must be between 4 and 6 digits long.');
+        }
     }
 
     function logout() {
