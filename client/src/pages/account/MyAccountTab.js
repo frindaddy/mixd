@@ -71,13 +71,13 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
         <>
             <h1 className="tab-title">My Account</h1>
             <div className="account-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.isAdmin && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
-            <p style={{textAlign:"center", fontWeight:"300"}}>Change Username:</p>
+            <p style={{textAlign:"center", fontWeight:"300", marginTop:"10px", marginBottom:"5px"}}>Change Username:</p>
             <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
                 <input className="account-input" name='username' type='text' placeholder={user.username||'Username'} onChange={updateUsernameField} value={usernameField}/>
                 <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={submitUsername}/>
             </div>
             {usernameField.length > 0 && <p style={{textAlign:"center", fontWeight:"300"}}>{usernameResponse()}</p>}
-            <p style={{textAlign:"center", fontWeight:"300"}}>Change PIN:</p>
+            <p style={{textAlign:"center", fontWeight:"300", marginBottom:"5px"}}>Change PIN:</p>
             <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
                 <input className="account-input" name='pin' type='numeric' placeholder='New PIN' onChange={(e)=>{setPinField(parseInt(e.target.value.substring(0,6)) || null)}} value={pinField || ''}/>
                 <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={changePin}/>
