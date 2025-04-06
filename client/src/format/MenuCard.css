@@ -16,6 +16,13 @@
     margin-top: -30px;
 }
 
+.menu-card-new-button {
+    font-size: 40px;
+    position: relative;
+    left: 130px;
+    top: 130px;
+}
+
 .menu-card-title {
     font-weight: 400;
     font-size: 20px;
@@ -46,4 +53,16 @@
     font-size: 16px;
 }
 
+@media screen and (max-width: 600px) {
+    .menu-card {
+        width: 350px;
+    }
+
+    .menu-card-new-button {
+        left: 155px;
+    }
+    
+    .menu-card-title-input {
+        width: 225px;
+    }
 }

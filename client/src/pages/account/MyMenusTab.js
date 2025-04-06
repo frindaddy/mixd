@@ -62,7 +62,7 @@ const MenusTab = ({user}) => {
                     return <MenuCard menu={menu} menu_index={menu_index} drinkList={drinkList} menus={menus} setMenus={setMenus} user={user}/>
                 })}
                 <div className="menu-card" style={{cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
-                    {!creatingMenu && <FaPlus style={{fontSize:'40px', left:"40%", top:"40%", position:"relative"}} />}
+                    {!creatingMenu && <FaPlus className="menu-card-new-button" />}
                     {creatingMenu && <div style={{display:"flex", alignItems:"center"}}>
                         <input autoFocus name='name' className="menu-card-title-input" value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
                         <FaCheck className="menu-card-title-button" onClick={createMenu}/>
