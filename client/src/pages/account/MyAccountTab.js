@@ -51,14 +51,18 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
     }
 
     function changePin(){
-        axios.post('/api/change_pin', {user_id: user.user_id, pin: pinField}, {headers:{Authorization: `Bearer ${user.token}`}}).then(res =>{
-            if(res.status === 200){
-                setPinField(null);
-                alert('PIN Updated!');
-            }
-        }).catch(e => {
-            alert('Failed to update PIN. PIN unchanged.');
-        });
+        if((pinField >= 1000) && (pinField <= 999999)) {
+            axios.post('/api/change_pin', {user_id: user.user_id, pin: pinField}, {headers:{Authorization: `Bearer ${user.token}`}}).then(res =>{
+                if(res.status === 200){
+                    setPinField(null);
+                    alert('PIN Updated!');
+                }
+            }).catch(e => {
+                alert('Failed to update PIN. PIN unchanged.');
+            });
+        } else {
+            alert('Failed to update PIN. PIN must be between 4 and 6 digits long.');
+        }
     }
 
     function logout() {
@@ -82,7 +86,7 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
             <div className="myaccount-row">
                 <p style={{textAlign:"center", fontWeight:"300", marginBottom:"5px"}}>Change PIN:</p>
                 <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
-                    <input className="myaccount-input" name='pin' type='numeric' placeholder='New PIN' onChange={(e)=>{setPinField(parseInt(e.target.value.substring(0,6)) || null)}} value={pinField || ''}/>
+                    <input className="myaccount-input" name='pin' type='numeric' placeholder='0000' onChange={(e)=>{setPinField(parseInt(e.target.value.substring(0,6)) || null)}} value={pinField || ''}/>
                     <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={changePin}/>
                 </div>
             </div>
