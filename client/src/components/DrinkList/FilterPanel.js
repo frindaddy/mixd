@@ -6,10 +6,11 @@ import TagCategories from "../../definitions/TagCategories";
 import "../../format/FilterPanel.css";
 import IngredientCategories from "../../definitions/IngredientCategories";
 
-const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngredient, searchTags, setSearchTags, myBarSearch, setMyBarSearch}) => {
+const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngredient, searchTags, setSearchTags, myBarSearch, setMyBarSearch, expandFilterPanel}) => {
 
     const [allTags, setAllTags] = useState([]);
     const [ingredients, setIngredients] = useState([]);
+    const [tab, setTab] = useState('tags');
 
     useEffect(() => {
         axios.get('/api/tags/')
@@ -64,9 +65,20 @@ const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngred
         }
     }
 
+    function changeTab(newTab) {
+        setTab(newTab);
+        expandFilterPanel();
+    }
+
     return (
         <>
             <div className="filter-panel-container">
+                <div className="filter-panel-navbar">
+                    <span onClick={()=>changeTab('tags')}>Drink Tags</span>
+                    <div className="filter-panel-navbar-separator"/>
+                    <span onClick={()=>changeTab('ingredients')}>Ingredients</span>
+                </div>
+                {tab === 'tags' && <>
                 {TagCategories.map((cat)=>{
                     return <div className="filter-category-container">
                         <p className="filter-category-title">{cat.localization}</p>
@@ -98,7 +110,8 @@ const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngred
                             style={{backgroundColor: 'green'}}>Advanced Search</div>}
                     </div>
                 </div>}
-                <br />
+                </>}
+                {tab === 'ingredients' && <>
                 {IngredientCategories.map((cat)=>{
                     return <div className="filter-category-container">
                         <p className="filter-category-title">{cat.header}</p>
@@ -116,6 +129,7 @@ const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngred
                         </div>
                     </div>
                 })}
+                </>}
                 {<div className='filter-chevron'><FaChevronUp style={{cursor:"pointer", marginBottom:"10px"}} onClick={() => {toggleFilterPanel()}}/></div>}
             </div>
         </>

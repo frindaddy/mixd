@@ -1,39 +1,75 @@
-.ingredient-title {
-    margin-bottom: 20px;
-    font-weight: 300;
-    font-size: 30px;
+.adv-search-checkbox {
+    appearance: none;
+    background-color: #1D1E1F;
+    color: currentColor;
+    width: 15px;
+    height: 15px;
+    border: 1px solid white;
+    border-radius: 5px;
+    display: grid;
+    place-content: center;
+  }
+
+.adv-search-checkbox::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    transform: scale(0);
+    transition: 70ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--form-control-color);
+    background-color: white;
 }
 
-.ingredient-entry {
-    padding: 0px;
-    margin: 2px 0px 0px 0px;
-    font-size: 20px;
-    font-weight: 300;
+.adv-search-checkbox:checked::before {
+    transform: scale(1);
 }
 
-.ingredient-use-count {
-    padding-top: 6px;
-    margin: 0px 0px 0px 5px;
-    font-size: 14px;
-    font-weight: 300;
+.adv-search-dropdown {
+    border-color: white;
+    border-radius: 5px;
+    background-color: #1D1E1F;
+    color: white;
+    margin-left: 5px;
 }
 
-.sorted-filter-icon {
-    cursor: pointer;
-    font-size: 32px;
-    margin-right: 10px;
+.adv-search-row {
+    display: flex;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+
+.search-button {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    font-weight: 300;
+    width: 100px;
     padding: 5px;
+    background-color: darkred;
     border-radius: 5px;
 }
 
 @media screen and (max-width: 600px) {
-    .ingredient-entry {
-        font-size: 25px;
-        margin-top: 5px;
-    }
-
-    .ingredient-use-count {
-        font-size: 20px;
+    .adv-search-checkbox {
+        width: 20px;
+        height: 20px;
+        margin-left: 8px;
         margin-top: 2px;
+      }
+    
+    .adv-search-checkbox::before {
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+    }
+    
+    .adv-search-row {
+        font-size: 20px;
+    }
+    
+    .search-button {
+        padding: 10px;
+        font-size: 20px;
     }
 }

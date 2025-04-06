@@ -1,7 +1,8 @@
 import React, {useState} from "react"
 import {FaCheck, FaEdit, FaTrash} from "react-icons/fa";
-import "../../format/DrinkList.css";
-import {FaX} from "react-icons/fa6";
+import MenuCardDrinkEntry from "./MenuCardDrinkEntry";
+import "../../format/MenuCard.css";
+import {FaXmark} from "react-icons/fa6";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
@@ -55,26 +56,37 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus, user}) => {
     }
 
     return (
-        <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor:'pointer'}}>
-            {currentlyRenaming && <div>
-                <input autoFocus style={{width:'140px', border: 'none', outline:'none', fontSize: '16px', backgroundColor: 'darkgray'}} name='rename' value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
-                <FaCheck style={{float:'right'}} onClick={renameMenu}/>
-                <FaX style={{marginRight: '10px', float:'right'}} onClick={cancelRename}/>
+        <div className="menu-card">
+            {currentlyRenaming && <div className="menu-card-title-container">
+                <input autoFocus className="menu-card-title-input" name='rename' value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
+                <FaCheck className="menu-card-title-button" onClick={renameMenu}/>
+                <FaXmark className="menu-card-title-button" style={{fontSize:"20px"}} onClick={cancelRename}/>
             </div>}
-            {!currentlyRenaming && <div>
-                <span onClick={()=>navigate('/menu/'+menu.menu_id)}>{menu.name || "Menu " + menu.menu_id}</span>
-                <FaTrash style={{float: 'right'}} onClick={()=>confirmDeleteMenu(menu.menu_id, menu.name)}/>
-                <FaEdit style={{float: 'right', marginRight:'10px'}} onClick={startRename}/>
+            {!currentlyRenaming && <div className="menu-card-title-container">
+                <span className="menu-card-title" onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>{menu.name || "Menu " + menu.menu_id}</span>
+                <FaTrash className="menu-card-title-button" onClick={()=>confirmDeleteMenu(menu.menu_id, menu.name)}/>
+                <FaEdit className="menu-card-title-button" onClick={startRename}/>
             </div>}
             <div onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>
-                {menu.drinks.map(drink => {
+                {menu.drinks.map((drink, i) => {
                     let filtered_drinks = drinkList.filter(d=>d.uuid === drink)
-                    if(filtered_drinks.length === 1 && filtered_drinks[0].glass){
-                        return <img style={{height:'65px'}} src={'/api/image?file=glassware/'+filtered_drinks[0].glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={filtered_drinks[0].glass+' glass'}/>
+                    if(filtered_drinks.length === 1 && i <= 3 && filtered_drinks[0]){
+                        return <MenuCardDrinkEntry drink={filtered_drinks[0]}/>
+                    }
+                    else if(filtered_drinks.length === 1 && i === 4 && filtered_drinks[0]){
+                        return(
+                            <>
+                                <hr></hr>
+                                <div className="menu-card-elipses">...</div>
+                            </>
+                        )
+                    }
+                    else{
+                        return
                     }
                 })}
             </div>
-            {menu.drinks && menu.drinks.length === 0 && <p onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>No drinks yet!</p>}
+            {menu.drinks && menu.drinks.length === 0 && <p style={{textAlign:"center", fontWeight:"300"}} onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>No drinks yet!</p>}
         </div>
     )
 }

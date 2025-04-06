@@ -27,17 +27,6 @@
     justify-content: center;
 }
 
-.logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #1D1E1F;
-    font-family: Roboto;
-    font-size: 150px;
-    font-weight: 400;
-    -webkit-text-stroke: 2px white;
-}
-
 .search-container {
     display: flex;
     justify-content: center;

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {FaKey, FaPlus, FaRegStar, FaStar, FaTrash} from "react-icons/fa";
 import axios from "axios";
-import '../../format/ManageIngredients.css';
+import '../../format/Tabs.css';
 
 const ManageUsersTab = ({adminKey, user}) => {
     const [errorMsg, setErrorMsg] = useState('');
@@ -32,7 +32,7 @@ const ManageUsersTab = ({adminKey, user}) => {
                 setUsers([...users, {user_id: res.data.user_id}]);
             }
         }).catch((err) => {
-            setErrorMsg('Failed to create user. Internal server error '+err.response.status);
+            setErrorMsg('Failed to create user. Internal server error '+err.response.status+'.');
         });
     }
 
@@ -42,7 +42,7 @@ const ManageUsersTab = ({adminKey, user}) => {
                 .then(() => {
                     setUsers(users.filter(user_entry => user_entry.user_id !== userToDelete.user_id));
                 }).catch((err) => {
-                setErrorMsg('Failed to delete user. Internal server error '+err.response.status);
+                setErrorMsg('Failed to delete user. Internal server error '+err.response.status+'.');
             });
         } else {
             alert('User not deleted.');
@@ -77,7 +77,7 @@ const ManageUsersTab = ({adminKey, user}) => {
                     console.log(res);
                 }
             }).catch((err) => {
-                setErrorMsg('Failed to edit user. Internal server error '+err.response.status);
+                setErrorMsg('Failed to edit user. Internal server error '+err.response.status+'.');
             });
         } else {
             setErrorMsg('You cannot demote yourself.')
@@ -85,22 +85,20 @@ const ManageUsersTab = ({adminKey, user}) => {
     }
 
     return (
-        <div>
-            <h1 className="manage-ingredients-title" style={{marginTop:"20px", marginBottom:"-10px"}}>Manage Users</h1>
-            {errorMsg && <p>{errorMsg}</p>}
+        <>
+            <h1 className="tab-title">Manage Users</h1>
+            {errorMsg && <p style={{textAlign:"center", fontWeight:"300"}}>{errorMsg}</p>}
             {users.map((userEntry) =>{
-                return <div>
-                    <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-                        <span className="manage-ingredients-entry">{userEntry.user_id + (userEntry.username ? (' ('+userEntry.username+')'):'')}</span>
-                        {userEntry.admin && <FaStar style={{cursor:'pointer', marginLeft:'8px'}} onClick={()=>{changeAdmin(userEntry, false)}}/>}
-                        {!userEntry.admin && <FaRegStar style={{cursor:'pointer', marginLeft:'8px'}} onClick={()=>{changeAdmin(userEntry, true)}}/>}
-                        <FaTrash style={{marginLeft:'10px', cursor:'pointer'}} onClick={()=>{confirmDeleteUser(userEntry)}}/>
-                        <FaKey style={{marginLeft:'10px', cursor:'pointer'}} onClick={()=>{confirmResetPin(userEntry)}}/>
-                    </div>
+                return <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
+                    <span className="manage-ingredients-entry">{userEntry.user_id + (userEntry.username ? (' ('+userEntry.username+')'):'')}</span>
+                    {userEntry.admin && <FaStar style={{cursor:'pointer', marginLeft:'8px'}} onClick={()=>{changeAdmin(userEntry, false)}}/>}
+                    {!userEntry.admin && <FaRegStar style={{cursor:'pointer', marginLeft:'8px'}} onClick={()=>{changeAdmin(userEntry, true)}}/>}
+                    <FaTrash style={{marginLeft:'10px', cursor:'pointer'}} onClick={()=>{confirmDeleteUser(userEntry)}}/>
+					<FaKey style={{marginLeft:'10px', cursor:'pointer'}} onClick={()=>{confirmResetPin(userEntry)}}/>
                 </div>
             })}
             <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginTop:"10px"}}><FaPlus style={{cursor:'pointer'}} onClick={create_user}/></div>
-        </div>
+        </>
     )
 }
 

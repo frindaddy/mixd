@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import DotColor from "../components/DotColor";
+import Logo from "../components/Logo";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import FilterPanel from "../components/DrinkList/FilterPanel";
 import {FaFilter, FaEraser, FaSearch} from "react-icons/fa";
@@ -89,23 +89,21 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
         <>
             <AccountShortcut user={user} setUser={setUser} removeCookie={removeCookie}/>
             <header>
-                <div>
-                    <div className="logo">mixd<DotColor /></div>
-                </div>
+                <Logo/>
                 <div className="search-container">
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/></div>
                     <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'><FaSearch  style={{cursor:"pointer"}} onClick={getDrinkList}/></div>
-                    {showEraser() && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams} /></div>}
+                    {showEraser() && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams}/></div>}
                 </div>
             </header>
             <div className={'filter-panel'}>
-                <FilterPanel toggleFilterPanel={toggleFilterPanel} user={user} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch}/>
+                <FilterPanel expandFilterPanel={expandFilterPanel} toggleFilterPanel={toggleFilterPanel} user={user} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch}/>
             </div>
             {listLoaded && <>
-                {featuredMenuName !== '' && <h1>{featuredMenuName}</h1>}
-                {featuredMenuName === '' && <h1>Search Results</h1>}
-                <DrinkArray drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} />
+                {featuredMenuName !== '' && <h1 className="menu-title">{featuredMenuName}</h1>}
+                {featuredMenuName === '' && <h1 className="menu-title">Search Results</h1>}
+                <DrinkArray drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader}/>
             </>}
         </>
     )

@@ -63,7 +63,7 @@ const Layout = ({showLoader, setShowLoader, user, setUser, removeCookie}) => {
                 <div className="nav-container">
                     <div style={{display:"flex"}}>
                         {!isMenuPage() && <div className="back" style={{cursor: "pointer"}} onClick={()=> backArrowClicked()}><FaChevronLeft/></div>}
-                        <Link to='/' className="nav-logo">mixd.</Link>
+                        {!isMenuPage() && <Link to='/' className="nav-logo">mixd.</Link>}
                     </div>
                     <div>
                         {(isDrinkPage() || isMenuPage()) && <IoShareOutline className="share-button" onClick={()=>{shareButton()}} />}

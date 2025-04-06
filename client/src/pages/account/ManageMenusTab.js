@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react"
 import {FaPlus, FaRegStar, FaStar, FaTrash} from "react-icons/fa";
 import axios from "axios";
-import '../../format/ManageIngredients.css';
+import '../../format/ManageMenusTab.css';
+import '../../format/Tabs.css';
 
 const ManageMenusTab = ({adminKey, user}) => {
     const [errorMsg, setErrorMsg] = useState('');
@@ -32,7 +33,7 @@ const ManageMenusTab = ({adminKey, user}) => {
                 .then(() => {
                     setMenus(menus.filter(menu => menu.menu_id !== menuToDelete.menu_id));
                 }).catch((err) => {
-                setErrorMsg('Failed to delete menu. Internal server error '+err.response.status);
+                setErrorMsg('Failed to delete menu. Internal server error '+err.response.status+".");
             });
         } else {
             alert('Menu not deleted.');
@@ -53,7 +54,7 @@ const ManageMenusTab = ({adminKey, user}) => {
                 console.log(res);
             }
         }).catch((err) => {
-            setErrorMsg('Failed to edit menu. Internal server error '+err.response.status);
+            setErrorMsg('Failed to edit menu. Internal server error '+err.response.status+".");
         });
     }
 
@@ -70,16 +71,16 @@ const ManageMenusTab = ({adminKey, user}) => {
 
     return (
         <div>
-            <h1 className="manage-ingredients-title" style={{marginTop:"20px", marginBottom:"-10px"}}>Manage Menus</h1>
+            <h1 className="tab-title">Manage Menus</h1>
             {errorMsg && <p>{errorMsg}</p>}
             {menus.map((menuEntry) =>{
                 return <div>
                     <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-                        <span className="manage-ingredients-entry">{menuEntry.name || menuEntry.menu_id}</span>
-                        <span style={{fontSize: '14px', marginLeft: '5px'}} className="manage-ingredients-entry">{getUsername(menuEntry.users)}</span>
-                        {menuEntry.featured && <FaStar style={{cursor:'pointer', marginLeft:'8px'}} onClick={()=>{setFeatured(menuEntry.menu_id, true)}}/>}
-                        {!menuEntry.featured && <FaRegStar style={{cursor:'pointer', marginLeft:'8px'}} onClick={()=>{setFeatured(menuEntry.menu_id, false)}}/>}
-                        <FaTrash style={{marginLeft:'10px', cursor:'pointer'}} onClick={()=>{confirmDeleteMenu(menuEntry)}}/>
+                        <span className="manage-menus-entry-title">{menuEntry.name || menuEntry.menu_id}</span>
+                        <span className="manage-menus-entry-user">{getUsername(menuEntry.users)}</span>
+                        {menuEntry.featured && <FaStar className="manage-menus-icon" onClick={()=>{setFeatured(menuEntry.menu_id, true)}}/>}
+                        {!menuEntry.featured && <FaRegStar className="manage-menus-icon" onClick={()=>{setFeatured(menuEntry.menu_id, false)}}/>}
+                        <FaTrash className="manage-menus-icon" onClick={()=>{confirmDeleteMenu(menuEntry)}}/>
                     </div>
                 </div>
             })}

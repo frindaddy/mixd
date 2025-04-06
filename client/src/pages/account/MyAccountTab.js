@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import axios from "axios";
 import {FaCheck, FaSignOutAlt, FaStar} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
+import "../../format/MyAccountTab.css";
+import "../../format/Tabs.css";
 
 const MyAccountTab = ({user, setUser, removeCookie}) => {
 
@@ -67,22 +69,25 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
 
     return (
         <>
-            <h1>My Account</h1>
-            <br />
-            <div className="account-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.isAdmin && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
-            <p style={{textAlign:"center"}}>Change Username:</p>
-            {usernameField.length > 0 && <p style={{textAlign:"center"}}>{usernameResponse()}</p>}
-            <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
-                <input name='username' type='text' placeholder={user.username||'Username'} onChange={updateUsernameField} value={usernameField}/>
-                <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={submitUsername}/>
+            <h1 className="tab-title">My Account</h1>
+            <div className="myaccount-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.isAdmin && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
+            <div className="myaccount-row">
+                <p style={{textAlign:"center", fontWeight:"300", marginTop:"10px", marginBottom:"5px"}}>Change Username:</p>
+                <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
+                    <input className="myaccount-input" name='username' type='text' placeholder={user.username||'Username'} onChange={updateUsernameField} value={usernameField}/>
+                    <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={submitUsername}/>
+                </div>
             </div>
-            <p style={{textAlign:"center"}}>Change PIN:</p>
-            <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
-                <input name='pin' type='numeric' placeholder='New PIN' onChange={(e)=>{setPinField(parseInt(e.target.value.substring(0,6)) || null)}} value={pinField || ''}/>
-                <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={changePin}/>
+            {usernameField.length > 0 && <p style={{textAlign:"center", fontWeight:"300"}}>{usernameResponse()}</p>}
+            <div className="myaccount-row">
+                <p style={{textAlign:"center", fontWeight:"300", marginBottom:"5px"}}>Change PIN:</p>
+                <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
+                    <input className="myaccount-input" name='pin' type='numeric' placeholder='New PIN' onChange={(e)=>{setPinField(parseInt(e.target.value.substring(0,6)) || null)}} value={pinField || ''}/>
+                    <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={changePin}/>
+                </div>
             </div>
-            <p style={{textAlign:"center"}}>PINs are stored without encryption! Do not use a sensitive PIN!</p>
-            <div style={{display:"flex", justifyContent:"center", marginTop: '20px'}}>
+            <p style={{textAlign:"center", fontWeight:"300", color:"#c0392b"}}>PINs are stored without encryption! Do not use a sensitive PIN!</p>
+            <div style={{display:"flex", justifyContent:"center"}}>
                 <div style={{cursor:'pointer', padding:'8px', backgroundColor:'darkred', borderRadius:'5px'}} onClick={logout}>
                     <span>Logout</span>
                     <FaSignOutAlt style={{marginLeft:'10px', marginBottom: '-2px'}}/>

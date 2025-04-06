@@ -2,7 +2,9 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {FaCheck, FaPlus} from "react-icons/fa";
 import {FaX} from "react-icons/fa6";
-import MenuCard from "../../components/Admin/MenuCard";
+import MenuCard from "../../components/Menus/MenuCard";
+import "../../format/MenuCard.css"
+import "../../format/Tabs.css"
 
 const MenusTab = ({user}) => {
 
@@ -53,22 +55,22 @@ const MenusTab = ({user}) => {
     }
 
     return (
-        <div>
-            <div>
+        <>
+            <h1 className="tab-title">My Menus</h1>
+            <div style={{display:"flex", flexFlow:"row wrap", justifyContent:"center"}}>
                 {menus.map((menu, menu_index) => {
                     return <MenuCard menu={menu} menu_index={menu_index} drinkList={drinkList} menus={menus} setMenus={setMenus} user={user}/>
                 })}
-                <div style={{width: '200px', height: '200px', float:'left', padding:'10px', margin: '10px', backgroundColor:"gray", borderRadius: '10px', cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
-                    {!creatingMenu && <FaPlus style={{fontSize:'40px', left:'80px', top:'80px', position:"relative"}} />}
-                    {creatingMenu && <div>
-                        <input autoFocus name='name' style={{backgroundColor: 'darkgray', border: 'none', outline:'none', fontSize: '16px'}} value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
-                        <FaX style={{marginRight: '10px', cursor:'pointer'}} onClick={cancelCreate}/>
-                        <FaCheck style={{cursor:'pointer'}} onClick={createMenu}/>
+                <div className="menu-card" style={{cursor: creatingMenu ? '':'pointer'}} onClick={startDrinkCreation}>
+                    {!creatingMenu && <FaPlus className="menu-card-new-button" />}
+                    {creatingMenu && <div style={{display:"flex", alignItems:"center"}}>
+                        <input autoFocus name='name' className="menu-card-title-input" value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
+                        <FaCheck className="menu-card-title-button" onClick={createMenu}/>
+                        <FaX className="menu-card-title-button" onClick={cancelCreate}/>
                     </div>}
-                    <></>
                 </div>
             </div>
-        </div>
+        </>
     )
 };
 

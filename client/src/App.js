@@ -11,7 +11,7 @@ import LoginPage from "./pages/account/LoginPage";
 import AccountPage from "./pages/account/AccountPage";
 import MenuPage from "./pages/MenuPage";
 import MyBarTab from "./pages/account/MyBarTab";
-import MenusTab from "./pages/account/MenusTab";
+import MenusTab from "./pages/account/MyMenusTab";
 import MyAccountTab from "./pages/account/MyAccountTab";
 import ManageIngredientsTab from "./pages/account/ManageIngredientsTab";
 import ManageUsersTab from "./pages/account/ManageUsersTab";

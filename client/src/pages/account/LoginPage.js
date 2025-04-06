@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import "../../format/LoginPage.css"
 
 const LoginPage = ({user, setUser, setCookie}) => {
 
@@ -51,13 +52,13 @@ const LoginPage = ({user, setUser, setCookie}) => {
         <h1 style={{textAlign:"center"}}>Bartender Login:</h1>
         {invalidLogin && <p style={{color: 'red', textAlign:"center"}}>User and PIN combination not recognized.</p>}
         <div style={{display:"flex", flexWrap:"nowrap", justifyContent:"center"}}>
-            <input autoFocus name='username' style={{fontSize: '16px'}} enterKeyHint='next' content='text' placeholder='Username or ID' value={accountIdentifier||''} onChange={(e)=> setAccountIdentifier(e.target.value)} onKeyDownCapture={(e)=>{checkEnter(e, focusPin)}}></input>
+            <input className="login-input" autoFocus name='username' style={{fontSize: '16px'}} enterKeyHint='next' content='text' placeholder='Username or ID' value={accountIdentifier||''} onChange={(e)=> setAccountIdentifier(e.target.value)} onKeyDownCapture={(e)=>{checkEnter(e, focusPin)}}></input>
         </div>
         <div style={{display:"flex", flexWrap:"nowrap", justifyContent:"center", marginTop: '10px'}}>
-            <input ref={pinRef} name='pin' style={{fontSize: '16px'}} inputMode='numeric' content='text' placeholder='PIN' value={pin||''} onBlur={(e)=> submitLogin()} onChange={(e)=> setPin(parseInt(e.target.value.substring(0,6)) || null)} onKeyDownCapture={(e)=>{checkEnter(e, submitLogin)}}></input>
+            <input className="login-input" ref={pinRef} name='pin' style={{fontSize: '16px'}} inputMode='numeric' content='text' placeholder='PIN' value={pin||''} onBlur={(e)=> submitLogin()} onChange={(e)=> setPin(parseInt(e.target.value.substring(0,6)) || null)} onKeyDownCapture={(e)=>{checkEnter(e, submitLogin)}}></input>
         </div>
         <div style={{display:"flex", flexWrap:"nowrap", justifyContent:"center", marginTop: '10px'}}>
-            <div style={{cursor:'pointer', padding:'8px', backgroundColor:'darkred', borderRadius:'5px'}} onClick={submitLogin}>
+            <div className="login-button" onClick={submitLogin}>
                 <span>Login</span>
             </div>
         </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
+import "../format/Logo.css"
 
 const DotColor = () => {
 
@@ -18,7 +19,7 @@ const DotColor = () => {
     }, []);
 
     return (
-        <div style={{WebkitTextStrokeColor: color, marginLeft: "-5px"}}>.</div>
+        <div style={{WebkitTextStrokeColor: color}} className="dotcolor">.</div>
     )
 }
 

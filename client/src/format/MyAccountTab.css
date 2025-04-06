@@ -1,0 +1,30 @@
+.myaccount-input {
+    border-color: white;
+    border-radius: 10px;
+    background-color: #1D1E1F;
+    color: white;
+    padding-left: 5px;
+}
+
+.myaccount-name {
+    font-size: 28px;
+    font-weight: 300;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0px;
+}
+
+@media screen and (max-width: 600px) {
+    .myaccount-input {
+        font-size: 22px;
+    }
+
+    .myaccount-name {
+        font-size: 35px;
+    }
+    
+    .myaccount-row {
+        margin-top: 15px;
+        font-size: 22px;
+    }
+}

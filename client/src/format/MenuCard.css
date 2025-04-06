@@ -1,0 +1,68 @@
+.menu-card {
+    background-color: rgba(255, 255, 255, 0.15);
+    width: 300px;
+    height: 300px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.menu-card-elipses {
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    font-weight: 300;
+    margin-top: -30px;
+}
+
+.menu-card-new-button {
+    font-size: 40px;
+    position: relative;
+    left: 130px;
+    top: 130px;
+}
+
+.menu-card-title {
+    font-weight: 400;
+    font-size: 20px;
+    width: 240px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu-card-title-container {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+
+.menu-card-title-input {
+    background-color: darkgray;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    font-size: 19px;
+    width: 240px;
+}
+
+.menu-card-title-button {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+@media screen and (max-width: 600px) {
+    .menu-card {
+        width: 350px;
+    }
+
+    .menu-card-new-button {
+        left: 155px;
+    }
+    
+    .menu-card-title-input {
+        width: 225px;
+    }
+}
