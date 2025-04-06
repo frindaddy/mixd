@@ -86,7 +86,7 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
             <div className="myaccount-row">
                 <p style={{textAlign:"center", fontWeight:"300", marginBottom:"5px"}}>Change PIN:</p>
                 <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
-                    <input className="myaccount-input" name='pin' type='numeric' placeholder='New PIN' onChange={(e)=>{setPinField(parseInt(e.target.value.substring(0,6)) || null)}} value={pinField || ''}/>
+                    <input className="myaccount-input" name='pin' type='numeric' placeholder='0000' onChange={(e)=>{setPinField(parseInt(e.target.value.substring(0,6)) || null)}} value={pinField || ''}/>
                     <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={changePin}/>
                 </div>
             </div>
