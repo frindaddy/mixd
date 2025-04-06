@@ -46,6 +46,14 @@
     border-top: 2px solid darkgray;
 }
 
+.filter-panel {
+    display: flex;
+    overflow: hidden;
+    transition: height 300ms ease-in-out;
+    height: 0px;
+    justify-content: center;
+}
+
 .filter-panel-navbar {
     display: flex;
     flex-flow: column nowrap;
