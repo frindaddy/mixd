@@ -8,6 +8,14 @@
     cursor: pointer;
 }
 
+.menu-card-elipses {
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    font-weight: 300;
+    margin-top: -30px;
+}
+
 .menu-card-title {
     font-weight: 400;
     font-size: 20px;
@@ -38,10 +46,4 @@
     font-size: 16px;
 }
 
-.menu-card-elipses {
-    display: flex;
-    justify-content: center;
-    font-size: 50px;
-    font-weight: 300;
-    margin-top: -30px;
 }
