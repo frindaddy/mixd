@@ -23,6 +23,7 @@
 }
 
 .account-shortcut {
+    font-weight: 300;
     position: absolute;
     z-index: 3;
     right: 10px;
@@ -44,4 +45,10 @@
 
 .user_icon {
     font-size: 25px;
+}
+
+@media screen and (max-width: 600px) {
+    .account-shortcut {
+        font-size: 24px;
+    }
 }
