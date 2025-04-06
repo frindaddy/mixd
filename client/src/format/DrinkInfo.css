@@ -106,6 +106,13 @@
     animation-timing-function: linear;
 }
 
+.menu-desc {
+    margin-top: 10px;
+    font-weight: 300;
+    font-size: 20px;
+    color: darkgray;
+}
+
 @media screen and (max-width: 600px) {
     .description {
         margin-right: 10px;
