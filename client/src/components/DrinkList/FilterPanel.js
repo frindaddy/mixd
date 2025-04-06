@@ -73,8 +73,11 @@ const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngred
     return (
         <>
             <div className="filter-panel-container">
-                <span onClick={()=>changeTab('tags')}>Tags</span>
-                <span onClick={()=>changeTab('ingredients')}>Ingredients</span>
+                <div className="filter-panel-navbar">
+                    <span onClick={()=>changeTab('tags')}>Drink Tags</span>
+                    <div className="filter-panel-navbar-separator"/>
+                    <span onClick={()=>changeTab('ingredients')}>Ingredients</span>
+                </div>
                 {tab === 'tags' && <>
                 {TagCategories.map((cat)=>{
                     return <div className="filter-category-container">
