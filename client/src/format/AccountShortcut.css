@@ -51,4 +51,8 @@
     .account-shortcut {
         font-size: 24px;
     }
+
+    .shortcut-username{
+        display: none;
+    }
 }
