@@ -6,6 +6,7 @@
     margin: 10px;
     border-radius: 10px;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .menu-card-elipses {
