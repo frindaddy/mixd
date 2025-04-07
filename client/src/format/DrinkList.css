@@ -22,7 +22,7 @@
 .filter-panel {
     display: flex;
     overflow: hidden;
-    transition: height 300ms ease-in-out;
+    transition: height 500ms ease-in-out;
     height: 0px;
     justify-content: center;
 }
