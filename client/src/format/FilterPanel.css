@@ -39,6 +39,14 @@
 
 .filter-panel-subtitle {
     font-weight: 300;
+    font-size: 16px;
+    text-align: center;
+    color: darkgray;
+    margin: 5px 0 -5px 0;
+}
+
+.filter-panel-title {
+    font-weight: 300;
     font-size: 30px;
     text-align: center;
     margin: 0;
@@ -54,8 +62,15 @@
         margin-left: 0px;
         width: 100%;
     }
-    
+
     .filter-panel-subtitle {
+        display: flex;
+        align-self: center;
+        max-width: 300px;
+        margin: 0 0 -5px 0;
+    }
+    
+    .filter-panel-title {
         margin: 10px 0 0 0;
     }
     

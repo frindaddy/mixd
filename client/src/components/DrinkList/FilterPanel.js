@@ -63,11 +63,12 @@ const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngred
             setSearchIngredient(ingr_uuid);
         }
     }
-    
+
     return (
         <>
             <div className="filter-panel-container">
-                <h2 className="filter-panel-subtitle">Drink Tags</h2>
+                <h2 className="filter-panel-title">Drink Tags</h2>
+                <p className="filter-panel-subtitle">Pick up to one tag from each category to search all of mixd for your perfect cocktail!</p>
                 {TagCategories.map((cat)=>{
                     let categoryTags = allTags.filter(tag=>tag.category === cat.name);
                     if(categoryTags.length === 0) return <></>
@@ -101,7 +102,8 @@ const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngred
                             style={{backgroundColor: 'green'}}>Advanced Search</div>}
                     </div>
                 </div>}
-                <h2 className="filter-panel-subtitle">Ingredients</h2>
+                <h2 className="filter-panel-title">Ingredients</h2>
+                <p className="filter-panel-subtitle">Find all drinks that use a particular ingredient!</p>
                 {IngredientCategories.map((cat)=>{
                     let catIngredients = ingredients.filter(ingr=>ingr.category === cat.name);
                     if (catIngredients.length === 0) return <></>
