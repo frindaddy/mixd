@@ -21,7 +21,7 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
     }
     function updateUsernameField(e){
         if(e.target.value){
-            let sanitized_name = e.target.value.replace(/[^a-z0-9_.]/i, '');
+            let sanitized_name = e.target.value.replace(/[^a-z0-9_.]/i, '').substring(0,15);
             setUsernameField(sanitized_name);
             if(sanitized_name.length > 0){
                 axios.get('/api/check_username/'+sanitized_name).then(res => {
