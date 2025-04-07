@@ -164,7 +164,7 @@ function remove_drink_from_menus(drinkUUID) {
     });
 }
 function validate_username(username) {
-    if(username.length === 0 || username.length > 15) return false;
+    if(username.length === 0 || username.length > 20) return false;
     if(!username.match(/^[a-zA-Z0-9._]*$/)) return false;
     if(!username.match(/[a-zA-Z]/)) return false;
     if(username.match(/^[._]|[.]$|[_.]_$/)) return false;
