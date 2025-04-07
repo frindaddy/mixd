@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     user_id: Number,
     username: String,
-    pin: {type: Number, min: 1000, max: 999999},
+    pin: String,
     admin: Boolean,
     available_ingredients: [String]
 });
