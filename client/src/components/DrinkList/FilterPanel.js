@@ -10,7 +10,6 @@ const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngred
 
     const [allTags, setAllTags] = useState([]);
     const [ingredients, setIngredients] = useState([]);
-    const [tab, setTab] = useState('tags');
 
     useEffect(() => {
         axios.get('/api/tags/')
@@ -64,12 +63,7 @@ const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngred
             setSearchIngredient(ingr_uuid);
         }
     }
-
-    function changeTab(newTab) {
-        setTab(newTab);
-        expandFilterPanel();
-    }
-
+    
     return (
         <>
             <div className="filter-panel-container">
