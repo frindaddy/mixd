@@ -73,6 +73,7 @@ const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngred
     return (
         <>
             <div className="filter-panel-container">
+                <h2 className="filter-panel-subtitle">Drink Tags</h2>
                 {TagCategories.map((cat)=>{
                     let categoryTags = allTags.filter(tag=>tag.category === cat.name);
                     if(categoryTags.length === 0) return <></>
@@ -106,7 +107,7 @@ const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngred
                             style={{backgroundColor: 'green'}}>Advanced Search</div>}
                     </div>
                 </div>}
-                <hr style={{width: '100%'}}/>
+                <h2 className="filter-panel-subtitle">Ingredients</h2>
                 {IngredientCategories.map((cat)=>{
                     let catIngredients = ingredients.filter(ingr=>ingr.category === cat.name);
                     if (catIngredients.length === 0) return <></>
