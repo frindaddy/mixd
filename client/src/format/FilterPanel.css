@@ -37,23 +37,6 @@
     width: 80%;
 }
 
-.filter-panel-navbar {
-    display: flex;
-    flex-flow: row;
-    justify-content: center;
-    font-size: 28px;
-    font-weight: 300;
-    margin-left: 10px;
-    user-select: none;
-    cursor: pointer;
-}
-
-.filter-panel-navbar-separator {
-    margin: 4px 10px 0 10px;
-    height: 26px;
-    border: 1px solid darkgray;
-}
-
 .filter-toggle {
     float: right;
     margin: 5px 0 0 10px;

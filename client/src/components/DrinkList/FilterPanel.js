@@ -73,17 +73,13 @@ const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngred
     return (
         <>
             <div className="filter-panel-container">
-                <div className="filter-panel-navbar">
-                    <span onClick={()=>changeTab('tags')}>Drink Tags</span>
-                    <div className="filter-panel-navbar-separator"/>
-                    <span onClick={()=>changeTab('ingredients')}>Ingredients</span>
-                </div>
-                {tab === 'tags' && <>
                 {TagCategories.map((cat)=>{
+                    let categoryTags = allTags.filter(tag=>tag.category === cat.name);
+                    if(categoryTags.length === 0) return <></>
                     return <div className="filter-category-container">
                         <p className="filter-category-title">{cat.localization}</p>
                         <div className="filter-category-tag-container">
-                            {allTags.filter(tag=>tag.category === cat.name).map((tag)=>{
+                            {categoryTags.map((tag)=>{
                                 let selected = isTagSelected(cat.name, tag.value);
                                 return (
                                     <div className="tag-container">
@@ -110,13 +106,14 @@ const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngred
                             style={{backgroundColor: 'green'}}>Advanced Search</div>}
                     </div>
                 </div>}
-                </>}
-                {tab === 'ingredients' && <>
+                <hr style={{width: '100%'}}/>
                 {IngredientCategories.map((cat)=>{
+                    let catIngredients = ingredients.filter(ingr=>ingr.category === cat.name);
+                    if (catIngredients.length === 0) return <></>
                     return <div className="filter-category-container">
                         <p className="filter-category-title">{cat.header}</p>
                         <div className="filter-category-tag-container">
-                            {ingredients.filter(ingr=>ingr.category === cat.name).map((ingr)=>{
+                            {catIngredients.map((ingr)=>{
                                 let selected = searchIngredient === ingr.uuid;
                                 return (
                                     <div className="tag-container">
@@ -129,7 +126,6 @@ const FilterPanel = ({user, toggleFilterPanel, searchIngredient, setSearchIngred
                         </div>
                     </div>
                 })}
-                </>}
                 {<div className='filter-chevron'><FaChevronUp style={{cursor:"pointer", marginBottom:"10px"}} onClick={() => {toggleFilterPanel()}}/></div>}
             </div>
         </>
