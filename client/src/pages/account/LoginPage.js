@@ -55,7 +55,7 @@ const LoginPage = ({user, setUser, setCookie}) => {
             <input className="login-input" autoFocus name='username' style={{fontSize: '16px'}} enterKeyHint='next' content='text' placeholder='Username or ID' value={accountIdentifier||''} onChange={(e)=> setAccountIdentifier(e.target.value)} onKeyDownCapture={(e)=>{checkEnter(e, focusPin)}}></input>
         </div>
         <div style={{display:"flex", flexWrap:"nowrap", justifyContent:"center", marginTop: '10px'}}>
-            <input className="login-input" ref={pinRef} name='pin' style={{fontSize: '16px'}} inputMode='numeric' content='text' placeholder='PIN' value={pin||''} onBlur={(e)=> submitLogin()} onChange={(e)=> setPin(e.target.value.substring(0,6) || null)} onKeyDownCapture={(e)=>{checkEnter(e, submitLogin)}}></input>
+            <input className="login-input" ref={pinRef} name='password' style={{fontSize: '16px'}} inputMode='numeric' content='text' placeholder='PIN' value={pin||''} onBlur={(e)=> submitLogin()} onChange={(e)=> setPin(e.target.value.substring(0,6).replace(/[^0-9]/g, '') || null)} onKeyDownCapture={(e)=>{checkEnter(e, submitLogin)}}></input>
         </div>
         <div style={{display:"flex", flexWrap:"nowrap", justifyContent:"center", marginTop: '10px'}}>
             <div className="login-button" onClick={submitLogin}>
