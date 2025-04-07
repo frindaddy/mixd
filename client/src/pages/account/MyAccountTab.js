@@ -51,7 +51,7 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
     }
 
     function changePin(){
-        if(/^[0-9]*$/.test(pinField)) {
+        if((pinField.length >= 4) && (pinField.length <= 6) && (/^[0-9]*$/.test(pinField))) {
             axios.post('/api/change_pin', {user_id: user.user_id, pin: pinField}, {headers:{Authorization: `Bearer ${user.token}`}}).then(res =>{
                 if(res.status === 200){
                     setPinField(null);
