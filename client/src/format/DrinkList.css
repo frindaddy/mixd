@@ -62,5 +62,6 @@
     .search-bar {
         background-color: #000000;
         width: 75%;
+        margin-bottom: 0px;
     }
 }
