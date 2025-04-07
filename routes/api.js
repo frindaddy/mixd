@@ -657,7 +657,7 @@ router.post('/change_username', validateUserToken, (req, res, next) => {
 });
 
 router.post('/change_pin', validateUserToken, (req, res, next) => {
-    if(req.body.user_id && req.body.pin) {
+    if(req.body.user_id && req.body.pin && /^[0-9]{4,6}$/.test(req.body.pin)) {
         Users.updateOne({user_id: req.body.user_id}, {pin: req.body.pin}).then(user => {
             if(user && user.acknowledged){
                 res.sendStatus(200);
