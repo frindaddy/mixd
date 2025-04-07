@@ -30,9 +30,9 @@ const MenuPage = ({setShowLoader, user}) => {
 
     return (
         <>
-            <Link to='/'>
+            {hash !=='#edit' && <Link to='/'>
                 <Logo/>
-            </Link>
+            </Link>}
             <h1 className="menu-title">{menu.name || 'Menu'}</h1>
             <DrinkArray drinkList={menu.drinkList} filter={{text: "", tags: []}} setShowLoader={setShowLoader} menuSettings={{editMode: hash==='#edit', menu_id: menu.menu_id, menuOrder: menu.drinks, setMenuOrder: setMenuOrder}} isMenu={true} user={user}/>
             {hash==='#edit' && <div>
