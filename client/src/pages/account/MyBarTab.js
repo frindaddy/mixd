@@ -98,7 +98,7 @@ const MyBarTab = ({setMyBarSearch, user}) => {
                 </div>
                 <div className="search-button">
                     <span>Search</span>
-                    <FaSearch className="sorted-filter-icon" style={{marginLeft:"5px"}} onClick={search_user_drinks}/>
+                    <FaSearch className="sorted-filter-icon" style={{marginLeft:"5px", marginTop: '1px'}} onClick={search_user_drinks}/>
                 </div>
             </div>}
         </>
