@@ -59,13 +59,17 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus, user}) => {
         <div className="menu-card">
             {currentlyRenaming && <div className="menu-card-title-container">
                 <input autoFocus className="menu-card-title-input" name='rename' value={newMenuName} onChange={(e)=>setNewMenuName(e.target.value)} onKeyDown={checkEnter}/>
-                <FaCheck className="menu-card-title-button" onClick={renameMenu}/>
-                <FaXmark className="menu-card-title-button" style={{fontSize:"20px"}} onClick={cancelRename}/>
+                <div className="menu-card-button-panel">
+                    <FaCheck className="menu-card-title-button" onClick={renameMenu}/>
+                    <FaXmark className="menu-card-title-button" style={{fontSize:"20px", marginTop:"-2px"}} onClick={cancelRename}/>
+                </div>
             </div>}
             {!currentlyRenaming && <div className="menu-card-title-container">
                 <span className="menu-card-title" onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>{menu.name || "Menu " + menu.menu_id}</span>
-                <FaTrash className="menu-card-title-button" onClick={()=>confirmDeleteMenu(menu.menu_id, menu.name)}/>
-                <FaEdit className="menu-card-title-button" onClick={startRename}/>
+                <div className="menu-card-button-panel">
+                    <FaTrash className="menu-card-title-button" onClick={()=>confirmDeleteMenu(menu.menu_id, menu.name)}/>
+                    <FaEdit className="menu-card-title-button" onClick={startRename}/>
+                </div>
             </div>}
             <div onClick={()=>navigate('/menu/'+menu.menu_id+'#edit')}>
                 {menu.drinks.map((drink, i) => {

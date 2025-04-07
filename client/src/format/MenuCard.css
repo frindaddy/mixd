@@ -9,6 +9,12 @@
     overflow: hidden;
 }
 
+.menu-card-button-panel {
+    display: flex;
+    flex-flow: row nowrap;
+    position: relative;
+}
+
 .menu-card-elipses {
     display: flex;
     justify-content: center;
@@ -41,7 +47,6 @@
 
 .menu-card-title-container {
     display: flex;
-    flex-flow: row wrap;
     align-items: center;
 }
 
