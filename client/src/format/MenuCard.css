@@ -62,8 +62,12 @@
     .menu-card-new-button {
         left: 155px;
     }
+
+    .menu-card-title {
+        width: 295px;
+    }
     
     .menu-card-title-input {
-        width: 225px;
+        width: 290px;
     }
 }
