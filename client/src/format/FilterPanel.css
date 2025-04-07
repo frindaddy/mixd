@@ -41,7 +41,7 @@
     font-weight: 300;
     font-size: 30px;
     text-align: center;
-    margin: 10px 0 0 0;
+    margin: 0;
 }
 
 .filter-toggle {
@@ -53,6 +53,10 @@
     .filter-panel-container {
         margin-left: 0px;
         width: 100%;
+    }
+    
+    .filter-panel-subtitle {
+        margin: 10px 0 0 0;
     }
     
     .unselected-tag-filter {
