@@ -3,8 +3,8 @@
     border: 2px solid white;
     border-radius: 10px;
     overflow: hidden;
-    margin-top: 5%;
-    margin-bottom: 3%;
+    margin-top: 20px;
+    margin-bottom: 5px;
     margin-left: 5px;
     width: auto;
     height: 27px;
@@ -50,6 +50,11 @@
 }
 
 @media screen and (max-width: 600px) {
+    .drink-multiplier-container {
+        margin-bottom: 10px;
+        height: 35px;
+    }
+
     .drink-multiplier-container button {
         background-color: #000000;
     }

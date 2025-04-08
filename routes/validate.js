@@ -1,6 +1,7 @@
 const fs = require('fs');
 const Drinks = require("../models/drinks");
 const Ingredients = require('../models/ingredients');
+const Users = require("../models/users");
 
 async function importObjectToModel(model, object) {
     return new Promise((resolve) =>{
@@ -25,10 +26,36 @@ async function importObjectToModel(model, object) {
     });
 }
 
+async function check_for_admin(){
+    return new Promise(resolve => {
+        Users.find({}, 'user_id admin').then(users=> {
+            let admins = users.filter(user=> user.admin)
+            if(admins.length >= 1) {
+                console.log(admins.length, admins.length === 1 ? 'admin':'admins', 'found.', admins.map(admin=>admin.user_id));
+                resolve();
+            } else {
+                console.log('No existing admins found. Creating a new admin account...');
+                let used_ids = users.map(user => user.user_id);
+                let new_id = 10000+Math.floor(Math.random() * 89999);
+                while(used_ids.includes(new_id)) {
+                    new_id = 10000+Math.floor(Math.random() * 89999);
+                }
+                Users.create({user_id: new_id, admin: true}).then(user => {
+                    console.log('Generated new admin account with user id', user.user_id);
+                    resolve();
+                }).catch(()=>{res.sendStatus(500)});
+            }
+        }).catch(()=>{
+            console.error('Failed to get user database!');
+        });
+    });
+}
+
 module.exports = {
     validateDatabase: async function (verbose) {
-        return new Promise((resolve) =>{
-            console.log(`Database connected successfully.`)
+        return new Promise(async (resolve) => {
+            console.log(`Database connected successfully.`);
+            await check_for_admin();
             resolve();
         })
     },

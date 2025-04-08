@@ -1,12 +1,12 @@
-import "../../format/ViewIngredients.css";
+import "../../format/IngredientListEntry.css";
 
-const IngredientListEntry = ({ingredient, onIngredientClick, userOnHand}) => {
+const IngredientListEntry = ({ingredient, onIngredientClick}) => {
 
     return (
-        <>
-            <p className="ingredient-entry" onClick={()=>{onIngredientClick(ingredient, userOnHand)}} style={{cursor: "pointer", color: userOnHand ? 'lime':''}}>{ingredient.name}</p>
-            <p className="ingredient-use-count">({ingredient.count})</p>
-        </>
+        <div className="ingredient-list-entry-container" onClick={()=>{onIngredientClick(ingredient)}}>
+            <span className="ingredient-entry">{ingredient.name}</span>
+            <span className="ingredient-use-count">({ingredient.count} {ingredient.count > 1 ? "uses":"use"})</span>
+        </div>
     )
 }
 

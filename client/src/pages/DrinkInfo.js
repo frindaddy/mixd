@@ -3,7 +3,6 @@ import "../format/DrinkMultiplier.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DrinkTags, {filterTags} from "../components/DrinkTags";
-import {getDisplayName} from "../components/Admin/GlassTypes";
 import LinkableText from "../components/DrinkInfo/LinkableText";
 import {useParams} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
@@ -69,22 +68,23 @@ const DrinkInfo = ({setShowLoader}) => {
         <div>
             {drinkFailed && <p style={{textAlign: "center"}}>Invalid drink ID. This drink does not exist.</p>}
             {!drinkFailed && drinkLoaded && <div>
-                <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} onLoad={onImageLoad} style={{display: "none"}}/>
+                <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/'+(drink.glass || 'unknown')+'.svg'} alt={drink.name} onLoad={onImageLoad} style={{display: "none"}}/>
                 {imageLoaded && <div className="info-row">
                     <div className="info-column">
                         <div className="drink-image">
-                            <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/no_img.svg'} alt={drink.name} />
+                            <img src={'/api/image?file=user_drinks/'+drink.image+'.jpg&backup=glassware/'+(drink.glass || 'unknown')+'.svg'} alt={drink.name} />
                         </div>
                     </div>
                     <div className="info-column">
                         <div className="info-text">
                             <div className="info-title">{drink.name}</div>
-                            {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste', 'recommendation'])} glass={getDisplayName(drink.glass)}/>}
+                            {drink.tags && <DrinkTags tags={filterTags(drink.tags, ['style', 'taste', 'recommendation'])} />}
                             <div style={{display: "flex"}}>
                                 {drink.etoh != null && getVolume() !== 0 && <div className="abv">{Math.round(10*drink.etoh/getVolume())/10}% ABV</div>}
                                 {(drink.volume != null || drink.override_volume != null) && <div className="volume"> / {getVolume()} oz</div>}
                                 {drink.etoh != null && <div className="emu">({Math.round(drink.etoh/5.04)/10} EMU)</div>}
                             </div>
+                            <div className="menu-desc">{drink.menu_desc}</div>
                             <div className="drink-multiplier-container">
                                 <button className="multiplier-minus" onClick={() => setDrinkMultiplier(Math.max(1, drinkMultiplier - 1))}>-</button>
                                 <input type="number" value={drinkMultiplier} min="1" className="multiplier-quantity"/>

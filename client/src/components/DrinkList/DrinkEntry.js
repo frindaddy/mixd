@@ -1,45 +1,14 @@
-import React, {useEffect, useState} from "react"
 import DrinkTags, {filterTags} from "../DrinkTags";
-import {FaTrash, FaWrench, FaStar, FaRegStar} from "react-icons/fa";
+import {FaArrowDown, FaArrowUp, FaPlus, FaTrash, FaWrench} from "react-icons/fa";
 import axios from "axios";
-import "../../format/DrinkList.css";
-import {Link} from "react-router-dom";
+import "../../format/DrinkEntry.css";
+import {Link, useNavigate} from "react-router-dom";
 
-const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader}) => {
+const DrinkEntry = ({user, drink, getDrinkList, adminKey, setShowLoader, menuSettings, editMenu, isMenu: isMenu}) => {
 
-    const defaultTagCategories = ['spirit', 'style', 'taste'];
-    const [tagCategories, setTagCategories] = useState(defaultTagCategories);
-    const [starColor, setStarColor] = useState(undefined);
-    const [clientSideFeature, setClientSideFeature] = useState(false);
+    const tagCategories = ['spirit', 'style', 'taste'];
 
-    useEffect(() => {
-        if(filteredTags) {
-            let newCategories = defaultTagCategories;
-            filteredTags.forEach((tag)=>{
-                let cat = tag.split('>')[0];
-                if (!defaultTagCategories.includes(cat) && !newCategories.includes(cat)) {
-                    newCategories = [...newCategories, cat];
-                }
-            });
-            setTagCategories(newCategories);
-        }
-        if(drink.tags){
-            let top_picks = drink.tags.filter((tag) => tag.category === 'top_pick');
-            if (top_picks.length > 0) {
-                let num_featured = top_picks.filter((tag) => tag.value === 'Featured').length;
-                if(num_featured > 0) {
-                    setClientSideFeature(true);
-                }
-                if(top_picks.length - num_featured === 0){
-                    setStarColor('white');
-                } else {
-                    setStarColor('gold');
-                }
-            } else {
-                setStarColor(undefined)
-            }
-        }
-    }, [filteredTags, drink]);
+    const navigate = useNavigate();
 
     const confirmDeleteDrink = () => {
         if(window.confirm('Are you sure you want to delete \''+drink.name+'\'?') === true){
@@ -56,49 +25,76 @@ const DrinkEntry = ({drink, getDrinkList, adminKey, filteredTags, setShowLoader}
         }
     }
 
-    async function setDrinkFeatured(newFeaturedStatus) {
-        setClientSideFeature(newFeaturedStatus);
-        setStarColor(undefined);
-        const response = await axios.post('/api/modify_tag/', {drinkUUID: drink.uuid, tag: {value: 'Featured', category: 'top_pick'}, change: newFeaturedStatus ? 'add':'remove'}, {
-                headers: {
-                    Authorization: `Bearer ${adminKey}`,
-                    'Content-Type': 'application/json'
+    function modifyMenu(deleteDrink, moveUp, moveDown) {
+        let newDrinkOrder = [...menuSettings.menuOrder].filter((drinkUUID => !(deleteDrink && drinkUUID === drink.uuid)));
+        if(!deleteDrink){
+            let drinkIndex = newDrinkOrder.indexOf(drink.uuid);
+            if(moveUp){
+                if(drinkIndex === 0){
+                    let temp_uuid = newDrinkOrder[0]
+                    newDrinkOrder = newDrinkOrder.slice(1);
+                    newDrinkOrder.push(temp_uuid);
+                } else {
+                    let temp_uuid = newDrinkOrder[drinkIndex - 1]
+                    newDrinkOrder[drinkIndex - 1] = newDrinkOrder[drinkIndex];
+                    newDrinkOrder[drinkIndex] = temp_uuid;
+                }
+            } else if(moveDown) {
+                if(drinkIndex === newDrinkOrder.length - 1){
+                    let temp_uuid = newDrinkOrder[newDrinkOrder.length - 1]
+                    newDrinkOrder.pop();
+                    newDrinkOrder = [temp_uuid, ...newDrinkOrder];
+                } else {
+                    let temp_uuid = newDrinkOrder[drinkIndex + 1]
+                    newDrinkOrder[drinkIndex + 1] = newDrinkOrder[drinkIndex];
+                    newDrinkOrder[drinkIndex] = temp_uuid;
                 }
             }
-        );
-        if (response.status === 200) {
-            getDrinkList();
-        } else {
-            console.error('Error setting drink tag: status '+response.status);
         }
+        axios.post('/api/modify_menu', {menu_id:menuSettings.menu_id, drinks: newDrinkOrder}, {headers:{Authorization: `Bearer ${user.token}`}}).then((res)=>{
+            if(res.status && res.status === 200){
+                menuSettings.setMenuOrder(newDrinkOrder);
+            }
+        });
+    }
+
+    function addMenuDrink(menu_id) {
+       if(menu_id){
+           axios.post('/api/add_menu_drink', {menu_id:menu_id, drink: drink.uuid}, {headers:{Authorization: `Bearer ${user.token}`}}).then((res)=>{
+               if(res.status && res.status === 200){
+                   navigate(-1, {replace: true});
+               }
+           });
+       }
     }
 
     return (
         <>
         <hr className="list-separator"></hr>
-        <div className="list-entry">
-            <div style={{display: "flex"}}>
-                <Link to={'/'+drink.url_name} class="glass-container" style={{cursor: "pointer"}} onClick={()=>{ setShowLoader(true)}}>
-                    {drink.glass && <img src={'/api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'}/>}
-                    {!drink.glass && <img src={'/api/image?file=glassware/unknown.svg'} alt={'No glass listed'}/>}
-                </Link>
-            </div>
-
-            <div className="list-column">
-                {adminKey && <div className="remove-drink">
-                    {!clientSideFeature && <FaRegStar onClick={()=>{setDrinkFeatured(true)}} style={{cursor: "pointer", paddingRight:'8px'}}/>}
-                    {clientSideFeature && <FaStar onClick={()=>{setDrinkFeatured(false)}} style={{cursor: "pointer", paddingRight:'8px'}}/>}
-                    <Link to={'/update_drink/'+drink.uuid}><FaWrench style={{cursor: "pointer", paddingRight:'8px'}}/></Link>
-                    <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer"}}/>
-                </div>}
-                {starColor && !adminKey && <div className="remove-drink">
-                    <FaStar style={{color: starColor}}/>
-                </div>}
-                <div>
-                    <Link to={'/'+drink.url_name} className="list-title" style={{cursor: "pointer"}} onClick={()=>{ setShowLoader(true)}}>{drink.name}</Link>
-                    {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
+        <div className="drink-entry">
+            <Link to={'/'+drink.url_name} style={{display:"flex", width:"100%"}} onClick={()=>{setShowLoader(true)}}>
+                <div className="glass-container clickable">
+                    {drink.glass && <img src={'/api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'} className={isMenu ? "menu-glass":"drinklist-glass"}/>}
+                    {!drink.glass && <img src={'/api/image?file=glassware/unknown.svg'} alt={'No glass listed'} className={isMenu ? "drinklist-glass":"menu-glass"}/>}
                 </div>
-            </div>
+                <div className="drink-entry-info">
+                    <div className="drink-entry-title clickable">{drink.name}</div>
+                    {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
+                    {isMenu && drink.menu_desc && <div className="menu-description">{drink.menu_desc}</div>}
+                </div>
+            </Link>
+            {user && user.isAdmin && !menuSettings && !editMenu && <div className="drink-button-panel">
+                <Link to={'/update_drink/'+drink.uuid}><FaWrench style={{cursor: "pointer"}}/></Link>
+                <FaTrash onClick={()=>{confirmDeleteDrink()}} style={{cursor: "pointer", paddingTop:'10px'}}/>
+            </div>}
+            {menuSettings && menuSettings.editMode && <div className="drink-button-panel">
+                <FaArrowUp onClick={()=>{modifyMenu(false, true, false)}} style={{cursor: "pointer"}}/>
+                <FaArrowDown onClick={()=>{modifyMenu(false, false, true)}} style={{cursor: "pointer", paddingTop:'10px'}}/>
+                <FaTrash onClick={()=>{modifyMenu(true, false, false)}} style={{cursor: "pointer", paddingTop:'10px'}}/>
+            </div>}
+            {editMenu && <div className="drink-button-panel">
+                <FaPlus style={{cursor: "pointer"}} onClick={()=>{addMenuDrink(editMenu)}} />
+            </div>}
         </div>
         </>
     )

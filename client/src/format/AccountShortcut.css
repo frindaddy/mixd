@@ -1,0 +1,58 @@
+.account-dropdown {
+    background-color: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(5px);
+    position: relative;
+    top: 5px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.account-dropdown > hr {
+    margin: 5px;
+    width:100%;
+    border-top: 1px solid white;
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
+.account-dropdown > span {
+    display: block;
+    text-align: right;
+}
+
+.account-shortcut {
+    font-weight: 300;
+    position: absolute;
+    z-index: 3;
+    right: 10px;
+}
+
+.shortcut-nav-container {
+    cursor: pointer;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: right;
+    align-items: center;
+}
+
+.shortcut-username {
+    margin-right: 10px;
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.user_icon {
+    font-size: 25px;
+}
+
+@media screen and (max-width: 600px) {
+    .account-shortcut {
+        font-size: 24px;
+    }
+
+    .shortcut-username{
+        display: none;
+    }
+}

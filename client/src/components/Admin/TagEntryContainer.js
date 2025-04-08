@@ -3,52 +3,41 @@ import TagEntry from "./TagEntry";
 import {FaPlus} from "react-icons/fa";
 import FilterPanel from "../DrinkList/FilterPanel";
 import "../../format/CreateDrink.css";
+import DrinkTagSelector from "./DrinkTagSelector";
 
 const TagEntryContainer = ({inputs, setInputs}) => {
 
     const [customTags, setCustomTags] = useState([{}]);
-    const [tagSelectedList, setTagSelectedList] = useState([]);
+    const [selectedTags, setSelectedTags] = useState([]);
     const [loadLocked, setLoadLocked] = useState(false);
 
     useEffect(() => {
         if(inputs.tags && !loadLocked){
             setLoadLocked(true);
-            setTagSelectedList(inputs.tags.map((inputTag)=>{
-                return inputTag.category+'>'+inputTag.value
-            }))
+            setSelectedTags(inputs.tags);
         }
     }, [inputs]);
 
-    const validateAndFormatTags = (selectedTagStrings, customTagStrings) => {
-        let allTags = [...new Set([...selectedTagStrings, ...customTagStrings])]
-        let mappedTags = allTags.map((tagString) => {
-            let split = tagString.split('>')
-            if(split[0] !== 'undefined' && split[1] !== 'undefined' && split[0] !== '' && split[1] !== ''){
-                return {category: split[0], value: split[1]}
-            }
-        })
-        return mappedTags.filter(tag =>tag !== undefined);
+    function mergeTags(selTags, customTags) {
+        let trimmedCustomTags = customTags.filter(tag => {
+            return !selTags.map(tag => tag.category + '>' + tag.value).includes(tag.category + '>' + tag.value)
+        });
+        return selTags.concat(trimmedCustomTags).filter(tag => tag.category && tag.value)
     }
 
-    const updateSelectedTags = (selTags) => {
-        let customTagString = customTags.map((inputTag)=>{
-            return inputTag.category+'>'+inputTag.value
-        })
-        setTagSelectedList(selTags)
-        setInputs(values => ({...values, tags: validateAndFormatTags(selTags, customTagString)}));
+    function updateSelectedTags(selTags) {
+        setSelectedTags(selTags);
+        setInputs(values => ({...values, tags: mergeTags(selTags, customTags)}));
     }
 
-    const updateCustomTags = (new_customTags) => {
-        let customTagString = new_customTags.map((inputTag)=>{
-            return inputTag.category+'>'+inputTag.value
-        })
+    function updateCustomTags(new_customTags) {
         setCustomTags(new_customTags);
-        setInputs(values => ({...values, tags: validateAndFormatTags(tagSelectedList, customTagString)}));
+        setInputs(values => ({...values, tags: mergeTags(selectedTags, new_customTags)}));
     }
 
     return (
         <div>
-            <FilterPanel setShowFilterPanel={undefined} tagFilterList={tagSelectedList} setTagFilterList={updateSelectedTags} glassFilterList={null} setGlassFilterList={null} tagMenu={true}/>
+            <DrinkTagSelector selectedTags={selectedTags} updateSelectedTags={updateSelectedTags} />
             <div className="create-drink-row">Add new tag:</div>
             <div className="create-drink-row">
                 <div>

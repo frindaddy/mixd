@@ -22,6 +22,7 @@ const CreateDrink = ({adminKey}) => {
     const [loadedDrinkData, setLoadedDrinkData] = useState(false);
 
     useEffect(() => {
+        if(!adminKey) navigate('/', {replace: true});
         document.title = (uuid ? 'Update':'Create')+' Drink | mixd.';
         setLoadedDrinkData(false);
         if (uuid){
@@ -48,7 +49,7 @@ const CreateDrink = ({adminKey}) => {
                     setAllIngredients(res.data);
                 }
             }).catch((err) => console.log(err));
-    }, [uuid]);
+    }, [uuid, navigate]);
 
     const onImageSelected = (e) => {
         if(e.target.files && e.target.files[0]){
@@ -87,14 +88,14 @@ const CreateDrink = ({adminKey}) => {
         let tags = [];
         let ingredients = [];
         if (drink.tags) {
-            drink.tags.map((tag) => {
+            drink.tags.forEach((tag) => {
                 if(tag.category && tag.value){
                     tags = [...tags, tag];
                 }
             });
         }
         if (drink.ingredients) {
-            drink.ingredients.map((ingredient) => {
+            drink.ingredients.forEach((ingredient) => {
                 if(ingredient.ingredient){
                     if (typeof ingredient.amount === "string"){
                         ingredient.amount = parseFloat(ingredient.amount.replace(",", "."));
@@ -134,7 +135,7 @@ const CreateDrink = ({adminKey}) => {
         if(response.status !== 200) {
             setErrorMsg('Failed to add drink. Internal server error '+response.status);
         } else {
-            navigate('/', { replace: true });
+            navigate('/account/edit_drinks', { replace: true });
         }
     }
     async function deleteDrink(sameImage, drinkID) {
@@ -184,7 +185,6 @@ const CreateDrink = ({adminKey}) => {
         <div>
             {loadedDrinkData && <div className="create-drink" style={{flexDirection: "column", width: "100%"}}>
                 <h1 className="create-drink-title">{uuid === undefined ? 'Add New Drink':'Update Existing Drink'}</h1>
-                {errorMsg && <p style={{color:"red"}}>{"ERROR: "+errorMsg}</p>}
 
                 <div className="create-drink-image">
                     <img style={{width:300, height: 420, overflow:"hidden"}} src={imagePreviewURL} alt='Drink Preview'/>
@@ -216,11 +216,15 @@ const CreateDrink = ({adminKey}) => {
                 <div className="create-drink-row">
                     <input type="text" name="garnish" placeholder="a maraschino cherry" value={inputs.garnish || ""} onChange={handleFormChange} />
                 </div>
+                <p>Menu Description:</p>
+                <div className="create-drink-row">
+                    <textarea name="menu_desc" rows="6" cols="45" placeholder='150 character maximum' maxLength={150} value={inputs.menu_desc || ""} onChange={handleFormChange} />
+                </div>
                 <p>Instructions:</p>
                 <div className="create-drink-row">
                     <textarea name="instructions" rows="6" cols="45" value={inputs.instructions || ""} onChange={handleFormChange} />
                 </div>
-                <p>Description:</p>
+                <p>Story:</p>
                 <div className="create-drink-row">
                     <textarea name="description" rows="6" cols="45" value={inputs.description || ""} onChange={handleFormChange} />
                 </div>
@@ -239,6 +243,7 @@ const CreateDrink = ({adminKey}) => {
                 <div className="create-drink-row">
                     <button onClick={()=>{uuid === undefined ? createDrink(false):updateDrink()}}>{uuid === undefined ? 'Add New Drink':'Update Drink'}</button>
                 </div>
+                {errorMsg && <p style={{color:"red", marginBottom:"5px"}}>{"ERROR: "+errorMsg}</p>}
             </div>}
         </div>
     )

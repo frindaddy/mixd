@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
+import "../format/Logo.css"
 
-const DotColor = ({toggleAdminMode}) => {
+const DotColor = () => {
 
     const [color, setColor] = useState('#FFFFFF');
     const [cookies, setCookie] = useCookies(['colorIndex']);
@@ -18,7 +19,7 @@ const DotColor = ({toggleAdminMode}) => {
     }, []);
 
     return (
-        <div onClick={toggleAdminMode} style={{WebkitTextStrokeColor: color, marginLeft: "-5px"}}>.</div>
+        <div style={{WebkitTextStrokeColor: color}} className="dotcolor">.</div>
     )
 }
 

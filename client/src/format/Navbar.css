@@ -47,10 +47,10 @@ nav > div {
 
     .share-button {
         display: grid;
-        float: right;
+        position: absolute;
         cursor: pointer;
         font-size: 40px;
-        padding-top: 3px;
-        margin-right: 11px;
+        top: 10px;
+        right: 10px;
     }
 }

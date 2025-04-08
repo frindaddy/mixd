@@ -1,71 +1,63 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import AddDrinkEntry from "../components/Admin/AddDrinkEntry";
-import DotColor from "../components/DotColor";
+import Logo from "../components/Logo";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import FilterPanel from "../components/DrinkList/FilterPanel";
-import {FaFilter, FaEraser, FaLemon} from "react-icons/fa";
-import {useCookies} from "react-cookie";
-import AddIngredientEntry from "../components/Admin/AddIngredientEntry";
+import {FaFilter, FaEraser, FaSearch} from "react-icons/fa";
 import "../format/DrinkList.css";
-import {Link} from "react-router-dom";
+import AccountShortcut from "../components/AccountShortcut";
 
-const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdminKey, previousDrinkList, setPreviousDrinkList, ingrFilter, setIngrFilter, userDrinksReq, setUserDrinksReq}) => {
+const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, searchIngredient, setSearchIngredient, searchTags, setSearchTags, myBarSearch, setMyBarSearch, removeCookie}) => {
 
-    const [drinkList, setDrinkList] = useState(previousDrinkList);
-    const [glassFilterList, setGlassFilterList] = useState([]);
-    const [tagFilterList, setTagFilterList] = useState([]);
-    const [filterPanelShown, setfilterPanelShown] = useState(false);
-    const [cookies, setCookie] = useCookies(["tagList", "glassList"]);
+    const [drinkList, setDrinkList] = useState([]);
+    const [filterPanelShown, setFilterPanelShown] = useState(false);
+    const [featuredMenuName, setFeaturedMenuName] = useState('');
+    const [listLoaded, setListLoaded] = useState(false);
 
-    const getDrinkList = () => {
-        let list_route = '/api/list/'+ingrFilter[0];
-        if(userDrinksReq && userDrinksReq.user_id){
-          list_route = '/api/user_drinks/'+userDrinksReq.user_id
-            if(userDrinksReq.tol){
-                list_route = list_route + '?tol='+userDrinksReq.tol;
-                if(userDrinksReq.no_na) list_route = list_route + '&no_na=true';
-                if(userDrinksReq.strict) list_route = list_route + '&strict=true';
-            } else if (userDrinksReq.no_na) {
-                list_route = list_route + '?no_na=true';
-            }
-        }
-        axios.get(list_route)
-            .then((res) => {
-                if (res.data) {
-                    setDrinkList(res.data);
-                    setPreviousDrinkList(res.data);
-                }
-            }).catch((err) => console.log(err));
-    }
+    useEffect(() => {
+        getDrinkList();
+    }, [searchText, searchIngredient, searchTags, myBarSearch]);
 
-    const toggleAdminMode = async () => {
-        if (adminKey) {
-            setAdminKey(null);
+    function getDrinkList() {
+        if(showEraser()){
+            axios.get('/api/search', {params : {searchText: searchText, tags: searchTags, ingredient: searchIngredient, user_id: myBarSearch.user_id, tol: myBarSearch.tol, strict: myBarSearch.strict, no_na: myBarSearch.no_na}})
+                .then((res) => {
+                    if (res.data) {
+                        setFeaturedMenuName('');
+                        setDrinkList(res.data);
+                        setListLoaded(true);
+                    }
+                }).catch((err) => console.log(err));
         } else {
-            const adminPassword = prompt('Enter Admin Password');
-            const {data} = await axios.post('/api/admin_login',
-                {password: adminPassword},
-                {headers: {'Content-Type': 'application/json'}}
-            );
-            setAdminKey(data.adminKey);
+            axios.get('/api/menu/featured')
+                .then((res) => {
+                    if (res.data) {
+                        if(res.data.menu_id) {
+                            setFeaturedMenuName(res.data.name);
+                            setDrinkList(res.data.drinkList);
+                        } else {
+                            setFeaturedMenuName('No featured menu');
+                            setDrinkList([]);
+                        }
+                        setListLoaded(true);
+                    }
+                }).catch((err) => console.log(err));
         }
     }
 
-    const toggleFilterPanel = () => {
+    function toggleFilterPanel(){
         if(!filterPanelShown){
             expandFilterPanel();
-            setfilterPanelShown(true);
+            setFilterPanelShown(true);
         } else {
             collapseFilterPanel();
-            setfilterPanelShown(false);
+            setFilterPanelShown(false);
         }
     }
 
     function expandFilterPanel() {
         const filterPanel = document.querySelector(".filter-panel");
-        var panelHeight = filterPanel.scrollHeight;
-        filterPanel.style.height = panelHeight + 'px';
+        filterPanel.style.height = filterPanel.scrollHeight + 'px';
         filterPanel.addEventListener('transitioned', function () {
             filterPanel.removeEventListener('transitioned');
             filterPanel.style.height = null;
@@ -74,51 +66,44 @@ const DrinkList = ({setShowLoader, searchText, setSearchText, adminKey, setAdmin
 
     function collapseFilterPanel() {
         const filterPanel = document.querySelector(".filter-panel")
-        var panelHeight = filterPanel.scrollHeight
         requestAnimationFrame(function () {
-            filterPanel.style.height = panelHeight + 'px';
+            filterPanel.style.height = filterPanel.scrollHeight + 'px';
             requestAnimationFrame(function () {
                 filterPanel.style.height = 0 + 'px';
             })
         });
     }
 
-    function resetAllFilters() {
-        setGlassFilterList([]);
-        setTagFilterList([]);
-        setIngrFilter(["", ""]);
-        setUserDrinksReq(null);
-        setCookie('tagList', [], {maxAge:3600});
-        setCookie('glassList', [], {maxAge:3600});
+    function clearSearchParams() {
+        setSearchText('');
+        setSearchTags([]);
+        setSearchIngredient('');
+        setMyBarSearch({});
     }
 
-    useEffect(() => {
-        getDrinkList();
-    }, [ingrFilter]);
+    function showEraser(){
+        return (searchText && searchText !== '') || searchTags.length > 0 || searchIngredient !=='' || myBarSearch.user_id;
+    }
 
     return (
         <>
+            <AccountShortcut user={user} setUser={setUser} removeCookie={removeCookie}/>
             <header>
-                <div>
-                    <div className="logo">mixd<DotColor toggleAdminMode={toggleAdminMode} /></div>
-                </div>
+                <Logo/>
                 <div className="search-container">
-                    <Link to="/view_ingredients" className='ingredient-button'><FaLemon style={{cursor:"pointer"}} /></Link>
-                    <input className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
-                    <div className='filter-toggle'><FaFilter style={{cursor:"pointer"}} onClick={toggleFilterPanel}/></div>
-                    {((tagFilterList.length + glassFilterList.length > 0) || ingrFilter[0] !== "" || userDrinksReq !== null) && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={resetAllFilters} /></div>}
+                    <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
+                    <div className='filter-toggle'><FaFilter style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/></div>
+                    {showEraser() && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams}/></div>}
                 </div>
             </header>
             <div className={'filter-panel'}>
-                <FilterPanel toggleFilterPanel={toggleFilterPanel} tagFilterList={tagFilterList}
-                setTagFilterList={setTagFilterList} glassFilterList={glassFilterList}
-                setGlassFilterList={setGlassFilterList} tagMenu={false} ingrFilter={ingrFilter}/>
+                <FilterPanel expandFilterPanel={expandFilterPanel} toggleFilterPanel={toggleFilterPanel} user={user} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch}/>
             </div>
-            {adminKey && <Link to="/create_drink"><AddDrinkEntry /></Link>}
-            {adminKey && <hr className="list-separator"></hr>}
-            {adminKey && <Link to="/manage_ingredients"><AddIngredientEntry /></Link>}
-            <DrinkArray filter={{text: searchText, tags: tagFilterList, glasses: glassFilterList}}
-                drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={adminKey}/>
+            {listLoaded && <>
+                {featuredMenuName !== '' && <h1 className="menu-title">{featuredMenuName}</h1>}
+                {featuredMenuName === '' && <h1 className="menu-title">Search Results</h1>}
+                <DrinkArray drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader}/>
+            </>}
         </>
     )
 }

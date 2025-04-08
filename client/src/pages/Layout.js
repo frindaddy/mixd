@@ -5,8 +5,9 @@ import {FaChevronLeft} from "react-icons/fa";
 import Shaker from "../components/DrinkInfo/cocktail_shaker.svg";
 import {IoShareOutline} from "react-icons/io5";
 import '../format/Navbar.css';
+import AccountShortcut from "../components/AccountShortcut";
 
-const Layout = ({showLoader, setShowLoader}) => {
+const Layout = ({showLoader, setShowLoader, user, setUser, removeCookie}) => {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -18,8 +19,13 @@ const Layout = ({showLoader, setShowLoader}) => {
     }
 
     function isDrinkPage(){
-        let reserved_routes = ['api', 'static', '404', 'create_drink', 'update_drink', 'manage_ingredients', 'view_ingredients'];
-        return !reserved_routes.includes(location.pathname.substring(1));
+        let reserved_routes = ['api', 'static', '404', 'create_drink', 'update_drink', 'account', 'menu'];
+        return !reserved_routes.includes(location.pathname.split('/')[1]);
+    }
+
+    function isMenuPage() {
+        let split_path = location.pathname.split('/');
+        return split_path.length > 1 && split_path[1]==='menu' && !location.hash;
     }
 
     function backArrowClicked() {
@@ -56,11 +62,12 @@ const Layout = ({showLoader, setShowLoader}) => {
             {displayNavBar() && <nav>
                 <div className="nav-container">
                     <div style={{display:"flex"}}>
-                        <div className="back" style={{cursor: "pointer"}} onClick={()=> backArrowClicked()}><FaChevronLeft/></div>
-                        <Link to='/' className="nav-logo">mixd.</Link>
+                        {!isMenuPage() && <div className="back" style={{cursor: "pointer"}} onClick={()=> backArrowClicked()}><FaChevronLeft/></div>}
+                        {!isMenuPage() && <Link to='/' className="nav-logo">mixd.</Link>}
                     </div>
                     <div>
-                        {isDrinkPage() && <IoShareOutline className="share-button" onClick={()=>{shareButton()}} />}
+                        {(isDrinkPage() || isMenuPage()) && <IoShareOutline className="share-button" onClick={()=>{shareButton()}} />}
+                        {!isDrinkPage() && !isMenuPage() && <AccountShortcut user={user} setUser={setUser} removeCookie={removeCookie}/>}
                     </div>
                 </div>
             </nav>}
