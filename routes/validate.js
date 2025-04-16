@@ -2,10 +2,16 @@ const fs = require('fs');
 const Drinks = require("../models/drinks");
 const Ingredients = require('../models/ingredients');
 const Users = require("../models/users");
+const Menus = require("../models/menus");
 
 async function importObjectToModel(model, object) {
     return new Promise((resolve) =>{
-        model.findOne({uuid:object.uuid}, '').then(data => {
+        let filter = {uuid:object.uuid};
+        if(!object.uuid){
+            if(object.menu_id) filter = {menu_id:object.menu_id};
+            if(object.user_id) filter = {user_id:object.user_id};
+        }
+        model.findOne(filter, '').then(data => {
             //Check that object is not in db
             if(data === null){
                 //Clean up old db data
@@ -69,10 +75,16 @@ module.exports = {
                         const json_data = JSON.parse(data);
                         let drinks = []
                         let ingredients = []
+                        let users = []
+                        let menus = []
                         if (json_data.drinks !== undefined && json_data.drinks.length > 0) drinks = json_data.drinks;
                         if (json_data.ingredients !== undefined && json_data.ingredients.length > 0) ingredients = json_data.ingredients
+                        if (json_data.users !== undefined && json_data.users.length > 0) users = json_data.users;
+                        if (json_data.menus !== undefined && json_data.menus.length > 0) menus = json_data.menus;
                         let imported_drinks = 0;
                         let imported_ingr = 0;
+                        let imported_users = 0;
+                        let imported_menus = 0;
                         for await (const ingredient of ingredients) {
                             await importObjectToModel(Ingredients, ingredient).then(added => {
                                 if (added){
@@ -89,8 +101,24 @@ module.exports = {
                                 }
                             });
                         }
-                        if(imported_drinks + imported_ingr > 0){
-                            console.log('Import complete! Imported', imported_drinks, 'drinks and', imported_ingr, 'ingredients.');
+                        for await (const user of users) {
+                            await importObjectToModel(Users, user).then(added => {
+                                if (added){
+                                    console.log('Imported User:', user.username, '(' + user.user_id + ')');
+                                    imported_users++;
+                                }
+                            });
+                        }
+                        for await (const menu of menus) {
+                            await importObjectToModel(Menus, menu).then(added => {
+                                if (added){
+                                    console.log('Imported Menu:', menu.name, '(' + menu.menu_id + ')');
+                                    imported_menus++;
+                                }
+                            });
+                        }
+                        if(imported_drinks + imported_ingr + imported_users + imported_menus > 0){
+                            console.log('Import complete! Imported', imported_drinks, 'drinks,', imported_ingr, 'ingredients', imported_users, 'users, and', imported_menus, 'menus.');
                         } else {
                             console.log('Nothing to import. Consider removing import file.');
                         }
