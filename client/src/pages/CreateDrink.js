@@ -157,7 +157,7 @@ const CreateDrink = ({adminKey}) => {
         let sameImage = !selectedImage;
         deleteDrink(sameImage && imagePreviewURL !== noImageURL, true, uuid)
             .then(async ()=>{await createDrink(sameImage)})
-            .catch(console.error('Failed to delete drink.'));
+            .catch(()=>console.error('Failed to delete drink.'));
     }
 
     const createDrink = async (sameImage) => {
