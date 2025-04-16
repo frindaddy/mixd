@@ -484,7 +484,7 @@ router.delete('/drink/:uuid', validateAdminToken, (req, res, next) => {
                 if (!req.query.saveImg && fs.existsSync(drinkImage)){
                     fs.unlink(drinkImage, (e)=>{e && console.error(e)});
                 }
-                if(!req.body.updating) remove_drink_from_menus(req.params.uuid);
+                if(!req.query.updating) remove_drink_from_menus(req.params.uuid);
                 return res.json(data);
             })
             .catch(next);
