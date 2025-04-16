@@ -525,7 +525,7 @@ router.delete('/drink/:uuid', validateAdminToken, (req, res, next) => {
         Drinks.findOneAndDelete({ uuid: req.params.uuid })
             .then((data) => {
                 let drinkImage = path.join(path.join(IMAGE_DIR,'user_drinks'), data.image+'.jpg');
-                if (!req.query.saveImg && fs.existsSync(drinkImage)){
+                if (req.query.saveImg !== 'true' && fs.existsSync(drinkImage)){
                     fs.unlink(drinkImage, (e)=>{e && console.error(e)});
                 }
                 if(!req.query.updating) remove_drink_from_menus(req.params.uuid);
