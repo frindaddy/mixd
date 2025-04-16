@@ -198,7 +198,7 @@ function backup_drinks() {
 function backup_users() {
     Users.find({})
         .then((user_db_data) => {
-            fs.writeFile(path.join(BACKUP_DIR, 'users-'+Date.now()+'.json'), JSON.stringify(user_db_data), (err) => {
+            fs.writeFile(path.join(BACKUP_DIR, 'users-'+Date.now()+'.json'), JSON.stringify({users: user_db_data}), (err) => {
                 if(err){
                     if(err.code === 'ENOENT'){
                         console.log("Failed to backup users: Could not find or write into directory '"+BACKUP_DIR+"'");
@@ -215,7 +215,7 @@ function backup_users() {
 function backup_menus() {
     Menus.find({})
         .then((menu_db_data) => {
-            fs.writeFile(path.join(BACKUP_DIR, 'menus-'+Date.now()+'.json'), JSON.stringify(menu_db_data), (err) => {
+            fs.writeFile(path.join(BACKUP_DIR, 'menus-'+Date.now()+'.json'), JSON.stringify({menus: menu_db_data}), (err) => {
                 if(err){
                     if(err.code === 'ENOENT'){
                         console.log("Failed to backup menus: Could not find or write into directory '"+BACKUP_DIR+"'");
