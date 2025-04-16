@@ -3,6 +3,7 @@ const multer  = require('multer');
 const sharp = require("sharp");
 const { v4: uuid } = require('uuid');
 const fs = require("fs");
+const path = require("path");
 require('dotenv').config();
 const router = express.Router();
 const Drinks = require('../models/drinks');
@@ -169,6 +170,78 @@ function validate_username(username) {
     if(!username.match(/[a-zA-Z]/)) return false;
     if(username.match(/^[._]|[.]$|[_.]_$/)) return false;
     return true;
+}
+
+function validate_dir(parent, child) {
+    if(!fs.existsSync(parent)){
+        fs.mkdirSync(parent);
+    }
+    if(!fs.existsSync(child)){
+        fs.mkdirSync(child);
+    }
+}
+
+function backup_drinks() {
+    let all_dbs = {};
+    let drink_dir = path.join(BACKUP_DIR, 'drinks');
+    validate_dir(BACKUP_DIR, drink_dir);
+    Drinks.find({})
+        .then((drink_db_data) => {
+            all_dbs.drinks = drink_db_data
+            Ingredients.find({})
+                .then((ingr_db_data) => {
+                    all_dbs.ingredients = ingr_db_data
+                    fs.writeFile(path.join(drink_dir, 'drinks-'+Date.now()+'.json'), JSON.stringify(all_dbs), (err) => {
+                        if(err){
+                            if(err.code === 'ENOENT'){
+                                console.log("Failed to backup drinks: Could not find or write into directory '"+drink_dir+"'");
+                            } else {
+                                console.error('Error writing file:',err);
+                            }
+                        } else {
+                            console.log('Drinks and Ingredients backed up!');
+                        }
+                    })
+                })
+        })
+}
+
+function backup_users() {
+    let users_dir = path.join(BACKUP_DIR, 'users');
+    validate_dir(BACKUP_DIR, users_dir);
+    Users.find({})
+        .then((user_db_data) => {
+            fs.writeFile(path.join(users_dir, 'users-'+Date.now()+'.json'), JSON.stringify({users: user_db_data}), (err) => {
+                if(err){
+                    if(err.code === 'ENOENT'){
+                        console.log("Failed to backup users: Could not find or write into directory '"+users_dir+"'");
+                    } else {
+                        console.error('Error writing file:',err);
+                    }
+                } else {
+                    console.log('Users backed up!');
+                }
+            })
+        })
+}
+
+function backup_menus() {
+    let menus_dir = path.join(BACKUP_DIR, 'menus');
+    validate_dir(BACKUP_DIR, menus_dir);
+    Menus.find({})
+        .then((menu_db_data) => {
+            fs.writeFile(path.join(menus_dir, 'menus-'+Date.now()+'.json'), JSON.stringify({menus: menu_db_data}), (err) => {
+                if(err){
+                    if(err.code === 'ENOENT'){
+                        console.log("Failed to backup menus: Could not find or write into directory '"+BACKUP_DIR+"'");
+                    } else {
+                        console.error('Error writing file:',err);
+                    }
+                } else {
+                    console.log('Menus backed up!');
+                }
+            })
+        })
 }
 
 updateIngredients()
@@ -368,28 +441,6 @@ router.get('/image', (req, res, next) => {
         res.sendStatus(404);
     }
 });
-
-/*router.post('*', (req, res, next) => {
-    if(!process.env.BACKUP_DISABLED || process.env.BACKUP_DISABLED==='false' || process.env.BACKUP_DISABLED==='False'){
-        let all_dbs = {}
-        Drinks.find({})
-            .then((drink_db_data) => {
-                all_dbs.drinks = drink_db_data
-                Ingredients.find({})
-                    .then((ingr_db_data) => {
-                        all_dbs.ingredients = ingr_db_data
-                        fs.writeFile(BACKUP_DIR+'backup-'+Date.now()+'.json', JSON.stringify(all_dbs), (err) => {
-                            if(err){
-                                console.error('Error writing file:',err);
-                            } else {
-                                console.log('Database backed up!');
-                            }
-                        })
-                    })
-            })
-    }
-        next()
-});*/
 
 router.post('/image', validateAdminToken, async (req, res, next) => {
     uploadImage(req, res, (err) => {
@@ -921,6 +972,13 @@ router.delete('/menu_forced/:menu_id', validateAdminToken, (req, res, next) => {
                 res.json(data);
             }).catch(next);
     }
+});
+
+router.post('/request_backup', validateAdminToken, (req, res, next) => {
+    if(req.body.drinks) backup_drinks();
+    if(req.body.users) backup_users();
+    if(req.body.menus) backup_menus();
+    res.sendStatus(200);
 });
 
 module.exports = router;
