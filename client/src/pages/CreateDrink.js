@@ -140,7 +140,7 @@ const CreateDrink = ({adminKey}) => {
     }
     async function deleteDrink(sameImage, drinkID) {
         return new Promise((resolve, reject) => {
-            axios.delete('/api/drink/'+drinkID+(sameImage ? '?saveImg=true':''), {headers:{Authorization: `Bearer ${adminKey}`}})
+            axios.delete('/api/drink/'+drinkID, {params:{saveImg: sameImage}, headers:{Authorization: `Bearer ${adminKey}`}})
                 .then((res) => {
                     if (res.data) {
                         console.log(res.data[0]);
