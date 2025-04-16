@@ -53,6 +53,8 @@ const AccountShortcut = ({user, setUser, removeCookie}) => {
                     <span onClick={()=>{goTo('/account/edit_menus')}}>Manage Menus</span>
                     <hr />
                     <span onClick={()=>{goTo('/account/users')}}>Manage Users</span>
+                    <hr />
+                    <span onClick={()=>{goTo('/account/backups')}}>Request Backup</span>
                 </>}
 
                 <hr />

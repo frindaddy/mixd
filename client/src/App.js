@@ -19,6 +19,7 @@ import StatisticsTab from "./pages/account/StatisticsTab";
 import ManageDrinksTab from "./pages/account/ManageDrinksTab";
 import ManageMenusTab from "./pages/account/ManageMenusTab";
 import {useCookies} from "react-cookie";
+import BackupsTab from "./pages/account/BackupsTab";
 
 function App() {
     const [searchText, setSearchText] = useState('');
@@ -44,14 +45,15 @@ function App() {
                 <Route path="create_drink" element={<CreateDrink adminKey={user.token}/>}/>
                 <Route path="update_drink/:uuid" element={<CreateDrink adminKey={user.token}/>}/>
                 <Route path="account" element={<AccountPage user={user}/>} >
-                    <Route index element={<MyAccountTab user={user} setUser={setUser} removeCookie={removeCookie} />}></Route>
-                    <Route path="bar" element={<MyBarTab setMyBarSearch={setMyBarSearch} user={user} />}></Route>
+                    <Route index element={<MyAccountTab user={user} setUser={setUser} removeCookie={removeCookie} />} />
+                    <Route path="bar" element={<MyBarTab setMyBarSearch={setMyBarSearch} user={user} />} />
                     <Route path="menus" element={<MenusTab user={user}/>}></Route>
-                    <Route path="statistics" element={<StatisticsTab setSearchIngredient={setSearchIngredient}/>}></Route>
-                    <Route path="edit_ingredients" element={<ManageIngredientsTab adminKey={user.token} />}></Route>
-                    <Route path="edit_drinks" element={<ManageDrinksTab user={user} setShowLoader={setShowLoader}/>}></Route>
-                    <Route path="edit_menus" element={<ManageMenusTab adminKey={user.token} user={user}/>}></Route>
-                    <Route path="users" element={<ManageUsersTab adminKey={user.token} user={user}/>}></Route>
+                    <Route path="statistics" element={<StatisticsTab setSearchIngredient={setSearchIngredient}/>} />
+                    <Route path="edit_ingredients" element={<ManageIngredientsTab adminKey={user.token} />} />
+                    <Route path="edit_drinks" element={<ManageDrinksTab user={user} setShowLoader={setShowLoader}/>} />
+                    <Route path="edit_menus" element={<ManageMenusTab adminKey={user.token} user={user}/>} />
+                    <Route path="users" element={<ManageUsersTab adminKey={user.token} user={user}/>} />
+                    <Route path="backups" element={<BackupsTab adminKey={user.token}/>} />
                 </Route>
                 <Route path="account/login" element={<LoginPage user={user} setUser={setUser} setCookie={setCookie}/>}/>
                 <Route path="menu/:menu_id" element={<MenuPage setShowLoader={setShowLoader} user={user}/>}/>
