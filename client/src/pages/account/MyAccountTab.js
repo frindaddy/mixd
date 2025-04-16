@@ -76,8 +76,8 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
 
     return (
         <>
-            <DialogBox display={dialogBox === 'username'} dialogText={"Change your username to '"+ usernameField + "' ?"} acceptText='Yes' onAccept={submitUsername} onDecline={()=>{setDialogBox('')}}/>
-            <DialogBox display={dialogBox === 'confirm-pin'} dialogText={"Change your PIN to '"+ pinField + "' ? Remember your PIN is stored without encryption!"} acceptText='Yes' onAccept={changePin} onDecline={()=>{setDialogBox('')}}/>
+            <DialogBox display={dialogBox === 'username'} dialogText={"Change your username to '"+ usernameField + "'?"} acceptText='Yes' onAccept={submitUsername} onDecline={()=>{setDialogBox('')}}/>
+            <DialogBox display={dialogBox === 'confirm-pin'} dialogText={"Change your PIN to '"+ pinField + "'? Remember, your PIN is stored without encryption!"} acceptText='Yes' onAccept={changePin} onDecline={()=>{setDialogBox('')}}/>
             <DialogBox display={dialogBox === 'updated-pin'} dialogText={"Your PIN has been updated!"} onAccept={()=>{setDialogBox('')}}/>
             <h1 className="tab-title">My Account</h1>
             <div className="myaccount-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.isAdmin && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
