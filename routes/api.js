@@ -12,7 +12,7 @@ const Users = require('../models/users');
 const Menus = require('../models/menus');
 const packVars = require('../package.json');
 
-const IMAGE_DIR = process.env.IMAGE_DIR || '';
+const IMAGE_DIR = process.env.IMAGE_DIR || '/root/images/';
 const BACKUP_DIR = process.env.BACKUP_DIR || '/root/backups/';
 
 const {RESERVED_ROUTES} = require("../constants");
@@ -76,7 +76,7 @@ const verifyRequest = (req, res, next) => {
 const imageStorage = multer.diskStorage(
     {
         destination: function ( req, file, cb ) {
-            cb(null, IMAGE_DIR+'upload');
+            cb(null, path.join(IMAGE_DIR, 'upload'));
         },
         filename: function ( req, file, cb ) {
             cb(null, file.originalname+ '-' + Date.now()+'.jpg');
@@ -91,16 +91,21 @@ const uploadImage = multer( { storage: imageStorage,
     limits: { fileSize: 4000000, files: 1 }
 }).single('drinkImage');
 
-const compressDrinkImg = async(req, imageUUID) =>{
-    let uploadFile = req.file.destination+'/'+req.file.filename;
-    let compressedFile = IMAGE_DIR+'user_drinks/'+imageUUID+'.jpg';
-    await sharp(uploadFile)
-        .rotate()
-        .resize({ width: 600, height:840, fit:"cover" })
-        .jpeg({ quality: 80, mozjpeg: true, force: true })
-        .toFile(compressedFile)
-    await fs.unlink(uploadFile, ()=>{});
-};
+const compressDrinkImg = async(req, imageUUID) => {
+    let uploadFile = path.join(req.file.destination, req.file.filename);
+    let compressedFile = path.join(path.join(IMAGE_DIR, 'user_drinks'), imageUUID+'.jpg');
+    let metadata = await sharp(uploadFile).metadata();
+    if(metadata.width === 600 && metadata.height === 840 && metadata.format === 'jpeg' && !metadata.orientation && !metadata.exif){
+        fs.renameSync(uploadFile, compressedFile, ()=>{});
+    } else {
+        await sharp(uploadFile)
+            .rotate()
+            .resize({ width: 600, height:840, fit:"cover" })
+            .jpeg({ quality: 80, mozjpeg: true, force: true })
+            .toFile(compressedFile)
+        await fs.unlink(uploadFile, ()=>{});
+    }
+}
 
 const updateIngredients = async() => {
     ingredients = {}
@@ -170,6 +175,12 @@ function validate_username(username) {
     if(!username.match(/[a-zA-Z]/)) return false;
     if(username.match(/^[._]|[.]$|[_.]_$/)) return false;
     return true;
+}
+
+function validateImageDirs() {
+    validate_dir(IMAGE_DIR, path.join(IMAGE_DIR, 'upload'))
+    validate_dir(IMAGE_DIR, path.join(IMAGE_DIR, 'user_drinks'))
+    validate_dir(IMAGE_DIR, path.join(IMAGE_DIR, 'glassware'))
 }
 
 function validate_dir(parent, child) {
@@ -245,6 +256,7 @@ function backup_menus() {
 }
 
 updateIngredients()
+validateImageDirs()
 
 router.get('/app-info', (req, res, next) => {
     res.json({
@@ -433,10 +445,10 @@ router.get('/tags', (req, res, next) => {
 });
 
 router.get('/image', (req, res, next) => {
-    if (req.query.file && fs.existsSync(IMAGE_DIR+req.query.file)){
-        res.sendFile(IMAGE_DIR+req.query.file);
-    } else if (req.query.backup && fs.existsSync(IMAGE_DIR+req.query.backup)) {
-        res.sendFile(IMAGE_DIR+req.query.backup);
+    if (req.query.file && fs.existsSync(path.join(IMAGE_DIR, req.query.file))){
+        res.sendFile(path.join(IMAGE_DIR, req.query.file));
+    } else if (req.query.backup && fs.existsSync(path.join(IMAGE_DIR, req.query.backup))) {
+        res.sendFile(path.join(IMAGE_DIR, req.query.backup));
     } else {
         res.sendStatus(404);
     }
@@ -513,26 +525,12 @@ router.post('/modify_tag/', validateAdminToken, (req, res, next) => {
     }
 });
 
-/*router.delete('*', (req, res, next) => {
-    if(!process.env.BACKUP_DISABLED) {
-        Drinks.find({})
-            .then((data) => fs.writeFile(BACKUP_DIR + 'drinkbackup' + Date.now() + '.json', JSON.stringify(data), (err) => {
-                if (err) console.log('Error writing file:', err);
-            }))
-        Ingredients.find({})
-            .then((data) => fs.writeFile(BACKUP_DIR + 'ingredientbackup' + Date.now() + '.json', JSON.stringify(data), (err) => {
-                if (err) console.log('Error writing file:', err);
-            }))
-    }
-    next()
-});*/
-
 router.delete('/drink/:uuid', validateAdminToken, (req, res, next) => {
     if(req.params.uuid){
         Drinks.findOneAndDelete({ uuid: req.params.uuid })
             .then((data) => {
-                let drinkImage = IMAGE_DIR+'user_drinks/'+data.image+'.jpg'
-                if (!req.query.saveImg && fs.existsSync(drinkImage)){
+                let drinkImage = path.join(path.join(IMAGE_DIR,'user_drinks'), data.image+'.jpg');
+                if (req.query.saveImg !== 'true' && fs.existsSync(drinkImage)){
                     fs.unlink(drinkImage, (e)=>{e && console.error(e)});
                 }
                 if(!req.query.updating) remove_drink_from_menus(req.params.uuid);
