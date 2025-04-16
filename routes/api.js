@@ -98,7 +98,6 @@ const compressDrinkImg = async(req, imageUUID) => {
     if(metadata.width === 600 && metadata.height === 840 && metadata.format === 'jpeg' && !metadata.orientation && !metadata.exif){
         fs.renameSync(uploadFile, compressedFile, ()=>{});
     } else {
-        console.log('Compressing!')
         await sharp(uploadFile)
             .rotate()
             .resize({ width: 600, height:840, fit:"cover" })
