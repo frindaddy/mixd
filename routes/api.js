@@ -172,6 +172,12 @@ function validate_username(username) {
     return true;
 }
 
+function validateImageDirs() {
+    validate_dir(IMAGE_DIR, path.join(IMAGE_DIR, 'upload'))
+    validate_dir(IMAGE_DIR, path.join(IMAGE_DIR, 'user_drinks'))
+    validate_dir(IMAGE_DIR, path.join(IMAGE_DIR, 'glassware'))
+}
+
 function validate_dir(parent, child) {
     if(!fs.existsSync(parent)){
         fs.mkdirSync(parent);
@@ -245,6 +251,7 @@ function backup_menus() {
 }
 
 updateIngredients()
+validateImageDirs()
 
 router.get('/app-info', (req, res, next) => {
     res.json({
