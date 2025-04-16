@@ -91,16 +91,22 @@ const uploadImage = multer( { storage: imageStorage,
     limits: { fileSize: 4000000, files: 1 }
 }).single('drinkImage');
 
-const compressDrinkImg = async(req, imageUUID) =>{
+const compressDrinkImg = async(req, imageUUID) => {
     let uploadFile = path.join(req.file.destination, req.file.filename);
     let compressedFile = path.join(path.join(IMAGE_DIR, 'user_drinks'), imageUUID+'.jpg');
-    await sharp(uploadFile)
-        .rotate()
-        .resize({ width: 600, height:840, fit:"cover" })
-        .jpeg({ quality: 80, mozjpeg: true, force: true })
-        .toFile(compressedFile)
-    await fs.unlink(uploadFile, ()=>{});
-};
+    let metadata = await sharp(uploadFile).metadata();
+    if(metadata.width === 600 && metadata.height === 840 && metadata.format === 'jpeg' && !metadata.orientation && !metadata.exif){
+        fs.renameSync(uploadFile, compressedFile, ()=>{});
+    } else {
+        console.log('Compressing!')
+        await sharp(uploadFile)
+            .rotate()
+            .resize({ width: 600, height:840, fit:"cover" })
+            .jpeg({ quality: 80, mozjpeg: true, force: true })
+            .toFile(compressedFile)
+        await fs.unlink(uploadFile, ()=>{});
+    }
+}
 
 const updateIngredients = async() => {
     ingredients = {}
