@@ -138,9 +138,9 @@ const CreateDrink = ({adminKey}) => {
             navigate('/account/edit_drinks', { replace: true });
         }
     }
-    async function deleteDrink(sameImage, drinkID) {
+    async function deleteDrink(sameImage, updating , drinkID) {
         return new Promise((resolve, reject) => {
-            axios.delete('/api/drink/'+drinkID, {params:{saveImg: sameImage}, headers:{Authorization: `Bearer ${adminKey}`}})
+            axios.delete('/api/drink/'+drinkID, {params:{saveImg: sameImage, updating: updating}, headers:{Authorization: `Bearer ${adminKey}`}})
                 .then((res) => {
                     if (res.data) {
                         console.log(res.data[0]);
@@ -155,7 +155,7 @@ const CreateDrink = ({adminKey}) => {
 
     const updateDrink = async () => {
         let sameImage = !selectedImage;
-        deleteDrink(sameImage && imagePreviewURL !== noImageURL, uuid)
+        deleteDrink(sameImage && imagePreviewURL !== noImageURL, true, uuid)
             .then(async ()=>{await createDrink(sameImage)})
             .catch(console.error('Failed to delete drink.'));
     }
