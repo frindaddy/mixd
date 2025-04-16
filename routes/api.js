@@ -12,7 +12,7 @@ const Users = require('../models/users');
 const Menus = require('../models/menus');
 const packVars = require('../package.json');
 
-const IMAGE_DIR = process.env.IMAGE_DIR || '';
+const IMAGE_DIR = process.env.IMAGE_DIR || '/root/images/';
 const BACKUP_DIR = process.env.BACKUP_DIR || '/root/backups/';
 
 const {RESERVED_ROUTES} = require("../constants");
