@@ -520,20 +520,6 @@ router.post('/modify_tag/', validateAdminToken, (req, res, next) => {
     }
 });
 
-/*router.delete('*', (req, res, next) => {
-    if(!process.env.BACKUP_DISABLED) {
-        Drinks.find({})
-            .then((data) => fs.writeFile(BACKUP_DIR + 'drinkbackup' + Date.now() + '.json', JSON.stringify(data), (err) => {
-                if (err) console.log('Error writing file:', err);
-            }))
-        Ingredients.find({})
-            .then((data) => fs.writeFile(BACKUP_DIR + 'ingredientbackup' + Date.now() + '.json', JSON.stringify(data), (err) => {
-                if (err) console.log('Error writing file:', err);
-            }))
-    }
-    next()
-});*/
-
 router.delete('/drink/:uuid', validateAdminToken, (req, res, next) => {
     if(req.params.uuid){
         Drinks.findOneAndDelete({ uuid: req.params.uuid })
