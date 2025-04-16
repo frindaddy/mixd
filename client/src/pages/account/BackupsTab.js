@@ -20,7 +20,7 @@ const BackupsTab = ({adminKey}) => {
     return (
         <>
             <h1 className="tab-title">Request Backups</h1>
-            <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
+            <div className='backup-box'>
                 <span className='backup-option' onClick={()=> requestBackup(true, false, false)}>Backup Drinks</span>
                 <span className='backup-option' onClick={()=> requestBackup(false, true, false)}>Backup Users</span>
                 <span className='backup-option' onClick={()=> requestBackup(false, false, true)}>Backup Menus</span>

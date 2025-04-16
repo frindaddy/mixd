@@ -1,5 +1,14 @@
+.backup-box {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
 .backup-option {
     cursor: pointer;
     padding: 10px;
     margin: 10px;
+    border: 2px white solid;
+    border-radius: 10px;
+    text-align: center;
 }
