@@ -4,6 +4,7 @@ import {FaCheck, FaSignOutAlt, FaStar} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 import "../../format/MyAccountTab.css";
 import "../../format/Tabs.css";
+import DialogBox from "../../components/DialogBox";
 
 const MyAccountTab = ({user, setUser, removeCookie}) => {
 
@@ -11,6 +12,7 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
     const [usernameField, setUsernameField] = useState('');
     const [pinField, setPinField] = useState(null);
     const [usernameStatus, setUsernameStatus] = useState({taken: false, valid: false});
+    const [dialogBox, setDialogBox] = useState('');
 
     const navigate = useNavigate();
 
@@ -45,6 +47,7 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
                 if(res.status === 200){
                     setUser({...user, username: usernameField});
                     setUsernameField('');
+                    setDialogBox('');
                 }
             });
         }
@@ -55,7 +58,7 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
             axios.post('/api/change_pin', {user_id: user.user_id, pin: pinField}, {headers:{Authorization: `Bearer ${user.token}`}}).then(res =>{
                 if(res.status === 200){
                     setPinField(null);
-                    alert('PIN Updated!');
+                    setDialogBox('updated-pin')
                 }
             }).catch(e => {
                 alert('Failed to update PIN. PIN unchanged.');
@@ -73,13 +76,16 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
 
     return (
         <>
+            <DialogBox display={dialogBox === 'username'} dialogText={"Change your username to '"+ usernameField + "'?"} acceptText='Yes' onAccept={submitUsername} onDecline={()=>{setDialogBox('')}}/>
+            <DialogBox display={dialogBox === 'confirm-pin'} dialogText={"Change your PIN to '"+ pinField + "'? Remember, your PIN is stored without encryption!"} acceptText='Yes' onAccept={changePin} onDecline={()=>{setDialogBox('')}}/>
+            <DialogBox display={dialogBox === 'updated-pin'} dialogText={"Your PIN has been updated!"} onAccept={()=>{setDialogBox('')}}/>
             <h1 className="tab-title">My Account</h1>
             <div className="myaccount-name">{(user.username ? user.username:'Account')+' #'+user.user_id}{user.isAdmin && <FaStar style={{color:'gold', marginLeft: '10px', marginBottom:'-3px'}} title='User is an admin'/>}</div>
             <div className="myaccount-row">
                 <p style={{textAlign:"center", fontWeight:"300", marginTop:"10px", marginBottom:"5px"}}>Change Username:</p>
                 <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
                     <input className="myaccount-input" name='username' type='text' placeholder={user.username||'Username'} onChange={updateUsernameField} value={usernameField}/>
-                    <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={submitUsername}/>
+                    <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={()=>setDialogBox('username')}/>
                 </div>
             </div>
             {usernameField.length > 0 && <p style={{textAlign:"center", fontWeight:"300"}}>{usernameResponse()}</p>}
@@ -87,7 +93,7 @@ const MyAccountTab = ({user, setUser, removeCookie}) => {
                 <p style={{textAlign:"center", fontWeight:"300", marginBottom:"5px"}}>Change PIN:</p>
                 <div style={{display:"flex", justifyContent:"center", marginLeft:"16px"}}>
                     <input className="myaccount-input" name='pin' type='numeric' placeholder='0000' onChange={(e)=>{setPinField(e.target.value.substring(0,6).replace(/[^0-9]/g, '') || null)}} value={pinField || ''}/>
-                    <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={changePin}/>
+                    <FaCheck style={{cursor:'pointer', marginLeft: '10px', paddingTop:"2px"}} onClick={()=>setDialogBox('confirm-pin')}/>
                 </div>
             </div>
             <p style={{textAlign:"center", fontWeight:"300", color:"#c0392b"}}>PINs are stored without encryption! Do not use a sensitive PIN!</p>
