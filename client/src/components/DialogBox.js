@@ -9,7 +9,7 @@ const DialogBox = ({display, dialogText, acceptText, declineText, onAccept, onDe
                 </div>
                 <div className='dialog-flexbox'>
                     <span className='dialog-option' onClick={onAccept}>{acceptText || 'Ok'}</span>
-                    {declineText && <span onClick={onDecline} className='dialog-option'>{declineText}</span>}
+                    {onDecline && <span onClick={onDecline} className='dialog-option'>{declineText || 'No'}</span>}
                 </div>
             </div>}
         </>
