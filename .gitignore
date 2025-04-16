@@ -11,7 +11,11 @@
 
 # testing
 /coverage
+
+#runtime
 /backups
+/images/upload
+/images/user_drinks
 
 # production
 /build
