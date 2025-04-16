@@ -76,7 +76,7 @@ const verifyRequest = (req, res, next) => {
 const imageStorage = multer.diskStorage(
     {
         destination: function ( req, file, cb ) {
-            cb(null, IMAGE_DIR+'upload');
+            cb(null, path.join(IMAGE_DIR, 'upload'));
         },
         filename: function ( req, file, cb ) {
             cb(null, file.originalname+ '-' + Date.now()+'.jpg');
@@ -92,8 +92,8 @@ const uploadImage = multer( { storage: imageStorage,
 }).single('drinkImage');
 
 const compressDrinkImg = async(req, imageUUID) =>{
-    let uploadFile = req.file.destination+'/'+req.file.filename;
-    let compressedFile = IMAGE_DIR+'user_drinks/'+imageUUID+'.jpg';
+    let uploadFile = path.join(req.file.destination, req.file.filename);
+    let compressedFile = path.join(path.join(IMAGE_DIR, 'user_drinks'), imageUUID+'.jpg');
     await sharp(uploadFile)
         .rotate()
         .resize({ width: 600, height:840, fit:"cover" })
@@ -433,10 +433,10 @@ router.get('/tags', (req, res, next) => {
 });
 
 router.get('/image', (req, res, next) => {
-    if (req.query.file && fs.existsSync(IMAGE_DIR+req.query.file)){
-        res.sendFile(IMAGE_DIR+req.query.file);
-    } else if (req.query.backup && fs.existsSync(IMAGE_DIR+req.query.backup)) {
-        res.sendFile(IMAGE_DIR+req.query.backup);
+    if (req.query.file && fs.existsSync(path.join(IMAGE_DIR, req.query.file))){
+        res.sendFile(path.join(IMAGE_DIR, req.query.file));
+    } else if (req.query.backup && fs.existsSync(path.join(IMAGE_DIR, req.query.backup))) {
+        res.sendFile(path.join(IMAGE_DIR, req.query.backup));
     } else {
         res.sendStatus(404);
     }
@@ -531,7 +531,7 @@ router.delete('/drink/:uuid', validateAdminToken, (req, res, next) => {
     if(req.params.uuid){
         Drinks.findOneAndDelete({ uuid: req.params.uuid })
             .then((data) => {
-                let drinkImage = IMAGE_DIR+'user_drinks/'+data.image+'.jpg'
+                let drinkImage = path.join(path.join(IMAGE_DIR,'user_drinks'), data.image+'.jpg');
                 if (!req.query.saveImg && fs.existsSync(drinkImage)){
                     fs.unlink(drinkImage, (e)=>{e && console.error(e)});
                 }
