@@ -38,7 +38,7 @@ const ManageDrinksTab = ({setShowLoader, user}) => {
         <>
             <h1 className="tab-title">{editingMenuID() ? "Add Drink to Menu":"Manage Drinks"}</h1>
             <div className="search-container">
-                <input name='search-bar' className="search-bar" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
+                <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
             </div>
             {user.isAdmin && !editingMenuID() && <Link to="/create_drink"><AddDrinkEntry /></Link>}
             <DrinkArray user={user} filterText={searchText}
