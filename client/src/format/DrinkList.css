@@ -1,4 +1,5 @@
 .filter-eraser {
+    cursor: pointer;
     float: right;
     margin: 5px 0 0 10px;
 }
@@ -33,6 +34,7 @@
 }
 
 .filter-toggle {
+    cursor: pointer;
     float: right;
     margin: 5px 0 0 10px;
 }

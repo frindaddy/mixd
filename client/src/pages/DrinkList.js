@@ -92,8 +92,8 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
                 <Logo/>
                 <div className="search-container">
                     <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
-                    <div className='filter-toggle'><FaFilter style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/></div>
-                    {showEraser() && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams}/></div>}
+                    <div className='filter-toggle'><FaFilter onClick={toggleFilterPanel}/></div>
+                    {showEraser() && <div className='filter-eraser'><FaEraser onClick={clearSearchParams}/></div>}
                 </div>
             </header>
             <div className={'filter-panel'}>
