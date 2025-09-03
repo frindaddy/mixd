@@ -3,7 +3,7 @@ import axios from 'axios';
 import Logo from "../components/Logo";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import FilterPanel from "../components/DrinkList/FilterPanel";
-import {FaFilter, FaEraser, FaSearch} from "react-icons/fa";
+import {FaFilter, FaEraser} from "react-icons/fa";
 import "../format/DrinkList.css";
 import AccountShortcut from "../components/AccountShortcut";
 
