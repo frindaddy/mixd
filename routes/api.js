@@ -293,6 +293,16 @@ router.get('/drink/:identifier', (req, res, next) => {
     }
 });
 
+router.get('/random/drink', (req, res, next) => {
+    Drinks.aggregate().sample(1)
+        .then((data) => {
+            if(data){
+                res.json(data)
+            } else {
+                res.sendStatus(404);
+        }}).catch(next);
+});
+
 router.get('/list', (req, res, next) => {
     Drinks.find({}, 'uuid name url_name tags glass').sort({name:1})
         .then((data) => res.json(data))

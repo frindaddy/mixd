@@ -6,6 +6,7 @@ import FilterPanel from "../components/DrinkList/FilterPanel";
 import {FaFilter, FaEraser} from "react-icons/fa";
 import "../format/DrinkList.css";
 import AccountShortcut from "../components/AccountShortcut";
+import RandomDrinkButton from "../components/RandomDrinkButton";
 
 const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, searchIngredient, setSearchIngredient, searchTags, setSearchTags, myBarSearch, setMyBarSearch, removeCookie}) => {
 
@@ -91,6 +92,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
             <header>
                 <Logo/>
                 <div className="search-container">
+                    <RandomDrinkButton/>
                     <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'><FaFilter onClick={toggleFilterPanel}/></div>
                     {showEraser() && <div className='filter-eraser'><FaEraser onClick={clearSearchParams}/></div>}

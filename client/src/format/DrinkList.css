@@ -39,6 +39,13 @@
     margin: 5px 0 0 10px;
 }
 
+.random-drink-button {
+    cursor: pointer;
+    float: right;
+    margin: 5px 10px 0 0;
+    font-size: 18px;
+}
+
 .search-container {
     display: flex;
     justify-content: center;
