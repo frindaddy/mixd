@@ -1,3 +1,8 @@
+.filter-eraser {
+    float: right;
+    margin: 5px 0 0 10px;
+}
+
 .filter-match-title {
     padding-left: 20px;
     padding-bottom: 10px;
@@ -25,6 +30,11 @@
     transition: height 500ms ease-in-out;
     height: 0px;
     justify-content: center;
+}
+
+.filter-toggle {
+    float: right;
+    margin: 5px 0 0 10px;
 }
 
 .search-container {
