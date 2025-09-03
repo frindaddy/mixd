@@ -16,7 +16,6 @@ const RandomDrinkButton = () => {
         axios.get('/api/random/drink')
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data);
                     setRandomDrink(res.data[0]);
                 }
             }).catch((err) => console.log(err));
