@@ -1,3 +1,9 @@
+.filter-eraser {
+    cursor: pointer;
+    float: right;
+    margin: 5px 0 0 10px;
+}
+
 .filter-match-title {
     padding-left: 20px;
     padding-bottom: 10px;
@@ -25,6 +31,19 @@
     transition: height 500ms ease-in-out;
     height: 0px;
     justify-content: center;
+}
+
+.filter-toggle {
+    cursor: pointer;
+    float: right;
+    margin: 5px 0 0 10px;
+}
+
+.random-drink-button {
+    cursor: pointer;
+    float: right;
+    margin: 5px 10px 0 0;
+    font-size: 18px;
 }
 
 .search-container {
