@@ -99,7 +99,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
             <header>
                 <Logo/>
                 <div className="search-container">
-                    <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder={"Search all " + (dbDrinkCount > 0 ? dbDrinkCount+" ":"") + "cocktails!"} value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
+                    <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder={"Search all " + (dbDrinkCount > 0 ? dbDrinkCount+" ":"") + "cocktails"} value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'>
                         {!filterPanelShown && <FaChevronCircleDown style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/>}
                         {filterPanelShown && <FaChevronCircleUp style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/>}
