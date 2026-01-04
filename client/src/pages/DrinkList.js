@@ -13,8 +13,16 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
     const [filterPanelShown, setFilterPanelShown] = useState(false);
     const [featuredMenuName, setFeaturedMenuName] = useState('');
     const [listLoaded, setListLoaded] = useState(false);
+    const [dbDrinkCount, setDbDrinkCount] = useState(0);
+
 
     useEffect(() => {
+        axios.get('/api/drink_count')
+            .then((res) => {
+                if (res.data) {
+                    setDbDrinkCount(res.data);
+                }
+            }).catch((err) => console.log(err));
         getDrinkList();
     }, [searchText, searchIngredient, searchTags, myBarSearch]);
 
@@ -91,7 +99,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
             <header>
                 <Logo/>
                 <div className="search-container">
-                    <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
+                    <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder={"Search all " + (dbDrinkCount > 0 ? dbDrinkCount+" ":"") + "cocktails!"} value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'><FaFilter style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/></div>
                     {showEraser() && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams}/></div>}
                 </div>
