@@ -299,6 +299,12 @@ router.get('/list', (req, res, next) => {
         .catch(next);
 });
 
+router.get('/drink_count', (req, res, next) => {
+    Drinks.count({})
+        .then((data) => res.json(data))
+        .catch(next);
+});
+
 router.get('/search', async (req, res, next) => {
     let pipeline = [];
     let myBarAggregate;

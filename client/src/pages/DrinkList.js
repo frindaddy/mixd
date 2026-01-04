@@ -3,7 +3,7 @@ import axios from 'axios';
 import Logo from "../components/Logo";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import FilterPanel from "../components/DrinkList/FilterPanel";
-import {FaFilter, FaEraser, FaSearch} from "react-icons/fa";
+import {FaEraser, FaChevronCircleDown, FaChevronCircleUp} from "react-icons/fa";
 import "../format/DrinkList.css";
 import AccountShortcut from "../components/AccountShortcut";
 
@@ -13,8 +13,16 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
     const [filterPanelShown, setFilterPanelShown] = useState(false);
     const [featuredMenuName, setFeaturedMenuName] = useState('');
     const [listLoaded, setListLoaded] = useState(false);
+    const [dbDrinkCount, setDbDrinkCount] = useState(0);
+
 
     useEffect(() => {
+        axios.get('/api/drink_count')
+            .then((res) => {
+                if (res.data) {
+                    setDbDrinkCount(res.data);
+                }
+            }).catch((err) => console.log(err));
         getDrinkList();
     }, [searchText, searchIngredient, searchTags, myBarSearch]);
 
@@ -91,8 +99,11 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
             <header>
                 <Logo/>
                 <div className="search-container">
-                    <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
-                    <div className='filter-toggle'><FaFilter style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/></div>
+                    <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder={"Search all " + (dbDrinkCount > 0 ? dbDrinkCount+" ":"") + "cocktails!"} value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
+                    <div className='filter-toggle'>
+                        {!filterPanelShown && <FaChevronCircleDown style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/>}
+                        {filterPanelShown && <FaChevronCircleUp style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/>}
+                    </div>
                     {showEraser() && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams}/></div>}
                 </div>
             </header>
@@ -101,8 +112,12 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
             </div>
             {listLoaded && <>
                 {featuredMenuName !== '' && <h1 className="menu-title">{featuredMenuName}</h1>}
-                {featuredMenuName === '' && <h1 className="menu-title">Search Results</h1>}
+                {featuredMenuName === '' && <h1 className="menu-title">{"Search Results" + (drinkList.length > 0 ? (" ("+drinkList.length+")"):"")}</h1>}
                 <DrinkArray drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader}/>
+                {featuredMenuName !== '' && <div>
+                    <hr className="list-separator"></hr>
+                    <p className="looking-for-more">{"Looking for more? Pick from all "+(dbDrinkCount > 0 ? dbDrinkCount+" ":"")+"cocktails by choosing a spirit or style at the top"}</p>
+                </div>}
             </>}
         </>
     )
