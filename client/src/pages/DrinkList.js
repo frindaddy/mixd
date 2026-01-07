@@ -94,7 +94,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
     }
 
     function setSearchPlaceholder(){
-        if(searchTags.length === 0 && searchIngredient === '' && !myBarSearch.user_id){
+        if(searchText == '' && searchTags.length === 0 && searchIngredient === '' && !myBarSearch.user_id){
             return("Search all " + (dbDrinkCount > 0 ? dbDrinkCount+" ":"") + "cocktails");
         } else {
             return("Search " + (drinkList.length > 0 ? drinkList.length+" ":"") + "of " + (dbDrinkCount > 0 ? dbDrinkCount+" ":"") + "filtered results");
@@ -102,7 +102,7 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
     }
 
     function setFilterInstructions(){
-        if(searchTags.length === 0 && searchIngredient === '' && !myBarSearch.user_id){
+        if(searchText == '' && searchTags.length === 0 && searchIngredient === '' && !myBarSearch.user_id){
             return("Looking for more? Pick from all "+(dbDrinkCount > 0 ? dbDrinkCount+" ":"")+"cocktails by choosing a spirit or style at the top");
         } else {
             return("Showing " + (drinkList.length > 0 ? drinkList.length+" ":"") + "of " + (dbDrinkCount > 0 ? dbDrinkCount+" ":"") + "cocktails matching your filters");
