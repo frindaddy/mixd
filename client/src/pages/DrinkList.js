@@ -93,13 +93,29 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
         return (searchText && searchText !== '') || searchTags.length > 0 || searchIngredient !=='' || myBarSearch.user_id;
     }
 
+    function setSearchPlaceholder(){
+        if(searchText == '' && searchTags.length === 0 && searchIngredient === '' && !myBarSearch.user_id){
+            return("Search all " + (dbDrinkCount > 0 ? dbDrinkCount+" ":"") + "cocktails");
+        } else {
+            return("Search " + (drinkList.length > 0 ? drinkList.length+" ":"") + "of " + (dbDrinkCount > 0 ? dbDrinkCount+" ":"") + "filtered results");
+        }
+    }
+
+    function setFilterInstructions(){
+        if(searchText == '' && searchTags.length === 0 && searchIngredient === '' && !myBarSearch.user_id){
+            return("Looking for more? Pick from all "+(dbDrinkCount > 0 ? dbDrinkCount+" ":"")+"cocktails by choosing a spirit or style at the top");
+        } else {
+            return("Showing " + (drinkList.length > 0 ? drinkList.length+" ":"") + "of " + (dbDrinkCount > 0 ? dbDrinkCount+" ":"") + "cocktails matching your filters");
+        }
+    }
+
     return (
         <>
             <AccountShortcut user={user} setUser={setUser} removeCookie={removeCookie}/>
             <header>
                 <Logo/>
                 <div className="search-container">
-                    <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder={"Search all " + (dbDrinkCount > 0 ? dbDrinkCount+" ":"") + "cocktails"} value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
+                    <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder={setSearchPlaceholder()} value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'>
                         {!filterPanelShown && <FaChevronCircleDown style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/>}
                         {filterPanelShown && <FaChevronCircleUp style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/>}
@@ -114,10 +130,10 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
                 {featuredMenuName !== '' && <h1 className="menu-title">{featuredMenuName}</h1>}
                 {featuredMenuName === '' && <h1 className="menu-title">{"Search Results" + (drinkList.length > 0 ? (" ("+drinkList.length+")"):"")}</h1>}
                 <DrinkArray drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader}/>
-                {featuredMenuName !== '' && <div>
+                <>
                     <hr className="list-separator"></hr>
-                    <p className="looking-for-more">{"Looking for more? Pick from all "+(dbDrinkCount > 0 ? dbDrinkCount+" ":"")+"cocktails by choosing a spirit or style at the top"}</p>
-                </div>}
+                    <p className="looking-for-more">{setFilterInstructions()}</p>
+                </>
             </>}
         </>
     )
