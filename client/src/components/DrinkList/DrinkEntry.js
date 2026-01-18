@@ -77,7 +77,7 @@ const DrinkEntry = ({user, drink, getDrinkList, adminKey, setShowLoader, menuSet
                     {drink.glass && <img src={'/api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'} className={isMenu ? "menu-glass":"drinklist-glass"}/>}
                     {!drink.glass && <img src={'/api/image?file=glassware/unknown.svg'} alt={'No glass listed'} className={isMenu ? "drinklist-glass":"menu-glass"}/>}
                 </div>
-                <div className="drink-entry-info">
+                <div className={"drink-entry-info"+(((user && user.isAdmin)||(menuSettings && menuSettings.editMode)||editMenu) ? " drink-entry-control-space":"")}>
                     <div className="drink-entry-title clickable">{drink.name}</div>
                     {drink.tags && <DrinkTags tags={filterTags(drink.tags, tagCategories)}/>}
                     {isMenu && drink.menu_desc && <div className="menu-description">{drink.menu_desc}</div>}
