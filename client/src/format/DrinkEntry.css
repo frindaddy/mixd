@@ -2,8 +2,12 @@
     display: flex;
     flex-flow: column nowrap;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 0;
+    right: 0;
+}
+
+.drink-button {
+    padding: 10px;
 }
 
 .drink-entry {
@@ -73,5 +77,8 @@
 @media screen and (max-width: 600px) {
     .drink-button-panel {
         font-size: 20px;
+    }
+    .menu-button-space {
+        min-height: 120px;
     }
 }
