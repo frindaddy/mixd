@@ -71,7 +71,7 @@ const DrinkEntry = ({user, drink, getDrinkList, adminKey, setShowLoader, menuSet
     return (
         <>
         <hr className="list-separator"></hr>
-        <div className="drink-entry">
+        <div className={"drink-entry" + (menuSettings && menuSettings.editMode ? " menu-button-space":"")}>
             <Link to={'/'+drink.url_name} style={{display:"flex", width:"100%"}} onClick={()=>{setShowLoader(true)}}>
                 <div className="glass-container clickable">
                     {drink.glass && <img src={'/api/image?file=glassware/'+drink.glass.toLowerCase()+'.svg&backup=glassware/unknown.svg'} alt={drink.glass+' glass'} className={isMenu ? "menu-glass":"drinklist-glass"}/>}

@@ -78,4 +78,7 @@
     .drink-button-panel {
         font-size: 20px;
     }
+    .menu-button-space {
+        min-height: 120px;
+    }
 }
