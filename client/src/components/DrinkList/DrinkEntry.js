@@ -4,7 +4,7 @@ import axios from "axios";
 import "../../format/DrinkEntry.css";
 import {Link, useNavigate} from "react-router-dom";
 
-const DrinkEntry = ({user, drink, getDrinkList, adminKey, setShowLoader, menuSettings, editMenu, isMenu: isMenu}) => {
+const DrinkEntry = ({user, drink, getDrinkList, adminKey, setShowLoader, menuSettings, editMenu, isMenu}) => {
 
     const tagCategories = ['spirit', 'style', 'taste'];
 
