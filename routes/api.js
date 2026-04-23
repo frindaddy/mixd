@@ -1,6 +1,7 @@
 const express = require('express');
 const multer  = require('multer');
 const sharp = require("sharp");
+const axios = require('axios');
 const { v4: uuid } = require('uuid');
 const fs = require("fs");
 const path = require("path");
@@ -14,6 +15,7 @@ const packVars = require('../package.json');
 
 const IMAGE_DIR = process.env.IMAGE_DIR || '/root/images/';
 const BACKUP_DIR = process.env.BACKUP_DIR || '/root/backups/';
+const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK;
 
 const {RESERVED_ROUTES} = require("../constants");
 const {issueUserToken, validateUserToken, validateAdminToken} = require("../security");
@@ -57,6 +59,25 @@ async function attempt_name(url_name, uuid) {
 async function generate_url_name(name, uuid){
     let url_name = sanitize_drink_name(name);
     return attempt_name(url_name, uuid);
+}
+
+function sendDiscordMessage(message){
+    if(DISCORD_WEBHOOK !== undefined){
+        const data = typeof message === 'string' ? { content: message } : message;
+        try {
+            axios.post(DISCORD_WEBHOOK, data)
+                .then((response) => {
+                    if (response.status !== 200 && response.status !== 204) {
+                        console.error("Error sending Discord message: "+response.status);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Discord webhook failed:', error.message || error);
+                });
+        } catch (e) {
+            console.error('Webhook failed. Check that API key is valid and Discord is up!');
+        }
+    } else return;
 }
 
 const verifyRequest = (req, res, next) => {
@@ -479,6 +500,8 @@ router.post('/image', validateAdminToken, async (req, res, next) => {
 router.post('/add_drink', validateAdminToken, async (req, res, next) => {
     if (req.body.name) {
 
+        const isUpdate = req.body.uuid !== undefined && req.body.uuid !== null && req.body.uuid !== '';
+
         //Clean up database data
         delete req.body._id
         delete req.body.__v
@@ -495,8 +518,13 @@ router.post('/add_drink', validateAdminToken, async (req, res, next) => {
 
         new_drink.volume = calculateDrinkVolume(new_drink)
         Drinks.create(new_drink)
-            .then((data) => {
+            .then(async (data) => {
                 updateDrinkEtOH(new_drink).then(() => {
+                    const actionText = isUpdate ? 'updated in' : 'added to';
+                    const drinkUrl = `${req.protocol}://${req.get('host')}/${new_drink.url_name}`;
+                    const message = "***" + new_drink.name + "*** has been " + actionText + " the drink database\n" +
+                            "-# Check it out [here](" + drinkUrl + ")";
+                    sendDiscordMessage(message);
                     res.json(data)
                 })
             })
@@ -539,7 +567,11 @@ router.delete('/drink/:uuid', validateAdminToken, (req, res, next) => {
                 if (req.query.saveImg !== 'true' && fs.existsSync(drinkImage)){
                     fs.unlink(drinkImage, (e)=>{e && console.error(e)});
                 }
-                if(!req.query.updating) remove_drink_from_menus(req.params.uuid);
+                if(!req.query.updating) {
+                    remove_drink_from_menus(req.params.uuid);
+                    const message = "***" + data.name + "*** has been deleted from the drink database";
+                    sendDiscordMessage(message);
+                }
                 return res.json(data);
             })
             .catch(next);
