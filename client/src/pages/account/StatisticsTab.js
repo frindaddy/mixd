@@ -51,7 +51,7 @@ const StatisticsTab = ({setSearchIngredient}) => {
             }).catch((err) => console.log(err));
     }
 
-    const renderDrinkContainer = (title, drinks) => (
+    const renderABVContainer = (title, drinks) => (
         <div className="alcohol-card">
             <h3 className="statistics-category-title">{title}</h3>
             {drinks.length === 0 && <div className="statistics-empty">No drinks available</div>}
@@ -108,8 +108,8 @@ const StatisticsTab = ({setSearchIngredient}) => {
             <h2 className="tab-subtitle">Alcohol Content</h2>
             <p className="statistics-sort-instructions">Top {ABV_STATS_LIST_LENGTH} highest and lowest ABV drinks!</p>
             <div className="statistics-usage-container">
-                {renderDrinkContainer('Highest ABV', highestAbvDrinks)}
-                {renderDrinkContainer('Lowest ABV', lowestAbvDrinks)}
+                {renderABVContainer('Highest ABV', highestAbvDrinks)}
+                {renderABVContainer('Lowest ABV', lowestAbvDrinks)}
             </div>
         </>
     )
