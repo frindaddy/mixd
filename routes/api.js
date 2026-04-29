@@ -299,6 +299,78 @@ router.get('/list', (req, res, next) => {
         .catch(next);
 });
 
+function parsePositiveLimit(value) {
+    const limit = parseInt(value, 10);
+    if (Number.isNaN(limit) || limit <= 0) return null;
+    return limit;
+}
+
+router.get('/highest_abv', (req, res, next) => {
+    const limit = parsePositiveLimit(req.query.n) || 10;
+    Drinks.aggregate([
+        {
+            $project: {
+                uuid: 1,
+                name: 1,
+                url_name: 1,
+                tags: 1,
+                glass: 1,
+                abv: {
+                    $let: {
+                        vars: {
+                            drinkVolume: {
+                                $cond: [{$gt: ['$override_volume', 0]}, '$override_volume', '$volume']
+                            }
+                        },
+                        in: {
+                            $cond: [
+                                {$gt: ['$$drinkVolume', 0]},
+                                {$divide: ['$etoh', '$$drinkVolume']},
+                                0
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {$sort: {abv: -1, name: 1}},
+        {$limit: limit}
+    ]).then((data) => res.json(data)).catch(next);
+});
+
+router.get('/lowest_abv', (req, res, next) => {
+    const limit = parsePositiveLimit(req.query.n) || 10;
+    Drinks.aggregate([
+        {
+            $project: {
+                uuid: 1,
+                name: 1,
+                url_name: 1,
+                tags: 1,
+                glass: 1,
+                abv: {
+                    $let: {
+                        vars: {
+                            drinkVolume: {
+                                $cond: [{$gt: ['$override_volume', 0]}, '$override_volume', '$volume']
+                            }
+                        },
+                        in: {
+                            $cond: [
+                                {$gt: ['$$drinkVolume', 0]},
+                                {$divide: ['$etoh', '$$drinkVolume']},
+                                0
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {$sort: {abv: 1, name: 1}},
+        {$limit: limit}
+    ]).then((data) => res.json(data)).catch(next);
+});
+
 router.get('/search', async (req, res, next) => {
     let pipeline = [];
     let myBarAggregate;
