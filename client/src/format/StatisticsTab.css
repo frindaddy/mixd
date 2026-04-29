@@ -1,16 +1,16 @@
-.ingredient-category-container {
+.statistics-category-container {
     width: 300px;
     margin-bottom: 25px;
 }
 
-.ingredient-category-title {
+.statistics-category-title {
     font-weight: 400;
     font-size: 25px;
     text-align: center;
     margin: 0px 0px 5px 0px;
 }
 
-.ingredient-sort-instructions {
+.statistics-sort-instructions {
     font-weight: 300;
     font-size: 18px;
     color: darkgray;    
@@ -18,22 +18,22 @@
     margin: 0 0 15px 0;
 }
 
-.ingredient-usage-container {
+.statistics-usage-container {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
 }
 
 @media screen and (max-width: 600px) {
-    .ingredient-category-container {
+    .statistics-category-container {
         width: 100%;
     }
 
-    .ingredient-category-title {
+    .statistics-category-title {
         font-size: 28px;
     }
 
-    .ingredient-sort-instructions {
+    .statistics-sort-instructions {
         margin-bottom: 10px;
     }
 }
