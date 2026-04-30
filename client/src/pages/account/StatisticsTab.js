@@ -8,18 +8,20 @@ import {useNavigate} from "react-router-dom";
 import IngredientCategories from "../../definitions/IngredientCategories";
 import {getColor} from "../../components/DrinkTags";
 
-const ABV_STATS_LIST_LENGTH = process.env.ABV_STATS_LIST_LENGTH || 10;
+const ALCOHOL_STATS_LIST_LENGTH = process.env.ALCOHOL_STATS_LIST_LENGTH || 10;
 
 const StatisticsTab = ({setSearchIngredient}) => {
     const [ingredients, setIngredients] = useState([]);
     const [highestAbvDrinks, setHighestAbvDrinks] = useState([]);
     const [lowestAbvDrinks, setLowestAbvDrinks] = useState([]);
+    const [highestEmuDrinks, setHighestEmuDrinks] = useState([]);
+    const [lowestEmuDrinks, setLowestEmuDrinks] = useState([]);
 
     const navigate = useNavigate();
 
     useEffect(() => {
         fetchIngredients();
-        fetchAbvStats();
+        fetchAlcoholContentStats();
     }, []);
 
     const fetchIngredients = () => {
@@ -36,47 +38,63 @@ const StatisticsTab = ({setSearchIngredient}) => {
         navigate('/');
     };
 
-    const fetchAbvStats = () => {
-        axios.get(`/api/highest_abv?n=${ABV_STATS_LIST_LENGTH}`)
+    const fetchAlcoholContentStats = () => {
+        axios.get(`/api/highest_abv?n=${ALCOHOL_STATS_LIST_LENGTH}`)
             .then((res) => {
                 if (res.data) {
                     setHighestAbvDrinks(res.data);
                 }
             }).catch((err) => console.log(err));
-        axios.get(`/api/lowest_abv?n=${ABV_STATS_LIST_LENGTH}`)
+        axios.get(`/api/lowest_abv?n=${ALCOHOL_STATS_LIST_LENGTH}`)
             .then((res) => {
                 if (res.data) {
                     setLowestAbvDrinks(res.data);
                 }
             }).catch((err) => console.log(err));
+        axios.get(`/api/highest_emu?n=${ALCOHOL_STATS_LIST_LENGTH}`)
+            .then((res) => {
+                if (res.data) {
+                    setHighestEmuDrinks(res.data);
+                }
+            }).catch((err) => console.log(err));
+        axios.get(`/api/lowest_emu?n=${ALCOHOL_STATS_LIST_LENGTH}`)
+            .then((res) => {
+                if (res.data) {
+                    setLowestEmuDrinks(res.data);
+                }
+            }).catch((err) => console.log(err));
     }
 
-    const renderABVContainer = (title, drinks) => (
+    const renderAlcoholStatContainer = (title, drinks, valueKey, unit) => (
         <div className="alcohol-card">
             <h3 className="statistics-category-title">{title}</h3>
             {drinks.length === 0 && <div className="statistics-empty">No drinks available</div>}
-            {drinks.map((drink, index) => (
-                <React.Fragment key={drink.uuid}>
-                    {index > 0 && <hr />}
-                    <div className="alcohol-card-drink-entry" onClick={() => onDrinkClick(drink)}>
-                        <div className="alcohol-card-drink-entry-left">
-                            {drink.glass ?
-                                <img className="alcohol-card-drink-entry-glass" src={`/api/image?file=glassware/${drink.glass.toLowerCase()}.svg&backup=glassware/unknown.svg`} alt={`${drink.glass} glass`} /> :
-                                <img className="alcohol-card-drink-entry-glass" src="/api/image?file=glassware/unknown.svg" alt="No glass listed" />
-                            }
-                            <div className="alcohol-card-drink-entry-info">
-                                <div className="alcohol-card-drink-entry-title">{drink.name}</div>
-                                <div style={{display: "flex", marginTop: "5px"}}>
-                                    {drink.tags && drink.tags.map((tag, index) => (
-                                        <div key={index} className="alcohol-card-drink-entry-tag" style={{backgroundColor: getColor(tag)}}></div>
-                                    ))}
+            {drinks.map((drink, index) => {
+                const value = drink[valueKey];
+                const formattedValue = typeof value === 'number' ? value.toFixed(1) : '';
+                return (
+                    <React.Fragment key={drink.uuid}>
+                        {index > 0 && <hr />}
+                        <div className="alcohol-card-drink-entry" onClick={() => onDrinkClick(drink)}>
+                            <div className="alcohol-card-drink-entry-left">
+                                {drink.glass ?
+                                    <img className="alcohol-card-drink-entry-glass" src={`/api/image?file=glassware/${drink.glass.toLowerCase()}.svg&backup=glassware/unknown.svg`} alt={`${drink.glass} glass`} /> :
+                                    <img className="alcohol-card-drink-entry-glass" src="/api/image?file=glassware/unknown.svg" alt="No glass listed" />
+                                }
+                                <div className="alcohol-card-drink-entry-info">
+                                    <div className="alcohol-card-drink-entry-title">{drink.name}</div>
+                                    <div style={{display: "flex", marginTop: "5px"}}>
+                                        {drink.tags && drink.tags.map((tag, index) => (
+                                            <div key={index} className="alcohol-card-drink-entry-tag" style={{backgroundColor: getColor(tag)}}></div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
+                            <span className="alcohol-card-abv-value">{formattedValue}{unit}</span>
                         </div>
-                        <span className="alcohol-card-abv-value">{(drink.abv).toFixed(1)}%</span>
-                    </div>
-                </React.Fragment>
-            ))}
+                    </React.Fragment>
+                )
+            })}
         </div>
     );
 
@@ -106,10 +124,12 @@ const StatisticsTab = ({setSearchIngredient}) => {
             </div>
             <hr></hr>
             <h2 className="tab-subtitle">Alcohol Content</h2>
-            <p className="statistics-sort-instructions">Top {ABV_STATS_LIST_LENGTH} highest and lowest ABV drinks!</p>
+            <p className="statistics-sort-instructions">Top {ALCOHOL_STATS_LIST_LENGTH} most and least alcoholic drinks!</p>
             <div className="statistics-usage-container">
-                {renderABVContainer('Highest ABV', highestAbvDrinks)}
-                {renderABVContainer('Lowest ABV', lowestAbvDrinks)}
+                {renderAlcoholStatContainer('Highest ABV', highestAbvDrinks, 'abv', '%')}
+                {renderAlcoholStatContainer('Lowest ABV', lowestAbvDrinks, 'abv', '%')}
+                {renderAlcoholStatContainer('Highest EMU', highestEmuDrinks, 'emu', ' EMU')}
+                {renderAlcoholStatContainer('Lowest EMU', lowestEmuDrinks, 'emu', ' EMU')}
             </div>
         </>
     )

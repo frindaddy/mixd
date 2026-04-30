@@ -1,6 +1,6 @@
 .alcohol-card {
     background-color: rgba(255, 255, 255, 0.15);
-    width: 300px;
+    width: 400px;
     padding: 10px;
     margin: 10px;
     border-radius: 10px;
@@ -58,6 +58,6 @@
 
 @media screen and (max-width: 600px) {
     .alcohol-card {
-        width: 100%;
+        width: 85%;
     }
 }

@@ -371,6 +371,54 @@ router.get('/lowest_abv', (req, res, next) => {
     ]).then((data) => res.json(data)).catch(next);
 });
 
+router.get('/highest_emu', (req, res, next) => {
+    const limit = parsePositiveLimit(req.query.n) || 10;
+    Drinks.aggregate([
+        {
+            $project: {
+                uuid: 1,
+                name: 1,
+                url_name: 1,
+                tags: 1,
+                glass: 1,
+                emu: {
+                    $cond: [
+                        {$gt: ['$etoh', 0]},
+                        {$divide: [{$round: [{$divide: ['$etoh', 5.04]}, 1]}, 10]},
+                        0
+                    ]
+                }
+            }
+        },
+        {$sort: {emu: -1, name: 1}},
+        {$limit: limit}
+    ]).then((data) => res.json(data)).catch(next);
+});
+
+router.get('/lowest_emu', (req, res, next) => {
+    const limit = parsePositiveLimit(req.query.n) || 10;
+    Drinks.aggregate([
+        {
+            $project: {
+                uuid: 1,
+                name: 1,
+                url_name: 1,
+                tags: 1,
+                glass: 1,
+                emu: {
+                    $cond: [
+                        {$gt: ['$etoh', 0]},
+                        {$divide: [{$round: [{$divide: ['$etoh', 5.04]}, 1]}, 10]},
+                        0
+                    ]
+                }
+            }
+        },
+        {$sort: {emu: 1, name: 1}},
+        {$limit: limit}
+    ]).then((data) => res.json(data)).catch(next);
+});
+
 router.get('/search', async (req, res, next) => {
     let pipeline = [];
     let myBarAggregate;
