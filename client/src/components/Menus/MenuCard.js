@@ -80,7 +80,7 @@ const MenuCard = ({menu, menu_index, drinkList, menus, setMenus, user}) => {
                     else if(filtered_drinks.length === 1 && i === 4 && filtered_drinks[0]){
                         return(
                             <>
-                                <hr></hr>
+                                <hr className="menu-card-hr"></hr>
                                 <div className="menu-card-elipses">...</div>
                             </>
                         )

@@ -23,6 +23,13 @@
     margin-top: -30px;
 }
 
+.menu-card-hr {
+    border-top: 2px solid darkgray;
+    border-bottom: 0px;
+    border-left: 0px;
+    border-right: 0px;
+}
+
 .menu-card-new-button {
     font-size: 40px;
     position: relative;
