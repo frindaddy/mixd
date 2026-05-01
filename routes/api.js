@@ -339,7 +339,7 @@ router.get('/statistics', (req, res, next) => {
         {$sort: {abv: sortOrder, name: 1}},
         {$limit: limit}
         ]).then((data) => res.json(data)).catch(next);
-    } 
+    }
     
     else if (statistic === 'emu') {
         Drinks.aggregate([
