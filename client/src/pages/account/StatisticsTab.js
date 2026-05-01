@@ -74,7 +74,7 @@ const StatisticsTab = ({setSearchIngredient}) => {
                 const formattedValue = typeof value === 'number' ? value.toFixed(1) : '';
                 return (
                     <React.Fragment key={drink.uuid}>
-                        {index > 0 && <hr />}
+                        {index > 0 && <hr className="alcohol-card-hr"/>}
                         <div className="alcohol-card-drink-entry" onClick={() => onDrinkClick(drink)}>
                             <div className="alcohol-card-drink-entry-left">
                                 {drink.glass ?

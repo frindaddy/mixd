@@ -49,6 +49,13 @@
     margin-right: 5px;
 }
 
+.alcohol-card-hr {
+    border-top: 2px solid darkgray;
+    border-bottom: 0px;
+    border-left: 0px;
+    border-right: 0px;
+}
+
 .alcohol-card-abv-value {
     margin-left: 12px;
     min-width: 50px;
