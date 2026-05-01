@@ -299,15 +299,18 @@ router.get('/list', (req, res, next) => {
         .catch(next);
 });
 
-function parsePositiveLimit(value) {
-    const limit = parseInt(value, 10);
-    if (Number.isNaN(limit) || limit <= 0) return null;
-    return limit;
-}
+router.get('/statistics', (req, res, next) => {
+    const parsedLimit = parseInt(req.query.n, 10);
+    let limit = (parsedLimit > 0) ? parsedLimit : 10;
 
-router.get('/highest_abv', (req, res, next) => {
-    const limit = parsePositiveLimit(req.query.n) || 10;
-    Drinks.aggregate([
+    const allowedStatistics = ['abv', 'emu'];
+    const statistic = allowedStatistics.includes(req.query.stat) ? req.query.stat : 'abv';
+
+    const sortMap = { asc: 1, desc: -1 };
+    const sortOrder = sortMap[(req.query.sort || '').toLowerCase()] || -1;
+
+    if (statistic === 'abv') {
+        Drinks.aggregate([
         {
             $project: {
                 uuid: 1,
@@ -333,47 +336,13 @@ router.get('/highest_abv', (req, res, next) => {
                 }
             }
         },
-        {$sort: {abv: -1, name: 1}},
+        {$sort: {abv: sortOrder, name: 1}},
         {$limit: limit}
-    ]).then((data) => res.json(data)).catch(next);
-});
-
-router.get('/lowest_abv', (req, res, next) => {
-    const limit = parsePositiveLimit(req.query.n) || 10;
-    Drinks.aggregate([
-        {
-            $project: {
-                uuid: 1,
-                name: 1,
-                url_name: 1,
-                tags: 1,
-                glass: 1,
-                abv: {
-                    $let: {
-                        vars: {
-                            drinkVolume: {
-                                $cond: [{$gt: ['$override_volume', 0]}, '$override_volume', '$volume']
-                            }
-                        },
-                        in: {
-                            $cond: [
-                                {$gt: ['$$drinkVolume', 0]},
-                                {$divide: ['$etoh', '$$drinkVolume']},
-                                0
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        {$sort: {abv: 1, name: 1}},
-        {$limit: limit}
-    ]).then((data) => res.json(data)).catch(next);
-});
-
-router.get('/highest_emu', (req, res, next) => {
-    const limit = parsePositiveLimit(req.query.n) || 10;
-    Drinks.aggregate([
+        ]).then((data) => res.json(data)).catch(next);
+    } 
+    
+    else if (statistic === 'emu') {
+        Drinks.aggregate([
         {
             $project: {
                 uuid: 1,
@@ -390,33 +359,10 @@ router.get('/highest_emu', (req, res, next) => {
                 }
             }
         },
-        {$sort: {emu: -1, name: 1}},
+        {$sort: {emu: sortOrder, name: 1}},
         {$limit: limit}
-    ]).then((data) => res.json(data)).catch(next);
-});
-
-router.get('/lowest_emu', (req, res, next) => {
-    const limit = parsePositiveLimit(req.query.n) || 10;
-    Drinks.aggregate([
-        {
-            $project: {
-                uuid: 1,
-                name: 1,
-                url_name: 1,
-                tags: 1,
-                glass: 1,
-                emu: {
-                    $cond: [
-                        {$gt: ['$etoh', 0]},
-                        {$divide: [{$round: [{$divide: ['$etoh', 5.04]}, 1]}, 10]},
-                        0
-                    ]
-                }
-            }
-        },
-        {$sort: {emu: 1, name: 1}},
-        {$limit: limit}
-    ]).then((data) => res.json(data)).catch(next);
+        ]).then((data) => res.json(data)).catch(next);
+    }
 });
 
 router.get('/search', async (req, res, next) => {

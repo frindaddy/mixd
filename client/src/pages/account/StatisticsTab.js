@@ -39,25 +39,25 @@ const StatisticsTab = ({setSearchIngredient}) => {
     };
 
     const fetchAlcoholContentStats = () => {
-        axios.get(`/api/highest_abv?n=${ALCOHOL_STATS_LIST_LENGTH}`)
+        axios.get(`/api/statistics?stat=abv&n=${ALCOHOL_STATS_LIST_LENGTH}&sort=desc`)
             .then((res) => {
                 if (res.data) {
                     setHighestAbvDrinks(res.data);
                 }
             }).catch((err) => console.log(err));
-        axios.get(`/api/lowest_abv?n=${ALCOHOL_STATS_LIST_LENGTH}`)
+        axios.get(`/api/statistics?stat=abv&n=${ALCOHOL_STATS_LIST_LENGTH}&sort=asc`)
             .then((res) => {
                 if (res.data) {
                     setLowestAbvDrinks(res.data);
                 }
             }).catch((err) => console.log(err));
-        axios.get(`/api/highest_emu?n=${ALCOHOL_STATS_LIST_LENGTH}`)
+        axios.get(`/api/statistics?stat=emu&n=${ALCOHOL_STATS_LIST_LENGTH}&sort=desc`)
             .then((res) => {
                 if (res.data) {
                     setHighestEmuDrinks(res.data);
                 }
             }).catch((err) => console.log(err));
-        axios.get(`/api/lowest_emu?n=${ALCOHOL_STATS_LIST_LENGTH}`)
+        axios.get(`/api/statistics?stat=emu&n=${ALCOHOL_STATS_LIST_LENGTH}&sort=asc`)
             .then((res) => {
                 if (res.data) {
                     setLowestEmuDrinks(res.data);
