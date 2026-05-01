@@ -311,6 +311,7 @@ router.get('/statistics', (req, res, next) => {
 
     if (statistic === 'abv') {
         Drinks.aggregate([
+        {$match: {etoh: {$gt: 0}}},
         {
             $project: {
                 uuid: 1,
@@ -343,6 +344,7 @@ router.get('/statistics', (req, res, next) => {
     
     else if (statistic === 'emu') {
         Drinks.aggregate([
+        {$match: {etoh: {$gt: 0}}},
         {
             $project: {
                 uuid: 1,
