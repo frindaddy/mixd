@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react"
 import axios from "axios";
 import IngredientListEntry from "../../components/Ingredients/IngredientListEntry";
+import AlcoholContentCard from "../../components/Statistics/AlcoholContentCard";
 import "../../format/StatisticsTab.css";
 import "../../format/AlcoholContentStatistics.css";
 import "../../format/Tabs.css";
@@ -21,7 +22,6 @@ const StatisticsTab = ({setSearchIngredient}) => {
 
     useEffect(() => {
         fetchIngredients();
-        fetchAlcoholContentStats();
     }, []);
 
     const fetchIngredients = () => {
@@ -37,33 +37,6 @@ const StatisticsTab = ({setSearchIngredient}) => {
         setSearchIngredient(ingredient.uuid);
         navigate('/');
     };
-
-    const fetchAlcoholContentStats = () => {
-        axios.get(`/api/statistics?stat=abv&n=${ALCOHOL_STATS_LIST_LENGTH}&sort=desc`)
-            .then((res) => {
-                if (res.data) {
-                    setHighestAbvDrinks(res.data);
-                }
-            }).catch((err) => console.log(err));
-        axios.get(`/api/statistics?stat=abv&n=${ALCOHOL_STATS_LIST_LENGTH}&sort=asc`)
-            .then((res) => {
-                if (res.data) {
-                    setLowestAbvDrinks(res.data);
-                }
-            }).catch((err) => console.log(err));
-        axios.get(`/api/statistics?stat=emu&n=${ALCOHOL_STATS_LIST_LENGTH}&sort=desc`)
-            .then((res) => {
-                if (res.data) {
-                    setHighestEmuDrinks(res.data);
-                }
-            }).catch((err) => console.log(err));
-        axios.get(`/api/statistics?stat=emu&n=${ALCOHOL_STATS_LIST_LENGTH}&sort=asc`)
-            .then((res) => {
-                if (res.data) {
-                    setLowestEmuDrinks(res.data);
-                }
-            }).catch((err) => console.log(err));
-    }
 
     const renderAlcoholStatContainer = (title, drinks, valueKey, unit) => (
         <div className="alcohol-card">
@@ -109,10 +82,10 @@ const StatisticsTab = ({setSearchIngredient}) => {
             <h2 className="tab-subtitle">Alcohol Content</h2>
             <p className="statistics-sort-instructions">Top {ALCOHOL_STATS_LIST_LENGTH} most and least alcoholic drinks!</p>
             <div className="statistics-usage-container">
-                {renderAlcoholStatContainer('Highest ABV', highestAbvDrinks, 'abv', '%')}
-                {renderAlcoholStatContainer('Lowest ABV', lowestAbvDrinks, 'abv', '%')}
-                {renderAlcoholStatContainer('Highest EMU', highestEmuDrinks, 'emu', ' EMU')}
-                {renderAlcoholStatContainer('Lowest EMU', lowestEmuDrinks, 'emu', ' EMU')}
+                <AlcoholContentCard title="Highest ABV" onDrinkClick={onDrinkClick} stat="abv" listLength={ALCOHOL_STATS_LIST_LENGTH} sort="desc"/>
+                <AlcoholContentCard title="Lowest ABV" onDrinkClick={onDrinkClick} stat="abv" listLength={ALCOHOL_STATS_LIST_LENGTH} sort="asc"/>
+                <AlcoholContentCard title="Highest EMU" onDrinkClick={onDrinkClick} stat="emu" listLength={ALCOHOL_STATS_LIST_LENGTH} sort="desc"/>
+                <AlcoholContentCard title="Lowest EMU" onDrinkClick={onDrinkClick} stat="emu" listLength={ALCOHOL_STATS_LIST_LENGTH} sort="asc"/>
             </div>
             <hr></hr>
             <h2 className="tab-subtitle">Ingredient Usage</h2>
