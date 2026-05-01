@@ -106,6 +106,15 @@ const StatisticsTab = ({setSearchIngredient}) => {
     return (
         <>
             <h1 className="tab-title">Statistics</h1>
+            <h2 className="tab-subtitle">Alcohol Content</h2>
+            <p className="statistics-sort-instructions">Top {ALCOHOL_STATS_LIST_LENGTH} most and least alcoholic drinks!</p>
+            <div className="statistics-usage-container">
+                {renderAlcoholStatContainer('Highest ABV', highestAbvDrinks, 'abv', '%')}
+                {renderAlcoholStatContainer('Lowest ABV', lowestAbvDrinks, 'abv', '%')}
+                {renderAlcoholStatContainer('Highest EMU', highestEmuDrinks, 'emu', ' EMU')}
+                {renderAlcoholStatContainer('Lowest EMU', lowestEmuDrinks, 'emu', ' EMU')}
+            </div>
+            <hr></hr>
             <h2 className="tab-subtitle">Ingredient Usage</h2>
             <p className="statistics-sort-instructions">Click on an ingredient to show all drinks using that ingredient!</p>
             <div className="statistics-usage-container">
@@ -121,16 +130,7 @@ const StatisticsTab = ({setSearchIngredient}) => {
                         })}
                     </div>
                 })}
-            </div>
-            <hr></hr>
-            <h2 className="tab-subtitle">Alcohol Content</h2>
-            <p className="statistics-sort-instructions">Top {ALCOHOL_STATS_LIST_LENGTH} most and least alcoholic drinks!</p>
-            <div className="statistics-usage-container">
-                {renderAlcoholStatContainer('Highest ABV', highestAbvDrinks, 'abv', '%')}
-                {renderAlcoholStatContainer('Lowest ABV', lowestAbvDrinks, 'abv', '%')}
-                {renderAlcoholStatContainer('Highest EMU', highestEmuDrinks, 'emu', ' EMU')}
-                {renderAlcoholStatContainer('Lowest EMU', lowestEmuDrinks, 'emu', ' EMU')}
-            </div>
+            </div>            
         </>
     )
 }
