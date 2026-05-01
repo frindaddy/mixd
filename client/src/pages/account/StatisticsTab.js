@@ -130,7 +130,7 @@ const StatisticsTab = ({setSearchIngredient}) => {
                         })}
                     </div>
                 })}
-            </div>            
+            </div>
         </>
     )
 }
