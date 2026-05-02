@@ -120,10 +120,12 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
                         {!filterPanelShown && <FaChevronCircleDown style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/>}
                         {filterPanelShown && <FaChevronCircleUp style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/>}
                     </div>
-                    {showEraser() && <div className='filter-eraser'><FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams}/></div>}
+                    <div className='filter-eraser'>
+                        {showEraser() && <FaEraser style={{cursor:"pointer"}} onClick={clearSearchParams}/>}
+                    </div>
                 </div>
             </header>
-            <div className={'filter-panel'}>
+            <div className="filter-panel">
                 <FilterPanel expandFilterPanel={expandFilterPanel} toggleFilterPanel={toggleFilterPanel} user={user} searchIngredient={searchIngredient} setSearchIngredient={setSearchIngredient} searchTags={searchTags} setSearchTags={setSearchTags} myBarSearch={myBarSearch} setMyBarSearch={setMyBarSearch}/>
             </div>
             {listLoaded && <>
