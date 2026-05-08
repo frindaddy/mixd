@@ -518,7 +518,7 @@ router.post('/add_drink', validateAdminToken, async (req, res, next) => {
 
         new_drink.volume = calculateDrinkVolume(new_drink)
         Drinks.create(new_drink)
-            .then(async (data) => {
+            .then((data) => {
                 updateDrinkEtOH(new_drink).then(() => {
                     const actionText = isUpdate ? 'updated in' : 'added to';
                     const drinkUrl = `${req.protocol}://${req.get('host')}/${new_drink.url_name}`;
