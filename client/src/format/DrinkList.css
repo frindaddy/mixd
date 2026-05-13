@@ -50,6 +50,7 @@
     display: flex;
     justify-content: center;
     padding-bottom: 10px;
+    padding-left: 10px
 }
 
 .search-bar {
@@ -65,6 +66,15 @@
     font-size: 16px;
 }
 
+.looking-for-more {
+    font-weight: 300;
+    font-size: 16px;
+    font-style: italic;
+    text-align: left;
+    color: darkgray;
+    margin: 15px 0 0 20px;
+}
+
 @media screen and (max-width: 600px) {
     .filter-match-title {
         padding-left: 5px;
@@ -76,6 +86,11 @@
     
     .logo {
         color: #000000;
+    }
+
+    .looking-for-more {
+        text-align: center;
+        margin: 15px 0 0 0;
     }
     
     .search-bar {

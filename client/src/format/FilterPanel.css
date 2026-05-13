@@ -26,6 +26,12 @@
     padding: 8px;
 }
 
+.filter-eraser {
+    float: right;
+    margin: 5px 0 0 10px;
+    width: 26px;
+}
+
 .filter-panel-container {
     display: flex;
     flex-flow: column nowrap;
@@ -47,7 +53,18 @@
     margin: 0;
 }
 
+.filter-toggle {
+    float: right;
+    margin: 5px 0 0 10px;
+    width: 26px;
+}
+
 @media screen and (max-width: 600px) {
+    .filter-eraser {
+        margin: 6px 5px 0 1px;
+        width: 0px;
+    }
+    
     .filter-panel-container {
         margin-left: 0px;
         width: 100%;
@@ -62,6 +79,10 @@
     
     .filter-panel-title {
         margin: 10px 0 0 0;
+    }
+
+    .filter-toggle {
+        margin: 6px 0 0 10px;
     }
     
     .unselected-tag-filter {
