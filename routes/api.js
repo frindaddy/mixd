@@ -59,6 +59,21 @@ async function generate_url_name(name, uuid){
     return attempt_name(url_name, uuid);
 }
 
+function normalizeAccents(str) {
+    if (!str) return '';
+    return str
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase();
+}
+
+function createAccentInsensitiveRegex(searchText) {
+    if (!searchText) return new RegExp('', 'i');
+    const normalized = normalizeAccents(searchText.trim());
+    const escaped = normalized.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return new RegExp(escaped, 'i');
+}
+
 const verifyRequest = (req, res, next) => {
     if (req.headers.authorization) {
         let bearerToken = req.headers.authorization.split(' ')[1];
@@ -408,10 +423,6 @@ router.get('/search', async (req, res, next) => {
         pipeline = [{$match: {uuid: {$in: myBarAggregate.map(result => result.uuid)}}}];
     }
 
-    if(req.query.searchText && req.query.searchText !=='') {
-        pipeline.push({$match: {'name': {$regex: req.query.searchText.trim(), $options: 'i'}}})
-    }
-
     if(req.query.ingredient && req.query.ingredient !==''){
         pipeline = pipeline.concat([
             {$unwind: '$ingredients'},
@@ -468,6 +479,15 @@ router.get('/search', async (req, res, next) => {
         Drinks.aggregate(pipeline).then(pipeline_res => {
             let pipeline_uuids = pipeline_res.map(drink=>drink.uuid);
             Drinks.find({uuid: {$in: pipeline_uuids}}, 'uuid name url_name tags glass').then((data) => {
+                if(req.query.searchText && req.query.searchText !=='') {
+                    const searchNormalized = normalizeAccents(req.query.searchText.trim());
+                    data = data.filter(drink => {
+                        const nameNormalized = normalizeAccents(drink.name);
+                        return nameNormalized.includes(searchNormalized);
+                    });
+                    data.sort((a, b) => a.name.localeCompare(b.name));
+                }
+                
                 if(myBarAggregate){
                     let missing_ingr = {}
                     myBarAggregate.forEach(drink => missing_ingr[drink.uuid] = drink.missing);
