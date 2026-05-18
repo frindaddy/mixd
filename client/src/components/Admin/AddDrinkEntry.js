@@ -7,7 +7,7 @@ const AddDrinkEntry = ({}) => {
     return (
         <div className="drink-entry" style={{cursor: "pointer"}}>
             <div className="glass-container">
-                <FaPlus style={{margin: '30px', fontSize:'30px'}}/>
+                <FaPlus style={{margin:'30px', fontSize:'30px'}}/>
             </div>
             <div className="drink-entry-info">
                 <p className="drink-entry-title">Add New Drink</p>
