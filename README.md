@@ -8,7 +8,7 @@
 
 ## 🍸 Overview
 
-**mixd.** allows you to manage your personal cocktail library with ease. Beyond just recipes, it tracks ingredients, calculates drink statistics (like ABV and standard units), and helps you find drinks you can make with what's currently in your bar.
+**mixd.** allows you to manage your personal cocktail library with ease. **mixd.** tracks recipes, ingredients, calculates drink statistics (like ABV and standard units), and helps you find drinks you can make with what's currently in your bar.
 
 ## ✨ Key Features
 
