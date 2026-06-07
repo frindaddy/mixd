@@ -111,10 +111,9 @@ const ManageUsersTab = ({adminKey, user}) => {
             {errorMsg && <p className="error-msg">{"ERROR: " + errorMsg}</p>}
             
             <div className="add-user-section">
-                <p className="section-label">Create New User:</p>
                 <div className="manage-users-row">
                     <button className="add-button" onClick={create_user}>
-                        <FaPlus style={{marginRight: '8px'}} /> Create User
+                        <FaPlus className="add-icon" /><span className="button-text">Create New User</span>
                     </button>
                 </div>
             </div>
