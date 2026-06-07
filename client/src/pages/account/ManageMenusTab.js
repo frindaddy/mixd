@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import {FaPlus, FaRegStar, FaStar, FaTrash} from "react-icons/fa";
+import {FaRegStar, FaStar, FaTrash, FaSearch} from "react-icons/fa";
 import axios from "axios";
 import '../../format/ManageMenusTab.css';
 import '../../format/Tabs.css';
@@ -8,6 +8,7 @@ const ManageMenusTab = ({adminKey, user}) => {
     const [errorMsg, setErrorMsg] = useState('');
     const [users, setUsers] = useState([])
     const [menus, setMenus] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         axios.get('/api/users').then(res => {
@@ -33,10 +34,8 @@ const ManageMenusTab = ({adminKey, user}) => {
                 .then(() => {
                     setMenus(menus.filter(menu => menu.menu_id !== menuToDelete.menu_id));
                 }).catch((err) => {
-                setErrorMsg('Failed to delete menu. Internal server error '+err.response.status+".");
+                setErrorMsg('Failed to delete menu. Internal server error '+(err.response?.status || '500')+".");
             });
-        } else {
-            alert('Menu not deleted.');
         }
     }
 
@@ -50,40 +49,83 @@ const ManageMenusTab = ({adminKey, user}) => {
         ).then(res => {
             if(res.status === 200){
                 updateMenus();
-            } else {
-                console.log(res);
             }
         }).catch((err) => {
-            setErrorMsg('Failed to edit menu. Internal server error '+err.response.status+".");
+            setErrorMsg('Failed to edit menu. Internal server error '+(err.response?.status || '500')+".");
         });
     }
 
     function getUsername(menu_users) {
         if(menu_users && menu_users.length >= 1) {
-            let user_search = users.filter(user => user.user_id == menu_users[0]);
+            let user_search = users.filter(u => u.user_id.toString() === menu_users[0].toString());
             if(user_search.length >= 1) {
                 if(user_search[0].username) return user_search[0].username;
             }
             return menu_users[0];
         }
-        return null;
+        return "Unknown User";
     }
 
+    const filteredMenus = menus.filter(m => {
+        const username = getUsername(m.users).toLowerCase();
+        const menuName = (m.name || m.menu_id).toLowerCase();
+        const search = searchTerm.toLowerCase();
+        return menuName.includes(search) || username.includes(search);
+    });
+
+    const featuredMenus = filteredMenus.filter(m => m.featured);
+    const otherMenus = filteredMenus.filter(m => !m.featured);
+
+    const MenuRow = ({menuEntry}) => (
+        <div className="menu-row">
+            <div className="menu-info">
+                <span className="menu-name">{menuEntry.name || menuEntry.menu_id}</span>
+                <span className="menu-owner">{getUsername(menuEntry.users)}</span>
+            </div>
+            <div className="action-buttons">
+                {menuEntry.featured ? (
+                    <FaStar className="action-icon star filled" onClick={() => setFeatured(menuEntry.menu_id, true)} title="Unfeature Menu" />
+                ) : (
+                    <FaRegStar className="action-icon star" onClick={() => setFeatured(menuEntry.menu_id, false)} title="Feature Menu" />
+                )}
+                <FaTrash className="action-icon delete" onClick={() => confirmDeleteMenu(menuEntry)} title="Force Delete Menu" />
+            </div>
+        </div>
+    );
+
     return (
-        <div>
+        <div className="manage-menus-tab">
             <h1 className="tab-title">Manage Menus</h1>
-            {errorMsg && <p>{errorMsg}</p>}
-            {menus.map((menuEntry) =>{
-                return <div>
-                    <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-                        <span className="manage-menus-entry-title">{menuEntry.name || menuEntry.menu_id}</span>
-                        <span className="manage-menus-entry-user">{getUsername(menuEntry.users)}</span>
-                        {menuEntry.featured && <FaStar className="manage-menus-icon" onClick={()=>{setFeatured(menuEntry.menu_id, true)}}/>}
-                        {!menuEntry.featured && <FaRegStar className="manage-menus-icon" onClick={()=>{setFeatured(menuEntry.menu_id, false)}}/>}
-                        <FaTrash className="manage-menus-icon" onClick={()=>{confirmDeleteMenu(menuEntry)}}/>
+            {errorMsg && <p className="error-msg">{"ERROR: " + errorMsg}</p>}
+            
+            <div className="menus-list-section">
+                <div className="search-container">
+                    <div className="search-bar-wrapper">
+                        <FaSearch className="search-icon" />
+                        <input 
+                            type="text" 
+                            placeholder="Search menus..." 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="search-input"
+                        />
                     </div>
                 </div>
-            })}
+
+                {featuredMenus.length > 0 && (
+                    <div className="menu-group">
+                        <h2 className="menu-group-header">Featured Menu</h2>
+                        {featuredMenus.map(m => <MenuRow key={m.menu_id} menuEntry={m} />)}
+                    </div>
+                )}
+
+                {otherMenus.length > 0 && (
+                    <div className="menu-group">
+                        <h2 className="menu-group-header">Other Menus</h2>
+                        {otherMenus.map(m => <MenuRow key={m.menu_id} menuEntry={m} />)}
+                    </div>
+                )}
+            </div>
         </div>
     )
 }
