@@ -5,7 +5,7 @@ import Logo from "../components/Logo";
 import DrinkArray from "../components/DrinkList/DrinkArray";
 import AddDrinkEntry from "../components/Admin/AddDrinkEntry";
 import "../format/MenuPage.css";
-import DoneEntry from "../components/Admin/DoneEntry";
+import ViewPublicMenuEntry from "../components/Admin/ViewPublicMenuEntry";
 const MenuPage = ({setShowLoader, user}) => {
 
     const { menu_id } = useParams();
@@ -39,7 +39,7 @@ const MenuPage = ({setShowLoader, user}) => {
                 <hr className="list-separator" />
                 <Link to={'/account/edit_drinks/#edit_menu-'+menu.menu_id}><AddDrinkEntry /></Link>
                 <hr className="list-separator" />
-                <div onClick={()=>{navigate('/menu/'+menu.menu_id, {replace: true})}}><DoneEntry /></div>
+                <div onClick={()=>{navigate('/menu/'+menu.menu_id, {replace: true})}}><ViewPublicMenuEntry /></div>
             </div>}
         </>
     )

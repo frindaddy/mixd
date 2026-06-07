@@ -5,6 +5,7 @@ import "../../format/Tabs.css";
 import {Link, useLocation} from "react-router-dom";
 import AddDrinkEntry from "../../components/Admin/AddDrinkEntry";
 import DrinkArray from "../../components/DrinkList/DrinkArray";
+import DoneEditingEntry from "../../components/Admin/DoneEditingEntry";
 
 const ManageDrinksTab = ({setShowLoader, user}) => {
 
@@ -41,6 +42,8 @@ const ManageDrinksTab = ({setShowLoader, user}) => {
                 <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder="Search..." value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
             </div>
             {user.isAdmin && !editingMenuID() && <Link to="/create_drink"><AddDrinkEntry /></Link>}
+            <hr className="list-separator"/>
+            {user.isAdmin && !editingMenuID() && <Link to="/"><DoneEditingEntry /></Link>}
             <DrinkArray user={user} filterText={searchText}
                         drinkList={drinkList} getDrinkList={getDrinkList} setShowLoader={setShowLoader} adminKey={user.token} editMenu={editingMenuID()}/>
         </>
