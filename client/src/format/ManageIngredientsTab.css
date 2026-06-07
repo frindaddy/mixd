@@ -239,14 +239,11 @@
     }
 
     .add-button { 
-        width: 30px; 
-        flex-shrink: 0; 
-        padding: 0; 
-        justify-content: center;
-        height: 30px;
+        padding: 4px 10px;
+        height: 32px;
     }
-    .add-button .button-text { display: none; }
-    .add-button .add-icon { margin: 0; font-size: 14px; }
+    .add-button .button-text { display: inline; }
+    .add-button .add-icon { margin-right: 4px; }
 
     .search-container {
         margin-bottom: 15px;
