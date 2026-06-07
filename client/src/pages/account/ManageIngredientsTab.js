@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import {FaTrash, FaSearch} from "react-icons/fa";
+import {FaTrash, FaSearch, FaPlus} from "react-icons/fa";
 import axios from "axios";
 import {FaPenToSquare, FaCheck, FaXmark} from "react-icons/fa6";
 import '../../format/ManageIngredientsTab.css';
@@ -139,7 +139,9 @@ const ManageIngredientsTab = ({adminKey}) => {
                             return <option key={category.name} value={category.name}>{category.localization}</option>
                         })}
                     </select>
-                    <button className="add-button" onClick={()=>{postIngredient(newIngredientName, newIngredientABV, newIngredientCategory)}}>Add</button>
+                    <button className="add-button" onClick={()=>{postIngredient(newIngredientName, newIngredientABV, newIngredientCategory)}}>
+                        <FaPlus className="add-icon" /><span className="button-text">Add</span>
+                    </button>
                 </div>
             </div>
 

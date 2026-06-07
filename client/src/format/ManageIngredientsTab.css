@@ -76,6 +76,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
 }
 
 .add-button:hover {
@@ -189,21 +190,80 @@
     }
 
     .add-ingredient-section {
-        padding: 10px 5px;
+        padding: 8px 5px;
+        margin-bottom: 20px;
+    }
+
+    .section-label {
+        font-size: 16px;
+        margin-bottom: 8px;
     }
 
     .manage-ingredients-row {
-        gap: 5px;
+        display: flex;
+        gap: 4px;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-start;
     }
 
-    .add-name { width: 40%; }
-    .add-abv { width: 50px; }
-    .add-category { width: 85px; }
-    .add-button { padding: 6px 10px; flex-grow: 1; }
+    .manage-ingredients-row input,
+    .manage-ingredients-row select,
+    .add-button {
+        padding: 4px 6px;
+        height: 30px;
+        font-size: 14px;
+    }
+
+    .add-name { 
+        flex: 1; 
+        min-width: 0; 
+        width: auto; 
+    }
+
+    .abv-container { 
+        width: 52px; 
+        flex-shrink: 0; 
+        gap: 1px;
+    }
+
+    .add-abv { 
+        width: 38px !important; 
+        padding: 4px 2px !important;
+        text-align: center;
+    }
+
+    .add-category { 
+        width: 85px; 
+        flex-shrink: 0; 
+    }
+
+    .add-button { 
+        width: 30px; 
+        flex-shrink: 0; 
+        padding: 0; 
+        justify-content: center;
+        height: 30px;
+    }
+    .add-button .button-text { display: none; }
+    .add-button .add-icon { margin: 0; font-size: 14px; }
+
+    .search-container {
+        margin-bottom: 15px;
+    }
+
+    .category-group {
+        margin-bottom: 15px;
+    }
+
+    .category-header {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
 
     .ingredient-row {
         gap: 5px;
-        padding: 8px 4px;
+        padding: 4px 2px;
     }
 
     .ingredient-name {
@@ -221,6 +281,7 @@
 
     .edit-category {
         width: 80px;
+        margin-left: 10px;
     }
 
     .edit-abv {
