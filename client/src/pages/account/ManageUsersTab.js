@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from "react"
-import {FaKey, FaPlus, FaRegStar, FaStar, FaTrash} from "react-icons/fa";
+import {FaKey, FaPlus, FaRegStar, FaStar, FaTrash, FaSearch} from "react-icons/fa";
 import axios from "axios";
+import '../../format/ManageUsersTab.css';
 import '../../format/Tabs.css';
 
 const ManageUsersTab = ({adminKey, user}) => {
     const [errorMsg, setErrorMsg] = useState('');
     const [users, setUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         updateUsers();
@@ -32,7 +34,7 @@ const ManageUsersTab = ({adminKey, user}) => {
                 setUsers([...users, {user_id: res.data.user_id}]);
             }
         }).catch((err) => {
-            setErrorMsg('Failed to create user. Internal server error '+err.response.status+'.');
+            setErrorMsg('Failed to create user. Internal server error '+(err.response?.status || '500')+'.');
         });
     }
 
@@ -42,10 +44,8 @@ const ManageUsersTab = ({adminKey, user}) => {
                 .then(() => {
                     setUsers(users.filter(user_entry => user_entry.user_id !== userToDelete.user_id));
                 }).catch((err) => {
-                setErrorMsg('Failed to delete user. Internal server error '+err.response.status+'.');
+                setErrorMsg('Failed to delete user. Internal server error '+(err.response?.status || '500')+'.');
             });
-        } else {
-            alert('User not deleted.');
         }
     }
 
@@ -55,10 +55,8 @@ const ManageUsersTab = ({adminKey, user}) => {
                 .then(() => {
                     alert(userToDelete.user_id + (userToDelete.username ? (' ('+userToDelete.username+')'):'')+' PIN reset.');
                 }).catch((err) => {
-                setErrorMsg('Failed to update PIN. Internal server error '+err.response.status);
+                setErrorMsg('Failed to update PIN. Internal server error '+(err.response?.status || '500'));
             });
-        } else {
-            alert('User PIN unchanged.');
         }
     }
 
@@ -73,32 +71,83 @@ const ManageUsersTab = ({adminKey, user}) => {
             ).then(res => {
                 if(res.status === 200){
                     updateUsers();
-                } else {
-                    console.log(res);
                 }
             }).catch((err) => {
-                setErrorMsg('Failed to edit user. Internal server error '+err.response.status+'.');
+                setErrorMsg('Failed to edit user. Internal server error '+(err.response?.status || '500')+'.');
             });
         } else {
             setErrorMsg('You cannot demote yourself.')
         }
     }
 
+    const filteredUsers = users.filter(u => 
+        u.user_id.toString().includes(searchTerm.toLowerCase()) || 
+        (u.username && u.username.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+
+    const admins = filteredUsers.filter(u => u.admin);
+    const regularUsers = filteredUsers.filter(u => !u.admin);
+
+    const UserRow = ({userEntry}) => (
+        <div className="user-row">
+            <span className="user-info">
+                {userEntry.user_id} {userEntry.username ? `(${userEntry.username})` : ''}
+            </span>
+            <div className="action-buttons">
+                {userEntry.admin ? (
+                    <FaStar className="action-icon star filled" onClick={() => changeAdmin(userEntry, false)} title="Demote from Admin" />
+                ) : (
+                    <FaRegStar className="action-icon star" onClick={() => changeAdmin(userEntry, true)} title="Promote to Admin" />
+                )}
+                <FaKey className="action-icon key" onClick={() => confirmResetPin(userEntry)} title="Reset PIN" />
+                <FaTrash className="action-icon delete" onClick={() => confirmDeleteUser(userEntry)} title="Delete User" />
+            </div>
+        </div>
+    );
+
     return (
-        <>
+        <div className="manage-users-tab">
             <h1 className="tab-title">Manage Users</h1>
-            {errorMsg && <p style={{textAlign:"center", fontWeight:"300"}}>{errorMsg}</p>}
-            {users.map((userEntry) =>{
-                return <div style={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-                    <span className="manage-ingredients-entry">{userEntry.user_id + (userEntry.username ? (' ('+userEntry.username+')'):'')}</span>
-                    {userEntry.admin && <FaStar style={{cursor:'pointer', marginLeft:'8px'}} onClick={()=>{changeAdmin(userEntry, false)}}/>}
-                    {!userEntry.admin && <FaRegStar style={{cursor:'pointer', marginLeft:'8px'}} onClick={()=>{changeAdmin(userEntry, true)}}/>}
-                    <FaTrash style={{marginLeft:'10px', cursor:'pointer'}} onClick={()=>{confirmDeleteUser(userEntry)}}/>
-					<FaKey style={{marginLeft:'10px', cursor:'pointer'}} onClick={()=>{confirmResetPin(userEntry)}}/>
+            {errorMsg && <p className="error-msg">{"ERROR: " + errorMsg}</p>}
+            
+            <div className="add-user-section">
+                <p className="section-label">Create New User:</p>
+                <div className="manage-users-row">
+                    <button className="add-button" onClick={create_user}>
+                        <FaPlus style={{marginRight: '8px'}} /> Create User
+                    </button>
                 </div>
-            })}
-            <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginTop:"10px"}}><FaPlus style={{cursor:'pointer'}} onClick={create_user}/></div>
-        </>
+            </div>
+
+            <div className="users-list-section">
+                <div className="search-container">
+                    <div className="search-bar-wrapper">
+                        <FaSearch className="search-icon" />
+                        <input 
+                            type="text" 
+                            placeholder="Search users..." 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="search-input"
+                        />
+                    </div>
+                </div>
+
+                {admins.length > 0 && (
+                    <div className="user-group">
+                        <h2 className="user-group-header">Administrators</h2>
+                        {admins.map(u => <UserRow key={u.user_id} userEntry={u} />)}
+                    </div>
+                )}
+
+                {regularUsers.length > 0 && (
+                    <div className="user-group">
+                        <h2 className="user-group-header">Users</h2>
+                        {regularUsers.map(u => <UserRow key={u.user_id} userEntry={u} />)}
+                    </div>
+                )}
+            </div>
+        </div>
     )
 }
 
