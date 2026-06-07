@@ -150,16 +150,31 @@
     }
 
     .add-user-section {
-        padding: 10px 5px;
+        padding: 8px 5px;
+        margin-bottom: 20px;
     }
 
     .add-button {
         width: 100%;
+        height: 30px;
+    }
+
+    .search-container {
+        margin-bottom: 15px;
+    }
+
+    .user-group {
+        margin-bottom: 15px;
+    }
+
+    .user-group-header {
+        font-size: 18px;
+        margin-bottom: 8px;
     }
 
     .user-row {
         gap: 8px;
-        padding: 10px 5px;
+        padding: 4px 2px;
     }
 
     .user-info {
