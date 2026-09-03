@@ -14,6 +14,7 @@ const TagColors = {
     chartreuse: "#405927",
     sake: "#233758",
     brandy: "#800020",
+    cognac: "#800020",
     liqueur: "#687387",
     none: "#13447d",
     spirit: "#be54c4", //this is the color for spirits not on the list above
