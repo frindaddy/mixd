@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import Logo from "../components/Logo";
 import DrinkArray from "../components/DrinkList/DrinkArray";
@@ -6,6 +6,7 @@ import FilterPanel from "../components/DrinkList/FilterPanel";
 import {FaEraser, FaChevronCircleDown, FaChevronCircleUp} from "react-icons/fa";
 import "../format/DrinkList.css";
 import AccountShortcut from "../components/AccountShortcut";
+import RandomDrinkButton from "../components/RandomDrinkButton";
 
 const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, searchIngredient, setSearchIngredient, searchTags, setSearchTags, myBarSearch, setMyBarSearch, removeCookie}) => {
 
@@ -115,9 +116,10 @@ const DrinkList = ({setShowLoader, user, setUser, searchText, setSearchText, sea
             <header>
                 <Logo/>
                 <div className="search-container">
+                    <RandomDrinkButton/>
                     <input name='search-bar' className="search-bar" autoComplete="off" type="text" placeholder={setSearchPlaceholder()} value={searchText} onChange={(e) => {setSearchText(e.target.value)}}/>
                     <div className='filter-toggle'>
-                        {!filterPanelShown && <FaChevronCircleDown style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/>}
+                        {!filterPanelShown && <FaChevronCircleDown onClick={toggleFilterPanel}/>}
                         {filterPanelShown && <FaChevronCircleUp style={{cursor:"pointer", marginRight: '10px'}} onClick={toggleFilterPanel}/>}
                     </div>
                     <div className='filter-eraser'>
